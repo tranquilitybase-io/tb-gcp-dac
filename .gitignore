@@ -132,4 +132,8 @@ dmypy.json
 
 # Intellij
 .idea/
-.iml
+*.iml
+*.iws
+
+# Mac
+.DS_Store
