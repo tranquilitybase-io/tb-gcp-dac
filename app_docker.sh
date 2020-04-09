@@ -1,3 +1,4 @@
+#!/bin/sh
 LOGLEVEL=debug
 NUMBER_OF_WORKERS=1
 PORT=3100
