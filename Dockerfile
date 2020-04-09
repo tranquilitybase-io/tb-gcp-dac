@@ -1,10 +1,17 @@
-ROM python:3.7-slim-buster
+FROM python:3.7-slim-buster
 MAINTAINER "GFT"
 
 ENV TERRAFORM_VERSION=0.12.24
 
-RUN apt-get update -y && apt-get install -y git unzip wget
+RUN apt-get update -y && apt-get install -y git unzip wget curl
 
+# install gcloud - https://cloud.google.com/sdk/docs/downloads-apt-get
+RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
+RUN apt-get install -y apt-transport-https ca-certificates gnupg
+RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
+RUN apt-get update -y && apt-get install -y google-cloud-sdk
+
+# install terraform
 ENV TF_DEV=true
 ENV TF_RELEASE=true
 
