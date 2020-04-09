@@ -1,12 +1,10 @@
 import os
-import sys
 import connexion
-import pymysql
-import logging
-from flask_sqlalchemy import SQLAlchemy
+
 from flask_marshmallow import Marshmallow
 
 basedir = os.path.abspath(os.path.dirname(__file__))
+
 print("basedir: {}".format(basedir))
 
 # Create the connexion application instance

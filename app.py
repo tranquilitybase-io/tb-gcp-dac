@@ -1,6 +1,8 @@
 import os
 import config
 import logging
+# https://realpython.com/flask-connexion-rest-api/
+# https://github.com/realpython/materials/tree/master/flask-connexion-rest-part-4
 
 print("DEBUG: {}".format(os.environ['DEBUG']))
 

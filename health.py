@@ -4,7 +4,7 @@ Health check: Very basic health check, can extend in future
 
 # 3rd party modules
 from flask import make_response, abort
-from config import db, app
+from config import app
 from pprint import pformat
 import json
 from extendedSchemas import HealthSchema
