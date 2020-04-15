@@ -6,7 +6,7 @@ import logging
 
 print("DEBUG: {}".format(os.environ['DEBUG']))
 
-# Get theapplication instance
+# Get the application instance
 connex_app = config.connex_app
 
 # connect logging between gunicorn and Flask

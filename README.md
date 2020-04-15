@@ -23,7 +23,6 @@
 ### Run the stack (gcp-dac + houston-service + mysql57)
 * docker-compose -f stack.yml up
 
-
 ### bash shell on container
 * `docker exec -it <container name> /bin/bash` 
 
