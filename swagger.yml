@@ -26,7 +26,7 @@ definitions:
 paths:
   /health:
     get:
-      operationId: health.check
+      operationId: gcpdac.health.check
       tags: 
         - health
       summary: health check
@@ -36,7 +36,7 @@ paths:
           description: Successful
   /solution:
     post:
-      operationId: solution.create
+      operationId: gcpdac.solution.create
       tags:
         - solution
       summary: Create a solution

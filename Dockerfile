@@ -3,7 +3,7 @@ MAINTAINER "GFT"
 
 ENV TERRAFORM_VERSION=0.12.24
 
-RUN apt-get update -y && apt-get install -y git unzip wget curl
+RUN apt-get update -y && apt-get install -y git unzip wget curl dos2unix
 
 # install gcloud - https://cloud.google.com/sdk/docs/downloads-apt-get
 RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
@@ -22,6 +22,8 @@ RUN mv terraform /usr/local/bin/
 WORKDIR /srv
 COPY . .
 RUN pip install -r ./requirements.txt
+RUN dos2unix app_docker.sh
+
 RUN ["chmod", "+x", "./app_docker.sh"]
 EXPOSE 3100
 CMD ["/bin/bash", "./app_docker.sh"]
