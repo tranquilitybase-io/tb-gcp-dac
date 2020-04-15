@@ -11,6 +11,17 @@ produces:
 
 basePath: /api
 
+definitions:
+  Solution:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id
+      name:
+        type: string
+        description: solution name
+
 # Paths supported by the server application
 paths:
   /health:
@@ -23,5 +34,22 @@ paths:
       responses:
         200:
           description: Successful
+  /solution:
+    post:
+      operationId: solution.create
+      tags:
+        - solution
+      summary: Create a solution
+      description: Create solution in more detail - TODO
+      parameters:
+        - name: solution
+          in: body
+          description: The solution details
+          required: true
+          schema:
+            $ref: '#/definitions/Solution'
+      responses:
+        201:
+          description: Successfully created a solution
 
 
