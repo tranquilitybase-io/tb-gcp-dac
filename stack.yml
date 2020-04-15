@@ -1,10 +1,11 @@
-98version: '3.1'
+version: '3.1'
 
 services:
   gcp-dac:
     image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
     restart: always
     environment:
+      PLACHEOLDER: TODO
     ports:
       - 3100:3100
 
