@@ -1,0 +1,27 @@
+swagger: "2.0"
+info:
+  description: TranquilityBase GCP DAC REST API Service
+  version: "1.0.0"
+  title: TB GCP DAC
+
+consumes:
+  - application/json
+produces:
+  - application/json
+
+basePath: /api
+
+# Paths supported by the server application
+paths:
+  /health:
+    get:
+      operationId: health.check
+      tags: 
+        - health
+      summary: health check
+      description: health check
+      responses:
+        200:
+          description: Successful
+
+
