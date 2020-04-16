@@ -29,4 +29,6 @@ EXPOSE 3100
 CMD ["/bin/bash", "./app_docker.sh"]
 
 #ENTRYPOINT ["terraform"]
+#ENTRYPOINT ["gcloud"]
+#ENTRYPOINT ["bash"]
 
