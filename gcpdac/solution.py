@@ -16,10 +16,11 @@ def create(solution):
 
     pprint(solution)
 
-    # Serialize and return the newly created application
+    # Serialize and return the newly created solution
     # in the response
     schema = models.SolutionResponseSchema()
-    solutionResponse = dict(name="TEST")
+    folderId = "TESTFOLDERID"
+    solutionResponse = {"id": solution.get("id"), "name": solution.get("name"), "folderId": folderId}
 
     data = schema.dump(solutionResponse)
 

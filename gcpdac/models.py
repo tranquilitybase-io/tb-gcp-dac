@@ -48,9 +48,10 @@ class ModelTools():
 
 
 class SolutionResponseSchema(Schema):
+    id = fields.Integer()
     name = fields.Str()
+    folderId = fields.Str()
 
-
-schema = SolutionResponseSchema()
-result = schema.dump(schema)
-pprint(result, indent=2)
+# schema = SolutionResponseSchema()
+# result = schema.dump(schema)
+# pprint(result, indent=2)

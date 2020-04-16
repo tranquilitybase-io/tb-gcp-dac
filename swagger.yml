@@ -21,6 +21,19 @@ definitions:
       name:
         type: string
         description: solution name
+  SolutionResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id
+      name:
+        type: string
+        description: solution name
+      folderId:
+        type: string
+        description: folder id
+
 
 # Paths supported by the server application
 paths:
@@ -51,5 +64,7 @@ paths:
       responses:
         201:
           description: Successfully created a solution
+          schema:
+            $ref: '#/definitions/SolutionResponse'
 
 
