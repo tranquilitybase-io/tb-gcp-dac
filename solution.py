@@ -31,5 +31,3 @@ def successful_deployment_update(id):
     print(pformat(response))
     return response
 
-
-successful_deployment_update(1)
