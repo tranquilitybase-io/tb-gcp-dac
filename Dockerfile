@@ -11,6 +11,8 @@ RUN apt-get install -y apt-transport-https ca-certificates gnupg
 RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
 RUN apt-get update -y && apt-get install -y google-cloud-sdk
 
+RUN apt-get clean && rm -rf /var/lib/apt/lists/
+
 # install terraform
 ENV TF_DEV=true
 ENV TF_RELEASE=true

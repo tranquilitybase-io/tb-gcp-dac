@@ -8,16 +8,15 @@ from gcpdac import models
 
 def create(solution):
     """
-    This function creates a new solution based on the passed in solution data
+    reates a new solution based on the passed in solution data
 
     :param solution:  solution to create
-    :return:             201 on success, TODO
+    :return: 201 on success, solutionResponse: solution created
     """
 
     pprint(solution)
 
-    # Serialize and return the newly created solution
-    # in the response
+    # Serialize and return the newly created solution in the response
     schema = models.SolutionResponseSchema()
     folderId = "TESTFOLDERID"
     solutionResponse = {"id": solution.get("id"), "name": solution.get("name"), "folderId": folderId}

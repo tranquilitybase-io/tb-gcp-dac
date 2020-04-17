@@ -2,7 +2,7 @@ import json
 from datetime import datetime
 
 from flask_marshmallow import Schema
-from marshmallow import fields, pprint
+from marshmallow import fields
 
 class ModelTools():
 
@@ -45,13 +45,8 @@ class ModelTools():
         new_dict['password'] = "XXXXX"
         return new_dict
 
-
-
 class SolutionResponseSchema(Schema):
     id = fields.Integer()
     name = fields.Str()
     folderId = fields.Str()
 
-# schema = SolutionResponseSchema()
-# result = schema.dump(schema)
-# pprint(result, indent=2)
