@@ -16,6 +16,9 @@ ENV TF_RELEASE=true
 RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 RUN unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 RUN mv terraform /usr/local/bin/
+# Enable Terraform logging
+ENV TF_LOG=ERROR
+ENV TF_LOG_PATH=/var/log/tb-gcp-dac-deployment.log
 
 # install python libraries
 WORKDIR /srv
