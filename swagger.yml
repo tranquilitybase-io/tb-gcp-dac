@@ -11,11 +11,35 @@ produces:
 
 basePath: /api
 
+definitions:
+  Solution:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id
+      name:
+        type: string
+        description: solution name
+  SolutionResponse:
+    type: object
+    properties:
+      id:
+        type: integer
+        description: id
+      name:
+        type: string
+        description: solution name
+      folderId:
+        type: string
+        description: folder id
+
+
 # Paths supported by the server application
 paths:
   /health:
     get:
-      operationId: health.check
+      operationId: gcpdac.health.check
       tags: 
         - health
       summary: health check
@@ -23,5 +47,24 @@ paths:
       responses:
         200:
           description: Successful
+  /solution:
+    post:
+      operationId: gcpdac.solution.create
+      tags:
+        - solution
+      summary: Create a solution
+      description: Create solution in more detail - TODO
+      parameters:
+        - name: solution
+          in: body
+          description: The solution details
+          required: true
+          schema:
+            $ref: '#/definitions/Solution'
+      responses:
+        201:
+          description: Successfully created a solution
+          schema:
+            $ref: '#/definitions/SolutionResponse'
 
 

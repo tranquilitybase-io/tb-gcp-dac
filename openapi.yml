@@ -1,0 +1,48 @@
+openapi: 3.0.0
+info:
+  description: TranquilityBase GCP DAC REST API Service
+  version: "1.1-oas3"
+  title: TB GCP DAC
+paths:
+  /health:
+    get:
+      operationId: gcpdac.health.check
+      tags:
+        - health
+      summary: health check
+      description: health check
+      responses:
+        '200':
+          description: Successful
+  /solution:
+    post:
+      operationId: gcpdac.solution.create
+      tags:
+        - solution
+      summary: Create a solution
+      description: Create solution in more detail - TODO
+      responses:
+        '201':
+          description: Successfully created a solution
+      requestBody:
+        $ref: "#/components/requestBodies/solution.solutionDetails"
+        x-body-name: solutionDetails
+servers:
+  - url: /api
+components:
+  requestBodies:
+    solution.solutionDetails:
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/Solution"
+  schemas:
+    Solution:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: id
+        name:
+          type: string
+          description: solution name
