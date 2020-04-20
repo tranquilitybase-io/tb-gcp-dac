@@ -22,18 +22,17 @@ variable "region_zone" {
   description = "zone name in the region provided."
 }
 
-variable "root_id" {
-  type        = string
-  description = "id for the parent where the folder will be created."
-}
-
 variable "tb_discriminator" {
   type        = string
-  default     = ""
   description = "suffix added to the Tranquility Base folder allowing coexistence of other TBase instances within the same Organisation/Folder. Example: 'uat', 'dev-am'. Default value is empty so no suffix will be added."
 }
 
-variable "solution_name" {
+variable "project_name" {
   type        = string
-  description = "name of the solution to be created"
+  description = "name of the project to be created"
+}
+
+variable "folder_id" {
+  type        = string
+  description = "name of the folder id to put project in"
 }
