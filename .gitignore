@@ -138,7 +138,10 @@ dmypy.json
 # Mac
 .DS_Store
 
+# Terraform
 !/gcpdac/terraform/solution_folder/.terraform/
 !/gcpdac/terraform/solution_folder/input.auto.tfvars
 !/gcpdac/terraform/solution_folder/terraform.tfstate
+
+# App-specific
 !/ec-config.yaml
