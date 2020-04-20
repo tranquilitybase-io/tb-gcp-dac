@@ -8,7 +8,7 @@ from gcpdac import models
 
 def create(solution):
     """
-    reates a new solution based on the passed in solution data
+    creates a new solution based on the passed in solution data
 
     :param solution:  solution to create
     :return: 201 on success, solutionResponse: solution created
