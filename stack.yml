@@ -11,6 +11,8 @@ services:
     volumes:
       # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
       - <CREDENTIALS FILE>:/credentials.json
+      # ec-config.yaml contains details of resources created during landing zone deployment - see ec-config-example.yaml for what gets passed in
+      - ec-config.yaml:/ec-config.yaml
     ports:
       - 3100:3100
 
