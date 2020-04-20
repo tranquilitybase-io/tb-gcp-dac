@@ -1,5 +1,6 @@
 # example config passed into eagle console from landing zone creator
 # following variables available to terraform creation
+# see ec-configuration-file-tf in tb-gcp repo for how this is populated
 activator_folder_id: ${module.folder_structure.activators_id}
 billing_account: ${var.billing_account_id}
 region: ${var.region}
