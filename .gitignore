@@ -139,9 +139,9 @@ dmypy.json
 .DS_Store
 
 # Terraform
-!/gcpdac/terraform/solution_folder/.terraform/
-!/gcpdac/terraform/solution_folder/input.auto.tfvars
-!/gcpdac/terraform/solution_folder/terraform.tfstate
+!/terraform/solution_folder/.terraform/
+!/terraform/solution_folder/input.auto.tfvars
+!/terraform/solution_folder/terraform.tfstate
 
 # App-specific
-!/ec-config.yaml
+/ec-config.yaml
