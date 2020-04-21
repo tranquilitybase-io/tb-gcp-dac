@@ -55,17 +55,19 @@ def run_terraform(solutiondata, terraform_command):
     tf_data['billing_account'] = config['billing_account']
     tf_data['shared_vpc_host_project'] = config['shared_vpc_host_project']
     solution_lower = solution_name.lower()
-    # TODO backend prefix should be solution name related
-    tf_data['app_name'] = solution_lower
+    # TODO backend prefix should be solution name related with discriminator added
+    # tf_data['app_name'] = solution_lower
     backend_prefix = re.sub('[^0-9a-zA-Z]+', '-', solution_lower)
 
-    env_data = config['env_data']
+    # env_data = config['env_data']
+    # TODO generate tfvars file from input
+    env_data = '/app/terraform/input.auto.tfvars'
 
-    add_to_log.add_to_log(solutiondata.get("user",'default'), solution_name, tf_data, config)
+    add_to_log.add_to_log(solutiondata.get("user", 'default'), solution_name, tf_data, config)
 
     # terraform_source_path = '/opt/tb/repo/tb-gcp-activator/'  # this should be the param to python script
     # TODO change this to match location within docker file
-    terraform_source_path = './terraform/solution_folder/'  # this should be the param to python script
+    terraform_source_path = '/app/terraform/'  # this should be the param to python script
 
     # TODO add this back in?
     # activator_terraform_code_store = config['activator_terraform_code_store']
@@ -80,11 +82,21 @@ def run_terraform(solutiondata, terraform_command):
     return_code, stdout, stderr = tf.init(capture_output=False,
                                           backend_config={'bucket': config['terraform_state_bucket'],
                                                           'prefix': backend_prefix})
+    print("Terraform init return code is {}".format(return_code))
+    print("Terraform init stdout is {}".format(stdout))
+    print("Terraform init stderr is {}".format(stderr))
 
     if terraform_command.lower() == 'destroy'.lower():
         return_code, stdout, stderr = tf.destroy(var_file=env_data, capture_output=False)
+        print("Terraform destroy return code is {}".format(return_code))
+        print("Terraform destroy stdout is {}".format(stdout))
+        print("Terraform destroy stderr is {}".format(stderr))
     else:
         return_code, stdout, stderr = tf.apply(skip_plan=True, var_file=env_data, capture_output=False)
+        print("Terraform apply return code is {}".format(return_code))
+        print("Terraform apply stdout is {}".format(stdout))
+        print("Terraform apply stderr is {}".format(stderr))
+
 
     # TODO add this back in?
     # commit_terraform.commit_terraform(terraform_source_path, backend_prefix, solutiondata.get("user"),
@@ -94,7 +106,7 @@ def run_terraform(solutiondata, terraform_command):
     # response.headers['Access-Control-Allow-Origin'] = '*'
 
     # return response
-    return "done"
+    return {"return_code": return_code, "stdout": stdout, "stderr": stdout}
 
 
 # def update_activator_input_subnets(backend_prefix, config, terraform_activator_path, formatted_app_name):

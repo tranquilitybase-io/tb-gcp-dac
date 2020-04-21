@@ -30,14 +30,15 @@ provider "google" {
 //  version = "~> 3.17"
 //}
 //
-//terraform {
-//  backend "gcs" {
-//    # The bucket name below is overloaded at every run with
-//    # `-backend-config="bucket=${terraform_state_bucket_name}"` parameter
-//    # templated into the `bootstrap.sh` script
-//    bucket = "terraformdevstate"
-//  }
-//}
+terraform {
+  backend "gcs" {
+    # The bucket name below is overloaded at every run with
+    # `-backend-config="bucket=${terraform_state_bucket_name}"` parameter
+    # templated into the `bootstrap.sh` script
+    bucket = "terraformdevstate"
+  }
+}
+
 //module "apis_activation" {
 //  source = "../../apis-activation"
 //

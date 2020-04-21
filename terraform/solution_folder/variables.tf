@@ -29,7 +29,6 @@ variable "root_id" {
 
 variable "tb_discriminator" {
   type        = string
-  default     = ""
   description = "suffix added to the Tranquility Base folder allowing coexistence of other TBase instances within the same Organisation/Folder. Example: 'uat', 'dev-am'. Default value is empty so no suffix will be added."
 }
 

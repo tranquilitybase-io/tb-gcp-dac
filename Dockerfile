@@ -5,7 +5,7 @@ MAINTAINER "GFT"
 ENV TERRAFORM_VERSION=0.12.24
 
 RUN apt-get update -y
-RUN apt-get install python3 python3-pip git unzip wget curl dos2unix -y
+RUN apt-get install python3 python3-pip git unzip wget curl dos2unix nano -y
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
 RUN apt-get clean && rm -rf /var/lib/apt/lists/

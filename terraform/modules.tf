@@ -8,6 +8,7 @@ module "solution_folder" {
   region_zone = var.region_zone
   root_id = var.root_id
   solution_name = "test_solution"
+  tb_discriminator = "k8shwic6sj7as"
 }
 
 module "workspace_project" {
@@ -16,7 +17,7 @@ module "workspace_project" {
   region = var.region
   region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
-  tb_discriminator = "abcde"
+  tb_discriminator = "k8shwic6sj7as"
 }
 
 module "dev_environment" {
@@ -25,7 +26,7 @@ module "dev_environment" {
   region = var.region
   region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
-  tb_discriminator = "abcde"
+  tb_discriminator = "k8shwic6sj7as"
 }
 
 module "staging_environment" {
@@ -34,7 +35,7 @@ module "staging_environment" {
   region = var.region
   region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
-  tb_discriminator = "abcde"
+  tb_discriminator = "k8shwic6sj7as"
 }
 
 module "prod_environment" {
@@ -43,5 +44,5 @@ module "prod_environment" {
   region = var.region
   region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
-  tb_discriminator = "abcde"
+  tb_discriminator = "k8shwic6sj7as"
 }

@@ -139,9 +139,11 @@ dmypy.json
 .DS_Store
 
 # Terraform
-!/terraform/solution_folder/.terraform/
-!/terraform/input.auto.tfvars
-!/terraform/solution_folder/terraform.tfstate
+/terraform/input.auto.tfvars
+/terraform/input.tfvars
+/terraform/terraform.tfstate.backup
+/terraform/terraform.tfstate
 
 # App-specific
 /ec-config.yaml
+
