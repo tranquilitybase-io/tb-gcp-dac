@@ -10,6 +10,15 @@ module "solution_folder" {
   solution_name = "test_solution"
 }
 
+module "workspace_project" {
+  source = "./workspace_project"
+  project_name = "workspace"
+  region = var.region
+  region_zone = var.region_zone
+  folder_id = module.solution_folder.solution_id
+  tb_discriminator = "abcde"
+}
+
 module "dev_environment" {
   source = "./environment_project"
   project_name = "dev-env"

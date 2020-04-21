@@ -12,14 +12,4 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-###
-# Environment Project  Creation
-###
-
-resource "google_project" "environment_project" {
-  name = var.project_name
-  project_id = "${var.project_name}-${var.tb_discriminator}"
-  folder_id = var.folder_id
-}
-
 
