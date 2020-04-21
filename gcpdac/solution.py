@@ -2,28 +2,42 @@
 This is the solution module and supports all the ReST actions for the
 solution collection
 """
-
+from flask import abort
+import os
+import requests
+import json
+from pprint import pformat
+from gcpdac.terraform import run_terraform
 from pprint import pprint
 from gcpdac import models
-from gcpdac.terraform import run_terraform
 
-def create(solution):
-    """
-    creates a new solution based on the passed in solution data
+def create(solutionDetails):
+    print(pformat(solutionDetails))
 
-    :param solution:  solution to create
-    :return: 201 on success, solutionResponse: solution created
-    """
+    # mkdir Folders/Projects
 
-    pprint(solution)
+    run_terraform(solutionDetails,"apply")
 
-    run_terraform(solution,"apply")
+    # skeleton code
+    success = True
 
-    # Serialize and return the newly created solution in the response
-    schema = models.SolutionResponseSchema()
-    folderId = "TESTFOLDERID"
-    solutionResponse = {"id": solution.get("id"), "name": solution.get("name"), "folderId": folderId}
+    if success == True:
+        data = { }
+        return  data, 201
+    else:
+        abort(500, "Failed to deploy your solution")
 
-    data = schema.dump(solutionResponse)
 
-    return data, 201
+def successful_deployment_update(id):
+
+    url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"
+
+    payload = { 'id': id, 'deployed': True }
+    print(f"url: {url}")
+    print(f"data: {payload}")
+    headers = { 'Content-Type': "application/json" }
+    response = requests.put(url + f"/{id}", data=json.dumps(payload), headers=headers)
+    print(pformat(response))
+    return response
+
+
