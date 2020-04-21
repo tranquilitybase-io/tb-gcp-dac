@@ -3,6 +3,7 @@ info:
   description: TranquilityBase GCP DAC REST API Service
   version: "1.1-oas3"
   title: TB GCP DAC
+
 paths:
   /health:
     get:
@@ -14,9 +15,10 @@ paths:
       responses:
         '200':
           description: Successful
-  /solution:
+
+  /solution/:
     post:
-      operationId: gcpdac.solution.create
+      operationId: solution.create
       tags:
         - solution
       summary: Create a solution
@@ -26,7 +28,7 @@ paths:
           description: Successfully created a solution
       requestBody:
         $ref: "#/components/requestBodies/solution.solutionDetails"
-        x-body-name: solutionDetails
+
 servers:
   - url: /api
 components:
@@ -35,6 +37,7 @@ components:
       content:
         application/json:
           schema:
+            x-body-name: solutionDetails
             $ref: "#/components/schemas/Solution"
   schemas:
     Solution:
@@ -42,7 +45,45 @@ components:
       properties:
         id:
           type: integer
-          description: id
+          description: the solution id
         name:
           type: string
-          description: solution name
+          description: name
+        description:
+          type: string
+          description: description
+        businessUnit:
+          type: string
+          description: businessUnit
+        costCentre:
+          type: string
+          description: costCentre
+        ci:
+          type: string
+          description: ci
+        cd:
+          type: string
+          description: cd
+        sourceControl:
+          type: string
+          description: sourceControl
+        environments:
+          type: array
+          description: environments
+          items:
+            properties:
+              environment:
+                type: string
+                description: environment
+        active:
+          type: boolean
+          description: active
+        favourite:
+          type: boolean
+          description: favourite
+        teams:
+          type: integer
+          description: teams
+        lastUpdated:
+          type: string
+          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
