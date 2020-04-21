@@ -145,11 +145,3 @@ dmypy.json
 
 # App-specific
 /ec-config.yaml
-
-# Terraform
-!/terraform/solution_folder/.terraform/
-!/terraform/solution_folder/input.auto.tfvars
-!/terraform/solution_folder/terraform.tfstate
-
-# App-specific
-/ec-config.yaml
