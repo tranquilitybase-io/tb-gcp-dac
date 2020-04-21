@@ -14,11 +14,9 @@
 
 import datetime
 from google.cloud import datastore
-from modules.local_logging import get_logger
-
+from gcpdac.local_logging import get_logger
 
 logger = get_logger()
-
 
 def create_client(project_id):
     """

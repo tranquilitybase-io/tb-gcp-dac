@@ -42,8 +42,10 @@ def run_terraform(solutiondata, terraform_command):
     :return: HTTP response to be rendered by Flask
     """
     # postdata = request.json
-    tf_data = solutiondata.get("tf_data")
-    app_name = solutiondata.get("app_name", 'default_activator')
+    # tf_data = solutiondata.get("tf_data")
+    tf_data = solutiondata
+    # app_name = solutiondata.get("app_name", 'default_activator')
+    solution_name = solutiondata.get("name")
 
     # TODO add config map as volume
     config = read_config_map()
@@ -52,14 +54,17 @@ def run_terraform(solutiondata, terraform_command):
     tf_data['activator_folder_id'] = config['activator_folder_id']
     tf_data['billing_account'] = config['billing_account']
     tf_data['shared_vpc_host_project'] = config['shared_vpc_host_project']
-    app_lower = app_name.lower()
-    tf_data['app_name'] = app_lower
-    backend_prefix = re.sub('[^0-9a-zA-Z]+', '-', app_lower)
+    solution_lower = solution_name.lower()
+    # TODO backend prefix should be solution name related
+    tf_data['app_name'] = solution_lower
+    backend_prefix = re.sub('[^0-9a-zA-Z]+', '-', solution_lower)
+
     env_data = config['env_data']
 
-    add_to_log.add_to_log(solutiondata.get("user"), app_name, tf_data, config)
+    add_to_log.add_to_log(solutiondata.get("user",'default'), solution_name, tf_data, config)
 
     # terraform_source_path = '/opt/tb/repo/tb-gcp-activator/'  # this should be the param to python script
+    # TODO change this to match location within docker file
     terraform_source_path = './terraform/solution_folder/'  # this should be the param to python script
 
     # TODO add this back in?
@@ -68,6 +73,8 @@ def run_terraform(solutiondata, terraform_command):
 
     # TODO add this back in
     # update_activator_input_subnets(backend_prefix, config, terraform_source_path, backend_prefix)
+
+    # TODO create 'modules.tf' file for solution. Will have correct number of environments
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
     return_code, stdout, stderr = tf.init(capture_output=False,

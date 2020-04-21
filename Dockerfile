@@ -21,7 +21,7 @@ ENV TF_LOG=ERROR
 ENV TF_LOG_PATH=/var/log/tb-gcp-dac-deployment.log
 
 # install python libraries
-WORKDIR /srv
+WORKDIR /app
 COPY . .
 RUN pip install -r ./requirements.txt
 RUN dos2unix app_docker.sh
@@ -29,6 +29,4 @@ RUN dos2unix app_docker.sh
 RUN ["chmod", "+x", "./app_docker.sh"]
 EXPOSE 3100
 CMD ["/bin/bash", "./app_docker.sh"]
-
-ENTRYPOINT ["bash"]
 

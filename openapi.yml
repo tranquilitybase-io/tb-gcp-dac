@@ -18,7 +18,7 @@ paths:
 
   /solution/:
     post:
-      operationId: gpcdac.solution.create
+      operationId: gcpdac.solution.create
       tags:
         - solution
       summary: Create a solution

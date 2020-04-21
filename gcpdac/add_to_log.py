@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from modules import datastore
-from modules import commit_terraform
-from modules.local_logging import get_logger
+# from gcpdac import datastore
+from gcpdac import commit_terraform
+from gcpdac.local_logging import get_logger
 
 logger = get_logger()
 
@@ -24,7 +24,8 @@ def add_to_log(user, app_name, tf_data, config):
     ec_project_name = config['ec_project_name']
     app_id = commit_terraform.create_hash(user, app_name)
 
-    try:
-        datastore.add_gcp_log(user, app_name, app_id, tf_data, env_data, ec_project_name)
-    except Exception as e:  # not an end-of-the-world failure, don't push the exception upstream for now
-        logger.exception("Error while saving log to datastore")
+# TODO uncomment or refcator logging later
+    # try:
+    #     datastore.add_gcp_log(user, app_name, app_id, tf_data, env_data, ec_project_name)
+    # except Exception as e:  # not an end-of-the-world failure, don't push the exception upstream for now
+    #     logger.exception("Error while saving log to datastore")
