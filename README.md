@@ -19,7 +19,7 @@
 ### run the gcp-dac docker image
 * `docker run -p 3100:3100 gcr.io/tranquility-base-images/tb-gcp-dac:alpha`
 * with google credentials
-* `docker run -p 3100:3100 gcr.io/tranquility-base-images/tb-gcp-dac:alpha -v <CREDENTIALS FILE>:/credentials.json:ro -e GOOGLE_CLOUD_PROJECT=<GOOGLE PROJECT ID> -e GOOGLE_APPLICATION_CREDENTIALS=/credentials.json`
+* `docker run -p 3100:3100 gcr.io/tranquility-base-images/tb-gcp-dac:alpha -v ec-config.yaml:/ec-config.yaml:ro -v <CREDENTIALS FILE>:/credentials.json:ro -e GOOGLE_CLOUD_PROJECT=<GOOGLE PROJECT ID> -e GOOGLE_APPLICATION_CREDENTIALS=/credentials.json`
 
 ### check rest api is working
 * `localhost:3100/api/health` 

@@ -5,6 +5,7 @@ solution collection
 
 from pprint import pprint
 from gcpdac import models
+from gcpdac.terraform import run_terraform
 
 def create(solution):
     """
@@ -15,6 +16,8 @@ def create(solution):
     """
 
     pprint(solution)
+
+    run_terraform(solution,"apply")
 
     # Serialize and return the newly created solution in the response
     schema = models.SolutionResponseSchema()
