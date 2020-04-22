@@ -54,10 +54,15 @@ def run_terraform(solutiondata, terraform_command):
     tf_data['activator_folder_id'] = config['activator_folder_id']
     tf_data['billing_account'] = config['billing_account']
     tf_data['shared_vpc_host_project'] = config['shared_vpc_host_project']
+    tf_data['shared_network_name'] = config['shared_network_name']
+    tf_data['shared_networking_id'] = config['shared_networking_id']
+    tf_data['root_id'] = config['applications_folder_id']
+    tf_data['tb_discriminator'] = config['tb_discriminator']
+
     solution_lower = solution_name.lower()
     # TODO backend prefix should be solution name related with discriminator added
     # tf_data['app_name'] = solution_lower
-    backend_prefix = re.sub('[^0-9a-zA-Z]+', '-', solution_lower)
+    backend_prefix = re.sub('[^0-9a-zA-Z]+', '-', solution_lower + config['tb_discriminator'])
 
     # env_data = config['env_data']
     # TODO generate tfvars file from input
@@ -96,7 +101,6 @@ def run_terraform(solutiondata, terraform_command):
         print("Terraform apply return code is {}".format(return_code))
         print("Terraform apply stdout is {}".format(stdout))
         print("Terraform apply stderr is {}".format(stderr))
-
 
     # TODO add this back in?
     # commit_terraform.commit_terraform(terraform_source_path, backend_prefix, solutiondata.get("user"),
