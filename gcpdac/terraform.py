@@ -40,10 +40,7 @@ def run_terraform(solutiondata, terraform_command):
 
     :return: HTTP response to be rendered by Flask
     """
-    # postdata = request.json
-    # tf_data = solutiondata.get("tf_data")
     tf_data = solutiondata
-    # app_name = solutiondata.get("app_name", 'default_activator')
     solution_name = solutiondata.get("name")
 
     # TODO add config map as volume
@@ -56,9 +53,10 @@ def run_terraform(solutiondata, terraform_command):
     tf_data['shared_network_name'] = config['shared_network_name']
     tf_data['shared_networking_id'] = config['shared_networking_id']
     tf_data['root_id'] = config['applications_folder_id']
-    tf_data['tb_discriminator'] = config['tb_discriminator']
+    tb_discriminator = config['tb_discriminator']
+    tf_data['tb_discriminator'] = tb_discriminator
 
-    backend_prefix = re.sub('[^0-9a-zA-Z]+', '-', solution_name.lower())
+    backend_prefix = re.sub('[^0-9a-zA-Z]+', '-', solution_name.lower() +'-' + tb_discriminator)
     tf_data['solution_name'] = solution_name
 
     # env_data = config['env_data']
