@@ -12,15 +12,13 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import yaml, re
-from flask import Flask, request
+import re
+import yaml
+from flask import Flask
 from flask_cors import CORS
-
 from python_terraform import *
+
 from gcpdac import add_to_log
-from gcpdac import commit_terraform
-from gcpdac import subnet_pool_handler
-from gcpdac import gcloud
 from gcpdac.local_logging import get_logger
 
 logger = get_logger()
@@ -29,6 +27,7 @@ logger.info("Logger initialised")
 app = Flask(__name__)
 app.logger = logger  # use our own logger for consistency vs flasks own
 CORS(app)
+
 
 def run_terraform(solutiondata, terraform_command):
     """
@@ -59,18 +58,14 @@ def run_terraform(solutiondata, terraform_command):
     tf_data['root_id'] = config['applications_folder_id']
     tf_data['tb_discriminator'] = config['tb_discriminator']
 
-    solution_lower = solution_name.lower()
-    # TODO backend prefix should be solution name related with discriminator added
-    # tf_data['app_name'] = solution_lower
-    backend_prefix = re.sub('[^0-9a-zA-Z]+', '-', solution_lower + config['tb_discriminator'])
+    backend_prefix = re.sub('[^0-9a-zA-Z]+', '-', solution_name.lower())
+    tf_data['solution_name'] = solution_name
 
     # env_data = config['env_data']
     # TODO generate tfvars file from input
     env_data = '/app/terraform/input.auto.tfvars'
 
     add_to_log.add_to_log(solutiondata.get("user", 'default'), solution_name, tf_data, config)
-
-    # terraform_source_path = '/opt/tb/repo/tb-gcp-activator/'  # this should be the param to python script
     # TODO change this to match location within docker file
     terraform_source_path = '/app/terraform/'  # this should be the param to python script
 
