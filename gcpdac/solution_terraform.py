@@ -12,12 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-import re
-
 import yaml
 from flask import Flask
 from flask_cors import CORS
-from python_terraform import *
+from python_terraform import Terraform
 
 from gcpdac.local_logging import get_logger
 
@@ -69,7 +67,7 @@ def run_terraform(solutiondata, terraform_command):
     # TODO create 'modules.tf' file for solution. Will have correct number of environments
     # currently using a 'hard coded' modules.tf file that creates 3 environment projects
 
-    tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
+    tf: Terraform = Terraform(working_dir=terraform_source_path, variables=tf_data)
     return_code, stdout, stderr = tf.init(capture_output=False,
                                           backend_config={'bucket': config['terraform_state_bucket'],
                                                           'prefix': backend_prefix})
@@ -92,17 +90,13 @@ def run_terraform(solutiondata, terraform_command):
 
 
 def read_config_map():
-    """
-    Returns the EC configuration as a dictionary
-
-    :return: dict of config
-    """
+    # Returns the EC configuration as a dictionary
     try:
         with open("/app/ec-config.yaml", 'r') as stream:
             try:
                 return yaml.safe_load(stream)
             except yaml.YAMLError as exc:
-                logger.exception("Failed to parse EC YAML after successfully opening")
+                logger.exception("Failed to parse EC YAML after successfully opening - {}".format(exc))
                 raise
     except Exception:
         logger.exception("Failed to load EC YAML file")

@@ -8,7 +8,7 @@ RUN apt-get update -y
 RUN apt-get install python3 python3-pip git unzip wget curl dos2unix nano -y
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
-RUN apt-get clean && rm -rf /var/lib/apt/lists/
+RUN apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # install terraform
 ENV TF_DEV=true

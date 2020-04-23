@@ -1,5 +1,4 @@
 import os
-from typing import Dict, List, Any, Union, Hashable
 
 import connexion
 import yaml
@@ -9,7 +8,7 @@ from google.cloud import storage
 def setDefaultGoogleCloudProject():
     with open('/app/ec-config.yaml') as f:
         try:
-            data: dict = yaml.load(f, Loader=yaml.FullLoader)
+            data: dict = yaml.safe_load(f)
             GOOGLE_CLOUD_PROJECT = data.get("ec_project_name")
             if not GOOGLE_CLOUD_PROJECT:
                 raise ValueError("No GOOGLE_CLOUD_PROJECT set for Flask application")
