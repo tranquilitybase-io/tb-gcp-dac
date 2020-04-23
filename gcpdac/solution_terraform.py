@@ -28,19 +28,14 @@ CORS(app)
 
 
 def run_terraform(solutiondata, terraform_command):
-    """
-    Builds and destroys solution
-
-    The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
-    within a GCP project, as well as setting other properties like billing.
-
-    Accepts JSON content-type input.
-
-    :return: HTTP response to be rendered by Flask
-    """
+    # builds and destroys solution
+    # The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
+    # within a GCP project, as well as setting other properties like billing.
+    # Accepts JSON content-type input.
+    # returns return code and repsonse from terraform
     tf_data = solutiondata
     solution_id = solutiondata.get("id")
-    logger.debug("solution_id is %s",solution_id)
+    logger.debug("solution_id is %s", solution_id)
     solution_name = solutiondata.get("name", "NoneAsDelete")
 
     config = read_config_map()

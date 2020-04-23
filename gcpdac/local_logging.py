@@ -17,11 +17,7 @@ import os
 
 
 def get_logger():
-    """
-    Returns a logger object. Used to ensure logging consistency across the project.
-
-    :return: logging.Logger object
-    """
+    # Returns a logger object. Used to ensure logging consistency across the project.
 
     logger = logging.getLogger('tb-gcp-dac')
     logger.setLevel(logging.DEBUG)

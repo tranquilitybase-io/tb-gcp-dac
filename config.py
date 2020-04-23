@@ -14,7 +14,7 @@ def setDefaultGoogleCloudProject():
                 raise ValueError("No GOOGLE_CLOUD_PROJECT set for Flask application")
             print(data)
         except yaml.YAMLError as exc:
-            raise SystemError("Failed to parse EC YAML after successfully opening")
+            raise SystemError("Failed to parse EC YAML after successfully opening - {}".format(exc))
     print("GOOGLE_CLOUD_PROJECT: {}".format(GOOGLE_CLOUD_PROJECT))
     storage.Client(project=GOOGLE_CLOUD_PROJECT)
 
