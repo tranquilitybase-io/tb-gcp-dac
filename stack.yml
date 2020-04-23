@@ -6,8 +6,6 @@ services:
     restart: always
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
-# replace <GOOGLE CLOUD PROJECT> with a valid google cloud project name
-      GOOGLE_CLOUD_PROJECT: <GOOGLE CLOUD PROJECT>
     volumes:
       # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
       - <CREDENTIALS FILE>:/credentials.json
