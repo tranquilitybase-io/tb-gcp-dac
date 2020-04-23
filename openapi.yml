@@ -1,7 +1,7 @@
 openapi: 3.0.0
 info:
   description: TranquilityBase GCP DAC REST API Service
-  version: "1.1-oas3"
+  version: "1.2"
   title: TB GCP DAC
 
 paths:
@@ -28,6 +28,23 @@ paths:
           description: Successfully created a solution
       requestBody:
         $ref: "#/components/requestBodies/solution.solutionDetails"
+
+  "/solution/{oid}":
+    delete:
+      operationId: gcpdac.solution.delete
+      tags:
+        - solution
+      summary: delete a solution
+      description: delete a solution and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully deleted a solution
 
 servers:
   - url: /api

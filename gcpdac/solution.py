@@ -2,19 +2,23 @@
 This is the solution module and supports all the ReST actions for the
 solution collection
 """
-from flask import abort
-import os
-import requests
 import json
+import os
 from pprint import pformat
-from gcpdac.terraform import run_terraform
-from pprint import pprint
-from gcpdac import models
+
+import requests
+from flask import abort
+
+from gcpdac.solution_terraform import run_terraform
+from gcpdac.local_logging import get_logger
+
+logger = get_logger()
+logger.info("Logger initialised")
+
 
 def create(solutionDetails):
-    print(pformat(solutionDetails))
+    logger.debug(pformat(solutionDetails))
 
-    # mkdir Folders/Projects
     # TODO populate with data as well as True/False
     result = run_terraform(solutionDetails, "apply")
     if result.get("return_code") == 0:
@@ -28,6 +32,21 @@ def create(solutionDetails):
         return data, 201
     else:
         abort(500, "Failed to deploy your solution")
+
+def delete(oid):
+    logger.debug("Id is {}".format(oid))
+
+    solutionDetails = {"id": oid}
+    result = run_terraform(solutionDetails, "destroy")
+    if result.get("return_code") == 0:
+        success = True
+    else:
+        success = False
+
+    if success == True:
+        return {}, 200
+    else:
+        abort(500, "Failed to delete  your solution")
 
 def successful_deployment_update(id):
     url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"
