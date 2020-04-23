@@ -2,15 +2,12 @@
 This is the solution module and supports all the ReST actions for the
 solution collection
 """
-import json
-import os
 from pprint import pformat
 
-import requests
 from flask import abort
 
-from gcpdac.solution_terraform import run_terraform
 from gcpdac.local_logging import get_logger
+from gcpdac.solution_terraform import run_terraform
 
 logger = get_logger()
 logger.info("Logger initialised")
@@ -48,13 +45,13 @@ def delete(oid):
     else:
         abort(500, "Failed to delete  your solution")
 
-def successful_deployment_update(id):
-    url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"
-
-    payload = {'id': id, 'deployed': True}
-    print(f"url: {url}")
-    print(f"data: {payload}")
-    headers = {'Content-Type': "application/json"}
-    response = requests.put(url + f"/{id}", data=json.dumps(payload), headers=headers)
-    print(pformat(response))
-    return response
+# def successful_deployment_update(id):
+#     url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"
+#
+#     payload = {'id': id, 'deployed': True}
+#     print(f"url: {url}")
+#     print(f"data: {payload}")
+#     headers = {'Content-Type': "application/json"}
+#     response = requests.put(url + f"/{id}", data=json.dumps(payload), headers=headers)
+#     print(pformat(response))
+#     return response
