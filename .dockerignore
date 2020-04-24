@@ -1,1 +1,4 @@
 /venv/
+/ec-config.yaml
+/ec-config-example.yaml
+!/createSolution-input-example.json

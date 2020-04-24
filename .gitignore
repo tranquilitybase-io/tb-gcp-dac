@@ -137,3 +137,13 @@ dmypy.json
 
 # Mac
 .DS_Store
+
+# Terraform
+/terraform/input.auto.tfvars
+/terraform/input.tfvars
+/terraform/terraform.tfstate.backup
+/terraform/terraform.tfstate
+
+# App-specific
+/ec-config.yaml
+

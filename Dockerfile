@@ -1,27 +1,26 @@
-FROM python:3.7-slim-buster
+FROM google/cloud-sdk:290.0.0
 MAINTAINER "GFT"
 
 ENV TERRAFORM_VERSION=0.12.24
 
-RUN apt-get update -y && apt-get install -y git unzip wget curl dos2unix
-
-# install gcloud - https://cloud.google.com/sdk/docs/downloads-apt-get
-RUN echo "deb [signed-by=/usr/share/keyrings/cloud.google.gpg] https://packages.cloud.google.com/apt cloud-sdk main" | tee -a /etc/apt/sources.list.d/google-cloud-sdk.list
-RUN apt-get install -y apt-transport-https ca-certificates gnupg
-RUN curl https://packages.cloud.google.com/apt/doc/apt-key.gpg | apt-key --keyring /usr/share/keyrings/cloud.google.gpg add -
-RUN apt-get update -y && apt-get install -y google-cloud-sdk
-
-RUN apt-get clean && rm -rf /var/lib/apt/lists/
+RUN apt-get update \
+ && apt-get install python3=3.8.2-3 python3-pip=20.0.2-5 unzip=6.0-25 wget=1.20.1-1.1 dos2unix=7.4.0-1 nano=3.2-3 -y --no-install-recommends \
+ && apt-get clean \
+ && rm -rf /var/lib/apt/lists/*
+RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
 # install terraform
 ENV TF_DEV=true
 ENV TF_RELEASE=true
-
 RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 RUN unzip terraform_${TERRAFORM_VERSION}_linux_amd64.zip
 RUN mv terraform /usr/local/bin/
+# Enable Terraform logging
+ENV TF_LOG=ERROR
+ENV TF_LOG_PATH=/var/log/tb-gcp-dac-deployment.log
 
-WORKDIR /srv
+# install python libraries
+WORKDIR /app
 COPY . .
 RUN pip install -r ./requirements.txt
 RUN dos2unix app_docker.sh
@@ -29,8 +28,4 @@ RUN dos2unix app_docker.sh
 RUN ["chmod", "+x", "./app_docker.sh"]
 EXPOSE 3100
 CMD ["/bin/bash", "./app_docker.sh"]
-
-#ENTRYPOINT ["terraform"]
-#ENTRYPOINT ["gcloud"]
-#ENTRYPOINT ["bash"]
 
