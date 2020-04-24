@@ -12,16 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "region" {
-  type        = string
-  description = "region name."
-}
-
-variable "region_zone" {
-  type        = string
-  description = "zone name in the region provided."
-}
-
 variable "tb_discriminator" {
   type        = string
   description = "suffix added to the Tranquility Base folder allowing coexistence of other TBase instances within the same Organisation/Folder. Example: 'uat', 'dev-am'. Default value is empty so no suffix will be added."

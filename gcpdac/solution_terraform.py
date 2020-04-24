@@ -53,9 +53,7 @@ def run_terraform(solutiondata, terraform_command):
     backend_prefix = str(solution_id) + '-' + tb_discriminator
     tf_data['solution_name'] = solution_name
 
-    # env_data = config['env_data']
-    # TODO generate tfvars file from input - currently only region_zone in this file
-    env_data = '/app/terraform/input.auto.tfvars'
+    env_data = config['env_data']
 
     terraform_source_path = '/app/terraform/'  # this should be the param to python script
 

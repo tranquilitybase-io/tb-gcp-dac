@@ -13,8 +13,6 @@ module "solution_folder" {
 module "workspace_project" {
   source = "./workspace_project"
   project_name = "${var.solution_name}-workspace"
-  region = var.region
-  region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
   tb_discriminator = var.tb_discriminator
 }
@@ -22,8 +20,6 @@ module "workspace_project" {
 module "dev_environment" {
   source = "./environment_project"
   project_name = "${var.solution_name}-dev-env"
-  region = var.region
-  region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
   tb_discriminator = var.tb_discriminator
 }
@@ -31,8 +27,6 @@ module "dev_environment" {
 module "staging_environment" {
   source = "./environment_project"
   project_name = "${var.solution_name}-staging-env"
-  region = var.region
-  region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
   tb_discriminator = var.tb_discriminator
 }
@@ -40,8 +34,6 @@ module "staging_environment" {
 module "prod_environment" {
   source = "./environment_project"
   project_name = "${var.solution_name}-prod-env"
-  region = var.region
-  region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
   tb_discriminator = var.tb_discriminator
 }
