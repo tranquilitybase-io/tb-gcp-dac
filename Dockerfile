@@ -3,9 +3,8 @@ MAINTAINER "GFT"
 
 ENV TERRAFORM_VERSION=0.12.24
 
-RUN apt-get update
-
-RUN apt-get install python3=3.8.2-3 python3-pip=20.0.2-5 unzip=6.0-25 wget=1.20.1-1.1 dos2unix=7.4.0-1 nano=3.2-3 -y \
+RUN apt-get update \
+ && apt-get install python3=3.8.2-3 python3-pip=20.0.2-5 unzip=6.0-25 wget=1.20.1-1.1 dos2unix=7.4.0-1 nano=3.2-3 -y --no-install-recommends \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
