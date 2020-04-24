@@ -1,11 +1,12 @@
 # example config passed into eagle console from landing zone creator
 # following variables available to terraform creation
 # see ec-configuration-file-tf in tb-gcp repo for how this is populated
-activator_folder_id: ${module.folder_structure.activators_id}
+# create ec-config.yaml will values added for testing locally
+activator_folder_id:  WILL BE NEEDED NOT NOW
 billing_account: ADD
 region: ADD
 terraform_state_bucket: ADD
-env_data: input.tfvars
+env_data: WILL BE NEEDED NOT NOW
 ec_project_name: ADD
 activator_terraform_code_store: WILL BE NEEDED NOT NOW
 shared_vpc_host_project: WILL BE NEEDED NOT NOW

@@ -40,7 +40,8 @@ def run_terraform(solutiondata, terraform_command):
 
     config = read_config_map()
 
-    tf_data['region'] = config['region']
+    region = config['region']
+    tf_data['region'] = region
     tf_data['activator_folder_id'] = config['activator_folder_id']
     tf_data['billing_account'] = config['billing_account']
     tf_data['shared_vpc_host_project'] = config['shared_vpc_host_project']
@@ -53,7 +54,11 @@ def run_terraform(solutiondata, terraform_command):
     backend_prefix = str(solution_id) + '-' + tb_discriminator
     tf_data['solution_name'] = solution_name
 
-    env_data = config['env_data']
+    # TODO generate tfvars file from input - currently only region_zone in this file
+    env_data = '/app/terraform/input.tfvars'
+    # TODO pass region_zone in
+    region_zone = region + "-b"
+    tf_data['region_zone'] = region_zone
 
     terraform_source_path = '/app/terraform/'  # this should be the param to python script
 
