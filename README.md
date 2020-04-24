@@ -17,11 +17,9 @@
 * `gcloud auth configure-docker`
 
 ### run the gcp-dac docker image
-* `docker run -p 3100:3100 gcr.io/tranquility-base-images/tb-gcp-dac:alpha`
-* with google credentials
-    * `docker run -p 3100:3100 gcr.io/tranquility-base-images/tb-gcp-dac:alpha -v <EC CONFIG YAML FILE>:/ec-config.yaml:ro -v <CREDENTIALS FILE>:/credentials.json:ro  -e GOOGLE_APPLICATION_CREDENTIALS=/credentials.json`
-* example call
-    *  `docker run -p 3100:3100 -v C:/dev/tb-gcp-dac/tbase-ci-647fda7b088a.json:/credentials.json:ro -v C:/dev/tb-gcp-dac/ec-config.yaml:/app/ec-config.yaml:ro  -e GOOGLE_APPLICATION_CREDENTIALS=/credentials.json gcr.io/tranquility-base-images/tb-gcp-dac:alpha`
+* `docker run -p 3100:3100 gcr.io/tranquility-base-images/tb-gcp-dac:alpha -v <EC CONFIG YAML FILE>:/ec-config.yaml:ro -v <CREDENTIALS FILE>:/credentials.json:ro  -e GOOGLE_APPLICATION_CREDENTIALS=/credentials.json`
+* example call `docker run -p 3100:3100 -v C:/dev/tb-gcp-dac/tbase-ci-647fda7b088a.json:/credentials.json:ro -v C:/dev/tb-gcp-dac/ec-config.yaml:/app/ec-config.yaml:ro  -e GOOGLE_APPLICATION_CREDENTIALS=/credentials.json gcr.io/tranquility-base-images/tb-gcp-dac:alpha`
+
 ### check rest api is working
 * `localhost:3100/api/health` 
 
