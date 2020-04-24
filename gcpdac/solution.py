@@ -1,11 +1,9 @@
-"""
-This is the solution module and supports all the ReST actions for the
-solution collection
-"""
-from pprint import pformat
-
+# Supports all actions concerning Solutions
+import json
+import os
+import requests
 from flask import abort
-
+from pprint import pformat
 from gcpdac.local_logging import get_logger
 from gcpdac.solution_terraform import run_terraform
 
@@ -30,6 +28,7 @@ def create(solutionDetails):
     else:
         abort(500, "Failed to deploy your solution")
 
+
 def delete(oid):
     logger.debug("Id is {}".format(oid))
 
@@ -45,13 +44,14 @@ def delete(oid):
     else:
         abort(500, "Failed to delete  your solution")
 
-# def successful_deployment_update(id):
-#     url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"
-#
-#     payload = {'id': id, 'deployed': True}
-#     print(f"url: {url}")
-#     print(f"data: {payload}")
-#     headers = {'Content-Type': "application/json"}
-#     response = requests.put(url + f"/{id}", data=json.dumps(payload), headers=headers)
-#     print(pformat(response))
-#     return response
+
+def successful_deployment_update(id):
+    url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"
+
+    payload = {'id': id, 'deployed': True}
+    print(f"url: {url}")
+    print(f"data: {payload}")
+    headers = {'Content-Type': "application/json"}
+    response = requests.put(url + f"/{id}", data=json.dumps(payload), headers=headers)
+    print(pformat(response))
+    return response
