@@ -12,16 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-variable "region" {
-  type        = string
-  description = "region name."
-}
-
-variable "region_zone" {
-  type        = string
-  description = "zone name in the region provided."
-}
-
 variable "root_id" {
   type        = string
   description = "id for the parent where these folders will be created."

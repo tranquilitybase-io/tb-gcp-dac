@@ -3,8 +3,6 @@
 # example follows - this would be written by python app before terraform executed
 module "solution_folder" {
   source = "./solution_folder"
-  region = var.region
-  region_zone = var.region_zone
   root_id = var.root_id
   solution_name = var.solution_name
   tb_discriminator = var.tb_discriminator
