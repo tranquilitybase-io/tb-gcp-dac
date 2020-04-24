@@ -45,13 +45,13 @@ def delete(oid):
         abort(500, "Failed to delete  your solution")
 
 
-def successful_deployment_update(id):
+def successful_deployment_update(solutionId):
     url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"
 
-    payload = {'id': id, 'deployed': True}
+    payload = {'id': solutionId, 'deployed': True}
     print(f"url: {url}")
     print(f"data: {payload}")
     headers = {'Content-Type': "application/json"}
-    response = requests.put(url + f"/{id}", data=json.dumps(payload), headers=headers)
+    response = requests.put(url + f"/{solutionId}", data=json.dumps(payload), headers=headers)
     print(pformat(response))
     return response
