@@ -20,6 +20,10 @@ resource "google_project" "workspace_project" {
   name = var.project_name
   project_id = "${var.project_name}-${var.tb_discriminator}"
   folder_id = var.folder_id
+  labels = {
+    "cost_centre" = var.cost_centre,
+    "business_unit" = var.business_unit
+  }
 }
 
 

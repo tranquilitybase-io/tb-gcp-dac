@@ -18,6 +18,7 @@ from flask_cors import CORS
 from python_terraform import Terraform
 
 from gcpdac.local_logging import get_logger
+from gcpdac.utils import labellize
 
 logger = get_logger()
 logger.info("Logger initialised")
@@ -34,9 +35,15 @@ def run_terraform(solutiondata, terraform_command):
     # Accepts JSON content-type input.
     # returns return code and repsonse from terraform
     tf_data = solutiondata
+    tf_data = dict()
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
-    solution_name = solutiondata.get("name", "NoneAsDelete")
+    tf_data['solution_name'] = solutiondata.get("name", "NoneAsDelete")
+    labellizedCostCentre = labellize(solutiondata.get("costCentre"))
+    tf_data['cost_centre'] = labellizedCostCentre
+    labellizedBusinessUnit = labellize(solutiondata.get("businessUnit"))
+    tf_data['business_unit'] = labellizedBusinessUnit
+    # TODO return the labellized versions of cost centre and business unit to the houston service (or billing service?)
 
     config = read_config_map()
 
@@ -52,7 +59,6 @@ def run_terraform(solutiondata, terraform_command):
     tf_data['tb_discriminator'] = tb_discriminator
 
     backend_prefix = str(solution_id) + '-' + tb_discriminator
-    tf_data['solution_name'] = solution_name
 
     # TODO generate tfvars file from input - currently only region_zone in this file
     env_data = '/app/terraform/input.tfvars'

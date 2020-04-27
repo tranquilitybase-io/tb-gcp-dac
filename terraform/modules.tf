@@ -17,6 +17,8 @@ module "workspace_project" {
   region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
   tb_discriminator = var.tb_discriminator
+  business_unit = var.business_unit
+  cost_centre = var.cost_centre
 }
 
 module "dev_environment" {
@@ -26,7 +28,10 @@ module "dev_environment" {
   region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
   tb_discriminator = var.tb_discriminator
+  business_unit = var.business_unit
+  cost_centre = var.cost_centre
 }
+
 
 module "staging_environment" {
   source = "./environment_project"
@@ -35,6 +40,8 @@ module "staging_environment" {
   region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
   tb_discriminator = var.tb_discriminator
+  business_unit = var.business_unit
+  cost_centre = var.cost_centre
 }
 
 module "prod_environment" {
@@ -44,4 +51,6 @@ module "prod_environment" {
   region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
   tb_discriminator = var.tb_discriminator
+  business_unit = var.business_unit
+  cost_centre = var.cost_centre
 }

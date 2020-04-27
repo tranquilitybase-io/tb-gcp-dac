@@ -38,4 +38,12 @@ variable "solution_name" {
   description = "name of the solution to be created"
 }
 
+variable "cost_centre" {
+  type        = string
+  description = "cost centre"
+}
 
+variable "business_unit" {
+  type        = string
+  description = "business_unit"
+}

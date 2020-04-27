@@ -12,4 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+output "project_number" {
+  description = "Number for the project created"
+  value       = google_project.workspace_project.number
+}
