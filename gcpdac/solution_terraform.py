@@ -34,14 +34,15 @@ def run_terraform(solutiondata, terraform_command):
     # within a GCP project, as well as setting other properties like billing.
     # Accepts JSON content-type input.
     # returns return code and repsonse from terraform
-    tf_data = solutiondata
     tf_data = dict()
     solution_id = solutiondata.get("id")
+    tf_data['solution_id'] = solution_id
     logger.debug("solution_id is %s", solution_id)
+
     tf_data['solution_name'] = solutiondata.get("name", "NoneAsDelete")
-    labellizedCostCentre = labellize(solutiondata.get("costCentre"))
+    labellizedCostCentre = labellize(solutiondata.get("costCentre", "NoneAsDelete"))
     tf_data['cost_centre'] = labellizedCostCentre
-    labellizedBusinessUnit = labellize(solutiondata.get("businessUnit"))
+    labellizedBusinessUnit = labellize(solutiondata.get("businessUnit", "NoneAsDelete"))
     tf_data['business_unit'] = labellizedBusinessUnit
     # TODO return the labellized versions of cost centre and business unit to the houston service (or billing service?)
 
