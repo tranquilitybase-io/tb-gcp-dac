@@ -14,7 +14,6 @@
 
 import yaml
 from flask import Flask
-from flask_cors import CORS
 from python_terraform import Terraform
 
 from gcpdac.local_logging import get_logger
@@ -24,7 +23,6 @@ logger.info("Logger initialised")
 
 app = Flask(__name__)
 app.logger = logger  # use our own logger for consistency vs flasks own
-CORS(app)
 
 
 def run_terraform(solutiondata, terraform_command):

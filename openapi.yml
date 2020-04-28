@@ -46,6 +46,17 @@ paths:
         "200":
           description: Successfully deleted a solution
 
+  /celerycheck:
+    get:
+      operationId: gcpdac.celerycheck.add_together
+      tags:
+        - celerycheck
+      summary: check celery
+      description: Create solution in more detail - TODO
+      responses:
+        '200':
+          description: successfully run celery task
+
 servers:
   - url: /api
 components:
