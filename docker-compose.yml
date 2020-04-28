@@ -2,7 +2,7 @@ version: '3.1'
 
 services:
   gcp-dac:
-#    container_name: gcp-dac
+    container_name: gcp-dac
     image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
     build:
       context: .
@@ -31,30 +31,30 @@ services:
 #    ports:
 #      - 6379:6379
 
-#  worker:
-##    container_name: worker
-#    image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
-##    build:
-##      context: .
-##      dockerfile: Dockerfile
-#    hostname: worker
-##    entrypoint: celery
-#    command: celery -A celery_app.celery worker --loglevel=info
-#    environment:
-#      GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
-#    volumes:
-#      # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
-#      #      - <CREDENTIALS FILE>:/credentials.json
-#      - C:/dev/tb-gcp-dac/credentials.json:/credentials.json:ro
-#      # ec-config.yaml contains details of resources created during landing zone deployment - see ec-config-example.yaml for what gets passed in
-#      #      - <EC CONFIG FILE>:/credentials.json
-#      - C:/dev/tb-gcp-dac/ec-config.yaml:/app/ec-config.yaml:ro
-#    links:
-#      - redis
-#    depends_on:
-#      - redis
-#      - gcp-dac
-##    restart: always
+  worker:
+#    container_name: worker
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+    hostname: worker
+#    entrypoint: celery
+    command: celery -A app.celery worker --loglevel=info
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
+    volumes:
+      # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
+      #      - <CREDENTIALS FILE>:/credentials.json
+      - C:/dev/tb-gcp-dac/credentials.json:/credentials.json:ro
+      # ec-config.yaml contains details of resources created during landing zone deployment - see ec-config-example.yaml for what gets passed in
+      #      - <EC CONFIG FILE>:/credentials.json
+      - C:/dev/tb-gcp-dac/ec-config.yaml:/app/ec-config.yaml:ro
+    links:
+      - redis
+    depends_on:
+      - redis
+      - gcp-dac
+#    restart: always
 
 #  volumes:
 #    ec-config.yaml:

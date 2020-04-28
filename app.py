@@ -18,11 +18,9 @@ gunicorn_logger = logging.getLogger("gunicorn.info")
 connex_app.app.logger.handlers = gunicorn_logger.handlers
 connex_app.app.logger.setLevel(gunicorn_logger.level)
 
-# Read the swagger.yml file to configure the endpoints
-# connex_app.add_api('swagger.yml', strict_validation=True)
+# Read the openapi.yml file to configure the endpoints
 connex_app.add_api('openapi.yml', strict_validation=False)
 
-# celery = make_celery(connex_app)
 def make_celery(app):
     celery = Celery(
         app.import_name,

@@ -13,10 +13,8 @@ app = connex_app.app
 
 ma = Marshmallow(app)
 
-app.config.update(
-    CELERY_BROKER_URL='redis://localhost:6379',
-    CELERY_RESULT_BACKEND='redis://localhost:6379'
-)
+app.config['CELERY_BROKER_URL'] ='redis://localhost:6379'
+app.config['CELERY_RESULT_BACKEND'] ='redis://localhost:6379'
 
 setDefaultGoogleCloudProject()
 
