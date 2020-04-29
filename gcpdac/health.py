@@ -1,6 +1,4 @@
-"""
-Health check: Very basic health check, can extend in future
-"""
+# Health check: Very basic health check, can extend in future
 
 from gcpdac.extendedSchemas import HealthSchema
 

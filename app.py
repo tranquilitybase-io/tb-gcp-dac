@@ -7,8 +7,7 @@ from gcpdac.local_logging import get_logger
 
 print("DEBUG: {}".format(os.environ['DEBUG']))
 
-logger = get_logger()
-logger.info("Logger initialised")
+logger = config.logger
 
 # Get the application instance
 connex_app = config.connex_app

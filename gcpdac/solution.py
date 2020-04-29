@@ -1,14 +1,15 @@
 # Supports all actions concerning Solutions
 import json
 import os
+from pprint import pformat
+
 import requests
 from flask import abort
-from pprint import pformat
-from gcpdac.local_logging import get_logger
+
+import config
 from gcpdac.solution_terraform import run_terraform
 
-logger = get_logger()
-logger.info("Logger initialised")
+logger = config.logger
 
 
 def create(solutionDetails):

@@ -13,15 +13,11 @@
 # limitations under the License.
 
 import yaml
-from flask import Flask
 from python_terraform import Terraform
 
-from gcpdac.local_logging import get_logger
+import config
 
-logger = get_logger()
-
-app = Flask(__name__)
-app.logger = logger  # use our own logger for consistency vs flasks own
+logger = config.logger
 
 
 def run_terraform(solutiondata, terraform_command):

@@ -1,9 +1,8 @@
 from flask import request, jsonify
 
+import config
 from celery_tasks import add_together_two
-from gcpdac.local_logging import get_logger
-
-logger = get_logger()
+logger = config.logger
 
 def add_together():
     logger.info("ADD TOGETHER")

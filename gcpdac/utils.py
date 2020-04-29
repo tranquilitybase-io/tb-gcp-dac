@@ -1,5 +1,4 @@
 import yaml
-from celery import Celery
 from google.cloud import storage
 
 def setDefaultGoogleCloudProject():
