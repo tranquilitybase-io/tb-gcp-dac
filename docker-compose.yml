@@ -16,6 +16,8 @@ services:
 #    restart: always
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379
     volumes:
       # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
       #      - <CREDENTIALS FILE>:/credentials.json
@@ -39,9 +41,11 @@ services:
 #      dockerfile: Dockerfile
     hostname: worker
 #    entrypoint: celery
-    command: celery -A app.celery worker --loglevel=info
+    command: celery -A tasks worker --loglevel=info
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
+      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_RESULT_BACKEND: redis://redis:6379
     volumes:
       # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
       #      - <CREDENTIALS FILE>:/credentials.json

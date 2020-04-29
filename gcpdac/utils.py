@@ -15,3 +15,4 @@ def setDefaultGoogleCloudProject():
     print("GOOGLE_CLOUD_PROJECT: {}".format(GOOGLE_CLOUD_PROJECT))
     storage.Client(project=GOOGLE_CLOUD_PROJECT)
 
+
