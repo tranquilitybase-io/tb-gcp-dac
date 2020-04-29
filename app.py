@@ -1,12 +1,7 @@
 import logging
 import os
-
-# https://realpython.com/flask-connexion-rest-api/
-# https://github.com/realpython/materials/tree/master/flask-connexion-rest-part-4
-from celery import Celery
-from tasks import add_together
-
 import config
+from celery_tasks import add_together
 
 print("DEBUG: {}".format(os.environ['DEBUG']))
 
@@ -21,8 +16,6 @@ connex_app.app.logger.setLevel(gunicorn_logger.level)
 
 # Read the openapi.yml file to configure the endpoints
 connex_app.add_api('openapi.yml', strict_validation=False)
-
-# celery = make_celery(connex_app.app)
 
 result = add_together.delay(23, 42)
 result.wait()

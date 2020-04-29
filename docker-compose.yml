@@ -16,7 +16,7 @@ services:
 #    restart: always
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
-      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
     volumes:
       # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
@@ -30,21 +30,21 @@ services:
     container_name: redis
     image: redis:alpine
     hostname: redis
-#    ports:
-#      - 6379:6379
+  #    volumes:
+  #      - redis.conf:/redis.conf
+  #    command: [ "redis-server", "/redis.conf" ]
 
   worker:
-#    container_name: worker
+    container_name: gcp-dac-worker
     image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
 #    build:
 #      context: .
 #      dockerfile: Dockerfile
     hostname: worker
-#    entrypoint: celery
-    command: celery -A tasks worker --loglevel=info
+    command: celery -A celery_tasks worker --loglevel=info
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
-      CELERY_BROKER_URL: redis://redis:6379/0
+      CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
     volumes:
       # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
@@ -59,14 +59,6 @@ services:
       - redis
       - gcp-dac
 #    restart: always
-
-#  volumes:
-#    ec-config.yaml:
-
-# TODO add specific config if necessary
-#    volumes:
-#      - redis.conf:/redis.conf
-#    command: [ "redis-server", "/redis.conf" ]
 
 #  mysql57:
 #    image: gcr.io/tranquility-base-images/tb-houston-mysql:alpha
