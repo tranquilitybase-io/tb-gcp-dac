@@ -19,7 +19,6 @@ from python_terraform import Terraform
 from gcpdac.local_logging import get_logger
 
 logger = get_logger()
-logger.info("Logger initialised")
 
 app = Flask(__name__)
 app.logger = logger  # use our own logger for consistency vs flasks own

@@ -1,17 +1,25 @@
-import celery
-import json
-import os
-import requests
-from flask import abort
-from pprint import pformat
+from flask import request, jsonify
+
+from celery_tasks import add_together_two
 from gcpdac.local_logging import get_logger
-from gcpdac.solution_terraform import run_terraform
-from flask import Flask
 
 logger = get_logger()
-logger.info("Logger initialised")
 
-@celery.task()
 def add_together():
     logger.info("ADD TOGETHER")
-    return "ADD TOGETHER"
+    result = add_together_two.delay(23, 42)
+    result.wait()
+
+    x = int(request.args.get("x", 1))
+    y = int(request.args.get("y", 2))
+    res = add_together_two.apply_async((x, y))
+    context = {"id": res.task_id, "x": x, "y": y}
+    result = "add((x){}, (y){})".format(context['x'], context['y'])
+    goto = "{}".format(context['id'])
+
+    return jsonify(result=result, goto=goto)
+
+def add_together_result(taskid):
+    logger.info("ADD TOGETHER RESULT %s",format(taskid))
+    retval = add_together_two.AsyncResult(taskid).get(timeout=1.0)
+    return {"sum": str(repr(retval))}

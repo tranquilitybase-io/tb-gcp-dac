@@ -1,9 +1,14 @@
 import logging
 import os
 import config
-from celery_tasks import add_together
+
+from celery_tasks import add_together_two
+from gcpdac.local_logging import get_logger
 
 print("DEBUG: {}".format(os.environ['DEBUG']))
+
+logger = get_logger()
+logger.info("Logger initialised")
 
 # Get the application instance
 connex_app = config.connex_app
@@ -17,10 +22,8 @@ connex_app.app.logger.setLevel(gunicorn_logger.level)
 # Read the openapi.yml file to configure the endpoints
 connex_app.add_api('openapi.yml', strict_validation=False)
 
-result = add_together.delay(23, 42)
+result = add_together_two.delay(23, 42)
 result.wait()
 
 if __name__ == "__main__":
     connex_app.run(port=3100, debug=os.environ['DEBUG'])
-
-

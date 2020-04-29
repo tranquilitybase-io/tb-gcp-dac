@@ -24,5 +24,5 @@ celery = make_celery(config.app)
 
 
 @celery.task()
-def add_together(a, b):
+def add_together_two(a, b):
     return a + b
