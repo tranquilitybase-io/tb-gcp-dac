@@ -1,7 +1,7 @@
 from flask import request, jsonify
 
 import config
-from celery_tasks import add_together_two
+from celery_worker import add_together_two
 logger = config.logger
 
 def add_together():

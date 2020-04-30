@@ -3,7 +3,7 @@ import connexion
 from flask_marshmallow import Marshmallow
 
 from gcpdac.local_logging import get_logger
-from gcpdac.utils import setDefaultGoogleCloudProject
+from gcpdac.utils import setDefaultGoogleCloudProject, make_celery
 
 logger = get_logger()
 logger.info("Logger initialised")
@@ -16,8 +16,17 @@ connex_app = connexion.App(__name__, specification_dir=basedir)
 
 app = connex_app.app
 
+app.config.update(
+    CELERY_BROKER_URL=os.environ['CELERY_RESULT_BACKEND'],
+    CELERY_RESULT_BACKEND=os.environ['CELERY_BROKER_URL']
+)
+
 ma = Marshmallow(app)
 
 setDefaultGoogleCloudProject()
 
+celery_app = make_celery(__name__)
 
+
+def get_celery():
+    return celery_app

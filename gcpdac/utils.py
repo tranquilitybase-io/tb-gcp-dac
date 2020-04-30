@@ -1,5 +1,9 @@
+import os
+
 import yaml
+from celery import Celery
 from google.cloud import storage
+
 
 def setDefaultGoogleCloudProject():
     with open('/app/ec-config.yaml') as f:
@@ -15,3 +19,10 @@ def setDefaultGoogleCloudProject():
     storage.Client(project=GOOGLE_CLOUD_PROJECT)
 
 
+def make_celery(name):
+    celery = Celery(
+        name,
+        backend=os.environ['CELERY_RESULT_BACKEND'],
+        broker=os.environ['CELERY_BROKER_URL']
+    )
+    return celery

@@ -46,6 +46,36 @@ paths:
         "200":
           description: Successfully deleted a solution
 
+  /solution_async/:
+    post:
+      operationId: gcpdac.solution.create_async
+      tags:
+        - solution
+      summary: Create a solution
+      description: Create solution in more detail - TODO
+      responses:
+        '201':
+          description: Successfully created a solution
+      requestBody:
+        $ref: "#/components/requestBodies/solution.solutionDetails"
+
+  "/solution_async/{oid}":
+    delete:
+      operationId: gcpdac.solution.delete_async
+      tags:
+        - solution
+      summary: delete a solution
+      description: delete a solution and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully deleted a solution
+
   /celerycheck:
     get:
       operationId: gcpdac.celerycheck.add_together

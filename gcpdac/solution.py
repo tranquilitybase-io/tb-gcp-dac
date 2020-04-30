@@ -46,6 +46,44 @@ def delete(oid):
         abort(500, "Failed to delete  your solution")
 
 
+def create_async(solutionDetails):
+    logger.debug(pformat(solutionDetails))
+
+    result = run_terraform.delay(solutionDetails, 'apply')
+
+    # [logger.debug("%s,%s", key, value) for key, value in result.items()]
+
+    # result.wait()
+
+    context = {"taskid": result.task_id}
+
+    # TODO handle celery failure
+    success = True
+    if success == True:
+        return context, 201
+    else:
+        abort(500, "Failed to delete your solution")
+
+
+def delete_async(oid):
+    logger.debug("Id is {}".format(oid))
+
+    solutionDetails = {"id": oid}
+
+    result = run_terraform.delay(solutionDetails, 'destroy')
+
+    # result.wait()
+
+    context = {"taskid": result.task_id}
+
+    # TODO handle celery failure
+    success = True
+    if success == True:
+        return context, 201
+    else:
+        abort(500, "Failed to delete your solution")
+
+
 def successful_deployment_update(solutionId):
     url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"
 

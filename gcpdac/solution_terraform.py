@@ -19,7 +19,9 @@ import config
 
 logger = config.logger
 
+celery_app = config.get_celery()
 
+@celery_app.task()
 def run_terraform(solutiondata, terraform_command):
     # builds and destroys solution
     # The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
@@ -58,7 +60,7 @@ def run_terraform(solutiondata, terraform_command):
     # TODO create 'modules.tf' file for solution. Will have correct number of environments
     # currently using a 'hard coded' modules.tf file that creates 3 environment projects
 
-    tf: Terraform = Terraform(working_dir=terraform_source_path, variables=tf_data)
+    tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
     return_code, stdout, stderr = tf.init(capture_output=False,
                                           backend_config={'bucket': config['terraform_state_bucket'],
                                                           'prefix': backend_prefix})
@@ -77,6 +79,7 @@ def run_terraform(solutiondata, terraform_command):
         logger.debug("Terraform apply stdout is {}".format(stdout))
         logger.debug("Terraform apply stderr is {}".format(stderr))
 
+    # TODO add details from deployment
     return {"return_code": return_code, "stdout": stdout, "stderr": stdout}
 
 
