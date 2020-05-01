@@ -13,20 +13,14 @@
 # limitations under the License.
 
 import yaml
-from flask import Flask
-from flask_cors import CORS
 from python_terraform import Terraform
-
-from gcpdac.local_logging import get_logger
+import config
 from gcpdac.utils import labellize
 
-logger = get_logger()
-logger.info("Logger initialised")
 
-app = Flask(__name__)
-app.logger = logger  # use our own logger for consistency vs flasks own
-CORS(app)
+logger = config.logger
 
+celery_app = config.get_celery()
 
 def run_terraform(solutiondata, terraform_command):
     # builds and destroys solution
@@ -34,17 +28,16 @@ def run_terraform(solutiondata, terraform_command):
     # within a GCP project, as well as setting other properties like billing.
     # Accepts JSON content-type input.
     # returns return code and repsonse from terraform
-    tf_data = dict()
+    tf_data = solutiondata
     solution_id = solutiondata.get("id")
-    tf_data['solution_id'] = solution_id
     logger.debug("solution_id is %s", solution_id)
+    solution_name = solutiondata.get("name", "NoneAsDelete")
 
-    tf_data['solution_name'] = solutiondata.get("name", "NoneAsDelete")
     labellizedCostCentre = labellize(solutiondata.get("costCentre", "NoneAsDelete"))
     tf_data['cost_centre'] = labellizedCostCentre
     labellizedBusinessUnit = labellize(solutiondata.get("businessUnit", "NoneAsDelete"))
     tf_data['business_unit'] = labellizedBusinessUnit
-    # TODO return the labellized versions of cost centre and business unit to the houston service (or billing service?)
+# TODO return the labellized versions
 
     config = read_config_map()
 
@@ -60,6 +53,7 @@ def run_terraform(solutiondata, terraform_command):
     tf_data['tb_discriminator'] = tb_discriminator
 
     backend_prefix = str(solution_id) + '-' + tb_discriminator
+    tf_data['solution_name'] = solution_name
 
     # TODO generate tfvars file from input - currently only region_zone in this file
     env_data = '/app/terraform/input.tfvars'
@@ -72,7 +66,7 @@ def run_terraform(solutiondata, terraform_command):
     # TODO create 'modules.tf' file for solution. Will have correct number of environments
     # currently using a 'hard coded' modules.tf file that creates 3 environment projects
 
-    tf: Terraform = Terraform(working_dir=terraform_source_path, variables=tf_data)
+    tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
     return_code, stdout, stderr = tf.init(capture_output=False,
                                           backend_config={'bucket': config['terraform_state_bucket'],
                                                           'prefix': backend_prefix})
@@ -91,6 +85,7 @@ def run_terraform(solutiondata, terraform_command):
         logger.debug("Terraform apply stdout is {}".format(stdout))
         logger.debug("Terraform apply stderr is {}".format(stderr))
 
+    # TODO add details from deployment
     return {"return_code": return_code, "stdout": stdout, "stderr": stdout}
 
 
