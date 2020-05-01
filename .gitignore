@@ -146,4 +146,5 @@ dmypy.json
 
 # App-specific
 /ec-config.yaml
-
+/credentials.json
+/createSolution-input-example.json
