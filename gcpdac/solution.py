@@ -8,7 +8,7 @@ from flask import abort
 
 import config
 from gcpdac.solution_terraform import run_terraform
-from celery_worker import deploy_solution_task,destroy_solution_task
+from celery_worker import deploy_solution_task, destroy_solution_task
 
 logger = config.logger
 
@@ -52,9 +52,7 @@ def create_async(solutionDetails):
 
     result = deploy_solution_task.delay(solutionDetails)
 
-    # [logger.debug("%s,%s", key, value) for key, value in result.items()]
-
-    # result.wait()
+    logger.info("Task ID %s", result.task_id)
 
     context = {"taskid": result.task_id}
 
@@ -73,7 +71,7 @@ def delete_async(oid):
 
     result = destroy_solution_task.delay(solutionDetails)
 
-    # result.wait()
+    logger.info("Task ID %s", result.task_id)
 
     context = {"taskid": result.task_id}
 
@@ -84,6 +82,15 @@ def delete_async(oid):
     else:
         abort(500, "Failed to delete your solution")
 
+def create_solution_result(taskid):
+    logger.info("CREATE SOLUTION RESULT %s",format(taskid))
+    retval = deploy_solution_task.AsyncResult(taskid).get(timeout=1.0)
+    return retval
+
+def delete_solution_result(taskid):
+    logger.info("DELETE SOLUTION RESULT %s",format(taskid))
+    retval = destroy_solution_task.AsyncResult(taskid).get(timeout=1.0)
+    return retval
 
 def successful_deployment_update(solutionId):
     url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"

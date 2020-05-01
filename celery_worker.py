@@ -13,22 +13,20 @@ log_format = '[%(asctime)s] [%(name)s] [%(levelname)s]: %(message)s'
 logging.basicConfig(level=logging.INFO,format=log_format)
 
 @celery_app.task()
-def add_together_two(a, b):
+def add(a, b):
     logger.debug("ADD_TOGETHER_TWO IN WORKER")
     return a + b
 
 @celery_app.task()
 def deploy_solution_task(solutionDetails):
-    run_terraform(solutionDetails, "apply")
-    # just return call = True TODO
-    return True
+    response = run_terraform(solutionDetails, "apply")
+    return response
 
 
 @celery_app.task()
 def destroy_solution_task(solutionDetails):
-    run_terraform(solutionDetails, "destroy")
-    # just return call = True TODO
-    return True
+    response = run_terraform(solutionDetails, "destroy")
+    return response
 
 @after_setup_logger.connect
 def setup_loggers(logger, *args, **kwargs):

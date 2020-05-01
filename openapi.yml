@@ -76,17 +76,41 @@ paths:
         "200":
           description: Successfully deleted a solution
 
-  /celerycheck:
+  "/solution_async/result/create/{taskid}":
     get:
-      operationId: gcpdac.celerycheck.add_together
+      operationId: gcpdac.solution.create_solution_result
       tags:
-        - celerycheck
-      summary: call celery task
-      description: Call celery task
+        - solution
+      summary: get create solution result
+      description:  get create solution result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
       responses:
-        '200':
-          description: successfully call celery task
+        "201":
+          description: Successfully created a solution
 
+  "/solution_async/result/delete/{taskid}":
+    get:
+      operationId: gcpdac.solution.delete_solution_result
+      tags:
+        - solution
+      summary: get delete solution result
+      description:  get delete solution result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a solution
+
+# TODO remove later - test methods for checking Celery, just adding 2 numbers
   "/celerycheck/{taskid}":
     get:
       operationId: gcpdac.celerycheck.add_together_result
@@ -110,6 +134,18 @@ paths:
                 properties:
                   sum:
                     type: string
+
+  /celerycheck:
+    get:
+      operationId: gcpdac.celerycheck.add_together
+      tags:
+        - celerycheck
+      summary: call celery task
+      description: Call celery task
+      responses:
+        '200':
+          description: successfully call celery task
+
 servers:
   - url: /api
 components:

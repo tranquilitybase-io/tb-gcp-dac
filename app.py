@@ -1,7 +1,7 @@
 import logging
 import os
 
-from celery_worker import add_together_two
+from celery_worker import add
 
 import config
 
@@ -23,7 +23,7 @@ connex_app.add_api('openapi.yml', strict_validation=False)
 
 celery = config.get_celery()
 
-result = add_together_two.delay(23, 42)
+result = add.delay(23, 42)
 result.wait()
 
 if __name__ == "__main__":
