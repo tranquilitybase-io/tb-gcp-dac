@@ -111,7 +111,7 @@ paths:
           description: Successfully created a solution
 
 # TODO remove later - test methods for checking Celery, just adding 2 numbers
-  "/celerycheck/{taskid}":
+  "/add_two_numbers/{taskid}":
     get:
       operationId: gcpdac.celerycheck.add_together_result
       tags:
@@ -135,7 +135,7 @@ paths:
                   sum:
                     type: string
 
-  /celerycheck:
+  /add_two_numbers:
     get:
       operationId: gcpdac.celerycheck.add_together
       tags:
