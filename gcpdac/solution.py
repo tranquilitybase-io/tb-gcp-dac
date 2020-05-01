@@ -8,6 +8,7 @@ from flask import abort
 
 import config
 from gcpdac.solution_terraform import run_terraform
+from celery_worker import deploy_solution_task,destroy_solution_task
 
 logger = config.logger
 
@@ -49,7 +50,7 @@ def delete(oid):
 def create_async(solutionDetails):
     logger.debug(pformat(solutionDetails))
 
-    result = run_terraform.delay(solutionDetails, 'apply')
+    result = deploy_solution_task.delay(solutionDetails)
 
     # [logger.debug("%s,%s", key, value) for key, value in result.items()]
 
@@ -70,7 +71,7 @@ def delete_async(oid):
 
     solutionDetails = {"id": oid}
 
-    result = run_terraform.delay(solutionDetails, 'destroy')
+    result = destroy_solution_task.delay(solutionDetails)
 
     # result.wait()
 

@@ -21,7 +21,6 @@ logger = config.logger
 
 celery_app = config.get_celery()
 
-@celery_app.task()
 def run_terraform(solutiondata, terraform_command):
     # builds and destroys solution
     # The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
