@@ -14,8 +14,9 @@
 
 import yaml
 from python_terraform import Terraform
-
 import config
+from gcpdac.utils import labellize
+
 
 logger = config.logger
 
@@ -31,6 +32,12 @@ def run_terraform(solutiondata, terraform_command):
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
     solution_name = solutiondata.get("name", "NoneAsDelete")
+
+    labellizedCostCentre = labellize(solutiondata.get("costCentre", "NoneAsDelete"))
+    tf_data['cost_centre'] = labellizedCostCentre
+    labellizedBusinessUnit = labellize(solutiondata.get("businessUnit", "NoneAsDelete"))
+    tf_data['business_unit'] = labellizedBusinessUnit
+# TODO return the labellized versions
 
     config = read_config_map()
 
