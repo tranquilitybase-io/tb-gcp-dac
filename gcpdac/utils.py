@@ -36,4 +36,10 @@ def labellize(labelText):
     # label rules here - https://cloud.google.com/compute/docs/labeling-resources
     # in summary - lower case characters, numbers, dash or hyphen. <= 63 characters
     labelText = labelText.lower()
-    return re.sub('[^0-9a-z-_]+', '-', labelText)
+    labelText = re.sub('[^0-9a-z-_]+', '-', labelText)
+    firstChar = labelText[0]
+    if firstChar.isnumeric() or firstChar == '-' or firstChar == '_':
+        labelText = "a" + labelText
+    if len(labelText) > 63:
+        labelText = labelText[0:63]
+    return labelText
