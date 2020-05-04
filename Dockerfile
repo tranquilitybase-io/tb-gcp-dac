@@ -26,6 +26,7 @@ RUN pip install -r ./requirements.txt
 RUN dos2unix app_docker.sh
 
 RUN ["chmod", "+x", "./app_docker.sh"]
+RUN ["chmod", "+x", "./celery_worker.sh"]
 EXPOSE 3100
 CMD ["/bin/bash", "./app_docker.sh"]
 

@@ -41,7 +41,8 @@ services:
 #      context: .
 #      dockerfile: Dockerfile
     hostname: worker
-    command: celery -A celery_worker worker
+#    command: celery -A celery_worker worker
+    command: ["/bin/bash", "./celery_worker.sh"]
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379
