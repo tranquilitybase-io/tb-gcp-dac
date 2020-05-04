@@ -16,10 +16,10 @@ import logging
 import os
 
 
-def get_logger():
+def get_logger(app):
     # Returns a logger object. Used to ensure logging consistency across the project.
 
-    logger = logging.getLogger('tb-gcp-dac')
+    logger = logging.getLogger(app)
     logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(funcName)s - %(levelname)s - %(message)s')

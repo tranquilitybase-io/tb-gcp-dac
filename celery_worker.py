@@ -3,14 +3,12 @@ import logging
 from celery import signals
 
 from config import get_celery
+from gcpdac.local_logging import get_logger
 from gcpdac.solution_terraform import run_terraform
 
 celery_app = get_celery()
 
-logger = logging.getLogger('worker')
-log_format = '[%(asctime)s] [%(name)s] [%(levelname)s]: %(message)s'
-logging.basicConfig(level=logging.INFO, format=log_format)
-
+logger = get_logger('worker')
 
 @celery_app.task()
 def add_two_numbers(a, b):
@@ -18,7 +16,7 @@ def add_two_numbers(a, b):
     return a + b
 
 
-@celery_app.task(autoretry_for=(Exception), retry_kwargs={'max_retries': 3, 'countdown': 2})
+@celery_app.task()
 def deploy_solution_task(solutionDetails):
     logger.debug("deploy_solution_task")
     response = run_terraform(solutionDetails, "apply")
@@ -28,7 +26,7 @@ def deploy_solution_task(solutionDetails):
     return response
 
 
-@celery_app.task(autoretry_for=(Exception), retry_kwargs={'max_retries': 3, 'countdown': 2})
+@celery_app.task()
 def destroy_solution_task(solutionDetails):
     logger.debug("destroy_solution_task")
     response = run_terraform(solutionDetails, "destroy")
