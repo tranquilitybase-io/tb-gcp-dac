@@ -18,7 +18,7 @@ def add_two_numbers(a, b):
 def deploy_solution_task(self, solutionDetails):
     logger.debug("deploy_solution_task")
     response = run_terraform(solutionDetails, "apply")
-    return_code = response.get("terraform_return_code")
+    return_code = response.get("tf_return_code")
     if (return_code) != 0:
         self.update_state(state=states.FAILURE)
     else:
@@ -30,7 +30,7 @@ def deploy_solution_task(self, solutionDetails):
 def destroy_solution_task(self, solutionDetails):
     logger.debug("destroy_solution_task")
     response = run_terraform(solutionDetails, "destroy")
-    return_code = response.get("terraform_return_code")
+    return_code = response.get("tf_return_code")
     if (return_code) != 0:
         self.update_state(state=states.FAILURE)
     else:

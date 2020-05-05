@@ -91,7 +91,7 @@ def terraform_apply(env_data, tf: Terraform):
         tf_state = terraform_show(tf)
     else:
         tf_state = {}
-    return {"terraform_return_code": return_code, "tf_state": tf_state}
+    return {"tf_return_code": return_code, "tf_state": tf_state}
 
 
 def terraform_show(tf: Terraform):
@@ -107,7 +107,7 @@ def terraform_destroy(env_data, tf):
     logger.debug('Terraform destroy return code is {}'.format(return_code))
     logger.debug('Terraform destroy stdout is {}'.format(stdout))
     logger.debug('Terraform destroy stderr is {}'.format(stderr))
-    return {"terraform_return_code": return_code}
+    return {"tf_return_code": return_code}
 
 
 def read_config_map():

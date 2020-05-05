@@ -91,8 +91,8 @@ def create_solution_result(taskid):
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
         tf_state = retval["tf_state"]
-        return_code = retval["terraform_return_code"]
-        return {'status': status, "tf_state": tf_state, "terraform_return_code": return_code}
+        return_code = retval["tf_return_code"]
+        return {'status': status, "tf_state": tf_state, "tf_return_code": return_code}
     else:
         return {'status': status}
 
@@ -102,8 +102,8 @@ def delete_solution_result(taskid):
     status = AsyncResult(taskid).status
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
-        return_code = retval["terraform_return_code"]
-        return {'status': status, "terraform_return_code": return_code}
+        return_code = retval["tf_return_code"]
+        return {'status': status, "tf_return_code": return_code}
     else:
         return {'status': status}
 
