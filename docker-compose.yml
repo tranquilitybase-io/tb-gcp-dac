@@ -41,7 +41,7 @@ services:
 #      context: .
 #      dockerfile: Dockerfile
     hostname: worker
-    command:  celery -A celery_worker worker
+    command:  celery -E -A celery_worker worker --loglevel=info
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379

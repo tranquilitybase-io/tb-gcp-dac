@@ -4,6 +4,7 @@ import re
 import yaml
 from celery import Celery
 from google.cloud import storage
+import celeryconfig
 
 
 def setDefaultGoogleCloudProject():
@@ -24,9 +25,11 @@ def make_celery(name):
     celery = Celery(
         name,
         backend=os.environ['CELERY_RESULT_BACKEND'],
-        broker=os.environ['CELERY_BROKER_URL']
+        broker=os.environ['CELERY_BROKER_URL'],
+        config_source=celeryconfig
+
     )
-    celery.config_from_object('celeryconfig')
+    # celery.config_from_object(celeryconfig)
 
     return celery
 

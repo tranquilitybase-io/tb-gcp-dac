@@ -1,3 +1,4 @@
+from celery.result import AsyncResult
 from flask import request, jsonify
 
 import config
@@ -18,5 +19,5 @@ def add_together():
 
 def add_together_result(taskid):
     logger.info("ADD TOGETHER RESULT %s",format(taskid))
-    retval = add_two_numbers.AsyncResult(taskid).get(timeout=1.0)
+    retval = AsyncResult(taskid).get(timeout=1.0)
     return {"sum": str(repr(retval))}

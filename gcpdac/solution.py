@@ -4,6 +4,8 @@ import os
 from pprint import pformat
 
 import requests
+from celery import states
+from celery.result import AsyncResult
 from flask import abort
 
 import config
@@ -50,7 +52,7 @@ def delete(oid):
 def create_async(solutionDetails):
     logger.debug(pformat(solutionDetails))
 
-    result = deploy_solution_task.delay(solutionDetails)
+    result = deploy_solution_task.delay(solutionDetails=solutionDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -69,7 +71,7 @@ def delete_async(oid):
 
     solutionDetails = {"id": oid}
 
-    result = destroy_solution_task.delay(solutionDetails)
+    result = destroy_solution_task.delay(solutionDetails=solutionDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -82,15 +84,26 @@ def delete_async(oid):
     else:
         abort(500, "Failed to delete your solution")
 
+
 def create_solution_result(taskid):
-    logger.info("CREATE SOLUTION RESULT %s",format(taskid))
-    retval = deploy_solution_task.AsyncResult(taskid).get(timeout=1.0)
-    return retval
+    logger.info("CREATE SOLUTION RESULT %s", format(taskid))
+    status = AsyncResult(taskid).status
+    if status == states.SUCCESS:
+        retval = AsyncResult(taskid).get(timeout=1.0)
+        return retval
+    else:
+        return {'status': status}
+
 
 def delete_solution_result(taskid):
-    logger.info("DELETE SOLUTION RESULT %s",format(taskid))
-    retval = destroy_solution_task.AsyncResult(taskid).get(timeout=1.0)
-    return retval
+    logger.info("DELETE SOLUTION RESULT %s", format(taskid))
+    status = AsyncResult(taskid).status
+    if status == states.SUCCESS:
+        retval = AsyncResult(taskid).get(timeout=1.0)
+        return retval
+    else:
+        return {'status': status}
+
 
 def successful_deployment_update(solutionId):
     url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"
