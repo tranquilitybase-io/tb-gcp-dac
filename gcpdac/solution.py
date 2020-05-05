@@ -88,11 +88,11 @@ def delete_async(oid):
 def create_solution_result(taskid):
     logger.info("CREATE SOLUTION RESULT %s", format(taskid))
     status = AsyncResult(taskid).status
-    if status == states.SUCCESS:
+    if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
         tf_state = retval["tf_state"]
-        return_code = retval["return_code"]
-        return {'status': status, "tf_state": tf_state, "return_code": return_code}
+        return_code = retval["terraform_return_code"]
+        return {'status': status, "tf_state": tf_state, "terraform_return_code": return_code}
     else:
         return {'status': status}
 
@@ -100,10 +100,10 @@ def create_solution_result(taskid):
 def delete_solution_result(taskid):
     logger.info("DELETE SOLUTION RESULT %s", format(taskid))
     status = AsyncResult(taskid).status
-    if status == states.SUCCESS:
+    if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
-        return_code = retval["return_code"]
-        return {'status': status, "return_code": return_code}
+        return_code = retval["terraform_return_code"]
+        return {'status': status, "terraform_return_code": return_code}
     else:
         return {'status': status}
 

@@ -18,11 +18,11 @@ def add_two_numbers(a, b):
 def deploy_solution_task(self, solutionDetails):
     logger.debug("deploy_solution_task")
     response = run_terraform(solutionDetails, "apply")
-    return_code = response.get("return_code")
+    return_code = response.get("terraform_return_code")
     if (return_code) != 0:
-        self.update_state(state=states.FAILURE, meta={'return_code': return_code})
-        raise Exception(f'run_terraform returned unexpected response code: {return_code}')
-    self.update_state(state=states.SUCCESS)
+        self.update_state(state=states.FAILURE)
+    else:
+        self.update_state(state=states.SUCCESS)
     return response
 
 
@@ -30,11 +30,11 @@ def deploy_solution_task(self, solutionDetails):
 def destroy_solution_task(self, solutionDetails):
     logger.debug("destroy_solution_task")
     response = run_terraform(solutionDetails, "destroy")
-    return_code = response.get("return_code")
+    return_code = response.get("terraform_return_code")
     if (return_code) != 0:
-        self.update_state(state=states.FAILURE, meta={'return_code': return_code})
-        raise Exception(f'run_terraform returned unexpected response code: {return_code}')
-    self.update_state(state=states.SUCCESS)
+        self.update_state(state=states.FAILURE)
+    else:
+        self.update_state(state=states.SUCCESS)
     return response
 
 
