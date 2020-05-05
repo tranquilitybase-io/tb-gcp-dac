@@ -90,7 +90,9 @@ def create_solution_result(taskid):
     status = AsyncResult(taskid).status
     if status == states.SUCCESS:
         retval = AsyncResult(taskid).get(timeout=1.0)
-        return retval
+        tf_state = retval["tf_state"]
+        return_code = retval["return_code"]
+        return {'status': status, "tf_state": tf_state, "return_code": return_code}
     else:
         return {'status': status}
 
@@ -100,7 +102,8 @@ def delete_solution_result(taskid):
     status = AsyncResult(taskid).status
     if status == states.SUCCESS:
         retval = AsyncResult(taskid).get(timeout=1.0)
-        return retval
+        return_code = retval["return_code"]
+        return {'status': status, "return_code": return_code}
     else:
         return {'status': status}
 

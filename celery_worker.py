@@ -10,6 +10,7 @@ celery_app = get_celery()
 
 logger = get_logger('worker')
 
+
 @celery_app.task()
 def add_two_numbers(a, b):
     logger.debug("add %s + %s", a, b)
@@ -22,7 +23,7 @@ def deploy_solution_task(self, solutionDetails):
     response = run_terraform(solutionDetails, "apply")
     return_code = response.get("return_code")
     if (return_code) != 0:
-        self.update_state(state=states.FAILURE)
+        self.update_state(state=states.FAILURE, meta={'return_code': return_code})
         raise Exception(f'run_terraform returned unexpected response code: {return_code}')
     self.update_state(state=states.SUCCESS)
     return response
@@ -34,7 +35,7 @@ def destroy_solution_task(self, solutionDetails):
     response = run_terraform(solutionDetails, "destroy")
     return_code = response.get("return_code")
     if (return_code) != 0:
-        self.update_state(state=states.FAILURE)
+        self.update_state(state=states.FAILURE, meta={'return_code': return_code})
         raise Exception(f'run_terraform returned unexpected response code: {return_code}')
     self.update_state(state=states.SUCCESS)
     return response
