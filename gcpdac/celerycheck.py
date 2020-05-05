@@ -2,7 +2,7 @@ from celery.result import AsyncResult
 from flask import request, jsonify
 
 import config
-from celery_worker import add_two_numbers
+from gcpdac.celery_tasks import add_two_numbers
 logger = config.logger
 
 def add_together():

@@ -29,7 +29,6 @@ def make_celery(name):
         config_source=celeryconfig
 
     )
-    # celery.config_from_object(celeryconfig)
 
     return celery
 

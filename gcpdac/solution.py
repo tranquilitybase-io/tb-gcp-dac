@@ -9,8 +9,8 @@ from celery.result import AsyncResult
 from flask import abort
 
 import config
+from  gcpdac.celery_tasks import deploy_solution_task, destroy_solution_task
 from gcpdac.solution_terraform import run_terraform
-from celery_worker import deploy_solution_task, destroy_solution_task
 
 logger = config.logger
 
