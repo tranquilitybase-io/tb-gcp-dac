@@ -57,4 +57,10 @@ variable "random_element" {
   description = "random element introduced to ensure uniqueness"
 }
 
+variable "billing_account" {
+  type        = string
+  description = "billing_account"
+}
+
+
 
