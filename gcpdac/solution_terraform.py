@@ -15,9 +15,10 @@
 import yaml
 from python_terraform import Terraform
 import config
-from gcpdac.utils import labellize
+from gcpdac.utils import labellize, random_element
 
 logger = config.logger
+
 
 def run_terraform(solutiondata, terraform_command):
     # builds and destroys solution
@@ -48,6 +49,8 @@ def run_terraform(solutiondata, terraform_command):
     tf_data['root_id'] = config['applications_folder_id']
     tb_discriminator = config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
+    # added to ensure all resources can be deleted and recreated
+    tf_data['random_element'] = random_element(num_chars=6)
 
     backend_prefix = str(solution_id) + '-' + tb_discriminator
     tf_data['solution_name'] = solution_name
@@ -72,6 +75,7 @@ def run_terraform(solutiondata, terraform_command):
         return terraform_apply(env_data, tf)
     else:
         return terraform_destroy(env_data, tf)
+
 
 def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):
     return_code, stdout, stderr = tf.init(capture_output=False,

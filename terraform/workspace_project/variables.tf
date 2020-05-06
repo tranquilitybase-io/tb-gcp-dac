@@ -46,3 +46,8 @@ variable "business_unit" {
   type        = string
   description = "business_unit"
 }
+
+variable "random_element" {
+  type        = string
+  description = "random element introduced to ensure uniqueness"
+}
