@@ -4,27 +4,27 @@ services:
   gcp-dac:
     container_name: gcp-dac
     image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
+    #    build:
+    #      context: .
+    #      dockerfile: Dockerfile
     ports:
       - 3100:3100
     links:
       - redis
     depends_on:
       - redis
-#    restart: always
+    #    restart: always
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
     volumes:
-      # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
-      #      - <CREDENTIALS FILE>:/credentials.json
-      - C:\dev\tb-gcp-dac\credentials.json:/credentials.json:ro
-      # ec-config.yaml contains details of resources created during landing zone deployment - see ec-config-example.yaml for what gets passed in
-      #      - <EC CONFIG FILE>:/credentials.json
-      - C:\dev\tb-gcp-dac\ec-config.yaml:/app/ec-config.yaml:ro
+      # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file - example below
+      # - C:\dev\tb-gcp-dac\credentials.json:/credentials.json:ro
+      - <CREDENTIALS FILE>:/credentials.json
+      # replace <EC CONFIG FILE> with the location of the file - example below
+      #      - C:\dev\tb-gcp-dac\ec-config.yaml:/app/ec-config.yaml:ro
+      - <EC CONFIG FILE>:/app/ec-config.yaml:ro
 
   redis:
     container_name: redis
@@ -37,22 +37,22 @@ services:
   worker:
     container_name: gcp-dac-worker
     image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
-#    build:
-#      context: .
-#      dockerfile: Dockerfile
+    #    build:
+    #      context: .
+    #      dockerfile: Dockerfile
     hostname: worker
-    command: celery -A celery_worker worker
+    command:  celery -E -A celery_worker worker --loglevel=info
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
     volumes:
-      # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
-      #      - <CREDENTIALS FILE>:/credentials.json
-      - C:/dev/tb-gcp-dac/credentials.json:/credentials.json:ro
-      # ec-config.yaml contains details of resources created during landing zone deployment - see ec-config-example.yaml for what gets passed in
-      #      - <EC CONFIG FILE>:/credentials.json
-      - C:/dev/tb-gcp-dac/ec-config.yaml:/app/ec-config.yaml:ro
+      # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file - example below
+      # - C:\dev\tb-gcp-dac\credentials.json:/credentials.json:ro
+      - <CREDENTIALS FILE>:/credentials.json
+      # replace <EC CONFIG FILE> with the location of the file - example below
+      #      - C:\dev\tb-gcp-dac\ec-config.yaml:/app/ec-config.yaml:ro
+      - <EC CONFIG FILE>:/app/ec-config.yaml:ro
     links:
       - redis
     depends_on:

@@ -5,7 +5,7 @@ from flask_marshmallow import Marshmallow
 from gcpdac.local_logging import get_logger
 from gcpdac.utils import setDefaultGoogleCloudProject, make_celery
 
-logger = get_logger()
+logger = get_logger('tb-gcp-dac')
 logger.info("Logger initialised")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -26,7 +26,6 @@ ma = Marshmallow(app)
 setDefaultGoogleCloudProject()
 
 celery_app = make_celery(__name__)
-
 
 def get_celery():
     return celery_app
