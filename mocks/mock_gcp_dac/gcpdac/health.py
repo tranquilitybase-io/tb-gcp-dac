@@ -6,7 +6,7 @@ from gcpdac.extendedSchemas import HealthSchema
 
 def check():
     """
-    :return: 200 on success
+    :return: 200 on success.
     """
 
     status = { "status": "Healthy" }
