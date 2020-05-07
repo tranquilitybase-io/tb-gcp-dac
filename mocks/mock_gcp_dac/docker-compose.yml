@@ -1,0 +1,85 @@
+version: '3.1'
+
+services:
+  gcp-dac:
+    container_name: gcp-dac
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+    ports:
+      - 3100:3100
+    links:
+      - redis
+    depends_on:
+      - redis
+#    restart: always
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
+      CELERY_BROKER_URL: redis://redis:6379
+      CELERY_RESULT_BACKEND: redis://redis:6379
+    volumes:
+      # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
+      #      - <CREDENTIALS FILE>:/credentials.json
+      - C:\dev\tb-gcp-dac\credentials.json:/credentials.json:ro
+      # ec-config.yaml contains details of resources created during landing zone deployment - see ec-config-example.yaml for what gets passed in
+      #      - <EC CONFIG FILE>:/credentials.json
+      - C:\dev\tb-gcp-dac\ec-config.yaml:/app/ec-config.yaml:ro
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    hostname: redis
+  #    volumes:
+  #      - redis.conf:/redis.conf
+  #    command: [ "redis-server", "/redis.conf" ]
+
+  worker:
+    container_name: gcp-dac-worker
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
+#    build:
+#      context: .
+#      dockerfile: Dockerfile
+    hostname: worker
+    command: celery -A celery_worker worker
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
+      CELERY_BROKER_URL: redis://redis:6379
+      CELERY_RESULT_BACKEND: redis://redis:6379
+    volumes:
+      # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file
+      #      - <CREDENTIALS FILE>:/credentials.json
+      - C:/dev/tb-gcp-dac/credentials.json:/credentials.json:ro
+      # ec-config.yaml contains details of resources created during landing zone deployment - see ec-config-example.yaml for what gets passed in
+      #      - <EC CONFIG FILE>:/credentials.json
+      - C:/dev/tb-gcp-dac/ec-config.yaml:/app/ec-config.yaml:ro
+    links:
+      - redis
+    depends_on:
+      - redis
+      - gcp-dac
+#    restart: always
+
+#  mysql57:
+#    image: gcr.io/tranquility-base-images/tb-houston-mysql:alpha
+#    command: --default-authentication-plugin=mysql_native_password
+#    restart: always
+#    environment:
+#      MYSQL_ROOT_PASSWORD: my-secret-pw
+#      MYSQL_USER: eagle-user
+#      MYSQL_PASSWORD: eagle-user-secret-pw
+#      MYSQL_DATABASE: eagle_db
+#    ports:
+#    - '3306:3306'
+#
+#  houston-service:
+#    image: gcr.io/tranquility-base-images/tb-houston-service:alpha
+#    restart: always
+#    environment:
+#        SQLALCHEMY_DATABASE_URI: 'mysql+mysqlconnector://eagle-user:eagle-user-secret-pw@mysql57/eagle_db'
+#        SQLALCHEMY_ECHO: 'True'
+#        SQLALCHEMY_TRACK_MODIFICATIONS: 'True'
+#    depends_on:
+#        - mysql57
+#    ports:
+#      - 3000:3000
