@@ -25,26 +25,6 @@ class ModelTools():
         else:
             return dt.strftime("%Y-%m-%d %H:%M:%S")
 
-    @staticmethod
-    def load_json_array(s):
-        try:
-            return json.loads(s)
-        except Exception as e:
-            return []
-
-    @staticmethod
-    def json_dump(obj):
-        #return json.dumps(obj, indent=2, sort_keys=True)
-        return json.dumps(obj)
-
-    # simple redact function, used prior to logging
-    @staticmethod
-    def redact_dict(my_dict):
-        new_dict = my_dict.copy()
-        new_dict['username'] = "XXXXX"
-        new_dict['password'] = "XXXXX"
-        return new_dict
-
 class SolutionResponseSchema(Schema):
     id = fields.Integer()
     name = fields.Str()
