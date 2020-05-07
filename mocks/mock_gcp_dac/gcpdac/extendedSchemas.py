@@ -1,12 +1,18 @@
 from marshmallow import Schema, fields
 
 class HealthSchema(Schema):
+    """
+    Schema for health check.
+    """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
     status = fields.Str()
 
 class ResponseSchema(Schema):
+    """
+    Schema for HS Response.
+    """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
 
