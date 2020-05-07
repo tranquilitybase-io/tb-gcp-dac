@@ -1,7 +1,6 @@
 # Supports all actions concerning Solutions
 import json
 from pprint import pformat
-from flask import abort
 from config import app
 from config import counter
 
@@ -129,7 +128,7 @@ def delete(solutionDetails):
 
 def create_async(solutionDetails):
     """
-      Return just the task_id.
+    Return just the task_id.
     """
 
     app.logger.debug(pformat(solutionDetails))
@@ -143,7 +142,7 @@ def create_async(solutionDetails):
 
 def delete_async(oid):
     """
-      Return just the task_id.
+    Return just the task_id.
     """
     app.logger.debug("Id is {}".format(oid))
     taskid =  next_taskid()
