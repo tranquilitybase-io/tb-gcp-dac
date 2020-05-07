@@ -1,10 +1,7 @@
 # Supports all actions concerning Solutions
 import json
-import os
 from pprint import pformat
-import requests
 from flask import abort
-import json
 from config import app
 from config import counter
 
