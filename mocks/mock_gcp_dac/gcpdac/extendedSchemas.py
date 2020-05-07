@@ -10,7 +10,8 @@ class HealthSchema(Schema):
     status = fields.Str()
 
 class ResponseSchema(Schema):
-    """Schema for HS Response.
+    """
+    Schema for HS Response.
     """
     def __init__(self, **kwargs):
         super().__init__(**kwargs)
