@@ -3,6 +3,7 @@ import json
 from pprint import pformat
 from config import app
 from config import counter
+import random
 
 my_json = {'lineage': '7b590a8c-e4be-d8c6-6e00-57abbdfd3c3c',
  'outputs': {},
@@ -108,6 +109,16 @@ def next_taskid():
     taskid = f"MOCKTASKID{task_cnt}"
     return taskid
 
+def get_random_status():
+    r = random.randint(0, 10)
+    if r == 0:
+        status = "FAILURE"
+    elif r in (1, 2, 3, 4):
+        status = "STARTED"
+    elif r > 4:
+        status = "SUCCESS"
+    return status
+
 
 def create(solutionDetails):
     retval = {
@@ -159,7 +170,7 @@ def create_solution_result(taskid):
 
     retval = {
         "tf_return_code": 0,
-        "status": "SUCCESS",
+        "status": get_random_status(),
         "tf_state": my_json_s
     }
     return retval, 201
@@ -171,7 +182,7 @@ def delete_solution_result(taskid):
 
     retval = {
         "tf_return_code": 0,
-        "status": "SUCCESS",
+        "status": get_random_status(),
         "tf_state": my_json_s
     }
     return retval, 200
