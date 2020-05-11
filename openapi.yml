@@ -110,42 +110,6 @@ paths:
         "201":
           description: Successfully created a solution
 
-# TODO remove later - test methods for checking Celery, just adding 2 numbers
-  "/add_two_numbers/{taskid}":
-    get:
-      operationId: gcpdac.celerycheck.add_together_result
-      tags:
-        - celerycheck
-      summary: get celery result
-      description:  get celery result
-      parameters:
-        - name: taskid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successfully got result
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  sum:
-                    type: string
-
-  /add_two_numbers:
-    get:
-      operationId: gcpdac.celerycheck.add_together
-      tags:
-        - celerycheck
-      summary: call celery task
-      description: Call celery task
-      responses:
-        '200':
-          description: successfully call celery task
-
 servers:
   - url: /api
 components:

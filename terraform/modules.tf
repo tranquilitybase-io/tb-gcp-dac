@@ -20,6 +20,7 @@ module "workspace_project" {
   business_unit = var.business_unit
   cost_centre = var.cost_centre
   random_element = var.random_element
+  billing_account = var.billing_account
 }
 
 module "dev_environment" {
@@ -33,6 +34,7 @@ module "dev_environment" {
   cost_centre = var.cost_centre
   environment = "dev"
   random_element = var.random_element
+  billing_account = var.billing_account
 }
 
 
@@ -47,6 +49,7 @@ module "staging_environment" {
   cost_centre = var.cost_centre
   environment = "staging"
   random_element = var.random_element
+  billing_account = var.billing_account
 }
 
 module "prod_environment" {
@@ -60,4 +63,5 @@ module "prod_environment" {
   cost_centre = var.cost_centre
   environment = "prod"
   random_element = var.random_element
+  billing_account = var.billing_account
 }
