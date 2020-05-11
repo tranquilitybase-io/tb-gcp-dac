@@ -16,35 +16,6 @@ paths:
         '200':
           description: Successful
 
-  /solution/:
-    post:
-      operationId: gcpdac.solution.create
-      tags:
-        - solution
-      summary: Create a solution
-      description: Create solution in more detail - TODO
-      responses:
-        '201':
-          description: Successfully created a solution
-      requestBody:
-        $ref: "#/components/requestBodies/solution.solutionDetails"
-
-  "/solution/{oid}":
-    delete:
-      operationId: gcpdac.solution.delete
-      tags:
-        - solution
-      summary: delete a solution
-      description: delete a solution and its resources
-      parameters:
-        - name: oid
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Successfully deleted a solution
 
   /solution_async/:
     post:
@@ -109,42 +80,6 @@ paths:
       responses:
         "201":
           description: Successfully created a solution
-
-# TODO remove later - test methods for checking Celery, just adding 2 numbers
-  "/add_two_numbers/{taskid}":
-    get:
-      operationId: gcpdac.celerycheck.add_together_result
-      tags:
-        - celerycheck
-      summary: get celery result
-      description:  get celery result
-      parameters:
-        - name: taskid
-          in: path
-          required: true
-          schema:
-            type: string
-      responses:
-        "200":
-          description: Successfully got result
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  sum:
-                    type: string
-
-  /add_two_numbers:
-    get:
-      operationId: gcpdac.celerycheck.add_together
-      tags:
-        - celerycheck
-      summary: call celery task
-      description: Call celery task
-      responses:
-        '200':
-          description: successfully call celery task
 
 servers:
   - url: /api
