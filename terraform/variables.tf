@@ -30,7 +30,7 @@ variable "root_id" {
 variable "tb_discriminator" {
   type        = string
   default     = ""
-  description = "sufix added to the Tranquility Base folder allowing coexistence of other TBase instances within the same Organisation/Folder. Example: 'uat', 'dev-am'. Default value is empty so no suffix will be added."
+  description = "suffix added to the Tranquility Base folder allowing coexistence of other TBase instances within the same Organisation/Folder. Example: 'uat', 'dev-am'. Default value is empty so no suffix will be added."
 }
 
 variable "solution_name" {
@@ -47,3 +47,15 @@ variable "business_unit" {
   type        = string
   description = "business_unit"
 }
+
+variable "billing_account" {
+  type        = string
+  description = "billing_account"
+}
+
+variable "random_element" {
+  type        = string
+  description = "random element introduced to ensure uniqueness"
+}
+
+

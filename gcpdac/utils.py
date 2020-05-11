@@ -1,5 +1,7 @@
 import os
+import random
 import re
+import string
 
 import yaml
 from celery import Celery
@@ -31,6 +33,15 @@ def make_celery(name):
     )
 
     return celery
+
+
+def random_element(num_chars):
+    """
+    generates a random string of numbers and lower case letters
+    :type num_chars: int
+    """
+    characters: str = string.ascii_lowercase + string.digits
+    return ''.join(random.choice(characters) for i in range(num_chars))
 
 
 def labellize(labelText):

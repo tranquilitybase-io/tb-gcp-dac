@@ -18,17 +18,9 @@ logger = config.logger
 def create(solutionDetails):
     logger.debug(pformat(solutionDetails))
 
-    # TODO populate with data as well as True/False
     result = run_terraform(solutionDetails, "apply")
-    if result.get("return_code") == 0:
-        success = True
-    else:
-        success = False
-
-    if success == True:
-        # TODO populate from run_terraform
-        data = {}
-        return data, 201
+    if result.get("tf_return_code") == 0:
+        return result, 201
     else:
         abort(500, "Failed to deploy your solution")
 
@@ -38,12 +30,7 @@ def delete(oid):
 
     solutionDetails = {"id": oid}
     result = run_terraform(solutionDetails, "destroy")
-    if result.get("return_code") == 0:
-        success = True
-    else:
-        success = False
-
-    if success == True:
+    if result.get("tf_return_code") == 0:
         return {}, 200
     else:
         abort(500, "Failed to delete  your solution")

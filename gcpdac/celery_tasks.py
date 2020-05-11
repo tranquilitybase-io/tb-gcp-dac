@@ -8,12 +8,6 @@ celery_app = get_celery()
 
 logger = get_logger('worker')
 
-@celery_app.task()
-def add_two_numbers(a, b):
-    logger.debug("add %s + %s", a, b)
-    return a + b
-
-
 @celery_app.task(bind=True)
 def deploy_solution_task(self, solutionDetails):
     logger.debug("deploy_solution_task")

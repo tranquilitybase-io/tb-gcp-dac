@@ -47,4 +47,20 @@ variable "business_unit" {
   description = "business_unit"
 }
 
+variable "environment" {
+  type        = string
+  description = "environment e.g. DEV, STAGING, PROD"
+}
+
+variable "random_element" {
+  type        = string
+  description = "random element introduced to ensure uniqueness"
+}
+
+variable "billing_account" {
+  type        = string
+  description = "billing_account"
+}
+
+
 
