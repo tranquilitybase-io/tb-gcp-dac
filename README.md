@@ -1,4 +1,4 @@
-## GCP DAC: deploys Tranquility Base solutions and activatoras on the Google Cloud Platform
+## GCP DAC: deploys Tranquility Base Solutions and Activators on the Google Cloud Platform
 
 To run the GCP DAC locally, follow the instructions [here](https://github.com/tranquilitybase-io/tb-gcp-dac/wiki/RunServicesWithDocker) 
 
