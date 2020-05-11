@@ -16,35 +16,6 @@ paths:
         '200':
           description: Successful
 
-  /solution/:
-    post:
-      operationId: gcpdac.solution.create
-      tags:
-        - solution
-      summary: Create a solution
-      description: Create solution in more detail - TODO
-      responses:
-        '201':
-          description: Successfully created a solution
-      requestBody:
-        $ref: "#/components/requestBodies/solution.solutionDetails"
-
-  "/solution/{oid}":
-    delete:
-      operationId: gcpdac.solution.delete
-      tags:
-        - solution
-      summary: delete a solution
-      description: delete a solution and its resources
-      parameters:
-        - name: oid
-          in: path
-          required: true
-          schema:
-            type: integer
-      responses:
-        "200":
-          description: Successfully deleted a solution
 
   /solution_async/:
     post:
