@@ -170,9 +170,10 @@ def create_solution_result(taskid):
 
     retval = {
         "tf_return_code": 0,
-        "status": get_random_status(),
-        "tf_state": my_json_s
+        "status": get_random_status()
     }
+    if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
+        retval["tf_state"] = my_json_s
     return retval, 201
 
 
@@ -182,7 +183,8 @@ def delete_solution_result(taskid):
 
     retval = {
         "tf_return_code": 0,
-        "status": get_random_status(),
-        "tf_state": my_json_s
+        "status": get_random_status()
     }
+    if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
+        retval["tf_state"] = my_json_s
     return retval, 200
