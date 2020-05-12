@@ -58,4 +58,9 @@ variable "random_element" {
   description = "random element introduced to ensure uniqueness"
 }
 
+variable "environments" {
+  description = "Create projects for these environments"
+  type        = list(string)
+//  default     = ["dev", "staging", "prod"]
+}
 

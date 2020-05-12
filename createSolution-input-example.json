@@ -9,6 +9,7 @@
   "sourceControl": "source control",
   "environments": [
     "Development",
+    "QA",
     "Staging",
     "Production"
   ],
