@@ -35,7 +35,8 @@ def run_terraform(solutiondata, terraform_command):
     tf_data['cost_centre'] = labellizedCostCentre
     labellizedBusinessUnit = labellize(solutiondata.get("businessUnit", "NoneAsDelete"))
     tf_data['business_unit'] = labellizedBusinessUnit
-    tf_data['environments'] = solutiondata.get("environments")
+    envs: list = solutiondata.get("environments", list())
+    tf_data['environments'] = [x.lower() for x in envs]
     # TODO return the labellized versions
     config = read_config_map()
 
