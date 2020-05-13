@@ -19,13 +19,13 @@
 resource "google_project" "environment_project" {
   count = length(var.environments)
   name = var.project_name
-  project_id = lower("${var.environments[count.index]}-${var.random_element}-${var.tb_discriminator}")
+  project_id = "${var.environments[count.index]}-${var.random_element}-${var.tb_discriminator}"
   folder_id = var.folder_id
   billing_account = var.billing_account
   labels = {
     "cost_centre" = var.cost_centre,
     "business_unit" = var.business_unit
-    "environment" = lower(var.environments[count.index])
+    "environment" = var.environments[count.index]
   }
 }
 

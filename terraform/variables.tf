@@ -61,6 +61,5 @@ variable "random_element" {
 variable "environments" {
   description = "Create projects for these environments"
   type        = list(string)
-//  default     = ["dev", "staging", "prod"]
 }
 
