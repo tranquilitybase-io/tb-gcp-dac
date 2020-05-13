@@ -48,11 +48,16 @@ def labellize(labelText):
     # make text valid for a Google Cloud label
     # label rules here - https://cloud.google.com/compute/docs/labeling-resources
     # in summary - lower case characters, numbers, dash or hyphen. <= 63 characters
-    labelText = labelText.lower()
-    labelText = re.sub('[^0-9a-z-_]+', '-', labelText)
+    labelText = sanitize(labelText)
     firstChar = labelText[0]
     if firstChar.isnumeric() or firstChar == '-' or firstChar == '_':
         labelText = "a" + labelText
     if len(labelText) > 63:
         labelText = labelText[0:63]
     return labelText
+
+def sanitize(x):
+    # make lower case and replace characters above than alphanumeric, - and _
+    x = x.lower()
+    x = re.sub('[^0-9a-z-_]+', '-', x)
+    return x

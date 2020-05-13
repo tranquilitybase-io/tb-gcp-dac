@@ -13,18 +13,19 @@
 # limitations under the License.
 
 ###
-# Environment Project  Creation
+# Environment Project Creation - creates a project for each environment specified in environments array
 ###
 
 resource "google_project" "environment_project" {
+  count = length(var.environments)
   name = var.project_name
-  project_id = "${var.environment}-${var.random_element}-${var.tb_discriminator}"
+  project_id = "${var.environments[count.index]}-${var.random_element}-${var.tb_discriminator}"
   folder_id = var.folder_id
   billing_account = var.billing_account
   labels = {
     "cost_centre" = var.cost_centre,
     "business_unit" = var.business_unit
-    "environment" = var.environment
+    "environment" = var.environments[count.index]
   }
 }
 
