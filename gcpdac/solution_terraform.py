@@ -15,7 +15,7 @@
 import yaml
 from python_terraform import Terraform
 import config
-from gcpdac.utils import labellize, random_element
+from gcpdac.utils import labellize, random_element, sanitize
 
 logger = config.logger
 
@@ -36,7 +36,7 @@ def run_terraform(solutiondata, terraform_command):
     labellizedBusinessUnit = labellize(solutiondata.get("businessUnit", "NoneAsDelete"))
     tf_data['business_unit'] = labellizedBusinessUnit
     envs: list = solutiondata.get("environments", list())
-    tf_data['environments'] = [x.lower() for x in envs]
+    tf_data['environments'] = [sanitize(x) for x in envs]
     # TODO return the labellized versions
     config = read_config_map()
 
