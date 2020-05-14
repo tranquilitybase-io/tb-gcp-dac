@@ -57,7 +57,7 @@ jobs:
       shell: bash
       run: |
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        docker-compose -f docker_compose_cicd.yml up > docker_compose_cicd.log 2>&1 &
+        docker-compose -f docker-compose-cicd.yml up > docker-compose-cicd.log 2>&1 &
 
     - name: Give Services time to initialize (abort if elapsed time is greater than 10 minutes)
       shell: bash
@@ -65,10 +65,10 @@ jobs:
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac
         start_epoch="$(date -u +%s)"
         elapsed_seconds=0
-        until [ $(docker-compose -f docker_compose_cicd.yml ps | grep Up | wc -l) -eq 1 ] || [ $elapsed_seconds -ge 600 ]
+        until [ $(docker-compose -f docker-compose-cicd.yml ps | grep Up | wc -l) -eq 1 ] || [ $elapsed_seconds -ge 600 ]
         do
           sleep 30
-          docker-compose -f docker_compose_cicd.yml ps
+          docker-compose -f docker-compose-cicd.yml ps
           current_epoch="$(date -u +%s)"
           elapsed_seconds="$(($current_epoch-$start_epoch))"
           echo "Elapsed seconds: ${elapsed_seconds}"
@@ -85,4 +85,4 @@ jobs:
       shell: bash
       run: |
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        docker-compose -f docker_compose_cicd.yml down
+        docker-compose -f docker-compose-cicd.yml down
