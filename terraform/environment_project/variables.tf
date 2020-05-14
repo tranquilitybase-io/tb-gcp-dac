@@ -27,11 +27,6 @@ variable "tb_discriminator" {
   description = "suffix added to the Tranquility Base folder allowing coexistence of other TBase instances within the same Organisation/Folder. Example: 'uat', 'dev-am'. Default value is empty so no suffix will be added."
 }
 
-variable "project_name" {
-  type        = string
-  description = "name of the project to be created"
-}
-
 variable "folder_id" {
   type        = string
   description = "name of the folder id to put project in"
@@ -62,3 +57,8 @@ variable "environments" {
   description = "Create projects for these environments"
 }
 
+
+variable "solution_name" {
+  type        = string
+  description = "name of the solution to be created"
+}
