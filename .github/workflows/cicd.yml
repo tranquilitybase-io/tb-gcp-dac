@@ -1,5 +1,5 @@
 # This workflow will install Python dependencies, run tests and lint with a single version of Python.
-# Testing the building of the mock container and can response to the rest api health check.
+# Testing the building of the container images.
 # For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
 
 name: GCP DAC - CICD Workflow
@@ -50,39 +50,10 @@ jobs:
       shell: bash
       run: |
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        docker build -f Dockerfile_mock -t gcr.io/eagle-console-resources/tb-gcp-dac:ci .
-        docker push gcr.io/eagle-console-resources/tb-gcp-dac:ci
+        docker build -f Dockerfile .
 
-    - name: Start Docker Compose
+    - name: Build Mock GCP DAC Image
       shell: bash
       run: |
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        docker-compose -f docker-compose-cicd.yml up > docker-compose-cicd.log 2>&1 &
-
-    - name: Give Services time to initialize (abort if elapsed time is greater than 10 minutes)
-      shell: bash
-      run: |
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        start_epoch="$(date -u +%s)"
-        elapsed_seconds=0
-        until [ $(docker-compose -f docker-compose-cicd.yml ps | grep Up | wc -l) -eq 1 ] || [ $elapsed_seconds -ge 600 ]
-        do
-          sleep 30
-          docker-compose -f docker-compose-cicd.yml ps
-          current_epoch="$(date -u +%s)"
-          elapsed_seconds="$(($current_epoch-$start_epoch))"
-          echo "Elapsed seconds: ${elapsed_seconds}"
-        done
-
-    # Be careful, if services aren't given sufficient time to initialize the tests will fail.
-    - name: Test with pytest
-      run: |
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        pip install pytest
-        HOUSTON_SERVICE_URL="localhost:3000" pytest --rootdir tests
-
-    - name: Stop Docker Compose
-      shell: bash
-      run: |
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        docker-compose -f docker-compose-cicd.yml down
+        docker build -f Dockerfile_mock .
