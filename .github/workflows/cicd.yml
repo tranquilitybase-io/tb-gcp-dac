@@ -50,7 +50,7 @@ jobs:
       shell: bash
       run: |
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        docker build -t gcr.io/eagle-console-resources/tb-gcp-dac:ci .
+        docker build Dockerfile_mock -t gcr.io/eagle-console-resources/tb-gcp-dac:ci .
         docker push gcr.io/eagle-console-resources/tb-gcp-dac:ci
 
     - name: Start Docker Compose
@@ -65,7 +65,7 @@ jobs:
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac
         start_epoch="$(date -u +%s)"
         elapsed_seconds=0
-        until [ $(docker-compose -f docker_compose_cicd.yml ps | grep Up | wc -l) -eq 3 ] || [ $elapsed_seconds -ge 600 ]
+        until [ $(docker-compose -f docker_compose_cicd.yml ps | grep Up | wc -l) -eq 1 ] || [ $elapsed_seconds -ge 600 ]
         do
           sleep 30
           docker-compose -f docker_compose_cicd.yml ps

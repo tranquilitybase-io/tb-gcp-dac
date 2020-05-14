@@ -4,5 +4,7 @@ services:
   gcp-dac:
     image: gcr.io/eagle-console-resources/tb-gcp-dac:ci
     restart: always
+      environment:
+        GCP_DAC_URL: "http://localhost:3100"
     ports:
       - '3100:3100'
