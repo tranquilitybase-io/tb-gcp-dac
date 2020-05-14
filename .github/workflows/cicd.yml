@@ -5,8 +5,9 @@
 name: GCP DAC - CICD Workflow
 
 on:
-  pull_request:
-    branches: [ master ]
+  push
+#  pull_request:
+#    branches: [ master ]
 
 jobs:
   build:
