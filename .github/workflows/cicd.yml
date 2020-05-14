@@ -50,7 +50,7 @@ jobs:
       shell: bash
       run: |
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        docker build Dockerfile_mock -t gcr.io/eagle-console-resources/tb-gcp-dac:ci .
+        docker build -f Dockerfile_mock -t gcr.io/eagle-console-resources/tb-gcp-dac:ci .
         docker push gcr.io/eagle-console-resources/tb-gcp-dac:ci
 
     - name: Start Docker Compose
