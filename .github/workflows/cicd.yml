@@ -1,0 +1,87 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python.
+# Testing the building of the container and can response to the rest api health check.
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: GCP DAC - CICD Workflow
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    ### Continuous Integration
+    runs-on: ubuntu-latest
+    steps:
+    - name: Extract current branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+    - name: Echo Branch Name
+      shell: bash
+      run: |
+        echo Branch name: ${{ steps.extract_branch.outputs.branch }}
+    - uses: actions/checkout@v2
+      with:
+        repository: tranquilitybase-io/tb-gcp-dac
+        path: tb-gcp-dac
+        fetch-depth: 0
+    - name: Set up Python 3.6
+      uses: actions/setup-python@v1
+      with:
+        python-version: 3.6
+    - name: Lint with flake8
+      run: |
+        pip install flake8
+        # stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
+
+    - name: Docker Login
+      uses: azure/docker-login@v1
+      with:
+        login-server:  https://gcr.io
+        username: '_json_key'
+        password: ${{ secrets.GCP_SA_KEY }}
+
+    - name: Build GCP DAC Image
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+        docker build -t gcr.io/eagle-console-resources/tb-gcp-dac:ci .
+        docker push gcr.io/eagle-console-resources/tb-gcp-dac:ci
+
+    - name: Start Docker Compose
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+        docker-compose -f docker_compose_cicd.yml up > docker_compose_cicd.log 2>&1 &
+
+    - name: Give Services time to initialize (abort if elapsed time is greater than 10 minutes)
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+        start_epoch="$(date -u +%s)"
+        elapsed_seconds=0
+        until [ $(docker-compose -f docker_compose_cicd.yml ps | grep Up | wc -l) -eq 3 ] || [ $elapsed_seconds -ge 600 ]
+        do
+          sleep 30
+          docker-compose -f docker_compose_cicd.yml ps
+          current_epoch="$(date -u +%s)"
+          elapsed_seconds="$(($current_epoch-$start_epoch))"
+          echo "Elapsed seconds: ${elapsed_seconds}"
+        done
+
+    # Be careful, if services aren't given sufficient time to initialize the tests will fail.
+    - name: Test with pytest
+      run: |
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+        pip install pytest
+        HOUSTON_SERVICE_URL="localhost:3000" pytest --rootdir tests
+
+    - name: Stop Docker Compose
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+        docker-compose -f docker_compose_cicd.yml down
