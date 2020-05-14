@@ -1,0 +1,50 @@
+# This workflow will install redoc-cli
+# and generate the static openapi html file.
+# The file is added, commited and pushed to the current branch.
+
+#name: GCP DAC Service - API documentation workflow
+name: api-docs
+
+on:
+  push:
+    branches-ignore: [ master ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - uses: actions/checkout@v2
+      with:
+        repository: tranquilitybase-io/tb-gcp-dac
+        path: .
+        fetch-depth: 0
+    - name: Install redoc-cli and generate API documentation
+      shell: bash
+      run: |
+        npm install redoc-cli
+        npx redoc-cli bundle openapi.yml --title "GCP DAC service REST API"
+        rm -fr node_modules
+        rm -fr package-lock.json
+    - name: git add, commit and push
+      shell: bash
+      run: |
+        git config user.email git.action@example.com
+        git config user.name "example"
+        chmod 777 redoc-static.html
+        mv redoc-static.html docs/index.html
+        # check if file changed
+        if ! git diff --no-ext-diff --quiet --exit-code docs/index.html; then
+          git add docs/index.html
+          git commit -m "Add automatically generated openapi static HTML documentation"
+        fi
+    - name: Extract current branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+    - name: Push changes
+      uses: ad-m/github-push-action@master
+      with:
+        branch: ${{ steps.extract_branch.outputs.branch }}
+        force: true
+        github_token: ${{ secrets.GITHUB_TOKEN }}
