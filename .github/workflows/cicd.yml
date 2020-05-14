@@ -1,0 +1,40 @@
+# This workflow will install Python dependencies, run tests and lint with a single version of Python.
+# Testing the building of the container images.
+# For more information see: https://help.github.com/actions/language-and-framework-guides/using-python-with-github-actions
+
+name: GCP DAC - CICD Workflow
+
+on:
+  pull_request:
+    branches: [ master ]
+
+jobs:
+  build:
+    ### Continuous Integration
+    runs-on: ubuntu-latest
+    steps:
+    - name: Extract current branch name
+      shell: bash
+      run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
+      id: extract_branch
+    - name: Echo Branch Name
+      shell: bash
+      run: |
+        echo Branch name: ${{ steps.extract_branch.outputs.branch }}
+    - uses: actions/checkout@v2
+      with:
+        repository: tranquilitybase-io/tb-gcp-dac
+        path: tb-gcp-dac
+        fetch-depth: 0
+
+    - name: Build GCP DAC Image
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+        docker build -f Dockerfile .
+
+    - name: Build Mock GCP DAC Image
+      shell: bash
+      run: |
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+        docker build -f Dockerfile_mock .
