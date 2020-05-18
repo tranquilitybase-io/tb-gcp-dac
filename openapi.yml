@@ -242,10 +242,8 @@ components:
       properties:
         status:
           type: string
-        folderStructure:
-          type: array
-          items:
-            $ref: '#/components/schemas/FolderItemResponse'
+        payload:
+          type: object
     FolderItem:
       type: object
       properties:

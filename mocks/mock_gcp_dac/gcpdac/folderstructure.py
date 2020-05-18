@@ -25,10 +25,12 @@ my_json = {
 
 my_json = json.dumps(my_json, separators=(',', ':'))
 
+
 def next_taskid():
     task_cnt = next(counter)
     taskid = f"MOCKTASKID{task_cnt}"
     return taskid
+
 
 def get_random_status():
     r = random.randint(0, 10)
@@ -47,7 +49,7 @@ def create_async(folderstructureDetails):
     """
 
     app.logger.debug(pformat(folderstructureDetails))
-    taskid =  next_taskid()
+    taskid = next_taskid()
     app.logger.info("Task ID %s", taskid)
     context = {
         "taskid": f"{taskid}"
@@ -60,7 +62,7 @@ def delete_async(oid):
     Return just the task_id.
     """
     app.logger.debug("Id is {}".format(oid))
-    taskid =  next_taskid()
+    taskid = next_taskid()
     app.logger.info("Task ID %s", taskid)
     context = {
         "taskid": f"{taskid}"
