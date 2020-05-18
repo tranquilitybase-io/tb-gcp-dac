@@ -27,4 +27,3 @@ resource "google_project" "workspace_project" {
   }
 }
 
-

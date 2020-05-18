@@ -13,7 +13,7 @@
 # limitations under the License.
 
 
-//output "project_number" {
-//  description = "Number for the project created"
-//  value       = google_project.environment_project[count.index].number
-//}
+output "project_number" {
+  description = "Number for the project created"
+  value       = google_project.environment_project.*.number
+}

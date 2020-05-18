@@ -62,7 +62,7 @@ def run_terraform(solutiondata, terraform_command):
     region_zone = region + "-b"
     tf_data['region_zone'] = region_zone
 
-    terraform_source_path = '/app/terraform/'  # this should be the param to python script
+    terraform_source_path = '/app/terraform/solution_creation'  # this should be the param to python script
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
     terraform_state_bucket = ec_config['terraform_state_bucket']
