@@ -27,8 +27,13 @@ paths:
       responses:
         '201':
           description: Successfully started a solution creation task
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/TaskResponse'          
       requestBody:
         $ref: "#/components/requestBodies/solution.solutionDetails"
+        
 
   "/solution_async/{oid}":
     delete:
@@ -165,6 +170,12 @@ components:
             x-body-name: folderstructureDetails
             $ref: "#/components/schemas/FolderStructure"
   schemas:
+    TaskResponse:
+      type: object
+      properties:
+        taskId:
+          type: string
+          description: The task Id 
     Solution:
       type: object
       properties:
@@ -212,6 +223,13 @@ components:
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+
+    SolutionDeploymentResponse:
+      type: object
+      properties:
+        status:
+          type: string
+              
     FolderStructure:
       type: object
       properties:
@@ -222,6 +240,8 @@ components:
     FolderStructureResponse:
       type: object
       properties:
+        status:
+          type: string
         folderStructure:
           type: array
           items:
