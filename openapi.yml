@@ -26,7 +26,7 @@ paths:
       description: Create solution in more detail - TODO
       responses:
         '201':
-          description: Successfully created a solution
+          description: Successfully started a solution creation task
       requestBody:
         $ref: "#/components/requestBodies/solution.solutionDetails"
 
@@ -45,7 +45,7 @@ paths:
             type: integer
       responses:
         "200":
-          description: Successfully deleted a solution
+          description: Successfully started a solution deletion task
 
   "/solution_async/result/create/{taskid}":
     get:
@@ -79,8 +79,71 @@ paths:
             type: string
       responses:
         "201":
-          description: Successfully created a solution
+          description: Successfully deleted a solution
 
+  /folderstructure_async/:
+    post:
+      operationId: gcpdac.folderstructure.create_async
+      tags:
+        - folderstructure
+      summary: Create a folder structure
+      description: Create a folder structure
+      responses:
+        '201':
+          description: Successfully started a folder structure creation task
+      requestBody:
+        $ref: "#/components/requestBodies/folderstructure.folderstructureDetails"
+
+  "/folderstructure_async/{oid}":
+    delete:
+      operationId: gcpdac.folderstructure.delete_async
+      tags:
+        - folderstructure
+      summary: delete a folder structure
+      description: delete a folder structure and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a folder structure deletion task
+
+  "/folderstructure_async/result/create/{taskid}":
+    get:
+      operationId: gcpdac.folderstructure.create_folderstructure_result
+      tags:
+        - folderstructure
+      summary: get create folder structure result
+      description:  get create folder structure result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a folder structure
+
+  "/folderstructure_async/result/delete/{taskid}":
+    get:
+      operationId: gcpdac.folderstructure.delete_folderstructure_result
+      tags:
+        - folderstructure
+      summary: get delete folder structure result
+      description:  get delete foder structure result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a folder structure
 servers:
   - url: /api
 components:
@@ -91,6 +154,12 @@ components:
           schema:
             x-body-name: solutionDetails
             $ref: "#/components/schemas/Solution"
+    folderstructure.folderstructureDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: folderstructureDetails
+            $ref: "#/components/schemas/FolderStructure"
   schemas:
     Solution:
       type: object
@@ -139,3 +208,14 @@ components:
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+    FolderStructure:
+      type: array
+      items:
+        type: object
+        properties:
+          folder:
+            type: string
+            description: folder name
+          parentFolder:
+            type: string
+            description: parent folder name
