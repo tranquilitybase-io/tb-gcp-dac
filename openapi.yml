@@ -213,30 +213,49 @@ components:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
     FolderStructure:
-      type: array
-      items:
-        type: object
-        properties:
-          folder:
-            type: string
-            description: folder name
-          parentFolder:
-            type: string
-            description: parent folder name
+      type: object
+      properties:
+        folderStructure:
+          type: array
+          items:
+            $ref: '#/components/schemas/FolderItem'
     FolderStructureResponse:
-      type: array
-      items:
-        type: object
-        properties:
-          folder:
-            type: string
-            description: folder name
-          folderId:
-            type: string
-            description: folder id
-          parentFolder:
-            type: string
-            description: parent folder name
-          parentFolderId:
-            type: string
-            description: parent folder id
+      type: object
+      properties:
+        folderStructure:
+          type: array
+          items:
+            $ref: '#/components/schemas/FolderItemResponse'
+    FolderItem:
+      type: object
+      properties:
+        folder:
+          type: string
+          description: folder name
+        parentFolder:
+          type: string
+          description: parent folder name
+      example:
+        folder: 'ABC'
+        parentFolder: 'DEF'
+
+    FolderItemResponse:
+      type: object
+      properties:
+        folder:
+          type: string
+          description: folder name
+        folderId:
+          type: string
+          description: folder id
+        parentFolder:
+          type: string
+          description: parent folder name
+        parentFolderId:
+          type: string
+          description: parent folder id
+      example:
+        folder: 'ABC'
+        folderId: '23887462'
+        parentFolder: 'DEF'
+        parentFolderId: '2397237'
