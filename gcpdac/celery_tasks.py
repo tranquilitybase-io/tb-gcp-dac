@@ -31,4 +31,27 @@ def destroy_solution_task(self, solutionDetails):
         self.update_state(state=states.SUCCESS)
     return response
 
+@celery_app.task(bind=True)
+def deploy_folderstructure_task(self, folderstructureDetails):
+    logger.debug("deploy_folderstructure_task")
+    response = run_terraform(folderstructureDetails, "apply")
+    return_code = response.get("tf_return_code")
+    if (return_code) != 0:
+        self.update_state(state=states.FAILURE)
+    else:
+        self.update_state(state=states.SUCCESS)
+    return response
+
+
+@celery_app.task(bind=True)
+def destroy_folderstructure_task(self, folderstructureDetails):
+    logger.debug("destroy_folderstructure_task")
+    response = run_terraform(folderstructureDetails, "destroy")
+    return_code = response.get("tf_return_code")
+    if (return_code) != 0:
+        self.update_state(state=states.FAILURE)
+    else:
+        self.update_state(state=states.SUCCESS)
+    return response
+
 
