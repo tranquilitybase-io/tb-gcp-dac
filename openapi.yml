@@ -127,6 +127,10 @@ paths:
       responses:
         "201":
           description: Successfully created a folder structure
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/FolderStructureResponse'
 
   "/folderstructure_async/result/delete/{taskid}":
     get:
@@ -219,3 +223,20 @@ components:
           parentFolder:
             type: string
             description: parent folder name
+    FolderStructureResponse:
+      type: array
+      items:
+        type: object
+        properties:
+          folder:
+            type: string
+            description: folder name
+          folderId:
+            type: string
+            description: folder id
+          parentFolder:
+            type: string
+            description: parent folder name
+          parentFolderId:
+            type: string
+            description: parent folder id
