@@ -88,10 +88,17 @@ def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):
 
 
 def terraform_apply(env_data, tf: Terraform):
-    return_code, stdout, stderr = tf.apply(skip_plan=True, var_file=env_data, capture_output=True)
-    logger.debug('Terraform apply return code is {}'.format(return_code))
-    logger.debug('Terraform apply stdout is {}'.format(stdout))
-    logger.debug("Terraform apply stderr is {}".format(stderr))
+    retry_count = 0
+    return_code = 0
+    while retry_count < 3:
+        logger.debug("Try {}".format(retry_count))
+        return_code, stdout, stderr = tf.apply(skip_plan=True, var_file=env_data, capture_output=True)
+        logger.debug('Terraform apply return code is {}'.format(return_code))
+        logger.debug('Terraform apply stdout is {}'.format(stdout))
+        logger.debug("Terraform apply stderr is {}".format(stderr))
+        retry_count += 1
+        if return_code == 0:
+            break
     if return_code == 0:
         tf_state = terraform_show(tf)
     else:
