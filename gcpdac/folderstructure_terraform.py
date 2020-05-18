@@ -12,11 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-from python_terraform import Terraform
-
 import config
-from gcpdac.terraform_utils import terraform_init, terraform_destroy, terraform_apply
-from gcpdac.utils import random_element, read_config_map
 
 logger = config.logger
 
@@ -29,6 +25,6 @@ def run_terraform(folderstructuredata, terraform_command):
     tf_data = dict()
     folderStructure = folderstructuredata.get("folderStructure")
 
-    config = read_config_map()
+    ec_config = config.read_config_map()
 
     # TODO implement

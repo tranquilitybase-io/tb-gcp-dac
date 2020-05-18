@@ -8,9 +8,7 @@ from celery import Celery
 from google.cloud import storage
 
 import celeryconfig
-import config
 
-logger = config.logger
 
 def setDefaultGoogleCloudProject():
     with open('/app/ec-config.yaml') as f:
@@ -65,15 +63,3 @@ def sanitize(x):
     x = re.sub('[^0-9a-z-_]+', '-', x)
     return x
 
-def read_config_map():
-    # Returns the EC configuration as a dictionary
-    try:
-        with open("/app/ec-config.yaml", 'r') as stream:
-            try:
-                return yaml.safe_load(stream)
-            except yaml.YAMLError as exc:
-                logger.exception("Failed to parse EC YAML after successfully opening - {}".format(exc))
-                raise
-    except Exception:
-        logger.exception("Failed to load EC YAML file")
-        raise

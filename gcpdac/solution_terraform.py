@@ -16,7 +16,7 @@ from python_terraform import Terraform
 
 import config
 from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init
-from gcpdac.utils import labellize, random_element, sanitize, read_config_map
+from gcpdac.utils import labellize, random_element, sanitize
 
 logger = config.logger
 
@@ -38,17 +38,17 @@ def run_terraform(solutiondata, terraform_command):
     envs: list = solutiondata.get("environments", list())
     tf_data['environments'] = [sanitize(x) for x in envs]
     # TODO return the labellized versions
-    config = read_config_map()
+    ec_config = config.read_config_map()
 
-    region = config['region']
+    region = ec_config['region']
     tf_data['region'] = region
-    tf_data['activator_folder_id'] = config['activator_folder_id']
-    tf_data['billing_account'] = config['billing_account']
-    tf_data['shared_vpc_host_project'] = config['shared_vpc_host_project']
-    tf_data['shared_network_name'] = config['shared_network_name']
-    tf_data['shared_networking_id'] = config['shared_networking_id']
-    tf_data['root_id'] = config['activator_folder_id']
-    tb_discriminator = config['tb_discriminator']
+    tf_data['activator_folder_id'] = ec_config['activator_folder_id']
+    tf_data['billing_account'] = ec_config['billing_account']
+    tf_data['shared_vpc_host_project'] = ec_config['shared_vpc_host_project']
+    tf_data['shared_network_name'] = ec_config['shared_network_name']
+    tf_data['shared_networking_id'] = ec_config['shared_networking_id']
+    tf_data['root_id'] = ec_config['activator_folder_id']
+    tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
     # added to ensure all resources can be deleted and recreated
     tf_data['random_element'] = random_element(num_chars=6)
@@ -65,7 +65,7 @@ def run_terraform(solutiondata, terraform_command):
     terraform_source_path = '/app/terraform/'  # this should be the param to python script
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
-    terraform_state_bucket = config['terraform_state_bucket']
+    terraform_state_bucket = ec_config['terraform_state_bucket']
 
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
