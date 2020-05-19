@@ -65,9 +65,11 @@ def create_folder_result(taskid):
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
         logger.debug("retval %s", retval)
-        tf_outputs = retval["tf_outputs"]
+        tf_outputs: dict = retval["tf_outputs"]
+        del tf_outputs['folder']['type']
+        del tf_outputs['folder']['sensitive']
         return_code = retval["tf_return_code"]
-        payload = tf_outputs
+        payload = tf_outputs['folder']['value']
         if return_code > 0:
             status = states.FAILURE
             payload = {}

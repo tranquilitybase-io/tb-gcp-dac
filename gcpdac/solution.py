@@ -79,6 +79,12 @@ def create_solution_result(taskid):
         retval = AsyncResult(taskid).get(timeout=1.0)
         return_code = retval["tf_return_code"]
         tf_outputs = retval["tf_outputs"]
+        del tf_outputs['environment_projects']['type']
+        del tf_outputs['environment_projects']['sensitive']
+        del tf_outputs['workspace_project']['type']
+        del tf_outputs['workspace_project']['sensitive']
+        del tf_outputs['solution_folder']['type']
+        del tf_outputs['solution_folder']['sensitive']
         if return_code > 0:
             status = states.FAILURE
         return {'status': status, "payload": tf_outputs}
