@@ -18,6 +18,7 @@ from gcpdac.terraform_utils import terraform_init, terraform_apply, terraform_de
 
 logger = config.logger
 
+
 def create_folder(folderdata, terraform_command):
     # builds and destroys a folder structure
     # The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
@@ -25,25 +26,25 @@ def create_folder(folderdata, terraform_command):
     # Accepts JSON content-type input.
     # returns return code and response from terraform
     tf_data = dict()
-    folders = folderdata.get("folder")
-    logger.debug("folders is %s", folders)
-    tf_data['folder_name']=folders['folder']
-    tf_data['parent_folder_id']=folders['parentFolderId']
+    # TODO support full array
+    folder = folderdata.get("folder")[0]
+    logger.debug("folder is %s", folder)
+
+    folder_name = folder['folder']
+    tf_data['folder_name'] = folder_name
+    tf_data['parent_folder_id'] = folder['parentFolderId']
 
     ec_config = config.read_config_map()
 
     region = ec_config['region']
     tf_data['region'] = region
     tf_data['billing_account'] = ec_config['billing_account']
-    tf_data['shared_vpc_host_project'] = ec_config['shared_vpc_host_project']
-    tf_data['shared_network_name'] = ec_config['shared_network_name']
-    tf_data['shared_networking_id'] = ec_config['shared_networking_id']
     tf_data['root_id'] = ec_config['activator_folder_id']
     tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
     # added to ensure all resources can be deleted and recreated
 
-    backend_prefix = 'folders-' + tb_discriminator
+    backend_prefix = folder_name + '-' + tb_discriminator
 
     # TODO generate tfvars file from input - currently only region_zone in this file
     env_data = '/app/terraform/input.tfvars'
