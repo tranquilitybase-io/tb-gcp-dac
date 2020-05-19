@@ -23,10 +23,10 @@ paths:
       tags:
         - solution
       summary: Create a solution
-      description: Create solution in more detail - TODO
+      description: Create solution
       responses:
         '201':
-          description: Successfully created a solution
+          description: Successfully started a solution creation task
       requestBody:
         $ref: "#/components/requestBodies/solution.solutionDetails"
 
@@ -45,7 +45,7 @@ paths:
             type: integer
       responses:
         "200":
-          description: Successfully deleted a solution
+          description: Successfully started a solution deletion task
 
   "/solution_async/result/create/{taskid}":
     get:
@@ -79,8 +79,71 @@ paths:
             type: string
       responses:
         "201":
-          description: Successfully created a solution
+          description: Successfully deleted a solution
 
+  /folder_async/:
+    post:
+      operationId: gcpdac.folder.create_async
+      tags:
+        - folder
+      summary: Create a folder
+      description: Create a folder
+      responses:
+        '201':
+          description: Successfully started a folder creation task
+      requestBody:
+        $ref: "#/components/requestBodies/folder.folderDetails"
+
+  "/folder_async/{oid}":
+    delete:
+      operationId: gcpdac.folder.delete_async
+      tags:
+        - folder
+      summary: delete a folder
+      description: delete a folder  and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a folder  deletion task
+
+  "/folder_async/result/create/{taskid}":
+    get:
+      operationId: gcpdac.folder.create_folder_result
+      tags:
+        - folder
+      summary: get create folder result
+      description:  get create folder result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a folder
+
+  "/folder_async/result/delete/{taskid}":
+    get:
+      operationId: gcpdac.folder.delete_folder_result
+      tags:
+        - folder
+      summary: get delete folder result
+      description:  get delete folder result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a folder
 servers:
   - url: /api
 components:
@@ -91,6 +154,12 @@ components:
           schema:
             x-body-name: solutionDetails
             $ref: "#/components/schemas/Solution"
+    folder.folderDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: folderDetails
+            $ref: "#/components/schemas/Folder"
   schemas:
     Solution:
       type: object
@@ -139,3 +208,23 @@ components:
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+    Folder:
+      type: object
+      properties:
+        folder:
+          type: array
+          items:
+            $ref: '#/components/schemas/FolderItem'
+    FolderItem:
+      type: object
+      properties:
+        folder:
+          type: string
+          description: folder name
+        parentFolderId:
+          type: string
+          description: parent folder id
+      example:
+        folder: 'ABC'
+        parentFolder: '236823'
+
