@@ -9,7 +9,7 @@ from celery.result import AsyncResult
 from flask import abort
 
 import config
-from  gcpdac.celery_tasks import deploy_solution_task, destroy_solution_task
+from gcpdac.celery_tasks import deploy_solution_task, destroy_solution_task
 from gcpdac.solution_terraform import run_terraform
 
 logger = config.logger
@@ -79,9 +79,10 @@ def create_solution_result(taskid):
         retval = AsyncResult(taskid).get(timeout=1.0)
         tf_state = retval["tf_state"]
         return_code = retval["tf_return_code"]
+        tf_outputs = retval["tf_outputs"]
         if return_code > 0:
             status = states.FAILURE
-        return {'status': status, "tf_state": tf_state, "tf_return_code": return_code}
+        return {'status': status, "tf_outputs": tf_outputs, "tf_state": tf_state, "tf_return_code": return_code}
     else:
         return {'status': status}
 

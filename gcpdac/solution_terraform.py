@@ -37,12 +37,10 @@ def run_terraform(solutiondata, terraform_command):
     tf_data['business_unit'] = labellizedBusinessUnit
     envs: list = solutiondata.get("environments", list())
     tf_data['environments'] = [sanitize(x) for x in envs]
-    # TODO return the labellized versions
     ec_config = config.read_config_map()
 
     region = ec_config['region']
     tf_data['region'] = region
-    tf_data['activator_folder_id'] = ec_config['activator_folder_id']
     tf_data['billing_account'] = ec_config['billing_account']
     tf_data['shared_vpc_host_project'] = ec_config['shared_vpc_host_project']
     tf_data['shared_network_name'] = ec_config['shared_network_name']
@@ -56,7 +54,7 @@ def run_terraform(solutiondata, terraform_command):
     backend_prefix = str(solution_id) + '-' + tb_discriminator
     tf_data['solution_name'] = solution_name
 
-    # TODO generate tfvars file from input - currently only region_zone in this file
+    # TODO generate tfvars file from input - cu rrently only region_zone in this file
     env_data = '/app/terraform/input.tfvars'
     # TODO pass region_zone in
     region_zone = region + "-b"

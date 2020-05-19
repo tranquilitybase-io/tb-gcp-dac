@@ -16,3 +16,8 @@ output "project_number" {
   description = "Number for the project created"
   value       = google_project.workspace_project.number
 }
+
+output "project" {
+  description = "project created"
+  value       = google_project.workspace_project
+}
