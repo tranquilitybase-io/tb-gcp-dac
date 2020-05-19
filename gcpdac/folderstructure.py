@@ -42,12 +42,7 @@ def create_async(folderstructureDetails):
 
     context = {"taskid": result.task_id}
 
-    # TODO handle celery failure
-    success = True
-    if success == True:
-        return context, 201
-    else:
-        abort(500, "Failed to create your solution")
+    return context, 201
 
 
 def delete_async(oid):
@@ -61,12 +56,7 @@ def delete_async(oid):
 
     context = {"taskid": result.task_id}
 
-    # TODO handle celery failure
-    success = True
-    if success == True:
-        return context, 201
-    else:
-        abort(500, "Failed to delete your folder structure")
+    return context, 201
 
 
 def create_folderstructure_result(taskid):
@@ -75,10 +65,11 @@ def create_folderstructure_result(taskid):
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
         tf_state = retval["tf_state"]
+        tf_outputs = retval["tf_outputs"]
         return_code = retval["tf_return_code"]
         if return_code > 0:
             status = states.FAILURE
-        return {'status': status, "tf_state": tf_state, "tf_return_code": return_code}
+        return {'status': status, "tf_outputs": tf_outputs, "tf_state": tf_state, "tf_return_code": return_code}
     else:
         return {'status': status}
 
@@ -94,5 +85,3 @@ def delete_folderstructure_result(taskid):
         return {'status': status, "tf_return_code": return_code}
     else:
         return {'status': status}
-
-
