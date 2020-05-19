@@ -18,16 +18,18 @@ from gcpdac.terraform_utils import terraform_init, terraform_apply, terraform_de
 
 logger = config.logger
 
-def create_folder(folder):
+
+def create_folder(folderDetails):
     # builds and destroys a folder
     # The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
     # within a GCP project, as well as setting other properties like billing.
     # Accepts JSON content-type input.
     # returns return code and response from terraform
     tf_data = dict()
-    logger.debug("folder is %s", folder)
+    logger.debug("folder is %s", folderDetails)
+    folder = folderDetails.get('folder')
 
-    folder_name = folder['folder']
+    folder_name = folder['folderName']
     tf_data['folder_name'] = folder_name
     tf_data['parent_folder_id'] = folder['parentFolderId']
 
@@ -56,12 +58,11 @@ def create_folder(folder):
 
     return terraform_apply(env_data, tf)
 
-
 def delete_folder(folder):
     tf_data = dict()
     folder_name = folder.get("id")
     tf_data['folder_name'] = folder_name
-    tf_data['parent_folder_id'] = '0' # set but not used on destroy
+    tf_data['parent_folder_id'] = '0'  # set but not used on destroy
 
     ec_config = config.read_config_map()
     region = ec_config['region']

@@ -211,14 +211,7 @@ components:
     Folder:
       type: object
       properties:
-        folder:
-          type: array
-          items:
-            $ref: '#/components/schemas/FolderItem'
-    FolderItem:
-      type: object
-      properties:
-        folder:
+        folderName:
           type: string
           description: folder name
         parentFolderId:

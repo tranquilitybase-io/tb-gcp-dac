@@ -1,3 +1,3 @@
-output "tbase_folder" {
+output "folder" {
   value = module.tbase_folder
 }

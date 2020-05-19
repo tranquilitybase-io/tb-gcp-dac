@@ -12,12 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-output "tbase_folder_id" {
-  description = "tbase folder created."
-  value       = google_folder.tbase_folder.id
-}
-
-output "tbase_folder" {
-  description = "tbase folder created."
-  value       = google_folder.tbase_folder
+output "folder" {
+  description = "folder created."
+  value       = google_folder.folder
 }

@@ -33,23 +33,15 @@ def destroy_solution_task(self, solutionDetails):
     return response
 
 @celery_app.task(bind=True)
-def deploy_folder_task(self, folderDetails):
-    logger.debug("deploy_folder_task")
-    response_all = dict()
-    count = 1
-    for folder in folderDetails.get("folder"):
-        logger.debug("folder {}".format(folder))
-        response = create_folder(folder)
-        response_key = "response{}".format(count)
-        response_all[response_key] = response
-        count += 1
-
-    return response_all
+def create_folder_task(self, folderDetails):
+    logger.debug("create_folder_task")
+    response = create_folder(folderDetails)
+    return response
 
 
 @celery_app.task(bind=True)
-def destroy_folder_task(self, folderDetails):
-    logger.debug("destroy_folder_task")
+def delete_folder_task(self, folderDetails):
+    logger.debug("delete_folder_task")
     response = delete_folder(folderDetails)
     return_code = response.get("tf_return_code")
     if (return_code) != 0:

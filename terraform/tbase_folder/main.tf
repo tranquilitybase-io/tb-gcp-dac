@@ -12,7 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource "google_folder" "tbase_folder" {
+resource "google_folder" "folder" {
   display_name = var.folder_name
   parent = "folders/${var.parent_folder_id}"
 

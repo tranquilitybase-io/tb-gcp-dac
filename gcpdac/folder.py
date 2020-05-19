@@ -6,15 +6,16 @@ from celery.result import AsyncResult
 from flask import abort
 
 import config
-from gcpdac.celery_tasks import deploy_folder_task, destroy_folder_task
-from gcpdac.folder_terraform import create_folder
+from gcpdac.celery_tasks import create_folder_task, delete_folder_task
+from gcpdac.folder_terraform import create_folder, delete_folder
 
 logger = config.logger
+
 
 def create(folderDetails):
     logger.debug(pformat(folderDetails))
 
-    result = create_folder(folderDetails, "apply")
+    result = create_folder(folderDetails)
     if result.get("tf_return_code") == 0:
         return result, 201
     else:
@@ -25,7 +26,7 @@ def delete(oid):
     logger.debug("Id is {}".format(oid))
 
     folderDetails = {"id": oid}
-    result = create_folder(folderDetails, "destroy")
+    result = delete_folder(folderDetails)
     if result.get("tf_return_code") == 0:
         return {}, 200
     else:
@@ -35,7 +36,7 @@ def delete(oid):
 def create_async(folderDetails):
     logger.debug(pformat(folderDetails))
 
-    result = deploy_folder_task.delay(folderDetails=folderDetails)
+    result = create_folder_task.delay(folderDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -49,7 +50,7 @@ def delete_async(oid):
 
     folderDetails = {"id": oid}
 
-    result = destroy_folder_task.delay(folderDetails=folderDetails)
+    result = delete_folder_task.delay(folderDetails=folderDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -63,17 +64,13 @@ def create_folder_result(taskid):
     status = AsyncResult(taskid).status
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
-        logger.debug("retval %s",retval)
-        # tf_state = retval["tf_state"]
-        # tf_outputs = retval["tf_outputs"]
-        # return_code = retval["tf_return_code"]
-        # TODO check through all folder creation responses
-        return_code = 0
-        # TODO build payload
-        # payload = {"HERE":"here"}
-        payload = retval
+        logger.debug("retval %s", retval)
+        tf_outputs = retval["tf_outputs"]
+        return_code = retval["tf_return_code"]
+        payload = tf_outputs
         if return_code > 0:
             status = states.FAILURE
+            payload = {}
         return {'status': status, "payload": payload}
     else:
         return {'status': status}
@@ -87,6 +84,6 @@ def delete_folder_result(taskid):
         return_code = retval["tf_return_code"]
         if return_code > 0:
             status = states.FAILURE
-        return {'status': status, "tf_return_code": return_code}
+        return {'status': status}
     else:
         return {'status': status}

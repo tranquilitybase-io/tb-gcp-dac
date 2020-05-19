@@ -77,12 +77,11 @@ def create_solution_result(taskid):
     status = AsyncResult(taskid).status
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
-        tf_state = retval["tf_state"]
         return_code = retval["tf_return_code"]
         tf_outputs = retval["tf_outputs"]
         if return_code > 0:
             status = states.FAILURE
-        return {'status': status, "tf_outputs": tf_outputs, "tf_state": tf_state, "tf_return_code": return_code}
+        return {'status': status, "payload": tf_outputs}
     else:
         return {'status': status}
 
