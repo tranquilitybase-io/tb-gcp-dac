@@ -26,7 +26,7 @@ def create_solution(solutiondata, terraform_command):
     # within a GCP project, as well as setting other properties like billing.
     # Accepts JSON content-type input.
     # returns return code and repsonse from terraform
-    tf_data = solutiondata
+    tf_data = dict()
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
     solution_name = solutiondata.get("name", "NoneAsDelete")

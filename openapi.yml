@@ -100,13 +100,13 @@ paths:
       tags:
         - folder
       summary: delete a folder
-      description: delete a folder  and its resources
+      description: delete a folder and its resources
       parameters:
         - name: oid
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
           description: Successfully started a folder deletion task
