@@ -12,23 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
-output "project_number" {
-  description = "Number for the project created"
-  value       = google_project.environment_project.*.number
-}
-
-output "project_name" {
-  description = "name for the project created"
-  value       = google_project.environment_project.*.name
-}
-
-output "project_id" {
-  description = "id for the project created"
-  value       = google_project.environment_project.*.id
-}
-
-output "projects" {
+output "environment_projects" {
   description = "project created"
   value       = google_project.environment_project.*
 }
