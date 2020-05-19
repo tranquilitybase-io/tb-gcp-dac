@@ -81,26 +81,26 @@ paths:
         "201":
           description: Successfully deleted a solution
 
-  /folderstructure_async/:
+  /folder_async/:
     post:
-      operationId: gcpdac.folderstructure.create_async
+      operationId: gcpdac.folder.create_async
       tags:
-        - folderstructure
-      summary: Create a folder structure
-      description: Create a folder structure
+        - folder
+      summary: Create a folder
+      description: Create a folder
       responses:
         '201':
-          description: Successfully started a folder structure creation task
+          description: Successfully started a folder creation task
       requestBody:
-        $ref: "#/components/requestBodies/folderstructure.folderstructureDetails"
+        $ref: "#/components/requestBodies/folder.folderDetails"
 
-  "/folderstructure_async/{oid}":
+  "/folder_async/{oid}":
     delete:
-      operationId: gcpdac.folderstructure.delete_async
+      operationId: gcpdac.folder.delete_async
       tags:
-        - folderstructure
-      summary: delete a folder structure
-      description: delete a folder structure and its resources
+        - folder
+      summary: delete a folder
+      description: delete a folder  and its resources
       parameters:
         - name: oid
           in: path
@@ -109,15 +109,15 @@ paths:
             type: integer
       responses:
         "200":
-          description: Successfully started a folder structure deletion task
+          description: Successfully started a folder deletion task
 
-  "/folderstructure_async/result/create/{taskid}":
+  "/folder_async/result/create/{taskid}":
     get:
-      operationId: gcpdac.folderstructure.create_folderstructure_result
+      operationId: gcpdac.folder.create_folder_result
       tags:
-        - folderstructure
-      summary: get create folder structure result
-      description:  get create folder structure result
+        - folder
+      summary: get create folder result
+      description:  get create folder result
       parameters:
         - name: taskid
           in: path
@@ -126,19 +126,15 @@ paths:
             type: string
       responses:
         "201":
-          description: Successfully created a folder structure
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/FolderStructureResponse'
+          description: Successfully created a folder
 
-  "/folderstructure_async/result/delete/{taskid}":
+  "/folder_async/result/delete/{taskid}":
     get:
-      operationId: gcpdac.folderstructure.delete_folderstructure_result
+      operationId: gcpdac.folder.delete_folder_result
       tags:
-        - folderstructure
-      summary: get delete folder structure result
-      description:  get delete foder structure result
+        - folder
+      summary: get delete folder result
+      description:  get delete folder result
       parameters:
         - name: taskid
           in: path
@@ -147,7 +143,7 @@ paths:
             type: string
       responses:
         "201":
-          description: Successfully deleted a folder structure
+          description: Successfully deleted a folder
 servers:
   - url: /api
 components:
@@ -158,12 +154,12 @@ components:
           schema:
             x-body-name: solutionDetails
             $ref: "#/components/schemas/Solution"
-    folderstructure.folderstructureDetails:
+    folder.folderDetails:
       content:
         application/json:
           schema:
-            x-body-name: folderstructureDetails
-            $ref: "#/components/schemas/FolderStructure"
+            x-body-name: folderDetails
+            $ref: "#/components/schemas/Folder"
   schemas:
     Solution:
       type: object
@@ -212,50 +208,23 @@ components:
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
-    FolderStructure:
+    Folder:
       type: object
       properties:
-        folderStructure:
+        folder:
           type: array
           items:
             $ref: '#/components/schemas/FolderItem'
-    FolderStructureResponse:
-      type: object
-      properties:
-        folderStructure:
-          type: array
-          items:
-            $ref: '#/components/schemas/FolderItemResponse'
     FolderItem:
       type: object
       properties:
         folder:
           type: string
           description: folder name
-        parentFolder:
-          type: string
-          description: parent folder name
-      example:
-        folder: 'ABC'
-        parentFolder: 'DEF'
-
-    FolderItemResponse:
-      type: object
-      properties:
-        folder:
-          type: string
-          description: folder name
-        folderId:
-          type: string
-          description: folder id
-        parentFolder:
-          type: string
-          description: parent folder name
         parentFolderId:
           type: string
           description: parent folder id
       example:
         folder: 'ABC'
-        folderId: '23887462'
-        parentFolder: 'DEF'
-        parentFolderId: '2397237'
+        parentFolderId: '236823'
+

@@ -1,8 +1,9 @@
 from celery import states
 
 from config import get_celery
+from gcpdac.folder_terraform import create_folder
 from gcpdac.local_logging import get_logger
-from gcpdac.solution_terraform import run_terraform
+from gcpdac.solution_terraform import create_solution
 
 celery_app = get_celery()
 
@@ -11,7 +12,7 @@ logger = get_logger('worker')
 @celery_app.task(bind=True)
 def deploy_solution_task(self, solutionDetails):
     logger.debug("deploy_solution_task")
-    response = run_terraform(solutionDetails, "apply")
+    response = create_solution(solutionDetails, "apply")
     return_code = response.get("tf_return_code")
     if (return_code) != 0:
         self.update_state(state=states.FAILURE)
@@ -23,7 +24,7 @@ def deploy_solution_task(self, solutionDetails):
 @celery_app.task(bind=True)
 def destroy_solution_task(self, solutionDetails):
     logger.debug("destroy_solution_task")
-    response = run_terraform(solutionDetails, "destroy")
+    response = create_solution(solutionDetails, "destroy")
     return_code = response.get("tf_return_code")
     if (return_code) != 0:
         self.update_state(state=states.FAILURE)
@@ -32,9 +33,9 @@ def destroy_solution_task(self, solutionDetails):
     return response
 
 @celery_app.task(bind=True)
-def deploy_folderstructure_task(self, folderstructureDetails):
-    logger.debug("deploy_folderstructure_task")
-    response = run_terraform(folderstructureDetails, "apply")
+def deploy_folder_task(self, folderDetails):
+    logger.debug("deploy_folder_task")
+    response = create_folder(folderDetails, "apply")
     return_code = response.get("tf_return_code")
     if (return_code) != 0:
         self.update_state(state=states.FAILURE)
@@ -44,9 +45,9 @@ def deploy_folderstructure_task(self, folderstructureDetails):
 
 
 @celery_app.task(bind=True)
-def destroy_folderstructure_task(self, folderstructureDetails):
-    logger.debug("destroy_folderstructure_task")
-    response = run_terraform(folderstructureDetails, "destroy")
+def destroy_folder_task(self, folderDetails):
+    logger.debug("destroy_folder_task")
+    response = create_folder(folderDetails, "destroy")
     return_code = response.get("tf_return_code")
     if (return_code) != 0:
         self.update_state(state=states.FAILURE)

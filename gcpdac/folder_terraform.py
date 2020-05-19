@@ -18,18 +18,17 @@ from gcpdac.terraform_utils import terraform_init, terraform_apply, terraform_de
 
 logger = config.logger
 
-def run_terraform(folderstructuredata, terraform_command):
+def create_folder(folderdata, terraform_command):
     # builds and destroys a folder structure
     # The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
     # within a GCP project, as well as setting other properties like billing.
     # Accepts JSON content-type input.
     # returns return code and response from terraform
     tf_data = dict()
-    folderStructure = folderstructuredata.get("folderStructure")
-
-    ec_config = config.read_config_map()
-
-    # TODO implement
+    folders = folderdata.get("folder")
+    logger.debug("folders is %s", folders)
+    tf_data['folder_name']=folders['folder']
+    tf_data['parent_folder_id']=folders['parentFolderId']
 
     ec_config = config.read_config_map()
 
@@ -46,13 +45,13 @@ def run_terraform(folderstructuredata, terraform_command):
 
     backend_prefix = 'folders-' + tb_discriminator
 
-    # TODO generate tfvars file from input - cu rrently only region_zone in this file
+    # TODO generate tfvars file from input - currently only region_zone in this file
     env_data = '/app/terraform/input.tfvars'
     # TODO pass region_zone in
     region_zone = region + "-b"
     tf_data['region_zone'] = region_zone
 
-    terraform_source_path = '/app/terraform/folder_structure_creation'
+    terraform_source_path = '/app/terraform/folder_creation'
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
     terraform_state_bucket = ec_config['terraform_state_bucket']

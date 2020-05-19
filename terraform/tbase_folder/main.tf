@@ -12,9 +12,9 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource "google_folder" "solution_folder" {
-  display_name = var.solution_name
-  parent = "folders/${var.root_id}"
+resource "google_folder" "tbase_folder" {
+  display_name = var.folder_name
+  parent = "folders/${var.parent_folder_id}"
 
 }
 

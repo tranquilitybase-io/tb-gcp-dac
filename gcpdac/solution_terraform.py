@@ -20,7 +20,7 @@ from gcpdac.utils import labellize, random_element, sanitize
 
 logger = config.logger
 
-def run_terraform(solutiondata, terraform_command):
+def create_solution(solutiondata, terraform_command):
     # builds and destroys solution
     # The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
     # within a GCP project, as well as setting other properties like billing.

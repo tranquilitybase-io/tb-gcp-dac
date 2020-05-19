@@ -10,7 +10,7 @@ from flask import abort
 
 import config
 from gcpdac.celery_tasks import deploy_solution_task, destroy_solution_task
-from gcpdac.solution_terraform import run_terraform
+from gcpdac.solution_terraform import create_solution
 
 logger = config.logger
 
@@ -18,7 +18,7 @@ logger = config.logger
 def create(solutionDetails):
     logger.debug(pformat(solutionDetails))
 
-    result = run_terraform(solutionDetails, "apply")
+    result = create_solution(solutionDetails, "apply")
     if result.get("tf_return_code") == 0:
         return result, 201
     else:
@@ -29,7 +29,7 @@ def delete(oid):
     logger.debug("Id is {}".format(oid))
 
     solutionDetails = {"id": oid}
-    result = run_terraform(solutionDetails, "destroy")
+    result = create_solution(solutionDetails, "destroy")
     if result.get("tf_return_code") == 0:
         return {}, 200
     else:

@@ -5,7 +5,6 @@ module "solution_folder" {
   root_id = var.root_id
   solution_name = var.solution_name
   tb_discriminator = var.tb_discriminator
-
 }
 
 module "workspace_project" {

@@ -1,4 +1,4 @@
-# Supports all actions concerning Folder Structure
+# Supports all actions concerning Folder 
 from pprint import pformat
 
 from celery import states
@@ -6,37 +6,36 @@ from celery.result import AsyncResult
 from flask import abort
 
 import config
-from gcpdac.celery_tasks import deploy_folderstructure_task, destroy_folderstructure_task
-from gcpdac.folderstructure_terraform import run_terraform
+from gcpdac.celery_tasks import deploy_folder_task, destroy_folder_task
+from gcpdac.folder_terraform import create_folder
 
 logger = config.logger
 
+def create(folderDetails):
+    logger.debug(pformat(folderDetails))
 
-def create(folderstructureDetails):
-    logger.debug(pformat(folderstructureDetails))
-
-    result = run_terraform(folderstructureDetails, "apply")
+    result = create_folder(folderDetails, "apply")
     if result.get("tf_return_code") == 0:
         return result, 201
     else:
-        abort(500, "Failed to deploy your folder structure")
+        abort(500, "Failed to deploy your folder ")
 
 
 def delete(oid):
     logger.debug("Id is {}".format(oid))
 
-    folderstructureDetails = {"id": oid}
-    result = run_terraform(folderstructureDetails, "destroy")
+    folderDetails = {"id": oid}
+    result = create_folder(folderDetails, "destroy")
     if result.get("tf_return_code") == 0:
         return {}, 200
     else:
-        abort(500, "Failed to delete  your folder structure")
+        abort(500, "Failed to delete  your folder ")
 
 
-def create_async(folderstructureDetails):
-    logger.debug(pformat(folderstructureDetails))
+def create_async(folderDetails):
+    logger.debug(pformat(folderDetails))
 
-    result = deploy_folderstructure_task.delay(folderstructureDetails=folderstructureDetails)
+    result = deploy_folder_task.delay(folderDetails=folderDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -48,9 +47,9 @@ def create_async(folderstructureDetails):
 def delete_async(oid):
     logger.debug("Id is {}".format(oid))
 
-    folderstructureDetails = {"id": oid}
+    folderDetails = {"id": oid}
 
-    result = destroy_folderstructure_task.delay(folderstructureDetails=folderstructureDetails)
+    result = destroy_folder_task.delay(folderDetails=folderDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -59,8 +58,8 @@ def delete_async(oid):
     return context, 201
 
 
-def create_folderstructure_result(taskid):
-    logger.info("CREATE FOLDER STRUCTURE RESULT %s", format(taskid))
+def create_folder_result(taskid):
+    logger.info("CREATE FOLDER RESULT %s", format(taskid))
     status = AsyncResult(taskid).status
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
@@ -74,8 +73,8 @@ def create_folderstructure_result(taskid):
         return {'status': status}
 
 
-def delete_folderstructure_result(taskid):
-    logger.info("DELETE FOLDER STRUCTURE RESULT %s", format(taskid))
+def delete_folder_result(taskid):
+    logger.info("DELETE FOLDER RESULT %s", format(taskid))
     status = AsyncResult(taskid).status
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)

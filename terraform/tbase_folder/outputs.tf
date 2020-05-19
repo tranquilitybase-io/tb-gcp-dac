@@ -12,10 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-resource "google_folder" "solution_folder" {
-  display_name = var.solution_name
-  parent = "folders/${var.root_id}"
-
+output "tbase_folder_id" {
+  description = "tbase folder created."
+  value       = google_folder.tbase_folder.id
 }
 
-
+output "tbase_folder" {
+  description = "tbase folder created."
+  value       = google_folder.tbase_folder
+}
