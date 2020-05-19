@@ -7,7 +7,7 @@ import random
 
 
 my_json = {
-  "folderStructure": [
+  "folder": [
     {
       "folder": "ABC",
       "folderId": "23887462",
@@ -43,12 +43,12 @@ def get_random_status():
     return status
 
 
-def create_async(folderstructureDetails):
+def create_async(folderDetails):
     """
     Return just the task_id.
     """
 
-    app.logger.debug(pformat(folderstructureDetails))
+    app.logger.debug(pformat(folderDetails))
     taskid = next_taskid()
     app.logger.info("Task ID %s", taskid)
     context = {
@@ -70,8 +70,8 @@ def delete_async(oid):
     return context, 200
 
 
-def create_folderstructure_result(taskid):
-    app.logger.info("CREATE FOLDER STRUCTURE RESULT %s", format(taskid))
+def create_folder_result(taskid):
+    app.logger.info("CREATE FOLDER RESULT %s", format(taskid))
     print(f"taskid: {taskid}")
 
     retval = {}
@@ -84,8 +84,8 @@ def create_folderstructure_result(taskid):
     return retval, 201
 
 
-def delete_folderstructure_result(taskid):
-    app.logger.info("DELETE FOLDER STRUCTURE RESULT %s", format(taskid))
+def delete_folder_result(taskid):
+    app.logger.info("DELETE FOLDER RESULT %s", format(taskid))
     print(f"taskid: {taskid}")
 
     retval = {}
