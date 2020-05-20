@@ -2,6 +2,7 @@ import os
 import random
 import re
 import string
+from contextlib import suppress
 
 import yaml
 from celery import Celery
@@ -58,8 +59,13 @@ def labellize(labelText):
     return labelText
 
 def sanitize(x):
-    # make lower case and replace characters above than alphanumeric, - and _
+    # make lower case and replace characters other than alphanumeric, - and _
     x = x.lower()
     x = re.sub('[^0-9a-z-_]+', '-', x)
     return x
+
+def remove_keys_from_dict(payload, keys_to_remove):
+    for key in keys_to_remove:
+        with suppress(KeyError):
+            del payload[key]
 
