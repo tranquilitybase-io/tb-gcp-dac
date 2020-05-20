@@ -1,5 +1,4 @@
 # Supports all actions concerning Folder
-from contextlib import suppress
 from pprint import pformat
 
 from celery import states

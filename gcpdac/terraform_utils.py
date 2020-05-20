@@ -26,7 +26,9 @@ def terraform_apply(env_data, tf: Terraform):
         if return_code == 0:
             break
     if return_code == 0:
-        code, tf_state, stdout1 = tf.show(json=True)
+        return_code, tf_state, stdout = tf.show(json=True)
+        logger.debug('Terraform show return code is {}'.format(return_code))
+        logger.debug('Terraform show stdout is {}'.format(stdout))
         tf_outputs = tf.output()
         for output_value in tf_outputs:
             logger.debug('Terraform output value is {}'.format(output_value))
