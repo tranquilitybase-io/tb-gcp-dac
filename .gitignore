@@ -148,3 +148,6 @@ dmypy.json
 /ec-config.yaml
 /credentials.json
 /createSolution-input-example.json
+.vscode/settings.json
+docker-compose-local.yml
+mocks/mock_gcp_dac/openapi.yml
