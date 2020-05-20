@@ -1,0 +1,37 @@
+{
+  "payload": {
+    "folder": {
+      "sensitive": false,
+      "type": [
+        "object",
+        {
+          "create_time": "string",
+          "display_name": "string",
+          "id": "string",
+          "lifecycle_state": "string",
+          "name": "string",
+          "parent": "string",
+          "timeouts": [
+            "object",
+            {
+              "create": "string",
+              "delete": "string",
+              "read": "string",
+              "update": "string"
+            }
+          ]
+        }
+      ],
+      "value": {
+        "create_time": "2020-05-20T08:29:08.132Z",
+        "display_name": "aaaa",
+        "id": "folders/929227299416",
+        "lifecycle_state": "ACTIVE",
+        "name": "folders/929227299416",
+        "parent": "folders/940168182397",
+        "timeouts": null
+      }
+    }
+  },
+  "status": "SUCCESS"
+}
