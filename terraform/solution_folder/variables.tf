@@ -22,7 +22,7 @@ variable "region_zone" {
   description = "zone name in the region provided."
 }
 
-variable "root_id" {
+variable "deployment_folder_id" {
   type        = string
   description = "id for the parent where the folder will be created."
 }

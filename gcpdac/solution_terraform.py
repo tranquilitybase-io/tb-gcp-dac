@@ -35,6 +35,7 @@ def create_solution(solutiondata, terraform_command):
     tf_data['cost_centre'] = labellizedCostCentre
     labellizedBusinessUnit = labellize(solutiondata.get("businessUnit", "NoneAsDelete"))
     tf_data['business_unit'] = labellizedBusinessUnit
+    tf_data['deployment_folder_id'] = solutiondata.get("deploymentFolderId")
     envs: list = solutiondata.get("environments", list())
     tf_data['environments'] = [sanitize(x) for x in envs]
     ec_config = config.read_config_map()
@@ -45,7 +46,6 @@ def create_solution(solutiondata, terraform_command):
     tf_data['shared_vpc_host_project'] = ec_config['shared_vpc_host_project']
     tf_data['shared_network_name'] = ec_config['shared_network_name']
     tf_data['shared_networking_id'] = ec_config['shared_networking_id']
-    tf_data['root_id'] = ec_config['activator_folder_id']
     tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
     # added to ensure all resources can be deleted and recreated

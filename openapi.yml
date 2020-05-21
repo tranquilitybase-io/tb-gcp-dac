@@ -185,6 +185,9 @@ components:
         cd:
           type: string
           description: cd
+        deploymentFolderId:
+          type: string
+          description: deployment folder id
         sourceControl:
           type: string
           description: sourceControl

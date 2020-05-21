@@ -14,7 +14,7 @@
 
 resource "google_folder" "solution_folder" {
   display_name = var.solution_name
-  parent = "folders/${var.root_id}"
+  parent = "folders/${var.deployment_folder_id}"
 
 }
 
