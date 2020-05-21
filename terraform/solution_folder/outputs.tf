@@ -13,6 +13,11 @@
 # limitations under the License.
 
 output "solution_id" {
-  description = "identifier for the solution folder created."
+  description = "solution folder created."
   value       = google_folder.solution_folder.name
+}
+
+output "solution_folder" {
+  description = "solution folder created."
+  value       = google_folder.solution_folder
 }

@@ -23,7 +23,7 @@ paths:
       tags:
         - solution
       summary: Create a solution
-      description: Create solution
+      description: Create solution in more detail - TODO
       responses:
         '201':
           description: Successfully started a solution creation task
@@ -100,16 +100,16 @@ paths:
       tags:
         - folder
       summary: delete a folder
-      description: delete a folder  and its resources
+      description: delete a folder and its resources
       parameters:
         - name: oid
           in: path
           required: true
           schema:
-            type: integer
+            type: string
       responses:
         "200":
-          description: Successfully started a folder  deletion task
+          description: Successfully started a folder deletion task
 
   "/folder_async/result/create/{taskid}":
     get:
@@ -211,14 +211,7 @@ components:
     Folder:
       type: object
       properties:
-        folder:
-          type: array
-          items:
-            $ref: '#/components/schemas/FolderItem'
-    FolderItem:
-      type: object
-      properties:
-        folder:
+        folderName:
           type: string
           description: folder name
         parentFolderId:
@@ -226,5 +219,5 @@ components:
           description: parent folder id
       example:
         folder: 'ABC'
-        parentFolder: '236823'
+        parentFolderId: '236823'
 

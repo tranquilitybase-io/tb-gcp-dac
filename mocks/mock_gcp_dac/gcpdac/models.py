@@ -3,7 +3,6 @@ from datetime import datetime
 from flask_marshmallow import Schema
 from marshmallow import fields
 
-
 class ModelTools():
 
     @staticmethod
@@ -24,7 +23,6 @@ class ModelTools():
             return datetime.utcnow().strftime(("%Y-%m-%d %H:%M:%S"))
         else:
             return dt.strftime("%Y-%m-%d %H:%M:%S")
-
 
 class SolutionResponseSchema(Schema):
     id = fields.Integer()

@@ -9,8 +9,9 @@ from celery.result import AsyncResult
 from flask import abort
 
 import config
-from  gcpdac.celery_tasks import deploy_solution_task, destroy_solution_task
-from gcpdac.solution_terraform import run_terraform
+from gcpdac.celery_tasks import deploy_solution_task, destroy_solution_task
+from gcpdac.solution_terraform import create_solution
+from gcpdac.utils import remove_keys_from_dict
 
 logger = config.logger
 
@@ -18,7 +19,7 @@ logger = config.logger
 def create(solutionDetails):
     logger.debug(pformat(solutionDetails))
 
-    result = run_terraform(solutionDetails, "apply")
+    result = create_solution(solutionDetails, "apply")
     if result.get("tf_return_code") == 0:
         return result, 201
     else:
@@ -29,7 +30,7 @@ def delete(oid):
     logger.debug("Id is {}".format(oid))
 
     solutionDetails = {"id": oid}
-    result = run_terraform(solutionDetails, "destroy")
+    result = create_solution(solutionDetails, "destroy")
     if result.get("tf_return_code") == 0:
         return {}, 200
     else:
@@ -77,11 +78,17 @@ def create_solution_result(taskid):
     status = AsyncResult(taskid).status
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
-        tf_state = retval["tf_state"]
         return_code = retval["tf_return_code"]
+        tf_outputs = retval["tf_outputs"]
         if return_code > 0:
             status = states.FAILURE
-        return {'status': status, "tf_state": tf_state, "tf_return_code": return_code}
+            payload = {}
+        else:
+            payload = tf_outputs
+            keys_to_remove = ("billing_account")
+            remove_keys_from_dict(payload, keys_to_remove)
+
+        return {'status': status, "payload": json.dumps(payload)}
     else:
         return {'status': status}
 

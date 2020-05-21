@@ -12,18 +12,7 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-###
-# Environment Project  Creation
-###
-
-resource "google_project" "workspace_project" {
-  name = "${var.solution_name}-workspace"
-  project_id = "workspace-${var.random_element}-${var.tb_discriminator}"
-  folder_id = var.folder_id
-  billing_account = var.billing_account
-  labels = {
-    "cost_centre" = var.cost_centre,
-    "business_unit" = var.business_unit
-  }
+output "folder" {
+  description = "folder created."
+  value       = google_folder.folder
 }
-

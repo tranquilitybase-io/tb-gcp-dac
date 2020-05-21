@@ -12,10 +12,6 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-###
-# Solution Folder Structure Creation
-###
-
 resource "google_folder" "solution_folder" {
   display_name = var.solution_name
   parent = "folders/${var.root_id}"

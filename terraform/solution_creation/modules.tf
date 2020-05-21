@@ -1,8 +1,5 @@
-# python app writes to this file to determine what modules get executed and how many times
-
-# example follows - this would be written by python app before terraform executed
 module "solution_folder" {
-  source = "./solution_folder"
+  source = "../solution_folder"
   region = var.region
   region_zone = var.region_zone
   root_id = var.root_id
@@ -11,7 +8,7 @@ module "solution_folder" {
 }
 
 module "workspace_project" {
-  source = "./workspace_project"
+  source = "../workspace_project"
   region = var.region
   region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
@@ -23,8 +20,9 @@ module "workspace_project" {
   solution_name = var.solution_name
 }
 
+
 module "environment_projects" {
-  source = "./environment_project"
+  source = "../environment_project"
   region = var.region
   region_zone = var.region_zone
   folder_id = module.solution_folder.solution_id
@@ -36,3 +34,4 @@ module "environment_projects" {
   environments = var.environments
   solution_name = var.solution_name
 }
+

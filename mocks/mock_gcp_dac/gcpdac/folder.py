@@ -5,26 +5,10 @@ from config import app
 from config import counter
 import random
 
-
-my_json = {
-  "folder": [
-    {
-      "folder": "ABC",
-      "folderId": "23887462",
-      "parentFolder": "DEF",
-      "parentFolderId": "2397237"
-    },
-    {
-      "folder": "GHI",
-      "folderId": "23887462",
-      "parentFolder": "ABC",
-      "parentFolderId": "23887462"
-    }
-  ]
-}
-
-my_json = json.dumps(my_json, separators=(',', ':'))
-
+folder_response_json = ""
+folder_response_file = "gcpdac/folder_response_example.json"
+with open(folder_response_file, "r") as fh:
+    folder_response_json = json.load(fh)
 
 def next_taskid():
     task_cnt = next(counter)
@@ -79,7 +63,7 @@ def create_folder_result(taskid):
     retval["status"] = status
 
     if status == "SUCCESS":
-        retval['payload'] = json.loads(my_json)
+        retval['payload'] = json.dumps(folder_response_json['payload'])
 
     return retval, 201
 
@@ -93,6 +77,6 @@ def delete_folder_result(taskid):
     retval["status"] = status
 
     if status == "SUCCESS":
-        retval['payload'] = json.loads(my_json)
+        retval['payload'] = json.dumps(folder_response_json['payload'])
 
     return retval, 200

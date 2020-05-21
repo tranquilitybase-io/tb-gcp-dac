@@ -1,0 +1,313 @@
+{
+  "payload": {
+    "environment_projects": {
+      "sensitive": false,
+      "type": [
+        "tuple",
+        [
+          [
+            "object",
+            {
+              "auto_create_network": "bool",
+              "billing_account": "string",
+              "folder_id": "string",
+              "id": "string",
+              "labels": [
+                "map",
+                "string"
+              ],
+              "name": "string",
+              "number": "string",
+              "org_id": "string",
+              "project_id": "string",
+              "skip_delete": "bool",
+              "timeouts": [
+                "object",
+                {
+                  "create": "string",
+                  "delete": "string",
+                  "read": "string",
+                  "update": "string"
+                }
+              ]
+            }
+          ],
+          [
+            "object",
+            {
+              "auto_create_network": "bool",
+              "billing_account": "string",
+              "folder_id": "string",
+              "id": "string",
+              "labels": [
+                "map",
+                "string"
+              ],
+              "name": "string",
+              "number": "string",
+              "org_id": "string",
+              "project_id": "string",
+              "skip_delete": "bool",
+              "timeouts": [
+                "object",
+                {
+                  "create": "string",
+                  "delete": "string",
+                  "read": "string",
+                  "update": "string"
+                }
+              ]
+            }
+          ],
+          [
+            "object",
+            {
+              "auto_create_network": "bool",
+              "billing_account": "string",
+              "folder_id": "string",
+              "id": "string",
+              "labels": [
+                "map",
+                "string"
+              ],
+              "name": "string",
+              "number": "string",
+              "org_id": "string",
+              "project_id": "string",
+              "skip_delete": "bool",
+              "timeouts": [
+                "object",
+                {
+                  "create": "string",
+                  "delete": "string",
+                  "read": "string",
+                  "update": "string"
+                }
+              ]
+            }
+          ],
+          [
+            "object",
+            {
+              "auto_create_network": "bool",
+              "billing_account": "string",
+              "folder_id": "string",
+              "id": "string",
+              "labels": [
+                "map",
+                "string"
+              ],
+              "name": "string",
+              "number": "string",
+              "org_id": "string",
+              "project_id": "string",
+              "skip_delete": "bool",
+              "timeouts": [
+                "object",
+                {
+                  "create": "string",
+                  "delete": "string",
+                  "read": "string",
+                  "update": "string"
+                }
+              ]
+            }
+          ],
+          [
+            "object",
+            {
+              "auto_create_network": "bool",
+              "billing_account": "string",
+              "folder_id": "string",
+              "id": "string",
+              "labels": [
+                "map",
+                "string"
+              ],
+              "name": "string",
+              "number": "string",
+              "org_id": "string",
+              "project_id": "string",
+              "skip_delete": "bool",
+              "timeouts": [
+                "object",
+                {
+                  "create": "string",
+                  "delete": "string",
+                  "read": "string",
+                  "update": "string"
+                }
+              ]
+            }
+          ]
+        ]
+      ],
+      "value": [
+        {
+          "auto_create_network": true,
+          "billing_account": "01A2F5-73127B-50AE5B",
+          "folder_id": "282083654038",
+          "id": "projects/development-1-h08aez-ksjs726s",
+          "labels": {
+            "business_unit": "bu-gft",
+            "cost_centre": "cc-gft",
+            "environment": "development-1"
+          },
+          "name": "sol999-development-1",
+          "number": "119312718634",
+          "org_id": "",
+          "project_id": "development-1-h08aez-ksjs726s",
+          "skip_delete": null,
+          "timeouts": null
+        },
+        {
+          "auto_create_network": true,
+          "billing_account": "REDACTED",
+          "folder_id": "282083654038",
+          "id": "projects/development-2-h08aez-ksjs726s",
+          "labels": {
+            "business_unit": "bu-gft",
+            "cost_centre": "cc-gft",
+            "environment": "development-2"
+          },
+          "name": "sol999-development-2",
+          "number": "878261862220",
+          "org_id": "",
+          "project_id": "development-2-h08aez-ksjs726s",
+          "skip_delete": null,
+          "timeouts": null
+        },
+        {
+          "auto_create_network": true,
+          "billing_account": "REDACTED",
+          "folder_id": "282083654038",
+          "id": "projects/staging-h08aez-ksjs726s",
+          "labels": {
+            "business_unit": "bu-gft",
+            "cost_centre": "cc-gft",
+            "environment": "staging"
+          },
+          "name": "sol999-staging",
+          "number": "971423854825",
+          "org_id": "",
+          "project_id": "staging-h08aez-ksjs726s",
+          "skip_delete": null,
+          "timeouts": null
+        },
+        {
+          "auto_create_network": true,
+          "billing_account": "REDACTED",
+          "folder_id": "282083654038",
+          "id": "projects/qa-h08aez-ksjs726s",
+          "labels": {
+            "business_unit": "bu-gft",
+            "cost_centre": "cc-gft",
+            "environment": "qa"
+          },
+          "name": "sol999-qa",
+          "number": "662646863463",
+          "org_id": "",
+          "project_id": "qa-h08aez-ksjs726s",
+          "skip_delete": null,
+          "timeouts": null
+        },
+        {
+          "auto_create_network": true,
+          "billing_account": "REDACTED",
+          "folder_id": "282083654038",
+          "id": "projects/production-h08aez-ksjs726s",
+          "labels": {
+            "business_unit": "bu-gft",
+            "cost_centre": "cc-gft",
+            "environment": "production"
+          },
+          "name": "sol999-production",
+          "number": "544667916764",
+          "org_id": "",
+          "project_id": "production-h08aez-ksjs726s",
+          "skip_delete": null,
+          "timeouts": null
+        }
+      ]
+    },
+    "solution_folder": {
+      "sensitive": false,
+      "type": [
+        "object",
+        {
+          "create_time": "string",
+          "display_name": "string",
+          "id": "string",
+          "lifecycle_state": "string",
+          "name": "string",
+          "parent": "string",
+          "timeouts": [
+            "object",
+            {
+              "create": "string",
+              "delete": "string",
+              "read": "string",
+              "update": "string"
+            }
+          ]
+        }
+      ],
+      "value": {
+        "create_time": "2020-05-20T08:05:09.507Z",
+        "display_name": "sol999",
+        "id": "folders/282083654038",
+        "lifecycle_state": "ACTIVE",
+        "name": "folders/282083654038",
+        "parent": "folders/940168182397",
+        "timeouts": null
+      }
+    },
+    "workspace_project": {
+      "sensitive": false,
+      "type": [
+        "object",
+        {
+          "auto_create_network": "bool",
+          "billing_account": "string",
+          "folder_id": "string",
+          "id": "string",
+          "labels": [
+            "map",
+            "string"
+          ],
+          "name": "string",
+          "number": "string",
+          "org_id": "string",
+          "project_id": "string",
+          "skip_delete": "bool",
+          "timeouts": [
+            "object",
+            {
+              "create": "string",
+              "delete": "string",
+              "read": "string",
+              "update": "string"
+            }
+          ]
+        }
+      ],
+      "value": {
+        "auto_create_network": true,
+        "billing_account": "REDACTED",
+        "folder_id": "282083654038",
+        "id": "projects/workspace-h08aez-ksjs726s",
+        "labels": {
+          "business_unit": "bu-gft",
+          "cost_centre": "cc-gft"
+        },
+        "name": "sol999-workspace",
+        "number": "3227416706",
+        "org_id": "",
+        "project_id": "workspace-h08aez-ksjs726s",
+        "skip_delete": null,
+        "timeouts": null
+      }
+    }
+  },
+  "status": "SUCCESS"
+}

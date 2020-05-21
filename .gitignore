@@ -140,7 +140,7 @@ dmypy.json
 
 # Terraform
 /terraform/input.auto.tfvars
-/terraform/input.tfvars
+#/terraform/input.tfvars
 /terraform/terraform.tfstate.backup
 /terraform/terraform.tfstate
 
