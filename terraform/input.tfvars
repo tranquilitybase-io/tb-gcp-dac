@@ -12,16 +12,5 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-# example values
-//region = "europe-west-2"
-//region_zone = "europe-west2-a"
-//root_id = "943956663445"
-//tb_discriminator = "sde"
-//solution_name = "sol777"
-//shared_vpc_host_project = "dac-test-vpc-cb495c4b"
-//environments = ["dev","prod"]
-//billing_account = "01A2F5-73127B-50AE5B"
-//cost_centre = "cc1"
-//business_unit = "bu1"
-//random_element = "kjadas"
+
 
