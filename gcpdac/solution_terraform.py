@@ -20,20 +20,16 @@ from gcpdac.utils import labellize, random_element, sanitize
 
 logger = config.logger
 
-def create_solution(solutiondata, terraform_command):
-    # builds and destroys solution
-    # The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
-    # within a GCP project, as well as setting other properties like billing.
-    # Accepts JSON content-type input.
-    # returns return code and repsonse from terraform
+
+def create_solution(solutiondata):
     tf_data = dict()
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
-    solution_name = solutiondata.get("name", "NoneAsDelete")
+    solution_name = solutiondata.get("name")
 
-    labellizedCostCentre = labellize(solutiondata.get("costCentre", "NoneAsDelete"))
+    labellizedCostCentre = labellize(solutiondata.get("costCentre"))
     tf_data['cost_centre'] = labellizedCostCentre
-    labellizedBusinessUnit = labellize(solutiondata.get("businessUnit", "NoneAsDelete"))
+    labellizedBusinessUnit = labellize(solutiondata.get("businessUnit"))
     tf_data['business_unit'] = labellizedBusinessUnit
     tf_data['deployment_folder_id'] = solutiondata.get("deploymentFolderId")
     envs: list = solutiondata.get("environments", list())
@@ -54,7 +50,7 @@ def create_solution(solutiondata, terraform_command):
     backend_prefix = str(solution_id) + '-' + tb_discriminator
     tf_data['solution_name'] = solution_name
 
-    # TODO generate tfvars file from input - cu rrently only region_zone in this file
+    # TODO remove dependency on this
     env_data = '/app/terraform/input.tfvars'
     # TODO pass region_zone in
     region_zone = region + "-b"
@@ -67,10 +63,47 @@ def create_solution(solutiondata, terraform_command):
 
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
-    if terraform_command.lower() == 'apply'.lower():
-        return terraform_apply(env_data, tf)
-    else:
-        return terraform_destroy(env_data, tf)
+    return terraform_apply(env_data, tf)
 
 
+def delete_solution(solutiondata):
+    tf_data = dict()
+    solution_id = solutiondata.get("id")
+    logger.debug("solution_id is %s", solution_id)
+    solution_name = solutiondata.get("name", "NoneAsDelete")
 
+    tf_data['cost_centre'] = labellize(solutiondata.get("costCentre", "NoneAsDelete"))
+    tf_data['business_unit'] = labellize(solutiondata.get("businessUnit", "NoneAsDelete"))
+    tf_data['deployment_folder_id'] = solutiondata.get("deploymentFolderId")
+    envs: list = solutiondata.get("environments", list())
+    tf_data['environments'] = [sanitize(x) for x in envs]
+    ec_config = config.read_config_map()
+
+    region = ec_config['region']
+    tf_data['region'] = region
+    tf_data['billing_account'] = ec_config['billing_account']
+    tf_data['shared_vpc_host_project'] = ec_config['shared_vpc_host_project']
+    tf_data['shared_network_name'] = ec_config['shared_network_name']
+    tf_data['shared_networking_id'] = ec_config['shared_networking_id']
+    tb_discriminator = ec_config['tb_discriminator']
+    tf_data['tb_discriminator'] = tb_discriminator
+    # added to ensure all resources can be deleted and recreated
+    tf_data['random_element'] = random_element(num_chars=6)
+
+    backend_prefix = str(solution_id) + '-' + tb_discriminator
+    tf_data['solution_name'] = solution_name
+
+    # TODO remove dependency on this
+    env_data = '/app/terraform/input.tfvars'
+    # TODO pass region_zone in
+    region_zone = region + "-b"
+    tf_data['region_zone'] = region_zone
+
+    terraform_source_path = '/app/terraform/solution_creation'
+
+    tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
+    terraform_state_bucket = ec_config['terraform_state_bucket']
+
+    terraform_init(backend_prefix, terraform_state_bucket, tf)
+
+    return terraform_destroy(env_data, tf)
