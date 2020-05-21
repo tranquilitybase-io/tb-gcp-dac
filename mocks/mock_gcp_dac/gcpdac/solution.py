@@ -27,23 +27,6 @@ def get_random_status():
     return status
 
 
-def create(solutionDetails):
-    retval = {
-        "tf_return_code": 0,
-        "status": "SUCCESS",
-        "tf_state": solution_response_json
-    }
-    return retval, 201
-
-
-def delete(solutionDetails):
-    retval = {
-        "tf_return_code": 0,
-        "status": "SUCCESS",
-    }
-    return retval, 200
-
-
 def create_async(solutionDetails):
     """
     Return just the task_id.
@@ -76,11 +59,10 @@ def create_solution_result(taskid):
     print(f"taskid: {taskid}")
 
     retval = {
-        "tf_return_code": 0,
         "status": get_random_status()
     }
     if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
-        retval["tf_state"] = solution_response_json
+        retval["payload"] = json.dumps(solution_response_json['payload'])
     return retval, 201
 
 
@@ -89,9 +71,8 @@ def delete_solution_result(taskid):
     print(f"taskid: {taskid}")
 
     retval = {
-        "tf_return_code": 0,
         "status": get_random_status()
     }
     if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
-        retval["tf_state"] = solution_response_json
+        retval["payload"] = json.dumps(solution_response_json['payload'])
     return retval, 200

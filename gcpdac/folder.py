@@ -75,7 +75,7 @@ def create_folder_result(taskid):
             payload = tf_outputs
             keys_to_remove = ("billing_account")
             remove_keys_from_dict(payload, keys_to_remove)
-        return {'status': status, "payload": payload}
+        return {'status': status, "payload": json.dumps(payload)}
     else:
         return {'status': status}
 

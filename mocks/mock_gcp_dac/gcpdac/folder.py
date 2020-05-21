@@ -63,7 +63,7 @@ def create_folder_result(taskid):
     retval["status"] = status
 
     if status == "SUCCESS":
-        retval['payload'] = folder_response_json
+        retval['payload'] = json.dumps(folder_response_json['payload'])
 
     return retval, 201
 
@@ -77,6 +77,6 @@ def delete_folder_result(taskid):
     retval["status"] = status
 
     if status == "SUCCESS":
-        retval['payload'] = folder_response_json
+        retval['payload'] = json.dumps(folder_response_json['payload'])
 
     return retval, 200
