@@ -1,5 +1,6 @@
 from marshmallow import Schema, fields
 
+
 class HealthSchema(Schema):
     """
     Schema for health check.
@@ -11,6 +12,7 @@ class HealthSchema(Schema):
         super().__init__(**kwargs)
 
     status = fields.Str()
+
 
 class ResponseSchema(Schema):
     """
@@ -29,3 +31,17 @@ class ResponseSchema(Schema):
     statusCode = fields.Str()
     statusMessage = fields.Str()
     taskId = fields.Int()
+
+
+class MetadataSchema(Schema):
+    """
+    Schema for Metadata Response.
+    """
+    def __init__(self, **kwargs):
+        """
+        Constructor for this class.
+        """
+        super().__init__(**kwargs)
+
+    root_folder_id = fields.Str()
+
