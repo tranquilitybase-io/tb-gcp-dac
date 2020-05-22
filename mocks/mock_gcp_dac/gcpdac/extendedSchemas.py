@@ -44,4 +44,3 @@ class MetadataSchema(Schema):
         super().__init__(**kwargs)
 
     root_folder_id = fields.Str()
-
