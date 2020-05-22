@@ -1,5 +1,4 @@
 import os
-import yaml
 import connexion
 import itertools
 from flask_marshmallow import Marshmallow
