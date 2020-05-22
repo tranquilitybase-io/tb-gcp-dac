@@ -29,8 +29,8 @@ jobs:
     - name: git add, commit and push
       shell: bash
       run: |
-        git config user.email git.action@example.com
-        git config user.name "example"
+        git config user.email git.action@gft.com
+        git config user.name "gitaction gft"
         chmod 777 redoc-static.html
         mv redoc-static.html docs/index.html
         # check if file changed
