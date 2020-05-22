@@ -1,5 +1,5 @@
 output "solution_folder" {
-  value = module.solution_folder.solution_folder
+  value = module.solution_folder.folder
 }
 
 output "workspace_project" {
