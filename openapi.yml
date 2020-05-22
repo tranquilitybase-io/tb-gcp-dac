@@ -16,6 +16,16 @@ paths:
         '200':
           description: Successful
 
+  /metadata:
+    get:
+      operationId: gcpdac.metadata.read_all
+      tags:
+        - metadata
+      summary: read all metadata
+      description: read all metadata
+      responses:
+        '200':
+          description: Successful
 
   /solution_async/:
     post:

@@ -31,8 +31,10 @@ celery_app = make_celery(__name__)
 def get_celery():
     return celery_app
 
+
 def read_config_map():
     # Returns the EC configuration as a dictionary
+
     try:
         with open("/app/ec-config.yaml", 'r') as stream:
             try:
@@ -43,3 +45,4 @@ def read_config_map():
     except Exception:
         logger.exception("Failed to load EC YAML file")
         raise
+

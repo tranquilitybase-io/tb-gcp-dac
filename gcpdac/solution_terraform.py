@@ -100,5 +100,3 @@ def delete_solution(solutiondata):
 
 def get_solution_backend_prefix(solution_id, tb_discriminator):
     return 'solution-' + str(solution_id) + '-' + tb_discriminator
-
-
