@@ -16,3 +16,8 @@ output "folder" {
   description = "folder created."
   value       = google_folder.folder
 }
+
+output "folder_id" {
+  description = "folder id created."
+  value       = google_folder.folder.id
+}

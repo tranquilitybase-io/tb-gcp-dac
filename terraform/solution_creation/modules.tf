@@ -1,9 +1,9 @@
 module "solution_folder" {
-  source = "../solution_folder"
+  source = "../tbase_folder"
   region = var.region
   region_zone = var.region_zone
-  deployment_folder_id = var.deployment_folder_id
-  solution_name = var.solution_name
+  parent_folder_id = var.deployment_folder_id
+  folder_name = var.solution_name
   tb_discriminator = var.tb_discriminator
 }
 
@@ -11,7 +11,7 @@ module "workspace_project" {
   source = "../workspace_project"
   region = var.region
   region_zone = var.region_zone
-  folder_id = module.solution_folder.solution_id
+  folder_id = module.solution_folder.folder_id
   tb_discriminator = var.tb_discriminator
   business_unit = var.business_unit
   cost_centre = var.cost_centre
@@ -25,7 +25,7 @@ module "environment_projects" {
   source = "../environment_project"
   region = var.region
   region_zone = var.region_zone
-  folder_id = module.solution_folder.solution_id
+  folder_id = module.solution_folder.folder_id
   tb_discriminator = var.tb_discriminator
   business_unit = var.business_unit
   cost_centre = var.cost_centre
