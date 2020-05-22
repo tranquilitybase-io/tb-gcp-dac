@@ -1,4 +1,5 @@
 # Module to serve metadata endpoint
+import config
 from gcpdac.extendedSchemas import MetadataSchema
 
 
