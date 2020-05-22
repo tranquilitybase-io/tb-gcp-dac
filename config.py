@@ -34,7 +34,7 @@ def get_celery():
 
 def read_config_map():
     # Returns the EC configuration as a dictionary
-    
+
     try:
         with open("/app/ec-config.yaml", 'r') as stream:
             try:
