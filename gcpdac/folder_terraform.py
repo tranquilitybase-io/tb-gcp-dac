@@ -14,7 +14,7 @@
 from python_terraform import Terraform
 
 import config
-from gcpdac.terraform_utils import terraform_init, terraform_apply, terraform_destroy
+from gcpdac.terraform_utils import terraform_init, terraform_apply, terraform_destroy, NOT_USED_ON_DESTROY
 
 logger = config.logger
 
@@ -26,6 +26,7 @@ def create_folder(folderDetails):
     # Accepts JSON content-type input.
     # returns return code and response from terraform
     tf_data = dict()
+    ec_config = config.read_config_map()
     logger.debug("folder is %s", folderDetails)
     folder = folderDetails.get('folder')
 
@@ -33,23 +34,19 @@ def create_folder(folderDetails):
     tf_data['folder_name'] = folder_name
     tf_data['parent_folder_id'] = folder['parentFolderId']
 
-    ec_config = config.read_config_map()
-
     region = ec_config['region']
     tf_data['region'] = region
-    # TODO pass region_zone in
-    region_zone = region + "-b"
-    tf_data['region_zone'] = region_zone
+    # TODO pass region_zone in - from UI?
+    tf_data['region_zone'] = region + "-b"
     tf_data['billing_account'] = ec_config['billing_account']
     tb_discriminator = ec_config['tb_discriminator']
-    terraform_state_bucket = ec_config['terraform_state_bucket']
     tf_data['tb_discriminator'] = tb_discriminator
 
-    backend_prefix = folder_name + '-' + tb_discriminator
-
-    # TODO generate tfvars file from input - currently only region_zone in this file
+    # TODO this file currently empty - remove need for it?
     env_data = '/app/terraform/input.tfvars'
 
+    backend_prefix = get_folder_backend_prefix(folder_name, tb_discriminator)
+    terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_source_path = '/app/terraform/folder_creation'
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
@@ -58,27 +55,36 @@ def create_folder(folderDetails):
 
     return terraform_apply(env_data, tf)
 
+
 def delete_folder(folder):
     tf_data = dict()
     folder_name = folder.get("id")
-    tf_data['folder_name'] = folder_name
-    tf_data['parent_folder_id'] = '0'  # set but not used on destroy
+
+    # variables not used on delete
+    tf_data['parent_folder_id'] = NOT_USED_ON_DESTROY
+    tf_data['random_element'] = NOT_USED_ON_DESTROY
+    tf_data['region'] = NOT_USED_ON_DESTROY
+    tf_data['region_zone'] = NOT_USED_ON_DESTROY
+    tf_data['tb_discriminator'] = NOT_USED_ON_DESTROY
+    tf_data['folder_name'] = NOT_USED_ON_DESTROY
 
     ec_config = config.read_config_map()
-    region = ec_config['region']
-    tf_data['region'] = region
-    # TODO pass region_zone in
-    region_zone = region + "-b"
-    tf_data['region_zone'] = region_zone
     tf_data['billing_account'] = ec_config['billing_account']
     tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
-    terraform_state_bucket = ec_config['terraform_state_bucket']
 
     env_data = '/app/terraform/input.tfvars'
+
     backend_prefix = folder_name + '-' + tb_discriminator
+    terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_source_path = '/app/terraform/folder_creation'
+
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
     return terraform_destroy(env_data, tf)
+
+def get_folder_backend_prefix(folder_name, tb_discriminator):
+    return 'folder-' + folder_name + '-' + tb_discriminator
+
+
