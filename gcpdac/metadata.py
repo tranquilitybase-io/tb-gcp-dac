@@ -19,4 +19,3 @@ def read_all():
     schema = MetadataSchema()
     data = schema.dump(data)
     return data, 200
-    

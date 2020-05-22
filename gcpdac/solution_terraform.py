@@ -71,6 +71,3 @@ def create_solution(solutiondata, terraform_command):
         return terraform_apply(env_data, tf)
     else:
         return terraform_destroy(env_data, tf)
-
-
-
