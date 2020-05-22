@@ -4,7 +4,7 @@ from gcpdac.extendedSchemas import MetadataSchema
 
 def get_metadata_from_config():
     ec_config = config.read_config_map()
-    data = {}
+    data = { }
     data['root_folder_id'] = ec_config.get('activator_folder_id')
     return data
 
