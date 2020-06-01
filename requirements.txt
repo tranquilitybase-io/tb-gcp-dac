@@ -7,6 +7,7 @@ chardet==3.0.4
 Click==7.0
 clickclick==1.2.2
 connexion==2.6.0
+coverage==5.1
 distlib==0.3.0
 dnspython==1.16.0
 filelock==3.0.12
