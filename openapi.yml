@@ -224,13 +224,20 @@ components:
     Folder:
       type: object
       properties:
-        folderName:
-          type: string
-          description: folder name
-        parentFolderId:
-          type: string
-          description: parent folder id
+        folder:
+          type: object
+          properties:
+            folderName:
+              type: string
+              description: folder name
+            parentFolderId:
+              type: string
+              description: parent folder id
       example:
-        folder: 'ABC'
-        parentFolderId: '236823'
+        {
+          folder: {
+            folderName: 'ABC',
+            parentFolderId: '236823'
+          }
+        }
 
