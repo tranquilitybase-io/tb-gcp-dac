@@ -1,0 +1,4 @@
+from int_tests import solution_integ_test, folder_integ_test
+
+folder_integ_test
+solution_integ_test

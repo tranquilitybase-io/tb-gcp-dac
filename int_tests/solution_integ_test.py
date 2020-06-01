@@ -27,18 +27,22 @@ payload = {
 }
 
 taskid = create_solution_task(payload)
-print(taskid)
+print("Creating a solution")
+print("Celery task id {}".format(taskid))
 status = ''
 while (status != 'SUCCESS' and status != 'FAILURE'):
+    print("Checking task {}".format(taskid))
     status, payload = create_solution_task_result(taskid)
     print('Status {}'.format(status))
     print('Payload {}'.format(payload))
     sleep(10)
 
 taskid = delete_solution_task(solutionId)
-print(taskid)
+print("Deleting a solution")
+print("Celery task id {}".format(taskid))
 status = ''
 while (status != 'SUCCESS' and status != 'FAILURE'):
+    print("Checking task {}".format(taskid))
     status, payload = delete_solution_task_result(taskid)
     print('Status {}'.format(status))
     print('Payload {}'.format(payload))

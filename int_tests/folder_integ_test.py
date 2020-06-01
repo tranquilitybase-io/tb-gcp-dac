@@ -6,19 +6,23 @@ from int_tests.folder_utils import create_folder_task, delete_folder_task, creat
 validParentFolderId = "940168182397"
 validFolderName = "TEST_FOLDER"
 
+print("Creating a folder")
 taskid=create_folder_task(validFolderName, validParentFolderId)
-print(taskid)
+print("Celery task id {}".format(taskid))
 status = ''
 while (status != 'SUCCESS' and status != 'FAILURE'):
+    print("Checking task {}".format(taskid))
     status, payload = create_folder_task_result(taskid)
     print('Status {}'.format(status))
     print('Payload {}'.format(payload))
     sleep(10)
 
+print("Deleting a folder")
 taskid=delete_folder_task(validFolderName)
-print(taskid)
+print("Celery task id {}".format(taskid))
 status = ''
 while (status != 'SUCCESS' and status != 'FAILURE'):
+    print("Checking task {}".format(taskid))
     status, payload = delete_folder_task_result(taskid)
     print('Status {}'.format(status))
     print('Payload {}'.format(payload))
