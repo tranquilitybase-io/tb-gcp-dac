@@ -4,7 +4,7 @@ from unittest import TestCase
 from gcpdac.utils import labellize
 
 
-class Test(TestCase):
+class Utils_Test(TestCase):
     def test_labellize(self):
         # google label rules here - https://cloud.google.com/compute/docs/labeling-resources
         self.assertEqual("abc", labellize("abc"))
