@@ -1,6 +1,6 @@
 from time import sleep
 
-from int_tests.folder_utils import create_folder_task, delete_folder_task, create_folder_task_result, \
+from tests.gcp_tests.folder_utils import create_folder_task, delete_folder_task, create_folder_task_result, \
     delete_folder_task_result
 
 validParentFolderId = "940168182397"

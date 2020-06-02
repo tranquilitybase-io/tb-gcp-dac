@@ -1,6 +1,6 @@
 from time import sleep
 
-from int_tests.solution_utils import create_solution_task, create_solution_task_result, delete_solution_task, \
+from tests.gcp_tests.solution_utils import create_solution_task, create_solution_task_result, delete_solution_task, \
     delete_solution_task_result
 
 solutionId = 1001
