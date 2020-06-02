@@ -33,6 +33,10 @@ solution_json = {
 def get_payload():
     return solution_json
 
+def get_solutionId():
+    return solutionId
+
+
 class SolutionTest(unittest.TestCase):
     def test_solution(self):
         taskid = create_solution_task(get_payload())
@@ -48,7 +52,7 @@ class SolutionTest(unittest.TestCase):
 
         self.assertEqual(states.SUCCESS, status)
 
-        taskid = delete_solution_task(solutionId)
+        taskid = delete_solution_task(get_solutionId())
         print("Deleting a solution")
         print("Celery task id {}".format(taskid))
         status = ''
@@ -60,6 +64,7 @@ class SolutionTest(unittest.TestCase):
             sleep(10)
 
         self.assertEqual(states.SUCCESS, status)
+
 
 if __name__ == '__main__':
     unittest.main()
