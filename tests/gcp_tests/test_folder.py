@@ -9,34 +9,30 @@ validParentFolderId = "940168182397"
 validFolderName = "TEST_FOLDER"
 longFolderName = "abcdefghijkl12345nopqrstuvwxyz"  # 31 chars
 
+
 class FolderTest(unittest.TestCase):
     def test_folder(self):
 
         payload = self.create_folder(folder_name=validFolderName, parent_folder_id=validParentFolderId)
         folder = json.loads(payload)
-        display_name = folder["folder"]["value"]["display_name"]
-        folder_id = folder["folder"]["value"]["id"]
-        return_parent_folder_id = folder["folder"]["value"]["parent"]
-        self.assertEqual(validFolderName, display_name)
-        self.assertEqual(validParentFolderId, self.replace_folders(return_parent_folder_id))
-        self.assertTrue(int(self.replace_folders(folder_id)) > 0)
+        self.check_values(folder, created_folder_name=validFolderName, parent_folder_id=validParentFolderId)
 
         self.delete_folder(folder_name=validFolderName)
 
     def test_long_folder_name(self):
         payload = self.create_folder(folder_name=longFolderName, parent_folder_id=validParentFolderId)
         folder = json.loads(payload)
-        display_name = folder["folder"]["value"]["display_name"]
-        folder_id = folder["folder"]["value"]["id"]
-        return_parent_folder_id = folder["folder"]["value"]["parent"]
-        self.assertEqual(longFolderName[0:30], display_name)
-        self.assertEqual(validParentFolderId, self.replace_folders(return_parent_folder_id))
-        self.assertTrue(int(self.replace_folders(folder_id)) > 0)
+        self.check_values(folder, created_folder_name=longFolderName[0:30], parent_folder_id=validParentFolderId)
 
         self.delete_folder(folder_name=longFolderName)
 
-    def replace_folders(self, folder_id):
-        return folder_id.replace("folders/", "")
+    def check_values(self, folder, created_folder_name, parent_folder_id):
+        display_name = folder["folder"]["value"]["display_name"]
+        folder_id = folder["folder"]["value"]["id"]
+        return_parent_folder_id = folder["folder"]["value"]["parent"]
+        self.assertEqual(created_folder_name, display_name)
+        self.assertEqual(parent_folder_id, return_parent_folder_id.replace("folders/", ""))
+        self.assertTrue(int(folder_id.replace("folders/", "")) > 0)
 
     def delete_folder(self, folder_name):
         print("Deleting a folder")
@@ -56,6 +52,7 @@ class FolderTest(unittest.TestCase):
         taskid = create_folder_task(folder_name, parent_folder_id)
         print("Celery task id {}".format(taskid))
         status = ''
+        payload = {}
         while (status != states.SUCCESS and status != states.FAILURE):
             print("Checking task {}".format(taskid))
             status, payload = create_folder_task_result(taskid)
