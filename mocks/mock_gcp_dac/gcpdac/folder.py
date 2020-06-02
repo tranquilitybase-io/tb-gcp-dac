@@ -16,6 +16,12 @@ def next_taskid():
     return taskid
 
 
+def next_folderid():
+    folder_cnt = next(counter)
+    folderid = f"MOCKFOLDERID{folder_cnt}"
+    return folderid
+
+
 def get_random_status():
     r = random.randint(0, 10)
     if r == 0:
@@ -63,8 +69,10 @@ def create_folder_result(taskid):
     retval["status"] = status
 
     if status == "SUCCESS":
-        retval['payload'] = json.dumps(folder_response_json['payload'])
-
+        folderid = next_folderid()
+        payload = folder_response_json['payload']
+        payload["folder"]["value"]["id"] = folderid
+        retval['payload'] = json.dumps(payload)
     return retval, 201
 
 
