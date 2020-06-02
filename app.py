@@ -14,7 +14,7 @@ gunicorn_logger = logging.getLogger("gunicorn.info")
 connex_app.app.logger.handlers = gunicorn_logger.handlers
 connex_app.app.logger.setLevel(gunicorn_logger.level)
 
-connex_app.add_api('openapi.yml', strict_validation=False)
+connex_app.add_api('openapi.yml', strict_validation=True)
 
 celery = config.get_celery()
 
