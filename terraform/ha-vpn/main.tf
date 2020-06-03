@@ -1,13 +1,11 @@
 provider "google" {
- version     = "~> 2.10"
- credentials = file(var.gcp_credentials_file_path)
+ version     = "~> 3.24"
  project     = var.gcp_project_id
  region      = var.gcp_region1
 }
 
 provider "google-beta" {
- version     = "~> 2.10"
- credentials = file(var.gcp_credentials_file_path)
+ version     = "~> 3.24"
  project     = var.gcp_project_id
  region      = var.gcp_region1
 }
