@@ -9,7 +9,6 @@
             "object",
             {
               "auto_create_network": "bool",
-              "billing_account": "string",
               "folder_id": "string",
               "id": "string",
               "labels": [
@@ -36,7 +35,6 @@
             "object",
             {
               "auto_create_network": "bool",
-              "billing_account": "string",
               "folder_id": "string",
               "id": "string",
               "labels": [
@@ -63,7 +61,6 @@
             "object",
             {
               "auto_create_network": "bool",
-              "billing_account": "string",
               "folder_id": "string",
               "id": "string",
               "labels": [
@@ -90,7 +87,6 @@
             "object",
             {
               "auto_create_network": "bool",
-              "billing_account": "string",
               "folder_id": "string",
               "id": "string",
               "labels": [
@@ -117,7 +113,6 @@
             "object",
             {
               "auto_create_network": "bool",
-              "billing_account": "string",
               "folder_id": "string",
               "id": "string",
               "labels": [
@@ -145,7 +140,6 @@
       "value": [
         {
           "auto_create_network": true,
-          "billing_account": "01A2F5-73127B-50AE5B",
           "folder_id": "282083654038",
           "id": "projects/development-1-h08aez-ksjs726s",
           "labels": {
@@ -162,7 +156,6 @@
         },
         {
           "auto_create_network": true,
-          "billing_account": "REDACTED",
           "folder_id": "282083654038",
           "id": "projects/development-2-h08aez-ksjs726s",
           "labels": {
@@ -179,7 +172,6 @@
         },
         {
           "auto_create_network": true,
-          "billing_account": "REDACTED",
           "folder_id": "282083654038",
           "id": "projects/staging-h08aez-ksjs726s",
           "labels": {
@@ -196,7 +188,6 @@
         },
         {
           "auto_create_network": true,
-          "billing_account": "REDACTED",
           "folder_id": "282083654038",
           "id": "projects/qa-h08aez-ksjs726s",
           "labels": {
@@ -213,7 +204,6 @@
         },
         {
           "auto_create_network": true,
-          "billing_account": "REDACTED",
           "folder_id": "282083654038",
           "id": "projects/production-h08aez-ksjs726s",
           "labels": {
@@ -268,7 +258,6 @@
         "object",
         {
           "auto_create_network": "bool",
-          "billing_account": "string",
           "folder_id": "string",
           "id": "string",
           "labels": [
@@ -293,7 +282,6 @@
       ],
       "value": {
         "auto_create_network": true,
-        "billing_account": "REDACTED",
         "folder_id": "282083654038",
         "id": "projects/workspace-h08aez-ksjs726s",
         "labels": {
