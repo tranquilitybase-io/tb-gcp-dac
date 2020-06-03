@@ -1,7 +1,9 @@
 import json
 import unittest
 from time import sleep
+
 from celery import states
+
 from tests.gcp_tests.folder_utils import create_folder_task, delete_folder_task, create_folder_task_result, \
     delete_folder_task_result
 
