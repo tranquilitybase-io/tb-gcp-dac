@@ -43,7 +43,7 @@ class FolderTest(unittest.TestCase):
         status = ''
         while (status != states.SUCCESS and status != states.FAILURE):
             print("Checking task {}".format(taskid))
-            status, payload = delete_folder_task_result(taskid)
+            status = delete_folder_task_result(taskid)
             print('Status {}'.format(status))
             sleep(10)
         self.assertEqual(states.SUCCESS, status)

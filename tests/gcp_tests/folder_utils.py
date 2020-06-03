@@ -48,6 +48,5 @@ def delete_folder_task_result(taskId):
 
     resp_json = resp.json()
     status = resp_json['status']
-    payload = resp_json.get('payload', None)
 
-    return status, payload
+    return status
