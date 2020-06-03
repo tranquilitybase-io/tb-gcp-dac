@@ -4,6 +4,7 @@ from time import sleep
 
 from celery import states
 
+from gcpdac.utils import labellize
 from tests.gcp_tests.solution_utils import create_solution_task, create_solution_task_result, delete_solution_task, \
     delete_solution_task_result
 
@@ -17,6 +18,7 @@ environments = [
     'Staging',
     'Production'
 ]
+processed_environments = map(labellize, environments)
 solution_name = 'solutionone'
 solution_json = {
     'id': solution_id,
@@ -76,9 +78,9 @@ class SolutionTest(unittest.TestCase):
             print("Checking task {}".format(taskid))
             status, payload = create_solution_task_result(taskid)
             print('Status {}'.format(status))
-            print('Payload {}'.format(payload))
             sleep(10)
         self.assertEqual(states.SUCCESS, status)
+        print('Payload {}'.format(payload))
         return payload
 
     def check_values(self, solution_response, solution_input):
@@ -91,6 +93,9 @@ class SolutionTest(unittest.TestCase):
                 self.fail("No cost_centre label")
             if 'business_unit' not in labels:
                 self.fail("No business_unit label")
+            environment_label = labels['environment']
+            if environment_label not in processed_environments:
+                self.fail("Invalid environment label")
 
         workspace_project = solution_response["workspace_project"]["value"]
         labels = workspace_project["labels"]
