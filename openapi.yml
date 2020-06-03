@@ -154,6 +154,73 @@ paths:
       responses:
         "201":
           description: Successfully deleted a folder
+
+
+  /vpn_async/:
+    post:
+      operationId: gcpdac.vpn.create
+      tags:
+        - vpn
+      summary: Create a VPN
+      description: Create VPN
+      responses:
+        '201':
+          description: Successfully started a VPN creation task
+      requestBody:
+        $ref: "#/components/requestBodies/vpn.vpnDetails"
+
+  "/vpn_async/{oid}":
+    delete:
+      operationId: gcpdac.solution.delete
+      tags:
+        - vpn
+      summary: delete a vpn
+      description: delete a vpn and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a vpn deletion task
+
+  "/vpn_async/result/create/{taskid}":
+    get:
+      operationId: gcpdac.vpn.create_vpn_result
+      tags:
+        - vpn
+      summary: get create vpn result
+      description:  get create vpn result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a vpn
+
+  "/vpn_async/result/delete/{taskid}":
+    get:
+      operationId: gcpdac.solution.delete_vpn_result
+      tags:
+        - vpn
+      summary: get delete vpn result
+      description:  get delete vpn result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a vpn
+
+
 servers:
   - url: /api
 components:
@@ -170,6 +237,12 @@ components:
           schema:
             x-body-name: folderDetails
             $ref: "#/components/schemas/Folder"
+    vpn.vpnDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: vpnDetails
+            $ref: "#/components/schemas/VPN"
   schemas:
     Solution:
       type: object
@@ -236,6 +309,25 @@ components:
       example:
         {
           folder: {
+            folderName: 'ABC',
+            parentFolderId: '236823'
+          }
+        }
+    VPN:
+      type: object
+      properties:
+        vpn:
+          type: object
+          properties:
+            folderName:
+              type: string
+              description: folder name
+            parentFolderId:
+              type: string
+              description: parent folder id
+      example:
+        {
+          vpn: {
             folderName: 'ABC',
             parentFolderId: '236823'
           }
