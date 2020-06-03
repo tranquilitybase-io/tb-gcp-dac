@@ -33,7 +33,7 @@ def terraform_apply(env_data, tf: Terraform):
         logger.debug('Terraform show stdout is {}'.format(stdout))
         tf_outputs = tf.output()
         for output_value in tf_outputs:
-            print(tf.output(output_value))
+            # print(tf.output(output_value))
             logger.debug('Terraform output value is {}'.format(output_value))
     else:
         tf_state = {}
