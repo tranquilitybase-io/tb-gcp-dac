@@ -84,7 +84,7 @@ class SolutionTest(unittest.TestCase):
         return payload
 
     def check_values(self, solution_response, solution_input):
-        self.assertFalse("billing_account_id" in solution_response)
+        self.assertFalse("billing_account" in solution_response)
         environment_projects = solution_response["environment_projects"]["value"]
         for environment_project in environment_projects:
             labels = environment_project["labels"]

@@ -1,4 +1,4 @@
-# Supports all actions concerning Folder
+# Supports all actions concerning VPN
 import json
 from pprint import pformat
 
@@ -7,38 +7,38 @@ from celery.result import AsyncResult
 from flask import abort
 
 import config
-from gcpdac.celery_tasks import create_folder_task, delete_folder_task
-from gcpdac.folder_terraform import create_folder, delete_folder
+from gcpdac.celery_tasks import create_vpn_task, delete_vpn_task
 from gcpdac.utils import remove_keys_from_dict
+from gcpdac.vpn_terraform import create_vpn, delete_vpn
 
 logger = config.logger
 
 
-def create(folderDetails):
-    logger.debug(pformat(folderDetails))
+def create(vpnDetails):
+    logger.debug(pformat(vpnDetails))
 
-    result = create_folder(folderDetails)
+    result = create_vpn(vpnDetails)
     if result.get("tf_return_code") == 0:
         return result, 201
     else:
-        abort(500, "Failed to deploy your folder ")
+        abort(500, "Failed to deploy your vpn ")
 
 
 def delete(oid):
     logger.debug("Id is {}".format(oid))
 
-    folderDetails = {"id": oid}
-    result = delete_folder(folderDetails)
+    vpnDetails = {"id": oid}
+    result = delete_vpn(vpnDetails)
     if result.get("tf_return_code") == 0:
         return {}, 200
     else:
-        abort(500, "Failed to delete  your folder ")
+        abort(500, "Failed to delete  your vpn ")
 
 
-def create_async(folderDetails):
-    logger.debug(pformat(folderDetails))
+def create_async(vpnDetails):
+    logger.debug(pformat(vpnDetails))
 
-    result = create_folder_task.delay(folderDetails)
+    result = create_vpn_task.delay(vpnDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -50,9 +50,9 @@ def create_async(folderDetails):
 def delete_async(oid):
     logger.debug("Id is {}".format(oid))
 
-    folderDetails = {"id": oid}
+    vpnDetails = {"id": oid}
 
-    result = delete_folder_task.delay(folderDetails=folderDetails)
+    result = delete_vpn_task.delay(vpnDetails=vpnDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -61,8 +61,8 @@ def delete_async(oid):
     return context, 201
 
 
-def create_folder_result(taskid):
-    logger.info("CREATE FOLDER RESULT %s", format(taskid))
+def create_vpn_result(taskid):
+    logger.info("CREATE VPN RESULT %s", format(taskid))
     status = AsyncResult(taskid).status
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
@@ -74,15 +74,15 @@ def create_folder_result(taskid):
             payload = {}
         else:
             payload = tf_outputs
-            keys_to_remove = ("billing_account")
+            keys_to_remove = ['billing_account']
             remove_keys_from_dict(payload, keys_to_remove)
         return {'status': status, "payload": json.dumps(payload)}
     else:
         return {'status': status}
 
 
-def delete_folder_result(taskid):
-    logger.info("DELETE FOLDER RESULT %s", format(taskid))
+def delete_vpn_result(taskid):
+    logger.info("DELETE VPN RESULT %s", format(taskid))
     status = AsyncResult(taskid).status
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)

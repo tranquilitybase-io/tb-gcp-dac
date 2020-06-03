@@ -85,8 +85,9 @@ def create_solution_result(taskid):
             payload = {}
         else:
             payload = tf_outputs
-            keys_to_remove = ("billing_account")
-            payload = remove_keys_from_dict(payload, keys_to_remove)
+            keys_to_remove = ['billing_account']
+            remove_keys_from_dict(payload, keys_to_remove)
+            logger.debug(payload)
 
         return {'status': status, "payload": json.dumps(payload)}
     else:

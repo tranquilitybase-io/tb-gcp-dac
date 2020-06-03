@@ -4,6 +4,7 @@ from config import get_celery
 from gcpdac.folder_terraform import create_folder, delete_folder
 from gcpdac.local_logging import get_logger
 from gcpdac.solution_terraform import create_solution, delete_solution
+from gcpdac.vpn_terraform import create_vpn, delete_vpn
 
 celery_app = get_celery()
 
@@ -43,6 +44,24 @@ def create_folder_task(self, folderDetails):
 def delete_folder_task(self, folderDetails):
     logger.debug("delete_folder_task")
     response = delete_folder(folderDetails)
+    return_code = response.get("tf_return_code")
+    if (return_code) != 0:
+        self.update_state(state=states.FAILURE)
+    else:
+        self.update_state(state=states.SUCCESS)
+    return response
+
+@celery_app.task(bind=True)
+def create_vpn_task(self, vpnDetails):
+    logger.debug("create_vpn_task")
+    response = create_vpn(vpnDetails)
+    return response
+
+
+@celery_app.task(bind=True)
+def delete_vpn_task(self, vpnDetails):
+    logger.debug("delete_vpn_task")
+    response = delete_vpn(vpnDetails)
     return_code = response.get("tf_return_code")
     if (return_code) != 0:
         self.update_state(state=states.FAILURE)

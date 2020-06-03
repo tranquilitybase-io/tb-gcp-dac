@@ -58,15 +58,29 @@ def labellize(labelText):
         labelText = labelText[0:63]
     return labelText
 
+
 def sanitize(x):
     # make lower case and replace characters other than alphanumeric, - and _
     x = x.lower()
     x = re.sub('[^0-9a-z-_]+', '-', x)
     return x
 
-def remove_keys_from_dict(payload, keys_to_remove):
-    for key in keys_to_remove:
-        with suppress(KeyError):
-            del payload[key]
 
-    return payload
+def remove_keys_from_dict(dictionary, keys_to_remove):
+    """
+    Delete the keys present in lst_keys from the dictionary_copy.
+    Loops recursively over nested dictionaries.
+    """
+    dictionary_copy = dictionary.copy()
+    for field in dictionary_copy.keys():
+        print(field)
+        print(type(field))
+        if field in keys_to_remove:
+            with suppress(KeyError):
+                del dictionary[field]
+            continue
+        if isinstance(dictionary_copy[field], dict):
+            remove_keys_from_dict(dictionary[field], keys_to_remove)
+        if isinstance(dictionary_copy[field], tuple):
+            remove_keys_from_dict(dictionary[field], keys_to_remove)
+
