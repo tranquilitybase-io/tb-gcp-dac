@@ -1,0 +1,266 @@
+{
+  "environment_projects": {
+    "sensitive": false,
+    "type": [
+      "tuple",
+      [
+        [
+          "object",
+          {
+            "auto_create_network": "bool",
+            "billing_account": "string",
+            "folder_id": "string",
+            "id": "string",
+            "labels": [
+              "map",
+              "string"
+            ],
+            "name": "string",
+            "number": "string",
+            "org_id": "string",
+            "project_id": "string",
+            "skip_delete": "bool",
+            "timeouts": [
+              "object",
+              {
+                "create": "string",
+                "delete": "string",
+                "read": "string",
+                "update": "string"
+              }
+            ]
+          }
+        ],
+        [
+          "object",
+          {
+            "auto_create_network": "bool",
+            "billing_account": "string",
+            "folder_id": "string",
+            "id": "string",
+            "labels": [
+              "map",
+              "string"
+            ],
+            "name": "string",
+            "number": "string",
+            "org_id": "string",
+            "project_id": "string",
+            "skip_delete": "bool",
+            "timeouts": [
+              "object",
+              {
+                "create": "string",
+                "delete": "string",
+                "read": "string",
+                "update": "string"
+              }
+            ]
+          }
+        ],
+        [
+          "object",
+          {
+            "auto_create_network": "bool",
+            "billing_account": "string",
+            "folder_id": "string",
+            "id": "string",
+            "labels": [
+              "map",
+              "string"
+            ],
+            "name": "string",
+            "number": "string",
+            "org_id": "string",
+            "project_id": "string",
+            "skip_delete": "bool",
+            "timeouts": [
+              "object",
+              {
+                "create": "string",
+                "delete": "string",
+                "read": "string",
+                "update": "string"
+              }
+            ]
+          }
+        ],
+        [
+          "object",
+          {
+            "auto_create_network": "bool",
+            "billing_account": "string",
+            "folder_id": "string",
+            "id": "string",
+            "labels": [
+              "map",
+              "string"
+            ],
+            "name": "string",
+            "number": "string",
+            "org_id": "string",
+            "project_id": "string",
+            "skip_delete": "bool",
+            "timeouts": [
+              "object",
+              {
+                "create": "string",
+                "delete": "string",
+                "read": "string",
+                "update": "string"
+              }
+            ]
+          }
+        ]
+      ]
+    ],
+    "value": [
+      {
+        "auto_create_network": true,
+        "billing_account": "XXXXXX-XXXXXX-XXXXXX",
+        "folder_id": "626202176798",
+        "id": "projects/development-dqo31l-ksjs726s",
+        "labels": {
+          "business_unit": "bu-1",
+          "cost_centre": "cc-1",
+          "environment": "development"
+        },
+        "name": "solutionone-development",
+        "number": "51589750555",
+        "org_id": "",
+        "project_id": "development-dqo31l-ksjs726s",
+        "skip_delete": null,
+        "timeouts": null
+      },
+      {
+        "auto_create_network": true,
+        "billing_account": "XXXXXX-XXXXXX-XXXXXX",
+        "folder_id": "626202176798",
+        "id": "projects/qa-dqo31l-ksjs726s",
+        "labels": {
+          "business_unit": "bu-1",
+          "cost_centre": "cc-1",
+          "environment": "qa"
+        },
+        "name": "solutionone-qa",
+        "number": "852890918425",
+        "org_id": "",
+        "project_id": "qa-dqo31l-ksjs726s",
+        "skip_delete": null,
+        "timeouts": null
+      },
+      {
+        "auto_create_network": true,
+        "billing_account": "XXXXXX-XXXXXX-XXXXXX",
+        "folder_id": "626202176798",
+        "id": "projects/staging-dqo31l-ksjs726s",
+        "labels": {
+          "business_unit": "bu-1",
+          "cost_centre": "cc-1",
+          "environment": "staging"
+        },
+        "name": "solutionone-staging",
+        "number": "286756486039",
+        "org_id": "",
+        "project_id": "staging-dqo31l-ksjs726s",
+        "skip_delete": null,
+        "timeouts": null
+      },
+      {
+        "auto_create_network": true,
+        "billing_account": "XXXXXX-XXXXXX-XXXXXX",
+        "folder_id": "626202176798",
+        "id": "projects/production-dqo31l-ksjs726s",
+        "labels": {
+          "business_unit": "bu-1",
+          "cost_centre": "cc-1",
+          "environment": "production"
+        },
+        "name": "solutionone-production",
+        "number": "196262539761",
+        "org_id": "",
+        "project_id": "production-dqo31l-ksjs726s",
+        "skip_delete": null,
+        "timeouts": null
+      }
+    ]
+  },
+  "solution_folder": {
+    "sensitive": false,
+    "type": [
+      "object",
+      {
+        "create_time": "string",
+        "display_name": "string",
+        "id": "string",
+        "lifecycle_state": "string",
+        "name": "string",
+        "parent": "string",
+        "timeouts": [
+          "object",
+          {
+            "create": "string",
+            "delete": "string",
+            "read": "string",
+            "update": "string"
+          }
+        ]
+      }
+    ],
+    "value": {
+      "create_time": "2020-06-02T14:39:24.106Z",
+      "display_name": "solutionone",
+      "id": "folders/626202176798",
+      "lifecycle_state": "ACTIVE",
+      "name": "folders/626202176798",
+      "parent": "folders/940168182397",
+      "timeouts": null
+    }
+  },
+  "workspace_project": {
+    "sensitive": false,
+    "type": [
+      "object",
+      {
+        "auto_create_network": "bool",
+        "billing_account": "string",
+        "folder_id": "string",
+        "id": "string",
+        "labels": [
+          "map",
+          "string"
+        ],
+        "name": "string",
+        "number": "string",
+        "org_id": "string",
+        "project_id": "string",
+        "skip_delete": "bool",
+        "timeouts": [
+          "object",
+          {
+            "create": "string",
+            "delete": "string",
+            "read": "string",
+            "update": "string"
+          }
+        ]
+      }
+    ],
+    "value": {
+      "auto_create_network": true,
+      "billing_account": "XXXXXX-XXXXXX-XXXXXX",
+      "folder_id": "626202176798",
+      "id": "projects/workspace-dqo31l-ksjs726s",
+      "labels": {
+        "business_unit": "bu-1",
+        "cost_centre": "cc-1"
+      },
+      "name": "solutionone-workspace",
+      "number": "614177856418",
+      "org_id": "",
+      "project_id": "workspace-dqo31l-ksjs726s",
+      "skip_delete": null,
+      "timeouts": null
+    }
+  }
+}

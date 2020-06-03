@@ -69,3 +69,4 @@ def remove_keys_from_dict(payload, keys_to_remove):
         with suppress(KeyError):
             del payload[key]
 
+    return payload

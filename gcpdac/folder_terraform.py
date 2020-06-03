@@ -75,7 +75,7 @@ def delete_folder(folder):
 
     env_data = '/app/terraform/input.tfvars'
 
-    backend_prefix = folder_name + '-' + tb_discriminator
+    backend_prefix = get_folder_backend_prefix(folder_name, tb_discriminator)
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_source_path = '/app/terraform/folder_creation'
 

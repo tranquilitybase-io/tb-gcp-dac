@@ -13,7 +13,8 @@
 # limitations under the License.
 
 resource "google_folder" "folder" {
-  display_name = var.folder_name
+  # restrict display name to 30 characters - TODO this should have been restricted elsewhere in the code
+  display_name = substr(var.folder_name, 0, 30)
   parent = "folders/${var.parent_folder_id}"
 
 }
