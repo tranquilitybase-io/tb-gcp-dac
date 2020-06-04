@@ -37,6 +37,14 @@ resource "google_compute_router" "router-a" {
   network  = var.network1
   bgp {
     asn = var.gcp_asn
+    advertise_mode    = "CUSTOM"
+    advertised_groups = ["ALL_SUBNETS"]
+    advertised_ip_ranges {
+      range = google_compute_subnetwork.network1-subnet1.ip_cidr_range
+    }
+    advertised_ip_ranges {
+      range = google_compute_subnetwork.network1-subnet2.ip_cidr_range
+    }
     
   }
   depends_on = [google_compute_network.ha-vpn-test-network]
@@ -92,6 +100,7 @@ resource "google_compute_router_interface" "router1_interface0" {
   name       = var.router_int0
   router     = var.cloud_router
   region     = var.gcp_region1
+  ip_range   = var.google-bgp-ip-0
   vpn_tunnel = var.tunnel_name_if0
   depends_on = [google_compute_router.router-a,google_compute_vpn_tunnel.tunnel0]
 
@@ -107,6 +116,7 @@ resource "google_compute_router_peer" "router1_peer0" {
   advertised_route_priority = 100
   interface                 = var.router_int0
   depends_on = [google_compute_router.router-a,google_compute_router_interface.router1_interface0]
+  peer_ip_address = var.on-prem-bgp-ip-0
 
 }
 
@@ -116,6 +126,7 @@ resource "google_compute_router_interface" "router1_interface1" {
   name       = var.router_int1
   router     = var.cloud_router
   region     = var.gcp_region1
+  ip_range   = var.google-bgp-ip-1
   vpn_tunnel = var.tunnel_name_if1
   depends_on = [google_compute_router.router-a,google_compute_vpn_tunnel.tunnel1]
 }
@@ -130,4 +141,5 @@ resource "google_compute_router_peer" "router1_peer1" {
   advertised_route_priority = 100
   interface                 = var.router_int1
   depends_on = [google_compute_router.router-a,google_compute_router_interface.router1_interface1]
+  peer_ip_address = var.on-prem-bgp-ip-1
 }

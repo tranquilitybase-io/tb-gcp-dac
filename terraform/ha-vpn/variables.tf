@@ -1,10 +1,12 @@
 variable gcp_credentials_file_path {
   type = "string"
+  default = "zain-sandbox-ec1ddc14dd8e.json"
 }
 
 variable "gcp_project_id" {
   description = "Enter GCP Project ID."
   type = "string"
+  default = "zain-sandbox"
 }
 
 variable gcp_region1 {
@@ -100,3 +102,24 @@ variable bgp_peer_0 {
 variable bgp_peer_1 {
   default = "bgp-peer-tranquilitybase-1"
 }
+
+variable on-prem-bgp-ip-0 {
+  type = "string"
+  default = "169.254.0.2"
+}
+
+variable on-prem-bgp-ip-1 {
+  type = "string"
+  default = "169.254.0.5"
+}
+
+variable google-bgp-ip-0 {
+  type = "string"
+  default = "169.254.0.1/30"
+}
+
+variable google-bgp-ip-1 {
+  type = "string"
+  default = "169.254.0.6/30"
+}
+
