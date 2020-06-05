@@ -35,7 +35,19 @@ def delete(oid):
         abort(500, "Failed to delete  your vpn ")
 
 
-def create_async(vpnDetails):
+def create_async_aws(vpnDetails):
+    logger.debug(pformat(vpnDetails))
+
+    result = create_vpn_task.delay(vpnDetails)
+
+    logger.info("Task ID %s", result.task_id)
+
+    context = {"taskid": result.task_id}
+
+    return context, 201
+
+
+def create_async_onprem(vpnDetails):
     logger.debug(pformat(vpnDetails))
 
     result = create_vpn_task.delay(vpnDetails)

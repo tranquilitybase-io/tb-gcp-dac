@@ -156,18 +156,31 @@ paths:
           description: Successfully deleted a folder
 
 
-  /vpn_async/:
+  /vpn_async/aws/:
     post:
-      operationId: gcpdac.vpn.create_async
+      operationId: gcpdac.vpn.create_async_aws
       tags:
         - vpn
-      summary: Create a VPN
+      summary: Create a VPN - remote aws
       description: Create VPN
       responses:
         '201':
           description: Successfully started a VPN creation task
       requestBody:
-        $ref: "#/components/requestBodies/vpn.vpnDetails"
+        $ref: "#/components/requestBodies/vpnAws.vpnDetails"
+
+  /vpn_async/onprem/:
+    post:
+      operationId: gcpdac.vpn.create_async_onprem
+      tags:
+        - vpn
+      summary: Create a VPN - remote on prem
+      description: Create VPN
+      responses:
+        '201':
+          description: Successfully started a VPN creation task
+      requestBody:
+        $ref: "#/components/requestBodies/vpnOnPrem.vpnDetails"
 
   "/vpn_async/{oid}":
     delete:
@@ -237,12 +250,18 @@ components:
           schema:
             x-body-name: folderDetails
             $ref: "#/components/schemas/Folder"
-    vpn.vpnDetails:
+    vpnAws.vpnDetails:
       content:
         application/json:
           schema:
             x-body-name: vpnDetails
-            $ref: "#/components/schemas/VPN"
+            $ref: "#/components/schemas/VpnAws"
+    vpnOnPrem.vpnDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: vpnDetails
+            $ref: "#/components/schemas/VpnOnPrem"
   schemas:
     Solution:
       type: object
@@ -313,7 +332,7 @@ components:
             parentFolderId: '236823'
           }
         }
-    VPN:
+    VpnAws:
       type: object
       properties:
         id:
@@ -322,111 +341,129 @@ components:
         vpn:
           type: object
           properties:
-            bgpInterfaceNetLength:
-              type: string
-              description: High Availability VPN Gateway
-            bgpRoutingMode:
-              type: string
-              description: High Availability VPN Gateway
-            cloudRouterName:
-              type: string
-              description: High Availability VPN Gateway
-            description:
-              type: string
-              description: High Availability VPN Gateway
-            externalVpnGateway:
-              type: string
-              description: High Availability VPN Gateway
-            googleASN:
-              type: integer
-              description: teams
-            haVpnGateway:
-              type: string
-              description: High Availability VPN Gateway
-            peerASN:
-              type: integer
-              description: High Availability VPN Gateway
-            projectName:
-              type: string
-              description: High Availability VPN Gateway
-            subnetMode:
-              type: string
-              description: High Availability VPN Gateway
-            vpcName:
-              type: string
-              description: High Availability VPN Gateway
-        googleSession:
+            vpnCore:
+              description: VPN settings
+              $ref: "#/components/schemas/VPNCore"
+            googleEndpoint:
+              description: Google Endpoint
+              $ref: "#/components/schemas/VPNGoogleEndpoint"
+            amazonEndpoint:
+              description: Amazon Endpoint
+              $ref: "#/components/schemas/VPNAmazonEndpoint"
+    VpnOnPrem:
+      type: object
+      properties:
+        id:
+          type: string
+          description: VPN id
+        vpn:
           type: object
           properties:
-            vpcName:
-              type: string
-              description: High Availability VPN Gateway
-        onPremiseSession:
-          type: object
-          properties:
-            region1:
-              type: string
-              description: GCP Region 1
-            region2:
-              type: string
-              description: GCP Region 2
-            network1:
-              type: string
-              description: Network 1
-            network1Subnet1:
-              type: string
-              description: Network 1 Subnet 1
-            network1Subnet2:
-              type: string
-              description: Network 1 Subnet 2
-            subnet1IpCidr:
-              type: string
-              description: Subnet 1 IP CIDR
-            subnet2IpCidr:
-              type: string
-              description: Subnet 2 IP CIDR
-            cloudRouter:
-              type: string
-              description: Cloud Router
-            gcpAsn:
-              type: string
-              description: GCP Autonomous System Number
-            peerAsn:
-              type: string
-              description: Peer GCP Autonomous System Number
-            peerGwName:
-              type: string
-              description: Peer Gateway Name
-            peerGwInt0:
-              type: string
-              description: Peer Gateway Internet Address 0
-            peerGwInt1:
-              type: string
-              description: Peer Gateway Internet Address 1
-            tunnelNameIf0:
-              type: string
-              description: Tunnel name to on prem if 0
-            tunnelNameIf1:
-              type: string
-              description: Tunnel name to on prem if 1
-            routerInt0:
-              type: string
-              description: TODO
-            routerInt1:
-              type: string
-              description: TODO
-            routerIntName0:
-              type: string
-              description: TODO
-            routerIntName1:
-              type: string
-              description: TODO
-            bgpPeer0:
-              type: string
-              description: Border Gateway Protocol Peer 0
-            bgpPeer1:
-              type: string
-              description: Border Gateway Protocol Peer 1
-            sharedSecret:
-              type: string
-              description: Shared Secret TODO how will this work????
+            vpnCore:
+              description: VPN settings
+              $ref: "#/components/schemas/VPNCore"
+            googleEndpoint:
+              description: Google Endpoint
+              $ref: "#/components/schemas/VPNGoogleEndpoint"
+            onPremEndpoint:
+              description: On Premise Endpoint
+              $ref: "#/components/schemas/VPNOnPremiseEndpoint"
+    VPNCore:
+      type: object
+      properties:
+        bgpInterfaceNetLength:
+          type: string
+          description: BGP Interface Net Length
+        bgpRoutingMode:
+          type: string
+          description: BGP Routing Mode
+        cloudRouterName:
+          type: string
+          description: Cloud Router Name
+        description:
+          type: string
+          description: Description
+        externalVpnGateway:
+          type: string
+          description: External VPN Gateway
+        googleASN:
+          type: integer
+          description: Google ASN
+        haVpnGateway:
+          type: string
+          description: HA VPN Gateway
+        peerASN:
+          type: integer
+          description: Peer ASN
+        projectName:
+          type: string
+          description: Project Name
+        subnetMode:
+          type: string
+          description: Subnet Mode
+        vpcName:
+          type: string
+          description: VPC Name
+    VPNGoogleEndpoint:
+      type: object
+      properties:
+        primaryGcpVpcSubnet:
+          type: string
+          description: VPN id
+        primaryRegion:
+          type: string
+          description: VPN id
+        primarySubnetName:
+          type: string
+          description: VPN id
+        secondaryGcpVpcSubnet:
+          type: string
+          description: VPN id
+        secondaryRegion:
+          type: string
+          description: VPN id
+        secondarySubnetName:
+          type: string
+          description: VPN id
+    VPNAmazonEndpoint:
+      type: object
+      properties:
+        id:
+          type: string
+          description: VPN id
+    VPNOnPremiseEndpoint:
+      type: object
+      properties:
+        primaryBgpPeer:
+          type: string
+          description: Primary BGP Peer
+        primaryPeerIp:
+          type: string
+          description: Primary Peer IP
+        primaryPeerIpSubnet:
+          type: string
+          description: Primary Peer IP Subnet
+        primarySharedSecret:
+          type: string
+          description: Primary Shared Secret
+        primaryVpnTunnel:
+          type: string
+          description: Primary VPN Tunnel
+        secondaryBgpPeer:
+          type: string
+          description: Secondary BGP Peer
+        secondaryPeerIp:
+          type: string
+          description: Secondary Peer IP
+        secondaryPeerIpSubnet:
+          type: string
+          description: Secondary Peer IP Subnet
+        secondarySharedSecret:
+          type: string
+          description: Secondary Shared Secret
+        secondaryVpnTunnel:
+          type: string
+          description: Secondary VPN Tunnel
+        vendor:
+          type: string
+          description: Vendor
