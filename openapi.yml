@@ -343,13 +343,13 @@ components:
           properties:
             vpnCore:
               description: VPN settings
-              $ref: "#/components/schemas/VPNCore"
+              $ref: "#/components/schemas/VpnCore"
             googleEndpoint:
               description: Google Endpoint
-              $ref: "#/components/schemas/VPNGoogleEndpoint"
+              $ref: "#/components/schemas/VpnGoogleEndpoint"
             amazonEndpoint:
               description: Amazon Endpoint
-              $ref: "#/components/schemas/VPNAmazonEndpoint"
+              $ref: "#/components/schemas/VpnAmazonEndpoint"
     VpnOnPrem:
       type: object
       properties:
@@ -361,14 +361,14 @@ components:
           properties:
             vpnCore:
               description: VPN settings
-              $ref: "#/components/schemas/VPNCore"
+              $ref: "#/components/schemas/VpnCore"
             googleEndpoint:
               description: Google Endpoint
-              $ref: "#/components/schemas/VPNGoogleEndpoint"
+              $ref: "#/components/schemas/VpnGoogleEndpoint"
             onPremEndpoint:
               description: On Premise Endpoint
-              $ref: "#/components/schemas/VPNOnPremiseEndpoint"
-    VPNCore:
+              $ref: "#/components/schemas/VpnOnPremiseEndpoint"
+    VpnCore:
       type: object
       properties:
         bgpInterfaceNetLength:
@@ -404,34 +404,64 @@ components:
         vpcName:
           type: string
           description: VPC Name
-    VPNGoogleEndpoint:
+    VpnGoogleEndpoint:
       type: object
       properties:
         primaryGcpVpcSubnet:
           type: string
-          description: VPN id
+          description: Primary GCP VPC Subnet
         primaryRegion:
           type: string
-          description: VPN id
+          description: Primary Region
         primarySubnetName:
           type: string
-          description: VPN id
+          description: Primary Subnet Name
         secondaryGcpVpcSubnet:
           type: string
-          description: VPN id
+          description: Secondary GCP VPC Subnet
         secondaryRegion:
           type: string
-          description: VPN id
+          description: Secondary Region
         secondarySubnetName:
           type: string
-          description: VPN id
-    VPNAmazonEndpoint:
-      type: object
+          description: Secondary Subnet Name
+    VpnAmazonEndpoint:
+      # TODO check fields below
       properties:
-        id:
+        primaryBgpPeer:
           type: string
-          description: VPN id
-    VPNOnPremiseEndpoint:
+          description: Primary BGP Peer
+        primaryPeerIp:
+          type: string
+          description: Primary Peer IP
+        primaryPeerIpSubnet:
+          type: string
+          description: Primary Peer IP Subnet
+        primarySharedSecret:
+          type: string
+          description: Primary Shared Secret
+        primaryVpnTunnel:
+          type: string
+          description: Primary VPN Tunnel
+        secondaryBgpPeer:
+          type: string
+          description: Secondary BGP Peer
+        secondaryPeerIp:
+          type: string
+          description: Secondary Peer IP
+        secondaryPeerIpSubnet:
+          type: string
+          description: Secondary Peer IP Subnet
+        secondarySharedSecret:
+          type: string
+          description: Secondary Shared Secret
+        secondaryVpnTunnel:
+          type: string
+          description: Secondary VPN Tunnel
+        vendor:
+          type: string
+          description: Vendor
+    VpnOnPremiseEndpoint:
       type: object
       properties:
         primaryBgpPeer:
