@@ -338,36 +338,30 @@ components:
         id:
           type: string
           description: VPN id
-        vpn:
-          type: object
-          properties:
-            vpnCore:
-              description: VPN settings
-              $ref: "#/components/schemas/VpnCore"
-            googleEndpoint:
-              description: Google Endpoint
-              $ref: "#/components/schemas/VpnGoogleEndpoint"
-            amazonEndpoint:
-              description: Amazon Endpoint
-              $ref: "#/components/schemas/VpnAmazonEndpoint"
+        vpnCore:
+          description: VPN settings
+          $ref: "#/components/schemas/VpnCore"
+        googleEndpoint:
+          description: Google Endpoint
+          $ref: "#/components/schemas/VpnGoogleEndpoint"
+        amazonEndpoint:
+          description: Amazon Endpoint
+          $ref: "#/components/schemas/VpnAmazonEndpoint"
     VpnOnPrem:
       type: object
       properties:
         id:
           type: string
           description: VPN id
-        vpn:
-          type: object
-          properties:
-            vpnCore:
-              description: VPN settings
-              $ref: "#/components/schemas/VpnCore"
-            googleEndpoint:
-              description: Google Endpoint
-              $ref: "#/components/schemas/VpnGoogleEndpoint"
-            onPremEndpoint:
-              description: On Premise Endpoint
-              $ref: "#/components/schemas/VpnOnPremiseEndpoint"
+        vpnCore:
+          description: VPN settings
+          $ref: "#/components/schemas/VpnCore"
+        googleEndpoint:
+          description: Google Endpoint
+          $ref: "#/components/schemas/VpnGoogleEndpoint"
+        onPremEndpoint:
+          description: On Premise Endpoint
+          $ref: "#/components/schemas/VpnOnPremiseEndpoint"
     VpnCore:
       type: object
       properties:
