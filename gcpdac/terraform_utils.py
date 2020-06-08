@@ -6,6 +6,7 @@ NOT_USED_ON_DESTROY = 'NONE'
 
 logger = config.logger
 
+
 def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):
     return_code, stdout, stderr = tf.init(capture_output=True,
                                           backend_config={'bucket': terraform_state_bucket,
@@ -13,6 +14,14 @@ def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):
     logger.debug('Terraform init return code is {}'.format(return_code))
     logger.debug('Terraform init stdout is {}'.format(stdout))
     logger.debug('Terraform init stderr is {}'.format(stderr))
+
+
+def terraform_plan(env_data, tf: Terraform):
+    return_code, stdout, stderr = tf.plan(skip_plan=True, var_file=env_data, capture_output=True)
+    logger.debug('Terraform apply return code is {}'.format(return_code))
+    logger.debug('Terraform apply stdout is {}'.format(stdout))
+    logger.debug("Terraform apply stderr is {}".format(stderr))
+    return {"tf_return_code": return_code}
 
 
 def terraform_apply(env_data, tf: Terraform):
@@ -39,6 +48,7 @@ def terraform_apply(env_data, tf: Terraform):
         tf_state = {}
         tf_outputs = {}
     return {"tf_return_code": return_code, "tf_outputs": tf_outputs, "tf_state": tf_state}
+
 
 def terraform_destroy(env_data, tf):
     return_code, stdout, stderr = tf.destroy(var_file=env_data, capture_output=True)

@@ -1,12 +1,10 @@
 variable gcp_credentials_file_path {
   type = "string"
-  default = "zain-sandbox-ec1ddc14dd8e.json"
 }
 
 variable "gcp_project_id" {
   description = "Enter GCP Project ID."
   type = "string"
-  default = "zain-sandbox"
 }
 
 variable gcp_region1 {

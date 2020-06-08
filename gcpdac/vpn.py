@@ -79,15 +79,16 @@ def create_vpn_result(taskid):
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
         logger.debug("retval %s", retval)
-        tf_outputs: dict = retval["tf_outputs"]
+        # tf_outputs: dict = retval["tf_outputs"]
+        tf_outputs: dict = {}
         return_code = retval["tf_return_code"]
         if return_code > 0:
             status = states.FAILURE
             payload = {}
         else:
             payload = tf_outputs
-            keys_to_remove = ['billing_account']
-            remove_keys_from_dict(payload, keys_to_remove)
+            # keys_to_remove = ['billing_account']
+            # remove_keys_from_dict(payload, keys_to_remove)
         return {'status': status, "payload": json.dumps(payload)}
     else:
         return {'status': status}
