@@ -77,43 +77,53 @@ def create_vpn(vpndata):
     tf_data[''] = vpnCore.get("vendor")
 
 # terraform variables
+# gcp_project_id
+# aws_gw1_tunnel1_address
+# aws_gw1_tunnel1_inside_address
+# aws_gw1_tunnel1_peer_ip
+# aws_gw1_tunnel1_shared_secret
+# aws_gw1_tunnel2_address
+# aws_gw1_tunnel2_inside_address
+# aws_gw1_tunnel2_peer_ip
+# aws_gw1_tunnel2_shared_secret
+# aws_gw2_tunnel1_address
+# aws_gw2_tunnel1_inside_address
+# aws_gw2_tunnel1_peer_ip
+# aws_gw2_tunnel1_shared_secret
+# aws_gw2_tunnel2_address
+# aws_gw2_tunnel2_inside_address
+# aws_gw2_tunnel2_peer_ip
+# aws_gw2_tunnel2_shared_secret
 # bgp_peer_0
 # bgp_peer_1
+# bgp_peer_2
+# bgp_peer_3
 # cloud_router
 # gcp_asn
+# gcp_credentials_file_path
 # gcp_region1
 # gcp_region2
-# google-bgp-ip-0
-# google-bgp-ip-1
+# gw1_tunnel1_asn
+# gw1_tunnel2_asn
+# gw2_tunnel1_asn
+# gw2_tunnel2_asn
 # ha_vpn_gateway
 # network1
 # network1_subnet1
 # network1_subnet2
-# on-prem-bgp-ip-0
-# on-prem-bgp-ip-1
-# peer_asn
-# peer_gw_int_0
-# peer_gw_int_1
 # peer_gw_name
 # router_int0
 # router_int1
+# router_int2
+# router_int3
 # router_int_name_0
 # router_int_name_1
-# shared_secret
 # subnet1_ip_cidr
 # subnet2_ip_cidr
 # tunnel_name_if0
 # tunnel_name_if1
-
-
-
-
-
-
-
-
-
-
+# tunnel_name_if2
+# tunnel_name_if3
 
 # TODO remove dependency on this
     env_data = None
