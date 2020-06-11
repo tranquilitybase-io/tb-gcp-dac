@@ -16,10 +16,9 @@
 # $2 - project to create repo in
 # $3 - project to switch back to
 # TODO add validation of params and better error handling
-echo "$(date) Creating GCP Repo ${1} in ${2}"
+echo "$(date) Deleting GCP Repo ${1} in ${2}"
 gcloud auth activate-service-account --key-file "$GOOGLE_APPLICATION_CREDENTIALS"
 gcloud config set project $2
-gcloud services enable sourcerepo.googleapis.com
-gcloud source repos create $1
+gcloud source repos delete $1 -q
 gcloud config set project $3
-echo "$(date) Created GCP Repo ${1} in ${2}"
+echo "$(date) Deleted GCP Repo ${1} in ${2}"
