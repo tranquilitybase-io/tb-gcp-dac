@@ -91,6 +91,70 @@ paths:
         "201":
           description: Successfully deleted a solution
 
+  /application_async/:
+    post:
+      operationId: gcpdac.application.create_async
+      tags:
+        - application
+      summary: Create a application
+      description: Create application in more detail - TODO
+      responses:
+        '201':
+          description: Successfully started a application creation task
+      requestBody:
+        $ref: "#/components/requestBodies/application.applicationDetails"
+
+  "/application_async/{oid}":
+    delete:
+      operationId: gcpdac.application.delete_async
+      tags:
+        - application
+      summary: delete a application
+      description: delete a application and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a application deletion task
+
+  "/application_async/result/create/{taskid}":
+    get:
+      operationId: gcpdac.application.create_application_result
+      tags:
+        - application
+      summary: get create application result
+      description:  get create application result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a application
+
+  "/application_async/result/delete/{taskid}":
+    get:
+      operationId: gcpdac.application.delete_application_result
+      tags:
+        - application
+      summary: get delete application result
+      description:  get delete application result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a application
+
   /folder_async/:
     post:
       operationId: gcpdac.folder.create_async
@@ -164,6 +228,12 @@ components:
           schema:
             x-body-name: solutionDetails
             $ref: "#/components/schemas/Solution"
+    application.applicationDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: applicationDetails
+            $ref: "#/components/schemas/Application"
     folder.folderDetails:
       content:
         application/json:
@@ -218,6 +288,35 @@ components:
         teams:
           type: integer
           description: teams
+        lastUpdated:
+          type: string
+          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+    Application:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: the application id
+        name:
+          type: string
+          description: name
+        description:
+          type: string
+          description: description
+        environments:
+          type: array
+          description: environments
+          items:
+            properties:
+              environment:
+                type: string
+                description: environment
+              projectId:
+                type: string
+                description: GCP Project ID for environment
+        gitUrl:
+          type: string
+          description: Git repo URL e.g. https://github.com/sunderhill-gft/testrepo.git
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
