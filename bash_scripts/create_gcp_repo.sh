@@ -15,8 +15,11 @@
 # $1 - name of repo
 # $2 - project to create repo in
 # $3 - project to switch back to
-# TODO add validation of params
+# TODO add validation of params and better error handling
 exec >> /var/log/create_gcp_repo.log 2>&1
+echo "$(date) Creating GCP Repo ${1} in ${2}"
 gcloud config set project $2
+gcloud services enable sourcerepo.googleapis.com
 gcloud source repos create $1
 gcloud config set project $3
+echo "$(date) Created GCP Repo ${1} in ${2}"

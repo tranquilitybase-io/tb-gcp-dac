@@ -15,6 +15,7 @@
 from python_terraform import Terraform
 
 import config
+from gcpdac.shell_utils import create_repo
 from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init, NOT_USED_ON_DESTROY
 from gcpdac.utils import labellize, random_element, sanitize
 
@@ -58,7 +59,16 @@ def create_solution(solutiondata):
 
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
-    return terraform_apply(env_data, tf)
+    response = terraform_apply(env_data, tf)
+    logger.debug("response {}".format(response))
+
+    # Not part of terraform TODO not ideal
+    workspace_project_id = response["tf_outputs"]["workspace_project"]["value"]["project_id"]
+    ec_project_id = ec_config['ec_project_name']
+    repo_name = "workspace_repo"
+    create_repo(repo_name, workspace_project_id, ec_project_id)
+
+    return response
 
 
 def delete_solution(solutiondata):
@@ -97,6 +107,7 @@ def delete_solution(solutiondata):
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
     return terraform_destroy(env_data, tf)
+
 
 def get_solution_backend_prefix(solution_id, tb_discriminator):
     return 'solution-' + str(solution_id) + '-' + tb_discriminator

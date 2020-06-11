@@ -58,11 +58,13 @@ def labellize(labelText):
         labelText = labelText[0:63]
     return labelText
 
+
 def sanitize(x):
     # make lower case and replace characters other than alphanumeric, - and _
     x = x.lower()
     x = re.sub('[^0-9a-z-_]+', '-', x)
     return x
+
 
 def remove_keys_from_dict(payload, keys_to_remove):
     for key in keys_to_remove:
@@ -70,3 +72,5 @@ def remove_keys_from_dict(payload, keys_to_remove):
             del payload[key]
 
     return payload
+
+

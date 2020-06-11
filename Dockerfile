@@ -23,9 +23,13 @@ ENV TF_LOG_PATH=/var/log/tb-gcp-dac-deployment.log
 WORKDIR /app
 COPY . .
 RUN pip install -r ./requirements.txt
+
+# ensure shell scripts have unix line endings
 RUN dos2unix app_docker.sh
+RUN dos2unix ./bash_scripts/*.sh
 
 RUN ["chmod", "+x", "./app_docker.sh"]
+RUN ["chmod", "+x", "./bash_scripts/create_gcp_repo.sh"]
 EXPOSE 3100
 CMD ["/bin/bash", "./app_docker.sh"]
 
