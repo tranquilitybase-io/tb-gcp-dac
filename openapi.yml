@@ -303,6 +303,12 @@ components:
         description:
           type: string
           description: description
+        solutionId:
+          type: integer
+          description: the solution id
+        activatorGitUrl:
+          type: string
+          description: git url for the activator repo
         environments:
           type: array
           description: environments
@@ -314,9 +320,6 @@ components:
               projectId:
                 type: string
                 description: GCP Project ID for environment
-        gitUrl:
-          type: string
-          description: Git repo URL e.g. https://github.com/sunderhill-gft/testrepo.git
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
