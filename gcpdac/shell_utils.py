@@ -5,6 +5,9 @@ import config
 
 logger = config.logger
 
+# TODO pass this in through config file in docker/kubernetes
+jenkins_server = "TODO"
+
 
 def create_repo(repo_name, project_to, project_from):
     logger.info("Creating repo {repo_name} in project {project_to}".format(repo_name=repo_name, project_to=project_to))
@@ -21,6 +24,14 @@ def delete_repo(repo_name, project_to, project_from):
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
+    call_process(call_string)
+
+
+def call_jenkins(git_repo_url):
+    logger.info("Calling Jenkins")
+    call_string = "curl http://{jenkins_server}/jenkins/git/notifyCommit?url={git_repo_url}".format(
+        git_repo_url=git_repo_url,
+        jenkins_server=jenkins_server)
     call_process(call_string)
 
 

@@ -1,3 +1,7 @@
+import config
+from gcpdac.shell_utils import call_jenkins
+
+logger = config.logger
 
 
 def create_application(applicationdata):
@@ -12,10 +16,21 @@ def create_application(applicationdata):
 
     # TODO place holder to call Jenkins
 
+    ec_config = config.read_config_map()
+    # TODO get jenkins url from ec_config ??
 
-    return -1
+    application_id = applicationdata.get("id")
+    logger.debug("application is %s", application_id)
+    application_name = applicationdata.get("name")
+    git_repo_url = applicationdata.get("activatorGitUrl")
+    call_jenkins(git_repo_url)
+
+    # TODO add check of jenkins result
+
+    return {"return_code": 0}
 
 
 def delete_application(applicationdata):
     # TODO place holder to call Jenkins
-    return -1
+
+    return {"return_code": 0}

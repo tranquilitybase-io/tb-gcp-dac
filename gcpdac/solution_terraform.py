@@ -116,14 +116,16 @@ def delete_solution(solutiondata):
 def delete_workspace_repo(ec_config, tf):
     return_code, tf_state_json, stdout = tf.show(json=True)
     tf_state: dict = json.loads(tf_state_json)
-    solution_name = tf_state['values']['outputs']['solution_folder']['value']['display_name']
-    logger.debug("solution_name {}".format(solution_name))
-    repo_name = "{}_workspace".format(solution_name)
-    workspace_project_id = tf_state['values']['outputs']['workspace_project']['value']['project_id']
-    logger.debug("workspace_project_id {}".format(workspace_project_id))
-    eagle_project_id = ec_config['ec_project_name']
-    logger.debug("eagle_project_id {}".format(eagle_project_id))
-    delete_repo(repo_name, workspace_project_id, eagle_project_id)
+    if 'values' in tf_state:
+        # only remove if state exists
+        solution_name = tf_state['values']['outputs']['solution_folder']['value']['display_name']
+        logger.debug("solution_name {}".format(solution_name))
+        repo_name = "{}_workspace".format(solution_name)
+        workspace_project_id = tf_state['values']['outputs']['workspace_project']['value']['project_id']
+        logger.debug("workspace_project_id {}".format(workspace_project_id))
+        eagle_project_id = ec_config['ec_project_name']
+        logger.debug("eagle_project_id {}".format(eagle_project_id))
+        delete_repo(repo_name, workspace_project_id, eagle_project_id)
 
 
 def get_solution_backend_prefix(solution_id, tb_discriminator):
