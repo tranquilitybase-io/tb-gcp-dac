@@ -25,10 +25,9 @@ def delete_repo(repo_name, project_to, project_from):
 
 
 def call_process(call_string):
-    logger.debug("call string is {}".format(call_string))
+    logger.debug("Process executed: {}".format(call_string))
     command_line_args = shlex.split(call_string)
     subprocess_call = subprocess.Popen(command_line_args, stdout=subprocess.PIPE,
-                                       stderr=subprocess.STDOUT)
+                                       stderr=subprocess.STDOUT, universal_newlines=True)
     process_output, _ = subprocess_call.communicate()
-    logger.debug("Process output is {}".format(process_output))
-    # logger.debug("response code is {}".format(subprocess_call))
+    logger.debug("Process output: {}".format(process_output))
