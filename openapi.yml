@@ -219,7 +219,7 @@ paths:
         "201":
           description: Successfully deleted a folder
 servers:
-  - url: /api
+  - url: /dac
 components:
   requestBodies:
     solution.solutionDetails:
@@ -306,23 +306,45 @@ components:
         solutionId:
           type: integer
           description: the solution id
-        activatorGitUrl:
-          type: string
-          description: git url for the activator repo
-        environments:
-          type: array
-          description: environments
-          items:
-            properties:
-              environment:
-                type: string
-                description: environment
-              projectId:
-                type: string
-                description: GCP Project ID for environment
-        lastUpdated:
-          type: string
-          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+#        activatorGitUrl:
+#          type: string
+#          description: git url for the activator repo
+#        deployments:
+#          type: array
+#          description: where to deploy
+#          items:
+#            properties:
+#              environment:
+#                type: string
+#                description: environment
+#              projectId:
+#                type: string
+#                description: GCP Project ID for environment
+#              mandatoryVariables:
+#                type: array
+#                description: mandatory variables
+#                items:
+#                  properties:
+#                    key:
+#                      type: string
+#                      description: variable key
+#                    value:
+#                      type: string
+#                      description: variable value
+#              optionalVariables:
+#                type: array
+#                description: optional variables
+#                items:
+#                  properties:
+#                    key:
+#                      type: string
+#                      description: variable key
+#                    value:
+#                      type: string
+#                      description: variable value
+#        lastUpdated:
+#          type: string
+#          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
     Folder:
       type: object
       properties:
