@@ -112,7 +112,7 @@ def delete_solution(solutiondata):
 
 
 def delete_workspace_repo(ec_config, tf):
-    _, tf_state_json, stdout = tf.show(json=True)
+    _, tf_state_json, _ = tf.show(json=True)
     tf_state: dict = json.loads(tf_state_json)
     if 'values' in tf_state:
         # only remove if state exists

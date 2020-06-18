@@ -18,7 +18,7 @@ def create_application(applicationdata):
 
     application_id = applicationdata.get("id")
     logger.debug("application is %s", application_id)
-    application_name = applicationdata.get("name")
+    # application_name = applicationdata.get("name")
     git_repo_url = applicationdata.get("activatorGitUrl")
     # call Jenkins CI directly with vars file
     call_jenkins(git_repo_url)
