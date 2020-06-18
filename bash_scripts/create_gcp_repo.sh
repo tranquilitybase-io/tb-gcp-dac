@@ -18,8 +18,8 @@
 # TODO add validation of params and better error handling
 echo "$(date) Creating GCP Repo ${1} in ${2}"
 gcloud auth activate-service-account --key-file "$GOOGLE_APPLICATION_CREDENTIALS"
-gcloud config set project $2
+gcloud config set project "$2"
 gcloud services enable sourcerepo.googleapis.com
-gcloud source repos create $1
-gcloud config set project $3
+gcloud source repos create "$1"
+gcloud config set project "$3"
 echo "$(date) Created GCP Repo ${1} in ${2}"

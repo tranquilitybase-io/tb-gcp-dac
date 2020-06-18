@@ -9,7 +9,6 @@ from flask import abort
 import config
 from gcpdac.application_ci import create_application, delete_application
 from gcpdac.celery_tasks import deploy_application_task, destroy_application_task
-from gcpdac.utils import remove_keys_from_dict
 
 logger = config.logger
 

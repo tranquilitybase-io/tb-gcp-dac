@@ -64,7 +64,6 @@ def create_solution(solutiondata):
     response = terraform_apply(env_data, tf)
     logger.debug("response {}".format(response))
 
-    # Not part of terraform TODO not ideal
     repo_name = "{}_workspace".format(solution_name)
     workspace_project_id = response["tf_outputs"]["workspace_project"]["value"]["project_id"]
     eagle_project_id = ec_config['ec_project_name']
@@ -107,14 +106,13 @@ def delete_solution(solutiondata):
 
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
-    # TODO delete repo in workspace project before destroying solution - need workspace project id
     delete_workspace_repo(ec_config, tf)
 
     return terraform_destroy(env_data, tf)
 
 
 def delete_workspace_repo(ec_config, tf):
-    return_code, tf_state_json, stdout = tf.show(json=True)
+    _, tf_state_json, stdout = tf.show(json=True)
     tf_state: dict = json.loads(tf_state_json)
     if 'values' in tf_state:
         # only remove if state exists

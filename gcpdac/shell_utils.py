@@ -29,9 +29,11 @@ def delete_repo(repo_name, project_to, project_from):
 
 def call_jenkins(git_repo_url):
     logger.info("Calling Jenkins")
-    call_string = "curl http://{jenkins_server}/jenkins/git/notifyCommit?url={git_repo_url}".format(
-        git_repo_url=git_repo_url,
-        jenkins_server=jenkins_server)
+    # call_string = "curl http://{jenkins_server}/jenkins/git/notifyCommit?url={git_repo_url}".format(
+    # git_repo_url=git_repo_url,
+    # jenkins_server=jenkins_server)
+    # TODO this is a hard-coded jenkins server! just for demo, remove soon after
+    call_string = "curl -X POST http://remote_user:11eccd7308d0e2f408e53f04b16c839e65@34.105.172.132:8080/job/Activator%20Deploy/build?token=11eccd7308d0e2f408e53f04b16c839e65"
     call_process(call_string)
 
 

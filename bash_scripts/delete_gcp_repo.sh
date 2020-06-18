@@ -18,7 +18,7 @@
 # TODO add validation of params and better error handling
 echo "$(date) Deleting GCP Repo ${1} in ${2}"
 gcloud auth activate-service-account --key-file "$GOOGLE_APPLICATION_CREDENTIALS"
-gcloud config set project $2
-gcloud source repos delete $1 -q
-gcloud config set project $3
+gcloud config set project "$2"
+gcloud source repos delete "$1 -q"
+gcloud config set project "$3"
 echo "$(date) Deleted GCP Repo ${1} in ${2}"

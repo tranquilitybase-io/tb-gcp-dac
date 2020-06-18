@@ -12,17 +12,15 @@ def create_application(applicationdata):
     # OR
 
     # create terraform vars file
-    # call Jenkins CI directly with vars file
 
-    # TODO place holder to call Jenkins
-
-    ec_config = config.read_config_map()
+    # ec_config = config.read_config_map()
     # TODO get jenkins url from ec_config ??
 
     application_id = applicationdata.get("id")
     logger.debug("application is %s", application_id)
     application_name = applicationdata.get("name")
     git_repo_url = applicationdata.get("activatorGitUrl")
+    # call Jenkins CI directly with vars file
     call_jenkins(git_repo_url)
 
     # TODO add check of jenkins result
