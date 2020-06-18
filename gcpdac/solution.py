@@ -19,7 +19,7 @@ logger = config.logger
 def create(solutionDetails):
     logger.debug(pformat(solutionDetails))
 
-    result = create_solution(solutionDetails, "apply")
+    result = create_solution(solutionDetails)
     if result.get("tf_return_code") == 0:
         return result, 201
     else:
@@ -30,7 +30,7 @@ def delete(oid):
     logger.debug("Id is {}".format(oid))
 
     solutionDetails = {"id": oid}
-    result = create_solution(solutionDetails, "destroy")
+    result = create_solution(solutionDetails)
     if result.get("tf_return_code") == 0:
         return {}, 200
     else:

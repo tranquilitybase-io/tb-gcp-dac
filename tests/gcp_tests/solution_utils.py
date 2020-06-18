@@ -9,7 +9,7 @@ headers = {'Content-Type': 'application/json' }
 
 def create_solution_task(payload):
 
-    url = 'http://localhost:3100/api/solution_async'
+    url = 'http://localhost:3100/dac/solution_async'
     # convert dict to json by json.dumps() for body data.
     resp = requests.post(url, headers=headers, data=json.dumps(payload,indent=4))
 
@@ -20,7 +20,7 @@ def create_solution_task(payload):
 
 def create_solution_task_result(taskId):
 
-    url = 'http://localhost:3100/api/solution_async/result/create/{}'.format(taskId)
+    url = 'http://localhost:3100/dac/solution_async/result/create/{}'.format(taskId)
     # convert dict to json by json.dumps() for body data.
     resp = requests.get(url, headers=headers)
 
@@ -32,7 +32,7 @@ def create_solution_task_result(taskId):
 
 def delete_solution_task(solutionId):
 
-    url = 'http://localhost:3100/api/solution_async/{}'.format(solutionId)
+    url = 'http://localhost:3100/dac/solution_async/{}'.format(solutionId)
     resp = requests.delete(url, headers=headers)
 
     resp_json = resp.json()
@@ -42,7 +42,7 @@ def delete_solution_task(solutionId):
 
 def delete_solution_task_result(taskId):
 
-    url = 'http://localhost:3100/api/solution_async/result/delete/{}'.format(taskId)
+    url = 'http://localhost:3100/dac/solution_async/result/delete/{}'.format(taskId)
     resp = requests.get(url, headers=headers)
 
     resp_json = resp.json()

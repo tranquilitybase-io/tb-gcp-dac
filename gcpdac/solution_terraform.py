@@ -11,10 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+import json
 
 from python_terraform import Terraform
 
 import config
+from gcpdac.shell_utils import create_repo, delete_repo
 from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init, NOT_USED_ON_DESTROY
 from gcpdac.utils import labellize, random_element, sanitize
 
@@ -31,7 +33,8 @@ def create_solution(solutiondata):
     tf_data['business_unit'] = labellize(solutiondata.get("businessUnit"))
     tf_data['deployment_folder_id'] = solutiondata.get("deploymentFolderId")
     tf_data['environments'] = [sanitize(x) for x in (solutiondata.get("environments", list()))]
-    tf_data['solution_name'] = solutiondata.get("name")
+    solution_name = solutiondata.get("name")
+    tf_data['solution_name'] = solution_name
 
     region = ec_config['region']
     tf_data['region'] = region
@@ -58,7 +61,15 @@ def create_solution(solutiondata):
 
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
-    return terraform_apply(env_data, tf)
+    response = terraform_apply(env_data, tf)
+    logger.debug("response {}".format(response))
+
+    repo_name = "{}_workspace".format(solution_name)
+    workspace_project_id = response["tf_outputs"]["workspace_project"]["value"]["project_id"]
+    eagle_project_id = ec_config['ec_project_name']
+    create_repo(repo_name, workspace_project_id, eagle_project_id)
+
+    return response
 
 
 def delete_solution(solutiondata):
@@ -83,8 +94,7 @@ def delete_solution(solutiondata):
     tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
 
-    # TODO remove dependency on this?
-    env_data = '/app/terraform/input.tfvars'
+    env_data = None
 
     terraform_state_bucket = ec_config['terraform_state_bucket']
     # location of this solution's state with terraform bucket
@@ -96,7 +106,25 @@ def delete_solution(solutiondata):
 
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
+    delete_workspace_repo(ec_config, tf)
+
     return terraform_destroy(env_data, tf)
+
+
+def delete_workspace_repo(ec_config, tf):
+    _, tf_state_json, _ = tf.show(json=True)
+    tf_state: dict = json.loads(tf_state_json)
+    if 'values' in tf_state:
+        # only remove if state exists
+        solution_name = tf_state['values']['outputs']['solution_folder']['value']['display_name']
+        logger.debug("solution_name {}".format(solution_name))
+        repo_name = "{}_workspace".format(solution_name)
+        workspace_project_id = tf_state['values']['outputs']['workspace_project']['value']['project_id']
+        logger.debug("workspace_project_id {}".format(workspace_project_id))
+        eagle_project_id = ec_config['ec_project_name']
+        logger.debug("eagle_project_id {}".format(eagle_project_id))
+        delete_repo(repo_name, workspace_project_id, eagle_project_id)
+
 
 def get_solution_backend_prefix(solution_id, tb_discriminator):
     return 'solution-' + str(solution_id) + '-' + tb_discriminator

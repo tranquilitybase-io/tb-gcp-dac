@@ -10,7 +10,7 @@ headers = {'Content-Type': 'application/json' }
 
 def create_folder_task(folderName, parentFolderId):
 
-    url = 'http://localhost:3100/api/folder_async'
+    url = 'http://localhost:3100/dac/folder_async'
     payload = {"folder": {"folderName": folderName, "parentFolderId": parentFolderId}}
 
     resp = requests.post(url, headers=headers, data=json.dumps(payload,indent=4))
@@ -22,7 +22,7 @@ def create_folder_task(folderName, parentFolderId):
 
 def create_folder_task_result(taskId):
 
-    url = 'http://localhost:3100/api/folder_async/result/create/{}'.format(taskId)
+    url = 'http://localhost:3100/dac/folder_async/result/create/{}'.format(taskId)
     resp = requests.get(url, headers=headers)
 
     resp_json = resp.json()
@@ -33,7 +33,7 @@ def create_folder_task_result(taskId):
 
 def delete_folder_task(folderName):
 
-    url = 'http://localhost:3100/api/folder_async/{}'.format(folderName)
+    url = 'http://localhost:3100/dac/folder_async/{}'.format(folderName)
     resp = requests.delete(url, headers=headers)
 
     resp_json = resp.json()
@@ -43,7 +43,7 @@ def delete_folder_task(folderName):
 
 def delete_folder_task_result(taskId):
 
-    url = 'http://localhost:3100/api/folder_async/result/delete/{}'.format(taskId)
+    url = 'http://localhost:3100/dac/folder_async/result/delete/{}'.format(taskId)
     resp = requests.get(url, headers=headers)
 
     resp_json = resp.json()

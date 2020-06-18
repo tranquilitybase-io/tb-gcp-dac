@@ -6,7 +6,7 @@ headers = {'Content-Type': 'application/json'}
 
 
 def get_metadata():
-    url = 'http://localhost:3100/api/metadata'
+    url = 'http://localhost:3100/dac/metadata'
     return requests.get(url, headers=headers)
 
 
@@ -16,6 +16,7 @@ class MetadataTest(unittest.TestCase):
 
         response = get_metadata()
         resp_json = response.json()
+        print(resp_json)
         root_folder_id = resp_json['root_folder_id']
         self.assertEqual(200, response.status_code)
         self.assertTrue(int(root_folder_id) > 0)
