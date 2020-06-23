@@ -226,16 +226,19 @@ components:
       content:
         application/json:
           schema:
+            x-body-name: solutionDetails
             $ref: "#/components/schemas/Solution"
     application.applicationDetails:
       content:
         application/json:
           schema:
+            x-body-name: applicationDetails
             $ref: "#/components/schemas/Application"
     folder.folderDetails:
       content:
         application/json:
           schema:
+            x-body-name: folderDetails
             $ref: "#/components/schemas/Folder"
   schemas:
     Solution:

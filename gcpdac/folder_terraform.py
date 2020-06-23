@@ -26,7 +26,7 @@ def create_folder(folderDetails):
     # Accepts JSON content-type input.
     # returns return code and response from terraform
     tf_data = dict()
-    ec_config = config.ec_config
+    ec_config = config.read_config_map()
     logger.debug("folder is %s", folderDetails)
     folder = folderDetails.get('folder')
 
@@ -68,7 +68,7 @@ def delete_folder(folder):
     tf_data['tb_discriminator'] = NOT_USED_ON_DESTROY
     tf_data['folder_name'] = NOT_USED_ON_DESTROY
 
-    ec_config = config.ec_config
+    ec_config = config.read_config_map()
     tf_data['billing_account'] = ec_config['billing_account']
     tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator

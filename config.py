@@ -4,7 +4,7 @@ import yaml
 from flask_marshmallow import Marshmallow
 
 from gcpdac.local_logging import get_logger
-from gcpdac.utils import setDefaultGoogleCloudProject, make_celery, read_config_map
+from gcpdac.utils import setDefaultGoogleCloudProject, make_celery
 
 logger = get_logger('tb-gcp-dac')
 logger.info("Logger initialised")
@@ -28,11 +28,21 @@ setDefaultGoogleCloudProject()
 
 celery_app = make_celery(__name__)
 
-ec_config = read_config_map()
-
 def get_celery():
     return celery_app
 
 
+def read_config_map():
+    # Returns the EC configuration as a dictionary
 
+    try:
+        with open("/app/ec-config.yaml", 'r') as stream:
+            try:
+                return yaml.safe_load(stream)
+            except yaml.YAMLError as exc:
+                logger.exception("Failed to parse EC YAML after successfully opening - {}".format(exc))
+                raise
+    except Exception:
+        logger.exception("Failed to load EC YAML file")
+        raise
 

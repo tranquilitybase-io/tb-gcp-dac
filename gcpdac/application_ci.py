@@ -11,7 +11,7 @@ def create_application(applicationdata):
     logger.debug("application is %s", application_id)
     solution_id = applicationdata.get("solutionId")
     workspace_project_id = applicationdata.get("workspaceProjectId") # get from tf state bucket?
-    ec_config = config.ec_config
+    ec_config = config.read_config_map()
     eagle_project_id = ec_config['ec_project_name']
 
 
@@ -28,7 +28,7 @@ def create_application(applicationdata):
 
     # create terraform vars file
 
-    # ec_config = config.ec_config
+    # ec_config = config.read_config_map()
     # TODO get jenkins url from ec_config ??
 
     # application_name = applicationdata.get("name")
