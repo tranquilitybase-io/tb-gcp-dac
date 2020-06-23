@@ -25,7 +25,7 @@ logger = config.logger
 
 def create_solution(solutiondata):
     tf_data = dict()
-    ec_config = config.read_config_map()
+    ec_config = config.ec_config
 
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
@@ -64,10 +64,10 @@ def create_solution(solutiondata):
     response = terraform_apply(env_data, tf)
     logger.debug("response {}".format(response))
 
-    repo_name = "{}_workspace".format(solution_name)
-    workspace_project_id = response["tf_outputs"]["workspace_project"]["value"]["project_id"]
-    eagle_project_id = ec_config['ec_project_name']
-    create_repo(repo_name, workspace_project_id, eagle_project_id)
+    # repo_name = "{}_workspace".format(solution_name)
+    # workspace_project_id = response["tf_outputs"]["workspace_project"]["value"]["project_id"]
+    # eagle_project_id = ec_config['ec_project_name']
+    # create_repo(repo_name, workspace_project_id, eagle_project_id)
 
     return response
 
@@ -88,7 +88,7 @@ def delete_solution(solutiondata):
     tf_data['tb_discriminator'] = NOT_USED_ON_DESTROY
     tf_data['region_zone'] = NOT_USED_ON_DESTROY
 
-    ec_config = config.read_config_map()
+    ec_config = config.ec_config
 
     tf_data['billing_account'] = ec_config['billing_account']
     tb_discriminator = ec_config['tb_discriminator']
@@ -106,7 +106,7 @@ def delete_solution(solutiondata):
 
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
-    delete_workspace_repo(ec_config, tf)
+    # delete_workspace_repo(ec_config, tf)
 
     return terraform_destroy(env_data, tf)
 
