@@ -7,37 +7,37 @@ from celery.result import AsyncResult
 from flask import abort
 
 import config
-from gcpdac.application_ci import create_application, delete_application
-from gcpdac.celery_tasks import deploy_application_task, destroy_application_task
+from gcpdac.activator_ci import create_activator, delete_activator
+from gcpdac.celery_tasks import deploy_activator_task, destroy_activator_task
 
 logger = config.logger
 
 
-def create(applicationDetails):
-    logger.debug(pformat(applicationDetails))
+def create(activatorDetails):
+    logger.debug(pformat(activatorDetails))
 
-    result = create_application(applicationDetails)
+    result = create_activator(activatorDetails)
     if result.get("tf_return_code") == 0:
         return result, 201
     else:
-        abort(500, "Failed to deploy your application")
+        abort(500, "Failed to deploy your activator")
 
 
 def delete(oid):
     logger.debug("Id is {}".format(oid))
 
-    applicationDetails = {"id": oid}
-    result = delete_application(applicationDetails)
+    activatorDetails = {"id": oid}
+    result = delete_activator(activatorDetails)
     if result.get("tf_return_code") == 0:
         return {}, 200
     else:
-        abort(500, "Failed to delete  your application")
+        abort(500, "Failed to delete  your activator")
 
 
-def create_async(applicationDetails):
-    logger.debug(pformat(applicationDetails))
+def create_async(activatorDetails):
+    logger.debug(pformat(activatorDetails))
 
-    result = deploy_application_task.delay(applicationDetails=applicationDetails)
+    result = deploy_activator_task.delay(activatorDetails=activatorDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -48,15 +48,15 @@ def create_async(applicationDetails):
     if success == True:
         return context, 201
     else:
-        abort(500, "Failed to create your application")
+        abort(500, "Failed to create your activator")
 
 
 def delete_async(oid):
     logger.debug("Id is {}".format(oid))
 
-    applicationDetails = {"id": oid}
+    activatorDetails = {"id": oid}
 
-    result = destroy_application_task.delay(applicationDetails=applicationDetails)
+    result = destroy_activator_task.delay(activatorDetails=activatorDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -67,11 +67,11 @@ def delete_async(oid):
     if success == True:
         return context, 201
     else:
-        abort(500, "Failed to delete your application")
+        abort(500, "Failed to delete your activator")
 
 
-def create_application_result(taskid):
-    logger.info("CREATE application RESULT %s", format(taskid))
+def create_activator_result(taskid):
+    logger.info("CREATE activator RESULT %s", format(taskid))
     status = AsyncResult(taskid).status
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
@@ -88,8 +88,8 @@ def create_application_result(taskid):
         return {'status': status}
 
 
-def delete_application_result(taskid):
-    logger.info("DELETE application RESULT %s", format(taskid))
+def delete_activator_result(taskid):
+    logger.info("DELETE activator RESULT %s", format(taskid))
     status = AsyncResult(taskid).status
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)

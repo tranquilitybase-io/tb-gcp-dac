@@ -91,26 +91,26 @@ paths:
         "201":
           description: Successfully deleted a solution
 
-  /application_async/:
+  /activator_async/:
     post:
-      operationId: gcpdac.application.create_async
+      operationId: gcpdac.activator.create_async
       tags:
-        - application
-      summary: Create a application
-      description: Create application in more detail - TODO
+        - activator
+      summary: Create a activator
+      description: Create activator in more detail - TODO
       responses:
         '201':
-          description: Successfully started a application creation task
+          description: Successfully started a activator creation task
       requestBody:
-        $ref: "#/components/requestBodies/application.applicationDetails"
+        $ref: "#/components/requestBodies/activator.activatorDetails"
 
-  "/application_async/{oid}":
+  "/activator_async/{oid}":
     delete:
-      operationId: gcpdac.application.delete_async
+      operationId: gcpdac.activator.delete_async
       tags:
-        - application
-      summary: delete a application
-      description: delete a application and its resources
+        - activator
+      summary: delete a activator
+      description: delete a activator and its resources
       parameters:
         - name: oid
           in: path
@@ -119,15 +119,15 @@ paths:
             type: integer
       responses:
         "200":
-          description: Successfully started a application deletion task
+          description: Successfully started a activator deletion task
 
-  "/application_async/result/create/{taskid}":
+  "/activator_async/result/create/{taskid}":
     get:
-      operationId: gcpdac.application.create_application_result
+      operationId: gcpdac.activator.create_activator_result
       tags:
-        - application
-      summary: get create application result
-      description:  get create application result
+        - activator
+      summary: get create activator result
+      description:  get create activator result
       parameters:
         - name: taskid
           in: path
@@ -136,15 +136,15 @@ paths:
             type: string
       responses:
         "201":
-          description: Successfully created a application
+          description: Successfully created a activator
 
-  "/application_async/result/delete/{taskid}":
+  "/activator_async/result/delete/{taskid}":
     get:
-      operationId: gcpdac.application.delete_application_result
+      operationId: gcpdac.activator.delete_activator_result
       tags:
-        - application
-      summary: get delete application result
-      description:  get delete application result
+        - activator
+      summary: get delete activator result
+      description:  get delete activator result
       parameters:
         - name: taskid
           in: path
@@ -153,7 +153,7 @@ paths:
             type: string
       responses:
         "201":
-          description: Successfully deleted a application
+          description: Successfully deleted a activator
 
   /folder_async/:
     post:
@@ -228,12 +228,12 @@ components:
           schema:
             x-body-name: solutionDetails
             $ref: "#/components/schemas/Solution"
-    application.applicationDetails:
+    activator.activatorDetails:
       content:
         application/json:
           schema:
-            x-body-name: applicationDetails
-            $ref: "#/components/schemas/Application"
+            x-body-name: activatorDetails
+            $ref: "#/components/schemas/Activator"
     folder.folderDetails:
       content:
         application/json:
@@ -291,12 +291,12 @@ components:
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
-    Application:
+    Activator:
       type: object
       properties:
         id:
           type: integer
-          description: the application id
+          description: the activator id
         name:
           type: string
           description: name
