@@ -18,6 +18,17 @@ def create_repo(repo_name, project_to, project_from):
     call_process(call_string)
 
 
+def copy_repo(source_repo_url, target_repo_url, project_to, project_from):
+    logger.info("Copying source repo {source_repo_url} to target repo {target_repo_url} in project {project_to}".format(
+        source_repo_url=source_repo_url, target_repo_url=target_repo_url, project_to=project_to))
+    call_string = "/bin/bash /app/bash_scripts/create_gcp_repo.sh {source_repo_url} {target_repo_url}  {project_to} {project_from}".format(
+        source_repo_url=source_repo_url,
+        target_repo_url=target_repo_url,
+        project_to=project_to,
+        project_from=project_from)
+    call_process(call_string)
+
+
 def delete_repo(repo_name, project_to, project_from):
     logger.info("Deleting repo {repo_name} in project {project_to}".format(repo_name=repo_name, project_to=project_to))
     call_string = "/bin/bash /app/bash_scripts/delete_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
@@ -44,3 +55,5 @@ def call_process(call_string):
                                        stderr=subprocess.STDOUT, universal_newlines=True)
     process_output, _ = subprocess_call.communicate()
     logger.debug("Process output: {}".format(process_output))
+
+    return process_output

@@ -306,6 +306,9 @@ components:
         solutionId:
           type: integer
           description: the solution id
+        workspaceProjectId:
+          type: string
+          description: the solution id
         activatorGitUrl:
           type: string
           description: git url for the activator repo
