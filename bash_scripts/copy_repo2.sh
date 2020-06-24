@@ -24,6 +24,7 @@ echo "Cloning source repo from ${1}"
 git clone $1
 cd $tmp_dir_source_repo || exit
 # TODO cd to source repo dir
+git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
 
 echo "Adding GCP repo remote ${2}"
 git remote add google https://source.developers.google.com/p/$3/r/$2
