@@ -6,52 +6,24 @@ from pprint import pformat
 import requests
 from celery import states
 from celery.result import AsyncResult
-from flask import abort
 
 import config
 from gcpdac.celery_tasks import deploy_solution_task, destroy_solution_task
-from gcpdac.solution_terraform import create_solution
 from gcpdac.utils import remove_keys_from_dict
 
 logger = config.logger
 
 
-def create(solutionDetails):
-    logger.debug(pformat(solutionDetails))
-
-    result = create_solution(solutionDetails)
-    if result.get("tf_return_code") == 0:
-        return result, 201
-    else:
-        abort(500, "Failed to deploy your solution")
-
-
-def delete(oid):
-    logger.debug("Id is {}".format(oid))
-
-    solutionDetails = {"id": oid}
-    result = create_solution(solutionDetails)
-    if result.get("tf_return_code") == 0:
-        return {}, 200
-    else:
-        abort(500, "Failed to delete  your solution")
-
-
 def create_async(solutionDetails):
     logger.debug(pformat(solutionDetails))
 
-    result = deploy_solution_task.delay(solutionDetails=solutionDetails)
+    result : AsyncResult = deploy_solution_task.delay(solutionDetails=solutionDetails)
 
     logger.info("Task ID %s", result.task_id)
 
     context = {"taskid": result.task_id}
 
-    # TODO handle celery failure
-    success = True
-    if success == True:
-        return context, 201
-    else:
-        abort(500, "Failed to create your solution")
+    return context, 201
 
 
 def delete_async(oid):
@@ -59,18 +31,13 @@ def delete_async(oid):
 
     solutionDetails = {"id": oid}
 
-    result = destroy_solution_task.delay(solutionDetails=solutionDetails)
+    result : AsyncResult = destroy_solution_task.delay(solutionDetails=solutionDetails)
 
     logger.info("Task ID %s", result.task_id)
 
     context = {"taskid": result.task_id}
 
-    # TODO handle celery failure
-    success = True
-    if success == True:
-        return context, 201
-    else:
-        abort(500, "Failed to delete your solution")
+    return context, 201
 
 
 def create_solution_result(taskid):

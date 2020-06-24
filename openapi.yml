@@ -309,6 +309,7 @@ components:
         activatorGitUrl:
           type: string
           description: git url for the activator repo
+# TODO add where to deploy activator
 #        deployments:
 #          type: array
 #          description: where to deploy

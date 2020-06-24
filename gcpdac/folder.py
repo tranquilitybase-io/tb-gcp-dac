@@ -4,41 +4,18 @@ from pprint import pformat
 
 from celery import states
 from celery.result import AsyncResult
-from flask import abort
 
 import config
 from gcpdac.celery_tasks import create_folder_task, delete_folder_task
-from gcpdac.folder_terraform import create_folder, delete_folder
 from gcpdac.utils import remove_keys_from_dict
 
 logger = config.logger
 
 
-def create(folderDetails):
-    logger.debug(pformat(folderDetails))
-
-    result = create_folder(folderDetails)
-    if result.get("tf_return_code") == 0:
-        return result, 201
-    else:
-        abort(500, "Failed to deploy your folder ")
-
-
-def delete(oid):
-    logger.debug("Id is {}".format(oid))
-
-    folderDetails = {"id": oid}
-    result = delete_folder(folderDetails)
-    if result.get("tf_return_code") == 0:
-        return {}, 200
-    else:
-        abort(500, "Failed to delete  your folder ")
-
-
 def create_async(folderDetails):
     logger.debug(pformat(folderDetails))
 
-    result = create_folder_task.delay(folderDetails)
+    result: AsyncResult = create_folder_task.delay(folderDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -52,7 +29,7 @@ def delete_async(oid):
 
     folderDetails = {"id": oid}
 
-    result = delete_folder_task.delay(folderDetails=folderDetails)
+    result : AsyncResult = delete_folder_task.delay(folderDetails=folderDetails)
 
     logger.info("Task ID %s", result.task_id)
 
