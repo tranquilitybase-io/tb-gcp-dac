@@ -23,14 +23,17 @@ echo "Working directory for gcp repo is ${tmp_dir_gcp_repo}"
 cd $tmp_dir_source_repo || exit
 # clone activator repo
 git clone $1
+sourcerepodir=$(ls -d */)
 # clone gcp repo
 cd $tmp_dir_gcp_repo || exit
 gcloud source repos clone $2 --project=$3
 cd $2 || exit
 # copy activator repo to gcp repo
-cp $tmp_dir_source_repo $tmp_dir_gcp_repo/$2
+rsync -arv  $tmp_dir_source_repo/$sourcerepodir $tmp_dir_gcp_repo/$2 --exclude .git --exclude .github
 # commit and push to gcp repo
-git add .
+git config --global user.email "gcpdac@gft.com"
+git config --global user.name "gcpdac"
+git add
 git commit -m 'Push source repo code to GCP repo'
 git push --all origin
 gcloud config set project "$4"
