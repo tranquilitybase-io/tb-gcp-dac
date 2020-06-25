@@ -1,6 +1,8 @@
 /venv/
-/ec-config.yaml
-/ec-config-example.yaml
-/createSolution-input-example.json
+/ec-config*.yaml
+/*example.json
 /credentials.json
 /.gitignore
+/bandit.yml
+/docker-compose*.yml
+/*.iml

@@ -25,7 +25,7 @@ COPY . .
 RUN pip install -r ./requirements.txt
 
 # ensure shell scripts have unix line endings
-RUN dos2unix app_docker.sh
+RUN dos2unix *.sh
 RUN dos2unix ./bash_scripts/*.sh
 
 RUN ["chmod", "+x", "./app_docker.sh"]
