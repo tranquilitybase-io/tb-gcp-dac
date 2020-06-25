@@ -1,9 +1,13 @@
 version: '3.1'
+# This docker compose file just runs DAC alongside redis and a DAC worker. It doesn't include houston or eagle
+# Make a copy called docker-compose-local.yml for testing locally
+# See documentation [here](https://github.com/tranquilitybase-io/tb-gcp-dac/wiki/RunServicesWithDocker)
 
 services:
   gcp-dac:
     container_name: gcp-dac
-    image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
+    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:local
     #    build:
     #      context: .
     #      dockerfile: Dockerfile
@@ -13,18 +17,14 @@ services:
       - redis
     depends_on:
       - redis
-    #    restart: always
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
     volumes:
-      # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file - example below
-      # - C:\dev\tb-gcp-dac\credentials.json:/credentials.json:ro
-      - <CREDENTIALS FILE>:/credentials.json
-      # replace <EC CONFIG FILE> with the location of the file - example below
-      #      - C:\dev\tb-gcp-dac\ec-config.yaml:/app/ec-config.yaml:ro
-      - <EC CONFIG FILE>:/app/ec-config.yaml:ro
+      # NB credentials.json and ec-config.yaml should have been created and exist in the project root directory
+      - .\credentials.json:/credentials.json:ro
+      - .\ec-config.yaml:/app/ec-config.yaml:ro
 
   redis:
     container_name: redis
@@ -36,7 +36,8 @@ services:
 
   worker:
     container_name: gcp-dac-worker
-    image: gcr.io/tranquility-base-images/tb-gcp-dac:alpha
+    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:local
     #    build:
     #      context: .
     #      dockerfile: Dockerfile
@@ -47,39 +48,12 @@ services:
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
     volumes:
-      # replace <CREDENTIALS FILE> with the location of a Google service account's JSON credentials file - example below
-      # - C:\dev\tb-gcp-dac\credentials.json:/credentials.json:ro
-      - <CREDENTIALS FILE>:/credentials.json
-      # replace <EC CONFIG FILE> with the location of the file - example below
-      #      - C:\dev\tb-gcp-dac\ec-config.yaml:/app/ec-config.yaml:ro
-      - <EC CONFIG FILE>:/app/ec-config.yaml:ro
+      # credentials.json and ec-config.yaml should have been created and exist in the project root directory
+      - .\credentials.json:/credentials.json:ro
+      - .\ec-config.yaml:/app/ec-config.yaml:ro
     links:
       - redis
     depends_on:
       - redis
       - gcp-dac
-#    restart: always
 
-#  mysql57:
-#    image: gcr.io/tranquility-base-images/tb-houston-mysql:alpha
-#    command: --default-authentication-plugin=mysql_native_password
-#    restart: always
-#    environment:
-#      MYSQL_ROOT_PASSWORD: my-secret-pw
-#      MYSQL_USER: eagle-user
-#      MYSQL_PASSWORD: eagle-user-secret-pw
-#      MYSQL_DATABASE: eagle_db
-#    ports:
-#    - '3306:3306'
-#
-#  houston-service:
-#    image: gcr.io/tranquility-base-images/tb-houston-service:alpha
-#    restart: always
-#    environment:
-#        SQLALCHEMY_DATABASE_URI: 'mysql+mysqlconnector://eagle-user:eagle-user-secret-pw@mysql57/eagle_db'
-#        SQLALCHEMY_ECHO: 'True'
-#        SQLALCHEMY_TRACK_MODIFICATIONS: 'True'
-#    depends_on:
-#        - mysql57
-#    ports:
-#      - 3000:3000
