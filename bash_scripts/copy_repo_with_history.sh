@@ -8,6 +8,8 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+
+# This script copies all the code from the source repo to the gcp target repo with history
 # $1 - source repo url
 # $2 - name of target gcp repo
 # $3 - project gcp repo is in

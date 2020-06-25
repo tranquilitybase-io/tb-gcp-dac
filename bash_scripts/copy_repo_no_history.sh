@@ -33,7 +33,7 @@ rsync -arv  $tmp_dir_source_repo/$sourcerepodir $tmp_dir_gcp_repo/$2 --exclude .
 # commit and push to gcp repo
 git config --global user.email "gcpdac@gft.com"
 git config --global user.name "gcpdac"
-git add
+git add .
 git commit -m 'Push source repo code to GCP repo'
 git push --all origin
 gcloud config set project "$4"

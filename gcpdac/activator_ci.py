@@ -24,26 +24,9 @@ def create_activator(activatordata):
     # workspace_project_id = response["tf_outputs"]["workspace_project"]["value"]["project_id"]
     create_repo(repo_name, workspace_project_id, eagle_project_id)
 
-    gcp_repo_url = "TODO build repo name"
     copy_repo(activator_get_url, repo_name, workspace_project_id, eagle_project_id)
 
-    # TODO git_repo_url from repo name
-
-    # create terraform vars file
-    # check vars file into repo
-    # check repo for result file created by Jenkins CI
-
-    # OR
-
-    # create terraform vars file
-
-    # ec_config = config.read_config_map()
-    # TODO get jenkins url from ec_config ??
-
-    # activator_name = activatordata.get("name")
-    # git_repo_url = activatordata.get("activatorGitUrl")
-    # call Jenkins CI directly with vars file
-    # TODO
+    gcp_repo_url = "TODO build repo name"
     # call_jenkins(git_repo_url)
 
     # TODO add check of jenkins result

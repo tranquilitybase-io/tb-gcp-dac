@@ -18,12 +18,12 @@ def create_repo(repo_name, project_to, project_from):
     call_process(call_string)
 
 
-def copy_repo(source_repo_url, target_repo_url, project_to, project_from):
-    logger.info("Copying source repo {source_repo_url} to target repo {target_repo_url} in project {project_to}".format(
-        source_repo_url=source_repo_url, target_repo_url=target_repo_url, project_to=project_to))
-    call_string = "/bin/bash /app/bash_scripts/create_gcp_repo.sh {source_repo_url} {target_repo_url}  {project_to} {project_from}".format(
+def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
+    logger.info("Copying source repo {source_repo_url} to target gcp repo {target_gcp_repo_name} in project {project_to}".format(
+        source_repo_url=source_repo_url, target_gcp_repo_name=target_gcp_repo_name, project_to=project_to))
+    call_string = "/bin/bash /app/bash_scripts/copy_repo_with_history.sh {source_repo_url} {target_gcp_repo_name}  {project_to} {project_from}".format(
         source_repo_url=source_repo_url,
-        target_repo_url=target_repo_url,
+        target_gcp_repo_name=target_gcp_repo_name,
         project_to=project_to,
         project_from=project_from)
     call_process(call_string)
