@@ -22,8 +22,10 @@ cd $tmp_dir_source_repo || exit
 
 echo "Cloning source repo from ${1}"
 git clone $1
-cd $tmp_dir_source_repo || exit
-# TODO cd to source repo dir
+sourcerepodir=$(ls -d */)
+cd $tmp_dir_source_repo/$sourcerepodir || exit
+
+echo "Configure git to allow pushing to gcp repo"
 git config --global credential.'https://source.developers.google.com'.helper gcloud.sh
 
 echo "Adding GCP repo remote ${2}"
