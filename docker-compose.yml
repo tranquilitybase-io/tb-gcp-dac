@@ -7,10 +7,10 @@ services:
   gcp-dac:
     container_name: gcp-dac
     # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    build:
+      context: .
+      dockerfile: Dockerfile
     image: gcr.io/tranquility-base-images/tb-gcp-dac:local
-    #    build:
-    #      context: .
-    #      dockerfile: Dockerfile
     ports:
       - 3100:3100
     links:
@@ -35,12 +35,12 @@ services:
   #    command: [ "redis-server", "/redis.conf" ]
 
   worker:
-    container_name: gcp-dac-worker
+    # to run with more workers 'docker-compose up --scale worker = <num of workers>
     # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
     image: gcr.io/tranquility-base-images/tb-gcp-dac:local
-    #    build:
-    #      context: .
-    #      dockerfile: Dockerfile
+    build:
+      context: .
+      dockerfile: Dockerfile
     hostname: worker
     command:  celery -E -A celery_worker worker --loglevel=info
     environment:

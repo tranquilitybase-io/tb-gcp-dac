@@ -9,13 +9,15 @@ from tests.gcp_tests.activator_utils import delete_activator_task, delete_activa
 
 activator_id = 101
 solution_id = 1001
-activator_git_url = "TODO"
+activator_git_url = "https://github.com/tranquilitybase-io/tb-activator-gft-base.git"
+workspaceProjectId = "TODO add a workspace project id"
 
 activator_json = {
     "id": activator_id,
-    "name": "string",
-    "description": "string",
+    "name": "testapp",
+    "description": "Test app",
     "solutionId": solution_id,
+    "workspaceProjectId": workspaceProjectId,
     "activatorGitUrl": activator_git_url
 }
 
@@ -29,6 +31,7 @@ def get_activatorId():
 
 
 class ActivatorTest(unittest.TestCase):
+    @unittest.skip("TODO Test needs more setup before running")
     def test_activator(self):
         activator_payload = self.deploy_activator(get_payload())
 
@@ -37,6 +40,7 @@ class ActivatorTest(unittest.TestCase):
         # check activator values after deleting activator
         self.check_values(activator_response=json.loads(activator_payload), activator_input=get_payload())
 
+    @unittest.skip("TODO Test needs more setup before running")
     def delete_activator(self):
         taskid = delete_activator_task(get_activatorId())
         print("Deleting a activator")
