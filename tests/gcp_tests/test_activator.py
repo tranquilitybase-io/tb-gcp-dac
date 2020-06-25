@@ -38,7 +38,7 @@ class ActivatorTest(unittest.TestCase):
         self.delete_activator()
 
         # check activator values after deleting activator
-        self.check_values(activator_response=json.loads(activator_payload), activator_input=get_payload())
+        # self.check_values(activator_response=json.loads(activator_payload), activator_input=get_payload())
 
     @unittest.skip("TODO Test needs more setup before running")
     def delete_activator(self):
@@ -69,8 +69,8 @@ class ActivatorTest(unittest.TestCase):
         print('Payload {}'.format(payload))
         return payload
 
-    def check_values(self, activator_response, activator_input):
-        print("TODO")
+    # def check_values(self, activator_response, activator_input):
+    #     print("TODO")
 
 
 if __name__ == '__main__':

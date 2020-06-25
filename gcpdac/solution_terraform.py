@@ -16,7 +16,7 @@ import json
 from python_terraform import Terraform
 
 import config
-from gcpdac.shell_utils import create_repo, delete_repo
+from gcpdac.shell_utils import delete_repo
 from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init, NOT_USED_ON_DESTROY
 from gcpdac.utils import labellize, random_element, sanitize
 

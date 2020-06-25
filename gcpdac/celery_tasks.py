@@ -14,7 +14,7 @@ logger = get_logger('worker')
 class DacTask(celery_app.Task):
 
     def on_failure(self, exc, task_id, args, kwargs, einfo):
-        print('{0!r} failed: {1!r}'.format(task_id, exc))
+        print('{0!r} failed: {1!r}'.format(self.task_id, exc))
 
 
 @celery_app.task(bind=True, base=DacTask, name='deploy_solution')
