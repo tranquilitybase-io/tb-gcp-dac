@@ -1,7 +1,5 @@
-import json
-
 import config
-from gcpdac.shell_utils import call_jenkins, create_repo, copy_repo
+from gcpdac.shell_utils import create_repo, copy_repo
 from gcpdac.utils import sanitize
 
 logger = config.logger
@@ -10,9 +8,9 @@ logger = config.logger
 def create_activator(activatordata):
     activator_id = activatordata.get("id")
     activator_name = activatordata.get("name")
-    activator_description = activatordata.get("description")
+    # activator_description = activatordata.get("description")
     logger.debug("activator is %s", activator_id)
-    solution_id = activatordata.get("solutionId")
+    # solution_id = activatordata.get("solutionId")
     workspace_project_id = activatordata.get("workspaceProjectId")  # get from tf state bucket?
     activator_get_url = activatordata.get("activatorGitUrl")
 
@@ -26,7 +24,7 @@ def create_activator(activatordata):
 
     copy_repo(activator_get_url, repo_name, workspace_project_id, eagle_project_id)
 
-    gcp_repo_url = "TODO build repo name"
+    # gcp_repo_url = "TODO build repo name"
     # call_jenkins(git_repo_url)
 
     # TODO add check of jenkins result

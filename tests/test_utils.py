@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from gcpdac.utils import labellize, sanitize
+from gcpdac.utils import sanitize
 
 
 class Utils_Test(TestCase):
