@@ -49,8 +49,8 @@ def create_solution(solutiondata):
 
     backend_prefix = get_solution_backend_prefix(solution_id, tb_discriminator)
 
-    # TODO remove dependency on this
-    env_data = '/app/terraform/input.tfvars'
+    # env_data = '/app/terraform/input.tfvars'
+    env_data = None
     # TODO pass region_zone in - comes from UI?
     tf_data['region_zone'] = region + "-b"
 

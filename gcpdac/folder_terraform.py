@@ -42,9 +42,8 @@ def create_folder(folderDetails):
     tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
 
-    # TODO this file currently empty - remove need for it?
-    env_data = '/app/terraform/input.tfvars'
-
+    # env_data = '/app/terraform/input.tfvars'
+    env_data = None
     backend_prefix = get_folder_backend_prefix(folder_name, tb_discriminator)
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_source_path = '/app/terraform/folder_creation'
@@ -73,7 +72,7 @@ def delete_folder(folder):
     tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
 
-    env_data = '/app/terraform/input.tfvars'
+    env_data = None
 
     backend_prefix = get_folder_backend_prefix(folder_name, tb_discriminator)
     terraform_state_bucket = ec_config['terraform_state_bucket']

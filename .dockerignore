@@ -6,3 +6,5 @@
 /bandit.yml
 /docker-compose*.yml
 /*.iml
+/terraform/input.tfvars
+/terraform/input.auto.tfvars
