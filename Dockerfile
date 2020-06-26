@@ -1,10 +1,11 @@
-FROM google/cloud-sdk:292.0.0
+FROM google/cloud-sdk:298.0.0
 MAINTAINER "GFT"
 
 ENV TERRAFORM_VERSION=0.12.24
 
 RUN apt-get update \
- && apt-get install unzip=6.0-25 wget=1.20.1-1.1 dos2unix=7.4.0-1 nano=3.2-3 rsync=3.2.1-1 -y --no-install-recommends \
+ && apt-get install unzip=6.0-25 wget=1.20.1-1.1 dos2unix=7.4.0-1 nano=3.2-3 rsync=3.2.1-1 \
+ -y --no-install-recommends \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
@@ -25,7 +26,7 @@ COPY . .
 RUN pip install -r ./requirements.txt
 
 # ensure shell scripts have unix line endings
-RUN dos2unix *.sh
+RUN dos2unix -- *.sh
 RUN dos2unix ./bash_scripts/*.sh
 
 RUN ["chmod", "+x", "./app_docker.sh"]

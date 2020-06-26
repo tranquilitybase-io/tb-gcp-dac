@@ -9,12 +9,16 @@ from tests.gcp_tests.activator_utils import delete_activator_task, delete_activa
 
 activator_id = 101
 solution_id = 1001
-activator_git_url = "https://github.com/tranquilitybase-io/tb-activator-gft-base.git"
-workspaceProjectId = "TODO add a workspace project id"
+# activator_git_url = "https://github.com/tranquilitybase-io/tb-activator-gft-base.git"
+activator_git_url = "https://source.developers.google.com/p/workspace-93b7sc-ksjs726s/r/activator-testapp"
+# TODO write test that creates solution first, retrieves workspace project then deploys activator
+# workspaceProjectId = "workspace-j8u3pn-ksjs726s"
+workspaceProjectId = None
+activator_name = "testapp"
 
 activator_json = {
     "id": activator_id,
-    "name": "testapp",
+    "name": activator_name,
     "description": "Test app",
     "solutionId": solution_id,
     "workspaceProjectId": workspaceProjectId,
@@ -31,28 +35,14 @@ def get_activatorId():
 
 
 class ActivatorTest(unittest.TestCase):
-    @unittest.skip("TODO Test needs more setup before running")
+    # @unittest.skip("TODO Test needs more setup before running")
     def test_activator(self):
-        activator_payload = self.deploy_activator(get_payload())
+        if workspaceProjectId == None:
+            self.fail("Set a valid solution workspace project id to test")
+        response = self.deploy_activator(get_payload())
+        response = json.loads(response)
 
-        self.delete_activator()
-
-        # check activator values after deleting activator
-        # self.check_values(activator_response=json.loads(activator_payload), activator_input=get_payload())
-
-    @unittest.skip("TODO Test needs more setup before running")
-    def delete_activator(self):
-        taskid = delete_activator_task(get_activatorId())
-        print("Deleting a activator")
-        print("Celery task id {}".format(taskid))
-        status = ''
-        while (status != states.SUCCESS and status != states.FAILURE):
-            print("Checking task {}".format(taskid))
-            status, payload = delete_activator_task_result(taskid)
-            print('Status {}'.format(status))
-            print('Payload {}'.format(payload))
-            sleep(10)
-        self.assertEqual(states.SUCCESS, status)
+        self.assertEqual("activator-testapp", response["repo_name"])
 
     def deploy_activator(self, activator_input):
         taskid = create_activator_task(activator_input)
@@ -69,8 +59,18 @@ class ActivatorTest(unittest.TestCase):
         print('Payload {}'.format(payload))
         return payload
 
-    # def check_values(self, activator_response, activator_input):
-    #     print("TODO")
+    def delete_activator(self):
+        taskid = delete_activator_task(get_activatorId())
+        print("Deleting a activator")
+        print("Celery task id {}".format(taskid))
+        status = ''
+        while (status != states.SUCCESS and status != states.FAILURE):
+            print("Checking task {}".format(taskid))
+            status, payload = delete_activator_task_result(taskid)
+            print('Status {}'.format(status))
+            print('Payload {}'.format(payload))
+            sleep(10)
+        self.assertEqual(states.SUCCESS, status)
 
 
 if __name__ == '__main__':

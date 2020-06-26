@@ -19,20 +19,19 @@ def create_activator(activatordata):
 
     repo_name = "activator-{}".format(activator_name)
     repo_name = sanitize(repo_name)
-    # workspace_project_id = response["tf_outputs"]["workspace_project"]["value"]["project_id"]
+
     create_repo(repo_name, workspace_project_id, eagle_project_id)
 
     copy_repo(activator_get_url, repo_name, workspace_project_id, eagle_project_id)
 
-    # gcp_repo_url = "TODO build repo name"
-    # call_jenkins(git_repo_url)
+    # TODO call jenkins job
 
-    # TODO add check of jenkins result
+    # TODO check results of jenkins job
 
-    return {"return_code": 0}
+    return {"return_code": 0, "repo_name": repo_name}
 
 
 def delete_activator(activatordata):
-    # TODO place holder to call Jenkins
+    # TODO not implemented yet
 
     return {"return_code": 0}

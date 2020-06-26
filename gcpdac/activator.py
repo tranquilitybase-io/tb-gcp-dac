@@ -14,7 +14,7 @@ logger = config.logger
 def create_async(activatorDetails):
     logger.debug(pformat(activatorDetails))
 
-    result : AsyncResult = deploy_activator_task.delay(activatorDetails=activatorDetails)
+    result: AsyncResult = deploy_activator_task.delay(activatorDetails=activatorDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -28,7 +28,7 @@ def delete_async(oid):
 
     activatorDetails = {"id": oid}
 
-    result : AsyncResult = destroy_activator_task.delay(activatorDetails=activatorDetails)
+    result: AsyncResult = destroy_activator_task.delay(activatorDetails=activatorDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -43,12 +43,10 @@ def create_activator_result(taskid):
     if status == states.SUCCESS or status == states.FAILURE:
         retval = AsyncResult(taskid).get(timeout=1.0)
         return_code = retval["return_code"]
-        # tf_outputs = retval["tf_outputs"]
+        payload = {}
+        payload["repo_name"] = retval["repo_name"]
         if return_code > 0:
             status = states.FAILURE
-            payload = {}
-        else:
-            payload = {}
 
         return {'status': status, "payload": json.dumps(payload)}
     else:

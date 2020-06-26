@@ -72,14 +72,3 @@ def delete_solution_result(taskid):
     else:
         return {'status': status}
 
-
-def successful_deployment_update(solutionId):
-    url = "http://" + os.environ['HOUSTON_SERVICE_URL'] + "/api/solutiondeployment/"
-
-    payload = {'id': solutionId, 'deployed': True}
-    print(f"url: {url}")
-    print(f"data: {payload}")
-    headers = {'Content-Type': "application/json"}
-    response = requests.put(url + f"/{solutionId}", data=json.dumps(payload), headers=headers)
-    print(pformat(response))
-    return response
