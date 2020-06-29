@@ -91,7 +91,7 @@ paths:
         "201":
           description: Successfully deleted a solution
 
-  /activator_async/:
+  /application_async/:
     post:
       operationId: gcpdac.activator.create_async
       tags:
@@ -104,7 +104,7 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/activator.activatorDetails"
 
-  "/activator_async/{oid}":
+  "/application_async/{oid}":
     delete:
       operationId: gcpdac.activator.delete_async
       tags:
@@ -121,7 +121,7 @@ paths:
         "200":
           description: Successfully started a activator deletion task
 
-  "/activator_async/result/create/{taskid}":
+  "/application_async/result/create/{taskid}":
     get:
       operationId: gcpdac.activator.create_activator_result
       tags:
@@ -138,7 +138,7 @@ paths:
         "201":
           description: Successfully created a activator
 
-  "/activator_async/result/delete/{taskid}":
+  "/application_async/result/delete/{taskid}":
     get:
       operationId: gcpdac.activator.delete_activator_result
       tags:

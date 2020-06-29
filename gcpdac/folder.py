@@ -7,7 +7,6 @@ from celery.result import AsyncResult
 
 import config
 from gcpdac.celery_tasks import create_folder_task, delete_folder_task
-from gcpdac.utils import remove_keys_from_dict
 
 logger = config.logger
 
@@ -29,7 +28,7 @@ def delete_async(oid):
 
     folderDetails = {"id": oid}
 
-    result : AsyncResult = delete_folder_task.delay(folderDetails=folderDetails)
+    result: AsyncResult = delete_folder_task.delay(folderDetails=folderDetails)
 
     logger.info("Task ID %s", result.task_id)
 
@@ -40,32 +39,43 @@ def delete_async(oid):
 
 def create_folder_result(taskid):
     logger.info("CREATE FOLDER RESULT %s", format(taskid))
-    status = AsyncResult(taskid).status
-    if status == states.SUCCESS or status == states.FAILURE:
-        retval = AsyncResult(taskid).get(timeout=1.0)
+    asyncResult = AsyncResult(taskid)
+    status = asyncResult.status
+    payload = {}
+
+    if status == states.FAILURE:
+        result: Exception = asyncResult.result
+        logger.info("Exception {}".format(result))
+        # TODO add error message to payload
+
+    if status == states.SUCCESS:
+        retval = asyncResult.get(timeout=1.0)
         logger.debug("retval %s", retval)
         tf_outputs: dict = retval["tf_outputs"]
         return_code = retval["tf_return_code"]
         if return_code > 0:
             status = states.FAILURE
-            payload = {}
         else:
             payload = tf_outputs
-            keys_to_remove = ("billing_account")
-            remove_keys_from_dict(payload, keys_to_remove)
-        return {'status': status, "payload": json.dumps(payload)}
-    else:
-        return {'status': status}
+            payload = json.dumps(payload)
+
+    return {'status': status, "payload": payload}
 
 
 def delete_folder_result(taskid):
     logger.info("DELETE FOLDER RESULT %s", format(taskid))
-    status = AsyncResult(taskid).status
-    if status == states.SUCCESS or status == states.FAILURE:
-        retval = AsyncResult(taskid).get(timeout=1.0)
+    asyncResult = AsyncResult(taskid)
+    status = asyncResult.status
+    payload = {}
+    if status == states.FAILURE:
+        result: Exception = asyncResult.result
+        logger.info("Exception {}".format(result))
+        # TODO add error message to payload
+
+    if status == states.SUCCESS:
+        retval = asyncResult.get(timeout=1.0)
         return_code = retval["tf_return_code"]
         if return_code > 0:
             status = states.FAILURE
-        return {'status': status}
-    else:
-        return {'status': status}
+
+    return {'status': status, "payload": payload}

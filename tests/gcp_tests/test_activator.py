@@ -25,6 +25,13 @@ activator_json = {
     "activatorGitUrl": activator_git_url
 }
 
+activator_json_old = {
+    "id": activator_id,
+    "name": activator_name,
+    "description": "Test app",
+    "solutionId": solution_id
+}
+
 
 def get_payload():
     return activator_json
@@ -39,10 +46,18 @@ class ActivatorTest(unittest.TestCase):
     def test_activator(self):
         if workspaceProjectId == None:
             self.fail("Set a valid solution workspace project id to test")
-        response = self.deploy_activator(get_payload())
-        response = json.loads(response)
+        status, payload = self.deploy_activator(activator_json)
+        # response = json.loads(response)
+        self.assertEqual(states.SUCCESS, status)
+        self.assertEqual("activator-testapp", payload["repo_name"])
 
-        self.assertEqual("activator-testapp", response["repo_name"])
+
+    # TODO remove test when houston implements latest version of api
+    def test_activator_invalid_input(self):
+        status, payload = self.deploy_activator(activator_json_old)
+        self.assertEqual(states.FAILURE, status)
+
+        print("payload:{}".format(payload))
 
     def deploy_activator(self, activator_input):
         taskid = create_activator_task(activator_input)
@@ -55,9 +70,7 @@ class ActivatorTest(unittest.TestCase):
             status, payload = create_activator_task_result(taskid)
             print('Status {}'.format(status))
             sleep(10)
-        self.assertEqual(states.SUCCESS, status)
-        print('Payload {}'.format(payload))
-        return payload
+        return status, payload
 
     def delete_activator(self):
         taskid = delete_activator_task(get_activatorId())

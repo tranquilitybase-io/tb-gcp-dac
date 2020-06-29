@@ -1,5 +1,4 @@
 # Supports all actions concerning applications
-import json
 from pprint import pformat
 
 from celery import states
@@ -39,28 +38,40 @@ def delete_async(oid):
 
 def create_activator_result(taskid):
     logger.info("CREATE activator RESULT %s", format(taskid))
-    status = AsyncResult(taskid).status
-    if status == states.SUCCESS or status == states.FAILURE:
-        retval = AsyncResult(taskid).get(timeout=1.0)
-        return_code = retval["return_code"]
-        payload = {}
-        payload["repo_name"] = retval["repo_name"]
-        if return_code > 0:
-            status = states.FAILURE
+    asyncResult: AsyncResult = AsyncResult(taskid)
+    status = asyncResult.status
+    payload = {}
 
-        return {'status': status, "payload": json.dumps(payload)}
-    else:
-        return {'status': status}
+    if status == states.FAILURE:
+        result: Exception = asyncResult.result
+        logger.info("Exception {}".format(result))
+        # TODO add error message to payload
+
+    if status == states.SUCCESS:
+        payload = asyncResult.get(timeout=1.0)
+        # return_code = retval["return_code"]
+        # payload["repo_name"] = retval["repo_name"]
+        # if return_code > 0:
+        #     status = states.FAILURE
+
+    return {'status': status, "payload": payload}
 
 
 def delete_activator_result(taskid):
     logger.info("DELETE activator RESULT %s", format(taskid))
-    status = AsyncResult(taskid).status
-    if status == states.SUCCESS or status == states.FAILURE:
-        retval = AsyncResult(taskid).get(timeout=1.0)
+    asyncResult = AsyncResult(taskid)
+    status = asyncResult.status
+    payload = {}
+
+    if status == states.FAILURE:
+        result: Exception = asyncResult.result
+        logger.info("Exception {}".format(result))
+
+    if status == states.SUCCESS:
+        retval = asyncResult.get(timeout=1.0)
         return_code = retval["return_code"]
         if return_code > 0:
             status = states.FAILURE
-        return {'status': status, "return_code": return_code}
-    else:
-        return {'status': status}
+        payload["return_code"] = return_code
+
+    return {'status': status, "payload": payload}

@@ -8,7 +8,7 @@ headers = {'Content-Type': 'application/json'}
 
 
 def create_activator_task(payload):
-    url = '{}/activator_async'.format(BASE_URL)
+    url = '{}/application_async'.format(BASE_URL)
     resp = requests.post(url, headers=headers, data=json.dumps(payload, indent=4))
 
     resp_json = resp.json()
@@ -18,7 +18,7 @@ def create_activator_task(payload):
 
 
 def create_activator_task_result(taskId):
-    url = '{}/activator_async/result/create/{}'.format(BASE_URL, taskId)
+    url = '{}/application_async/result/create/{}'.format(BASE_URL, taskId)
     resp = requests.get(url, headers=headers)
 
     resp_json = resp.json()
@@ -29,7 +29,7 @@ def create_activator_task_result(taskId):
 
 
 def delete_activator_task(activatorId):
-    url = '{}/activator_async/{}'.format(BASE_URL, activatorId)
+    url = '{}/application_async/{}'.format(BASE_URL, activatorId)
     resp = requests.delete(url, headers=headers)
 
     resp_json = resp.json()
@@ -39,7 +39,7 @@ def delete_activator_task(activatorId):
 
 
 def delete_activator_task_result(taskId):
-    url = '{}/activator_async/result/delete/{}'.format(BASE_URL, taskId)
+    url = '{}/application_async/result/delete/{}'.format(BASE_URL, taskId)
     resp = requests.get(url, headers=headers)
 
     resp_json = resp.json()
