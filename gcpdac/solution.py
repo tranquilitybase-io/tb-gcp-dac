@@ -1,15 +1,12 @@
 # Supports all actions concerning Solutions
 import json
-import os
 from pprint import pformat
 
-import requests
 from celery import states
 from celery.result import AsyncResult
 
 import config
 from gcpdac.celery_tasks import deploy_solution_task, destroy_solution_task
-from gcpdac.utils import remove_keys_from_dict
 
 logger = config.logger
 

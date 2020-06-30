@@ -93,24 +93,24 @@ paths:
 
   /application_async/:
     post:
-      operationId: gcpdac.activator.create_async
+      operationId: gcpdac.application.create_async
       tags:
-        - activator
-      summary: Create a activator
-      description: Create activator in more detail - TODO
+        - application
+      summary: Create an application (application deployment)
+      description: Create application in more detail - TODO
       responses:
         '201':
-          description: Successfully started a activator creation task
+          description: Successfully started a application creation task
       requestBody:
-        $ref: "#/components/requestBodies/activator.activatorDetails"
+        $ref: "#/components/requestBodies/application.applicationDetails"
 
   "/application_async/{oid}":
     delete:
-      operationId: gcpdac.activator.delete_async
+      operationId: gcpdac.application.delete_async
       tags:
-        - activator
-      summary: delete a activator
-      description: delete a activator and its resources
+        - application
+      summary: delete a application
+      description: delete a application and its resources
       parameters:
         - name: oid
           in: path
@@ -119,15 +119,15 @@ paths:
             type: integer
       responses:
         "200":
-          description: Successfully started a activator deletion task
+          description: Successfully started a application deletion task
 
   "/application_async/result/create/{taskid}":
     get:
-      operationId: gcpdac.activator.create_activator_result
+      operationId: gcpdac.application.create_application_result
       tags:
-        - activator
-      summary: get create activator result
-      description:  get create activator result
+        - application
+      summary: get create application result
+      description:  get create application result
       parameters:
         - name: taskid
           in: path
@@ -136,15 +136,15 @@ paths:
             type: string
       responses:
         "201":
-          description: Successfully created a activator
+          description: Successfully created a application
 
   "/application_async/result/delete/{taskid}":
     get:
-      operationId: gcpdac.activator.delete_activator_result
+      operationId: gcpdac.application.delete_application_result
       tags:
-        - activator
-      summary: get delete activator result
-      description:  get delete activator result
+        - application
+      summary: get delete application result
+      description:  get delete application result
       parameters:
         - name: taskid
           in: path
@@ -153,7 +153,7 @@ paths:
             type: string
       responses:
         "201":
-          description: Successfully deleted a activator
+          description: Successfully deleted a application
 
   /folder_async/:
     post:
@@ -228,12 +228,12 @@ components:
           schema:
             x-body-name: solutionDetails
             $ref: "#/components/schemas/Solution"
-    activator.activatorDetails:
+    application.applicationDetails:
       content:
         application/json:
           schema:
-            x-body-name: activatorDetails
-            $ref: "#/components/schemas/Activator"
+            x-body-name: applicationDetails
+            $ref: "#/components/schemas/Application"
     folder.folderDetails:
       content:
         application/json:
@@ -291,12 +291,12 @@ components:
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
-    Activator:
+    Application:
       type: object
       properties:
         id:
           type: integer
-          description: the activator id
+          description: the application id
         name:
           type: string
           description: name
@@ -306,49 +306,43 @@ components:
         solutionId:
           type: integer
           description: the solution id
+        lastUpdated:
+          type: string
+          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
         workspaceProjectId:
           type: string
           description: the solution id
         activatorGitUrl:
           type: string
           description: git url for the activator repo
-# TODO add where to deploy activator
-#        deployments:
-#          type: array
-#          description: where to deploy
-#          items:
-#            properties:
-#              environment:
-#                type: string
-#                description: environment
-#              projectId:
-#                type: string
-#                description: GCP Project ID for environment
-#              mandatoryVariables:
-#                type: array
-#                description: mandatory variables
-#                items:
-#                  properties:
-#                    key:
-#                      type: string
-#                      description: variable key
-#                    value:
-#                      type: string
-#                      description: variable value
-#              optionalVariables:
-#                type: array
-#                description: optional variables
-#                items:
-#                  properties:
-#                    key:
-#                      type: string
-#                      description: variable key
-#                    value:
-#                      type: string
-#                      description: variable value
-#        lastUpdated:
-#          type: string
-#          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+        deploymentEnvironment:
+          type: string
+          description: environment
+        deploymentProjectId:
+          type: string
+          description: GCP Project ID for environment
+        mandatoryVariables:
+          type: array
+          description: mandatory variables
+          items:
+            properties:
+              key:
+                type: string
+                description: variable key
+              value:
+                type: string
+                description: variable value
+        optionalVariables:
+          type: array
+          description: optional variables
+          items:
+            properties:
+              key:
+                type: string
+                description: variable key
+              value:
+                type: string
+                description: variable value
     Folder:
       type: object
       properties:

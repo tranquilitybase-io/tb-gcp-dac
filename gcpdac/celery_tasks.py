@@ -4,7 +4,7 @@ from celery import states
 from celery.exceptions import Ignore
 
 from config import get_celery
-from gcpdac.activator_ci import create_activator, delete_activator
+from gcpdac.application_ci import create_application, delete_application
 from gcpdac.folder_terraform import create_folder, delete_folder
 from gcpdac.local_logging import get_logger
 from gcpdac.solution_terraform import create_solution, delete_solution
@@ -63,12 +63,12 @@ def delete_folder_task(self, folderDetails):
     return response
 
 
-@celery_app.task(bind=True, base=DacTask, name='deploy_activator')
-def deploy_activator_task(self, activatorDetails):
-    logger.debug("deploy_activator_task")
+@celery_app.task(bind=True, base=DacTask, name='deploy_application')
+def deploy_application_task(self, applicationDetails):
+    logger.debug("deploy_application_task")
 
     try:
-        response = create_activator(activatorDetails)
+        response = create_application(applicationDetails)
         return_code = response.get("return_code")
         if (return_code) != 0:
             self.update_state(state=states.FAILURE)
@@ -85,10 +85,10 @@ def deploy_activator_task(self, activatorDetails):
         raise Ignore()
 
 
-@celery_app.task(bind=True, base=DacTask, name='destroy_activator')
-def destroy_activator_task(self, activatorDetails):
-    logger.debug("destroy_activator_task")
-    response = delete_activator(activatorDetails)
+@celery_app.task(bind=True, base=DacTask, name='destroy_application')
+def destroy_application_task(self, applicationDetails):
+    logger.debug("destroy_application_task")
+    response = delete_application(applicationDetails)
     return_code = response.get("return_code")
     if (return_code) != 0:
         self.update_state(state=states.FAILURE)

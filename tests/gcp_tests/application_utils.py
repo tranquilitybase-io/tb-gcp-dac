@@ -7,7 +7,7 @@ from tests.gcp_tests.common_utils import BASE_URL
 headers = {'Content-Type': 'application/json'}
 
 
-def create_activator_task(payload):
+def create_application_task(payload):
     url = '{}/application_async'.format(BASE_URL)
     resp = requests.post(url, headers=headers, data=json.dumps(payload, indent=4))
 
@@ -17,7 +17,7 @@ def create_activator_task(payload):
     return task_id
 
 
-def create_activator_task_result(taskId):
+def create_application_task_result(taskId):
     url = '{}/application_async/result/create/{}'.format(BASE_URL, taskId)
     resp = requests.get(url, headers=headers)
 
@@ -28,8 +28,8 @@ def create_activator_task_result(taskId):
     return status, payload
 
 
-def delete_activator_task(activatorId):
-    url = '{}/application_async/{}'.format(BASE_URL, activatorId)
+def delete_application_task(applicationId):
+    url = '{}/application_async/{}'.format(BASE_URL, applicationId)
     resp = requests.delete(url, headers=headers)
 
     resp_json = resp.json()
@@ -38,7 +38,7 @@ def delete_activator_task(activatorId):
     return task_id
 
 
-def delete_activator_task_result(taskId):
+def delete_application_task_result(taskId):
     url = '{}/application_async/result/delete/{}'.format(BASE_URL, taskId)
     resp = requests.get(url, headers=headers)
 
