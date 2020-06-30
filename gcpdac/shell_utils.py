@@ -19,8 +19,9 @@ def create_repo(repo_name, project_to, project_from):
 
 
 def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
-    logger.info("Copying source repo {source_repo_url} to target gcp repo {target_gcp_repo_name} in project {project_to}".format(
-        source_repo_url=source_repo_url, target_gcp_repo_name=target_gcp_repo_name, project_to=project_to))
+    logger.info(
+        "Copying source repo {source_repo_url} to target gcp repo {target_gcp_repo_name} in project {project_to}".format(
+            source_repo_url=source_repo_url, target_gcp_repo_name=target_gcp_repo_name, project_to=project_to))
     call_string = "/bin/bash /app/bash_scripts/copy_repo_with_history.sh {source_repo_url} {target_gcp_repo_name}  {project_to} {project_from}".format(
         source_repo_url=source_repo_url,
         target_gcp_repo_name=target_gcp_repo_name,
@@ -40,9 +41,9 @@ def delete_repo(repo_name, project_to, project_from):
 
 def call_jenkins(git_repo_url, deployment_environment, deployment_project_id):
     logger.info("Calling Jenkins TODO IMPLEMENT")
-    logger.info("Git Repo URL {}",git_repo_url)
-    logger.info("Deployment Environment {}",deployment_environment)
-    logger.info("Deployment Project ID {}",deployment_project_id)
+    logger.info("Git Repo URL {}".format(git_repo_url))
+    logger.info("Deployment Environment {}".format(deployment_environment))
+    logger.info("Deployment Project ID {}".format(deployment_project_id))
 
     # call_string = "curl http://{jenkins_server}/jenkins/git/notifyCommit?url={git_repo_url}".format(
     # git_repo_url=git_repo_url,
