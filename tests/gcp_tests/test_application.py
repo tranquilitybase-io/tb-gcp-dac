@@ -12,10 +12,10 @@ solution_id = 1001
 # activator_git_url = "https://github.com/tranquilitybase-io/tb-activator-gft-base.git"
 activator_git_url = "https://source.developers.google.com/p/workspace-93b7sc-ksjs726s/r/activator-testapp"
 # TODO write test that creates solution first, retrieves workspace project then deploys activator
-workspaceProjectId = "workspace-j8u3pn-ksjs726s"
-deploymentProjectId = "development-j8u3pn-ksjs726s"
-# deploymentProjectId = None
-# workspaceProjectId = None
+# workspaceProjectId = "workspace-j8u3pn-ksjs726s"
+# deploymentProjectId = "development-j8u3pn-ksjs726s"
+deploymentProjectId = None
+workspaceProjectId = None
 application_name = "testapp"
 deploymentEnvironment = "DEV"
 
@@ -27,10 +27,12 @@ application_json = {
     "workspaceProjectId": workspaceProjectId,
     "activatorGitUrl": activator_git_url,
     "deploymentEnvironment": deploymentEnvironment,
-    "deploymentProjectId": deploymentProjectId
+    "deploymentProjectId": deploymentProjectId,
+    "mandatory_variables": {},
+    "optional_variables": {}
 }
 
-application_json_old = {
+application_json_incomplete = {
     "id": application_id,
     "name": application_name,
     "description": "Test app",
@@ -58,7 +60,7 @@ class ApplicationTest(unittest.TestCase):
 
     # TODO remove test when houston implements latest version of api
     def test_application_invalid_input(self):
-        status, payload = self.deploy_application(application_json_old)
+        status, payload = self.deploy_application(application_json_incomplete)
         self.assertEqual(states.FAILURE, status)
 
         print("payload:{}".format(payload))
