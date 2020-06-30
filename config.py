@@ -12,6 +12,7 @@ logger.info("Logger initialised")
 basedir = os.path.abspath(os.path.dirname(__file__))
 print("basedir: {}".format(basedir))
 DEFAULT_SHELL="/bin/bash"
+JENKINS_URL=os.environ['JENKINS_URL']
 
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
@@ -19,7 +20,7 @@ app = connex_app.app
 
 app.config.update(
     CELERY_BROKER_URL=os.environ['CELERY_RESULT_BACKEND'],
-    CELERY_RESULT_BACKEND=os.environ['CELERY_BROKER_URL']
+    CELERY_RESULT_BACKEND=os.environ['CELERY_BROKER_URL'],
 )
 
 ma = Marshmallow(app)

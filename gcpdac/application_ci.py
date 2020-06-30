@@ -12,7 +12,8 @@ def create_application(applicationdata):
     # application_description = applicationdata.get("description")
     logger.debug("application is %s", application_id)
     # solution_id = applicationdata.get("solutionId")
-    application_git_url, workspace_project_id, deployment_environment, deployment_project_id = validateInput(applicationdata)
+    application_git_url, workspace_project_id, deployment_environment, deployment_project_id = validateInput(
+        applicationdata)
 
     ec_config = config.read_config_map()
     eagle_project_id = ec_config['ec_project_name']

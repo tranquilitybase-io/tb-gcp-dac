@@ -21,6 +21,7 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
+      JENKINS_URL: http://jenkins-svc.cicd.svc.cluster.local
     volumes:
       # NB credentials.json and ec-config.yaml should have been created and exist in the project root directory
       - .\credentials.json:/credentials.json:ro
@@ -48,6 +49,7 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
+      JENKINS_URL: http://jenkins-svc.cicd.svc.cluster.local
     volumes:
       # credentials.json and ec-config.yaml should have been created and exist in the project root directory
       - .\credentials.json:/credentials.json:ro
