@@ -12,7 +12,6 @@
 /Dockerfile*
 /docs/
 /ec-config*.yaml
-/mocks/
 /terraform/input.auto.tfvars
 /terraform/input.tfvars
 /tests/
