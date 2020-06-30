@@ -1,6 +1,6 @@
 import config
 from gcpdac.exceptions import DacValidationError
-from gcpdac.shell_utils import create_repo, copy_repo
+from gcpdac.shell_utils import create_repo, copy_repo, call_jenkins
 from gcpdac.utils import sanitize
 
 logger = config.logger
@@ -25,6 +25,7 @@ def create_application(applicationdata):
     copy_repo(application_git_url, repo_name, workspace_project_id, eagle_project_id)
 
     # TODO call jenkins job
+    call_jenkins(repo_name, deployment_environment, deployment_project_id)
 
     # TODO check results of jenkins job
     response = {}

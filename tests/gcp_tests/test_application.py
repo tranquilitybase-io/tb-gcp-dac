@@ -48,35 +48,36 @@ def get_applicationId():
     return application_id
 
 
+def deploy_application(application_input):
+    taskid = create_application_task(application_input)
+    print("Creating a application")
+    print("Celery task id {}".format(taskid))
+    status = ''
+    payload = {}
+    while (status != states.SUCCESS and status != states.FAILURE):
+        print("Checking task {}".format(taskid))
+        status, payload = create_application_task_result(taskid)
+        print('Status {}'.format(status))
+        sleep(10)
+    return status, payload
+
+
 class ApplicationTest(unittest.TestCase):
     # @unittest.skip("TODO Test needs more setup before running")
     def test_application(self):
         if workspaceProjectId == None:
             self.fail("Set a valid solution workspace project id to test")
-        status, payload = self.deploy_application(application_json)
+        status, payload = deploy_application(application_json)
         # response = json.loads(response)
         self.assertEqual(states.SUCCESS, status)
         self.assertEqual("activator-testapp", payload["repo_name"])
 
     # TODO remove test when houston implements latest version of api
     def test_application_invalid_input(self):
-        status, payload = self.deploy_application(application_json_incomplete)
+        status, payload = deploy_application(application_json_incomplete)
         self.assertEqual(states.FAILURE, status)
 
         print("payload:{}".format(payload))
-
-    def deploy_application(self, application_input):
-        taskid = create_application_task(application_input)
-        print("Creating a application")
-        print("Celery task id {}".format(taskid))
-        status = ''
-        payload = {}
-        while (status != states.SUCCESS and status != states.FAILURE):
-            print("Checking task {}".format(taskid))
-            status, payload = create_application_task_result(taskid)
-            print('Status {}'.format(status))
-            sleep(10)
-        return status, payload
 
     def delete_application(self):
         taskid = delete_application_task(get_applicationId())

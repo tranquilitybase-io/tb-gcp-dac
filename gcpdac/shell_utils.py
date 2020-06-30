@@ -38,8 +38,12 @@ def delete_repo(repo_name, project_to, project_from):
     call_process(call_string)
 
 
-def call_jenkins(git_repo_url):
+def call_jenkins(git_repo_url, deployment_environment, deployment_project_id):
     logger.info("Calling Jenkins TODO IMPLEMENT")
+    logger.info("Git Repo URL {}",git_repo_url)
+    logger.info("Deployment Environment {}",deployment_environment)
+    logger.info("Deployment Project ID {}",deployment_project_id)
+
     # call_string = "curl http://{jenkins_server}/jenkins/git/notifyCommit?url={git_repo_url}".format(
     # git_repo_url=git_repo_url,
     # jenkins_server=jenkins_server)
