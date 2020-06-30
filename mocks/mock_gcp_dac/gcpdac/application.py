@@ -1,4 +1,4 @@
-# Supports all actions concerning activators
+# Supports all actions concerning applications
 import json
 import random
 from pprint import pformat
@@ -6,10 +6,10 @@ from pprint import pformat
 from config import app
 from config import counter
 
-activator_response_json = ""
-activator_response_file = "gcpdac/activator_response_example.json"
-with open(activator_response_file, "r") as fh:
-    activator_response_json = json.load(fh)
+application_response_json = ""
+application_response_file = "gcpdac/application_response_example.json"
+with open(application_response_file, "r") as fh:
+    application_response_json = json.load(fh)
 
 def next_taskid():
     task_cnt = next(counter)
@@ -27,12 +27,12 @@ def get_random_status():
     return status
 
 
-def create_async(activatorDetails):
+def create_async(applicationDetails):
     """
     Return just the task_id.
     """
 
-    app.logger.debug(pformat(activatorDetails))
+    app.logger.debug(pformat(applicationDetails))
     taskid =  next_taskid()
     app.logger.info("Task ID %s", taskid)
     context = {
@@ -54,25 +54,25 @@ def delete_async(oid):
     return context, 200
 
 
-def create_activator_result(taskid):
-    app.logger.info("CREATE activator RESULT %s",format(taskid))
+def create_application_result(taskid):
+    app.logger.info("CREATE application RESULT %s",format(taskid))
     print(f"taskid: {taskid}")
 
     retval = {
         "status": get_random_status()
     }
     if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
-        retval["payload"] = json.dumps(activator_response_json['payload'])
+        retval["payload"] = json.dumps(application_response_json['payload'])
     return retval, 201
 
 
-def delete_activator_result(taskid):
-    app.logger.info("DELETE activator RESULT %s",format(taskid))
+def delete_application_result(taskid):
+    app.logger.info("DELETE application RESULT %s",format(taskid))
     print(f"taskid: {taskid}")
 
     retval = {
         "status": get_random_status()
     }
     if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
-        retval["payload"] = json.dumps(activator_response_json['payload'])
+        retval["payload"] = json.dumps(application_response_json['payload'])
     return retval, 200
