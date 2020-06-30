@@ -1,12 +1,43 @@
-provider "google" {
- version     = "~> 3.24"
- project     = var.gcp_project_id
- region      = var.gcp_region1
+module "network" {
+  source = "./01_network"
+  aws_gw1_tunnel1_address = "52.89.198.230"
+  aws_gw1_tunnel1_inside_address = "169.254.32.106/30"
+  aws_gw1_tunnel1_peer_ip = "169.254.32.105"
+  aws_gw1_tunnel1_shared_secret = "ZWS170QMfRq5jC5N7i80yx7H_g1LKRG7"
+  aws_gw1_tunnel2_address = "54.188.158.157"
+  aws_gw1_tunnel2_inside_address = "169.254.75.146/30"
+  aws_gw1_tunnel2_peer_ip = "169.254.75.145"
+  aws_gw1_tunnel2_shared_secret = ".bwb9Qr_H5eiVN4sidbzYanx3498YfWi"
+  aws_gw2_tunnel1_address = "34.214.101.175"
+  aws_gw2_tunnel1_inside_address = "169.254.27.214/30"
+  aws_gw2_tunnel1_peer_ip = "169.254.27.213"
+  aws_gw2_tunnel1_shared_secret = "KQpp4QpAw5kC0.ufS7vlvyImlEVTXXfx"
+  aws_gw2_tunnel2_address = "54.189.127.207"
+  aws_gw2_tunnel2_inside_address = "169.254.184.86/30"
+  aws_gw2_tunnel2_peer_ip = "169.254.184.85"
+  aws_gw2_tunnel2_shared_secret = "RYmjTSHdBVh1mwqwZCDPW85wTpimQpYl"
+  bgp_peer_0 = "peer-0-tester"
+  bgp_peer_1 = "peer-1-tester"
+  bgp_peer_2 = "peer-2-tester"
+  bgp_peer_3 = "peer-3-tester"
+  cloud_router = "tranquilitybase-router-tester"
+  gcp_asn = "64600"
+  gcp_project_id = "zain-sandbox"
+  gcp_region1 = "us-west1"
+  gw1_tunnel1_asn = "64599"
+  gw1_tunnel2_asn = "64599"
+  gw2_tunnel1_asn = "64599"
+  gw2_tunnel2_asn = "64599"
+  ha_vpn_gateway = "ha-vpn-gw-tranquilitybase-tester"
+  network1 = "tester"
+  peer_gw_name = "aws-example-tester"
+  router_int0 = "tunnel-1-to-aws-if-0-tester"
+  router_int1 = "tunnel-2-to-aws-if-0-tester"
+  router_int2 = "tunnel-1-to-aws-if-1-tester"
+  router_int3 = "tunnel-2-to-aws-if-1-tester"
+  subnet1_ip_cidr = "10.0.2.0/24"
+  tunnel_name_if0 = "tunnel-1-to-aws-tester"
+  tunnel_name_if1 = "tunnel-2-to-aws-tester"
+  tunnel_name_if2 = "tunnel-3-to-aws-tester"
+  tunnel_name_if3 = "tunnel-4-to-aws-tester"
 }
-
-provider "google-beta" {
- version     = "~> 3.24"
- project     = var.gcp_project_id
- region      = var.gcp_region1
-}
-
