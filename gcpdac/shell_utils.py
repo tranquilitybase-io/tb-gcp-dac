@@ -62,5 +62,6 @@ def call_process(call_string):
                                        stderr=subprocess.STDOUT, universal_newlines=True)
     process_output, _ = subprocess_call.communicate()
     logger.debug("Process output: {}".format(process_output))
+    logger.debug("Return code: {}".format(subprocess_call.returncode))
 
     return process_output
