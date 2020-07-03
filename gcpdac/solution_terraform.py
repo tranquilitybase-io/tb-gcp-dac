@@ -17,7 +17,7 @@ from python_terraform import Terraform
 
 import config
 from gcpdac.shell_utils import delete_repo
-from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init, NOT_USED_ON_DESTROY
+from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init
 from gcpdac.utils import labellize, random_element, sanitize
 
 logger = config.logger
@@ -29,6 +29,7 @@ def create_solution(solutiondata):
 
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
+    tf_data['solution_id'] = solution_id
     tf_data['cost_centre'] = labellize(solutiondata.get("costCentre"))
     tf_data['business_unit'] = labellize(solutiondata.get("businessUnit"))
     tf_data['deployment_folder_id'] = solutiondata.get("deploymentFolderId")
@@ -77,16 +78,17 @@ def delete_solution(solutiondata):
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
 
-    tf_data['cost_centre'] = NOT_USED_ON_DESTROY
-    tf_data['business_unit'] = NOT_USED_ON_DESTROY
-    tf_data['deployment_folder_id'] = NOT_USED_ON_DESTROY
+    tf_data['cost_centre'] = None
+    tf_data['business_unit'] = None
+    tf_data['deployment_folder_id'] = None
     tf_data['environments'] = list()
-    tf_data['solution_name'] = NOT_USED_ON_DESTROY
-    tf_data['random_element'] = NOT_USED_ON_DESTROY
-    tf_data['region'] = NOT_USED_ON_DESTROY
-    tf_data['region_zone'] = NOT_USED_ON_DESTROY
-    tf_data['tb_discriminator'] = NOT_USED_ON_DESTROY
-    tf_data['region_zone'] = NOT_USED_ON_DESTROY
+    tf_data['solution_name'] = None
+    tf_data['solution_id'] = None
+    tf_data['random_element'] = None
+    tf_data['region'] = None
+    tf_data['region_zone'] = None
+    tf_data['tb_discriminator'] = None
+    tf_data['region_zone'] = None
 
     ec_config = config.read_config_map()
 

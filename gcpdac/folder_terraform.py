@@ -14,7 +14,7 @@
 from python_terraform import Terraform
 
 import config
-from gcpdac.terraform_utils import terraform_init, terraform_apply, terraform_destroy, NOT_USED_ON_DESTROY
+from gcpdac.terraform_utils import terraform_init, terraform_apply, terraform_destroy
 
 logger = config.logger
 
@@ -60,12 +60,12 @@ def delete_folder(folder):
     folder_name = folder.get("id")
 
     # variables not used on delete
-    tf_data['parent_folder_id'] = NOT_USED_ON_DESTROY
-    tf_data['random_element'] = NOT_USED_ON_DESTROY
-    tf_data['region'] = NOT_USED_ON_DESTROY
-    tf_data['region_zone'] = NOT_USED_ON_DESTROY
-    tf_data['tb_discriminator'] = NOT_USED_ON_DESTROY
-    tf_data['folder_name'] = NOT_USED_ON_DESTROY
+    tf_data['parent_folder_id'] = None
+    tf_data['random_element'] = None
+    tf_data['region'] = None
+    tf_data['region_zone'] = None
+    tf_data['tb_discriminator'] = None
+    tf_data['folder_name'] = None
 
     ec_config = config.read_config_map()
     tf_data['billing_account'] = ec_config['billing_account']

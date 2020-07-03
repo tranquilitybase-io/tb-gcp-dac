@@ -48,6 +48,12 @@ variable "business_unit" {
   description = "business_unit"
 }
 
+
+variable "solution_id" {
+  type        = string
+  description = "solution_id"
+}
+
 variable "billing_account" {
   type        = string
   description = "billing_account"

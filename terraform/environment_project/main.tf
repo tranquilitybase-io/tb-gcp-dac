@@ -25,6 +25,7 @@ resource "google_project" "environment_project" {
   labels = {
     "cost_centre" = var.cost_centre,
     "business_unit" = var.business_unit
+    "solution_id" = var.solution_id
     "environment" = var.environments[count.index]
   }
 }

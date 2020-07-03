@@ -2,8 +2,6 @@ from python_terraform import Terraform
 
 import config
 
-NOT_USED_ON_DESTROY = 'NONE'
-
 logger = config.logger
 
 def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):
