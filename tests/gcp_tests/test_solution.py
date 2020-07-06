@@ -11,7 +11,7 @@ from tests.gcp_tests.solution_utils import create_solution_task, create_solution
 solution_id = 1001
 business_unit = 'BU-1'
 cost_centre = 'CC-1'
-deployment_folder_id = '940168182397'
+deployment_folder_id = '302197932093'
 environments = [
     'Development',
     'QA',

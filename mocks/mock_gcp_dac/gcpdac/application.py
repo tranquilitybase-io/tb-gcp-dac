@@ -1,10 +1,10 @@
-# Supports all actions concerning Applications
+# Supports all actions concerning applications
 import json
+import random
 from pprint import pformat
+
 from config import app
 from config import counter
-import random
-
 
 application_response_json = ""
 application_response_file = "gcpdac/application_response_example.json"
@@ -55,7 +55,7 @@ def delete_async(oid):
 
 
 def create_application_result(taskid):
-    app.logger.info("CREATE APPLICATION RESULT %s",format(taskid))
+    app.logger.info("CREATE application RESULT %s",format(taskid))
     print(f"taskid: {taskid}")
 
     retval = {
@@ -67,7 +67,7 @@ def create_application_result(taskid):
 
 
 def delete_application_result(taskid):
-    app.logger.info("DELETE APPLICATION RESULT %s",format(taskid))
+    app.logger.info("DELETE application RESULT %s",format(taskid))
     print(f"taskid: {taskid}")
 
     retval = {

@@ -15,11 +15,12 @@
 # $1 - name of repo
 # $2 - project to create repo in
 # $3 - project to switch back to
-# TODO add validation of params and better error handling
 echo "$(date) Creating GCP Repo ${1} in ${2}"
 gcloud auth activate-service-account --key-file "$GOOGLE_APPLICATION_CREDENTIALS"
 gcloud config set project "$2"
 gcloud services enable sourcerepo.googleapis.com
+# REPOSITORY_NAME
+#    Name of the repository. May contain between 3 and 63 (inclusive) lowercase letters, digits, and hyphens. Must start with a letter, and may not end with a hyphen
 gcloud source repos create "$1"
 gcloud config set project "$3"
 echo "$(date) Created GCP Repo ${1} in ${2}"

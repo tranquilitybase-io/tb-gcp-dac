@@ -18,6 +18,7 @@ module "workspace_project" {
   random_element = var.random_element
   billing_account = var.billing_account
   solution_name = var.solution_name
+  solution_id = var.solution_id
 }
 
 
@@ -33,5 +34,6 @@ module "environment_projects" {
   billing_account = var.billing_account
   environments = var.environments
   solution_name = var.solution_name
+  solution_id = var.solution_id
 }
 

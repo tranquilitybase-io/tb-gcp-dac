@@ -16,8 +16,8 @@ import json
 from python_terraform import Terraform
 
 import config
-from gcpdac.shell_utils import create_repo, delete_repo
-from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init, NOT_USED_ON_DESTROY
+from gcpdac.shell_utils import delete_repo
+from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init
 from gcpdac.utils import labellize, random_element, sanitize
 
 logger = config.logger
@@ -29,6 +29,7 @@ def create_solution(solutiondata):
 
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
+    tf_data['solution_id'] = solution_id
     tf_data['cost_centre'] = labellize(solutiondata.get("costCentre"))
     tf_data['business_unit'] = labellize(solutiondata.get("businessUnit"))
     tf_data['deployment_folder_id'] = solutiondata.get("deploymentFolderId")
@@ -49,8 +50,8 @@ def create_solution(solutiondata):
 
     backend_prefix = get_solution_backend_prefix(solution_id, tb_discriminator)
 
-    # TODO remove dependency on this
-    env_data = '/app/terraform/input.tfvars'
+    # env_data = '/app/terraform/input.tfvars'
+    env_data = None
     # TODO pass region_zone in - comes from UI?
     tf_data['region_zone'] = region + "-b"
 
@@ -64,10 +65,10 @@ def create_solution(solutiondata):
     response = terraform_apply(env_data, tf)
     logger.debug("response {}".format(response))
 
-    repo_name = "{}_workspace".format(solution_name)
-    workspace_project_id = response["tf_outputs"]["workspace_project"]["value"]["project_id"]
-    eagle_project_id = ec_config['ec_project_name']
-    create_repo(repo_name, workspace_project_id, eagle_project_id)
+    # repo_name = "{}_workspace".format(solution_name)
+    # workspace_project_id = response["tf_outputs"]["workspace_project"]["value"]["project_id"]
+    # eagle_project_id = ec_config['ec_project_name']
+    # create_repo(repo_name, workspace_project_id, eagle_project_id)
 
     return response
 
@@ -77,16 +78,17 @@ def delete_solution(solutiondata):
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
 
-    tf_data['cost_centre'] = NOT_USED_ON_DESTROY
-    tf_data['business_unit'] = NOT_USED_ON_DESTROY
-    tf_data['deployment_folder_id'] = NOT_USED_ON_DESTROY
+    tf_data['cost_centre'] = None
+    tf_data['business_unit'] = None
+    tf_data['deployment_folder_id'] = None
     tf_data['environments'] = list()
-    tf_data['solution_name'] = NOT_USED_ON_DESTROY
-    tf_data['random_element'] = NOT_USED_ON_DESTROY
-    tf_data['region'] = NOT_USED_ON_DESTROY
-    tf_data['region_zone'] = NOT_USED_ON_DESTROY
-    tf_data['tb_discriminator'] = NOT_USED_ON_DESTROY
-    tf_data['region_zone'] = NOT_USED_ON_DESTROY
+    tf_data['solution_name'] = None
+    tf_data['solution_id'] = None
+    tf_data['random_element'] = None
+    tf_data['region'] = None
+    tf_data['region_zone'] = None
+    tf_data['tb_discriminator'] = None
+    tf_data['region_zone'] = None
 
     ec_config = config.read_config_map()
 
@@ -106,7 +108,7 @@ def delete_solution(solutiondata):
 
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
-    delete_workspace_repo(ec_config, tf)
+    # delete_workspace_repo(ec_config, tf)
 
     return terraform_destroy(env_data, tf)
 

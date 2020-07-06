@@ -1,12 +1,13 @@
 import unittest
 
 import requests
+from tests.gcp_tests.common_utils import BASE_URL
 
 headers = {'Content-Type': 'application/json'}
 
 
 def get_metadata():
-    url = 'http://localhost:3100/dac/metadata'
+    url = '{}/metadata'.format(BASE_URL)
     return requests.get(url, headers=headers)
 
 

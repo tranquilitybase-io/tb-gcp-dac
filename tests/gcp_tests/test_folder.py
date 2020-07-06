@@ -7,7 +7,7 @@ from celery import states
 from tests.gcp_tests.folder_utils import create_folder_task, delete_folder_task, create_folder_task_result, \
     delete_folder_task_result
 
-validParentFolderId = "940168182397"
+validParentFolderId = "302197932093"
 validFolderName = "TEST_FOLDER"
 longFolderName = "abcdefghijkl12345nopqrstuvwxyz"  # 31 chars
 

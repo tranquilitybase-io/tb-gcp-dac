@@ -1,7 +1,8 @@
-# example config passed into eagle console from landing zone creator
-# following variables available to terraform creation
+# This is a template eagle config file.
+# This is ordinarily passed into eagle console cluster from the tranquility base landing zone
 # see ec-configuration-file-tf in tb-gcp repo for how this is populated
-# create ec-config.yaml will values added for testing locally
+# create a copy called ec-config.yaml with values added for testing locally
+# NOTE DO NOT CHECK IN ec.config.yaml as will contain the billing account
 activator_folder_id:  WILL BE NEEDED NOT NOW
 billing_account: ADD
 region: ADD
@@ -12,7 +13,6 @@ activator_terraform_code_store: WILL BE NEEDED NOT NOW
 shared_vpc_host_project: WILL BE NEEDED NOT NOW
 shared_network_name: WILL BE NEEDED NOT NOW
 shared_networking_id: WILL BE NEEDED NOT NOW
-# TODO newly added - remove this comment when added to tb-gcp eagle console kubernetes cluster
 tb_discriminator: ADD
 jenkins_url: ADD
 

@@ -5,14 +5,22 @@ import config
 
 logger = config.logger
 
-# TODO pass this in through config file in docker/kubernetes
-jenkins_server = "TODO"
-
-
 def create_repo(repo_name, project_to, project_from):
     logger.info("Creating repo {repo_name} in project {project_to}".format(repo_name=repo_name, project_to=project_to))
     call_string = "/bin/bash /app/bash_scripts/create_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
         repo_name=repo_name,
+        project_to=project_to,
+        project_from=project_from)
+    call_process(call_string)
+
+
+def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
+    logger.info(
+        "Copying source repo {source_repo_url} to target gcp repo {target_gcp_repo_name} in project {project_to}".format(
+            source_repo_url=source_repo_url, target_gcp_repo_name=target_gcp_repo_name, project_to=project_to))
+    call_string = "/bin/bash /app/bash_scripts/copy_repo_with_history.sh {source_repo_url} {target_gcp_repo_name}  {project_to} {project_from}".format(
+        source_repo_url=source_repo_url,
+        target_gcp_repo_name=target_gcp_repo_name,
         project_to=project_to,
         project_from=project_from)
     call_process(call_string)
@@ -27,13 +35,15 @@ def delete_repo(repo_name, project_to, project_from):
     call_process(call_string)
 
 
-def call_jenkins(git_repo_url):
-    logger.info("Calling Jenkins")
-    # call_string = "curl http://{jenkins_server}/jenkins/git/notifyCommit?url={git_repo_url}".format(
-    # git_repo_url=git_repo_url,
-    # jenkins_server=jenkins_server)
-    # TODO this is a hard-coded jenkins server! just for demo, remove soon after
-    call_string = "curl -X POST http://remote_user:11eccd7308d0e2f408e53f04b16c839e65@34.105.172.132:8080/job/Activator%20Deploy/build?token=11eccd7308d0e2f408e53f04b16c839e65"
+def call_jenkins(git_repo_url, deployment_environment, deployment_project_id):
+    logger.info("Calling Jenkins TODO IMPLEMENT")
+    logger.info("Git Repo URL {}".format(git_repo_url))
+    logger.info("Deployment Environment {}".format(deployment_environment))
+    logger.info("Deployment Project ID {}".format(deployment_project_id))
+
+    jenkins_server = config.JENKINS_URL
+    logger.info("Jenkins URL = {}".format(jenkins_server))
+    call_string = "curl -X POST {}".format(jenkins_server)
     call_process(call_string)
 
 
@@ -44,3 +54,7 @@ def call_process(call_string):
                                        stderr=subprocess.STDOUT, universal_newlines=True)
     process_output, _ = subprocess_call.communicate()
     logger.debug("Process output: {}".format(process_output))
+    returncode = subprocess_call.returncode
+    logger.debug("Return code: {}".format(returncode))
+
+    return returncode

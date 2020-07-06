@@ -14,7 +14,7 @@
 from python_terraform import Terraform
 
 import config
-from gcpdac.terraform_utils import terraform_init, terraform_apply, terraform_destroy, NOT_USED_ON_DESTROY
+from gcpdac.terraform_utils import terraform_init, terraform_apply, terraform_destroy
 
 logger = config.logger
 
@@ -42,9 +42,8 @@ def create_folder(folderDetails):
     tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
 
-    # TODO this file currently empty - remove need for it?
-    env_data = '/app/terraform/input.tfvars'
-
+    # env_data = '/app/terraform/input.tfvars'
+    env_data = None
     backend_prefix = get_folder_backend_prefix(folder_name, tb_discriminator)
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_source_path = '/app/terraform/folder_creation'
@@ -61,19 +60,19 @@ def delete_folder(folder):
     folder_name = folder.get("id")
 
     # variables not used on delete
-    tf_data['parent_folder_id'] = NOT_USED_ON_DESTROY
-    tf_data['random_element'] = NOT_USED_ON_DESTROY
-    tf_data['region'] = NOT_USED_ON_DESTROY
-    tf_data['region_zone'] = NOT_USED_ON_DESTROY
-    tf_data['tb_discriminator'] = NOT_USED_ON_DESTROY
-    tf_data['folder_name'] = NOT_USED_ON_DESTROY
+    tf_data['parent_folder_id'] = None
+    tf_data['random_element'] = None
+    tf_data['region'] = None
+    tf_data['region_zone'] = None
+    tf_data['tb_discriminator'] = None
+    tf_data['folder_name'] = None
 
     ec_config = config.read_config_map()
     tf_data['billing_account'] = ec_config['billing_account']
     tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
 
-    env_data = '/app/terraform/input.tfvars'
+    env_data = None
 
     backend_prefix = get_folder_backend_prefix(folder_name, tb_discriminator)
     terraform_state_bucket = ec_config['terraform_state_bucket']
