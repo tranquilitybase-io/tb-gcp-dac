@@ -63,7 +63,6 @@ def deploy_application(application_input):
 
 
 class ApplicationTest(unittest.TestCase):
-    # @unittest.skip("TODO Test needs more setup before running")
     def test_application(self):
         if workspaceProjectId == None:
             self.fail("Set a valid solution workspace project id to test")
@@ -72,7 +71,6 @@ class ApplicationTest(unittest.TestCase):
         self.assertEqual(states.SUCCESS, status)
         self.assertEqual("activator-testapp", payload["repo_name"])
 
-    # TODO remove test when houston implements latest version of api
     def test_application_invalid_input(self):
         status, payload = deploy_application(application_json_incomplete)
         self.assertEqual(states.FAILURE, status)

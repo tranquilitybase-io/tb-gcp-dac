@@ -5,10 +5,6 @@ import config
 
 logger = config.logger
 
-# TODO pass this in through config file in docker/kubernetes
-jenkins_server = "TODO"
-
-
 def create_repo(repo_name, project_to, project_from):
     logger.info("Creating repo {repo_name} in project {project_to}".format(repo_name=repo_name, project_to=project_to))
     call_string = "/bin/bash /app/bash_scripts/create_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
@@ -45,10 +41,6 @@ def call_jenkins(git_repo_url, deployment_environment, deployment_project_id):
     logger.info("Deployment Environment {}".format(deployment_environment))
     logger.info("Deployment Project ID {}".format(deployment_project_id))
 
-    # call_string = "curl http://{jenkins_server}/jenkins/git/notifyCommit?url={git_repo_url}".format(
-    # git_repo_url=git_repo_url,
-    # jenkins_server=jenkins_server)
-    # TODO this is a hard-coded jenkins server! just for demo, remove soon after
     jenkins_server = config.JENKINS_URL
     logger.info("Jenkins URL = {}".format(jenkins_server))
     call_string = "curl -X POST {}".format(jenkins_server)

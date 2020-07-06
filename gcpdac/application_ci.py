@@ -25,10 +25,10 @@ def create_application(applicationdata):
 
     copy_repo(application_git_url, repo_name, workspace_project_id, eagle_project_id)
 
-    # TODO call jenkins job
     call_jenkins(repo_name, deployment_environment, deployment_project_id)
 
     # TODO check results of jenkins job
+
     response = {}
     response["repo_name"] = repo_name
 
@@ -37,7 +37,7 @@ def create_application(applicationdata):
 
 
 def validateInput(applicationdata):
-    workspace_project_id = applicationdata.get("workspaceProjectId", None)  # TODO get from tf state bucket?
+    workspace_project_id = applicationdata.get("workspaceProjectId", None)
     activator_git_url = applicationdata.get("activatorGitUrl", None)
     deployment_environment = applicationdata.get("deploymentEnvironment", None)
     deployment_project_id = applicationdata.get("deploymentProjectId", None)
@@ -51,6 +51,6 @@ def validateInput(applicationdata):
 
 
 def delete_application(applicationdata):
-    # TODO not implemented yet
+    # TODO not implemented yet - will be another call to jenkins
 
     return {"return_code": 0}
