@@ -4,13 +4,13 @@ from time import sleep
 
 from celery import states
 
+from tests.gcp_tests import config
 from tests.gcp_tests.folder_utils import create_folder_task, delete_folder_task, create_folder_task_result, \
     delete_folder_task_result
 
-validParentFolderId = "302197932093"
+validParentFolderId = config.base_folder_id
 validFolderName = "TEST_FOLDER"
 longFolderName = "abcdefghijkl12345nopqrstuvwxyz"  # 31 chars
-
 
 class FolderTest(unittest.TestCase):
     def test_folder(self):

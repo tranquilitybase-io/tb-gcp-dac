@@ -36,6 +36,12 @@ def create_solution(solutiondata):
     tf_data['environments'] = [sanitize(x) for x in (solutiondata.get("environments", list()))]
     solution_name = solutiondata.get("name")
     tf_data['solution_name'] = solution_name
+    teams = solutiondata.get('teams')
+    tf_data['teams'] = teams
+    for team in teams:
+        logger.info("team {}".format(team))
+        logger.info("team id {}".format(team.get("id")))
+        logger.info("team id {}".format(team["id"]))
 
     region = ec_config['region']
     tf_data['region'] = region

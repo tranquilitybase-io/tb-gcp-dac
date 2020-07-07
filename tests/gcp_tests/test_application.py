@@ -3,21 +3,19 @@ from time import sleep
 
 from celery import states
 
+from tests.gcp_tests import config
 from tests.gcp_tests.application_utils import delete_application_task, delete_application_task_result, \
     create_application_task, \
     create_application_task_result
+# TODO write test that creates solution first, retrieves workspace project then deploys activator
 
 application_id = 101
 solution_id = 1001
-# activator_git_url = "https://github.com/tranquilitybase-io/tb-activator-gft-base.git"
-activator_git_url = "https://source.developers.google.com/p/workspace-93b7sc-ksjs726s/r/activator-testapp"
-# TODO write test that creates solution first, retrieves workspace project then deploys activator
-# workspaceProjectId = "workspace-j8u3pn-ksjs726s"
-# deploymentProjectId = "development-j8u3pn-ksjs726s"
-deploymentProjectId = None
-workspaceProjectId = None
+activator_git_url = config.activator_git_url
 application_name = "testapp"
 deploymentEnvironment = "DEV"
+workspaceProjectId = config.workspaceProjectId
+deploymentProjectId = config.deploymentProjectId
 
 application_json = {
     "id": application_id,
