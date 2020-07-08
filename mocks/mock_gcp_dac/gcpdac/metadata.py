@@ -9,7 +9,6 @@ def read_all():
         "root_folder_id": "rootfolderid"
     }
 
-    print(data)
     schema = MetadataSchema()
     data = schema.dump(data)
     return data, 200
