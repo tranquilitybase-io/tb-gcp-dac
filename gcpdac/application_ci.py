@@ -1,5 +1,8 @@
+import os
+
 import config
-from gcpdac.exceptions import DacValidationError
+from gcpdac.constants import JENKINS_BASE_URL, JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB
+from gcpdac.exceptions import DacValidationError, DacJenkinsError
 from gcpdac.shell_utils import create_repo, copy_repo, call_jenkins
 from gcpdac.utils import sanitize
 
@@ -9,30 +12,41 @@ logger = config.logger
 def create_application(applicationdata):
     application_id = applicationdata.get("id")
     application_name = applicationdata.get("name")
-    # application_description = applicationdata.get("description")
     logger.debug("application is %s", application_id)
-    # solution_id = applicationdata.get("solutionId")
     application_git_url, workspace_project_id, deployment_environment, deployment_project_id = validateInput(
         applicationdata)
-
+    try:
+        jenkins_base_url = os.environ[JENKINS_BASE_URL]
+        jenkins_token = os.environ[JENKINS_TOKEN]
+        jenkins_deploy_activator_job = os.environ[JENKINS_DEPLOY_ACTIVATOR_JOB]
+    except KeyError as _:
+        raise DacJenkinsError(
+            "Jenkins environment variables not set. Check {},{},{} are set".format(JENKINS_BASE_URL, JENKINS_TOKEN,
+                                                                                   JENKINS_DEPLOY_ACTIVATOR_JOB))
     ec_config = config.read_config_map()
     eagle_project_id = ec_config['ec_project_name']
 
     repo_name = "activator-{}".format(application_name)
     repo_name = sanitize(repo_name)
 
-    create_repo(repo_name, workspace_project_id, eagle_project_id)
+    create_repo_response = create_repo(repo_name, workspace_project_id, eagle_project_id)
+    logger.debug("Create repo response code {}".format(create_repo_response))
 
-    copy_repo(application_git_url, repo_name, workspace_project_id, eagle_project_id)
+    copy_repo_response = copy_repo(application_git_url, repo_name, workspace_project_id, eagle_project_id)
+    logger.debug("Copy repo response code {}".format(copy_repo_response))
 
-    call_jenkins(repo_name, deployment_environment, deployment_project_id)
+    jenkins_url = "{}/buildByToken/build?job={}&token={}".format(jenkins_base_url, jenkins_deploy_activator_job,
+                                                                 jenkins_token)
+    jenkins_job_instance_name = "JENKINS_JOB_NAME_TODO"
+    call_jenkins_response = call_jenkins(jenkins_url, repo_name, deployment_environment, deployment_project_id,
+                           jenkins_job_instance_name)
+    logger.debug("Call Jenkins response code {}".format(call_jenkins_response))
 
     # TODO check results of jenkins job
 
     response = {}
     response["repo_name"] = repo_name
 
-    # return {"return_code": 0, "repo_name": repo_name}
     return response
 
 

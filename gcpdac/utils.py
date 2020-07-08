@@ -50,6 +50,7 @@ def labellize(labelText):
     # make text valid for a Google Cloud label
     # label rules here - https://cloud.google.com/compute/docs/labeling-resources
     # in summary - lower case characters, numbers, dash or hyphen. <= 63 characters
+    # TODO rules for a label are different then for projects and other resources. Need to define different checks for different resources
     return sanitize(labelText)
 
 
