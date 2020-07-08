@@ -25,7 +25,7 @@ logger = config.logger
 
 def create_solution(solutiondata):
     tf_data = dict()
-    ec_config = config.read_config_map()
+    ec_config = config.ec_config
 
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
@@ -90,7 +90,7 @@ def delete_solution(solutiondata):
     tf_data['tb_discriminator'] = None
     tf_data['region_zone'] = None
 
-    ec_config = config.read_config_map()
+    ec_config = config.ec_config
 
     tf_data['billing_account'] = ec_config['billing_account']
     tb_discriminator = ec_config['tb_discriminator']

@@ -77,3 +77,5 @@ def read_config_map():
     except Exception:
         logger.exception("Failed to load EC YAML file")
         raise
+
+ec_config = read_config_map()

@@ -23,7 +23,7 @@ def create_application(applicationdata):
         raise DacJenkinsError(
             "Jenkins environment variables not set. Check {},{},{} are set".format(JENKINS_BASE_URL, JENKINS_TOKEN,
                                                                                    JENKINS_DEPLOY_ACTIVATOR_JOB))
-    ec_config = config.read_config_map()
+    ec_config = config.ec_config
     eagle_project_id = ec_config['ec_project_name']
 
     repo_name = "activator-{}".format(application_name)
