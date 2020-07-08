@@ -1,17 +1,20 @@
 import os
+
 import connexion
 import yaml
+from celery import Celery
 from flask_marshmallow import Marshmallow
+from google.cloud import storage
 
+import celeryconfig
 from gcpdac.local_logging import get_logger
-from gcpdac.utils import setDefaultGoogleCloudProject, make_celery
 
 logger = get_logger('tb-gcp-dac')
 logger.info("Logger initialised")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 print("basedir: {}".format(basedir))
-DEFAULT_SHELL="/bin/bash"
+DEFAULT_SHELL = "/bin/bash"
 
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
@@ -24,9 +27,38 @@ app.config.update(
 
 ma = Marshmallow(app)
 
+
+def setDefaultGoogleCloudProject():
+    with open('/app/ec-config.yaml') as f:
+        try:
+            data: dict = yaml.safe_load(f)
+            GOOGLE_CLOUD_PROJECT = data.get("ec_project_name")
+            if not GOOGLE_CLOUD_PROJECT:
+                raise ValueError("No GOOGLE_CLOUD_PROJECT set for Flask application")
+            print(data)
+        except yaml.YAMLError as exc:
+            raise SystemError("Failed to parse EC YAML after successfully opening - {}".format(exc))
+    print("GOOGLE_CLOUD_PROJECT: {}".format(GOOGLE_CLOUD_PROJECT))
+    storage.Client(project=GOOGLE_CLOUD_PROJECT)
+
+
 setDefaultGoogleCloudProject()
 
+
+def make_celery(name):
+    celery = Celery(
+        name,
+        backend=os.environ['CELERY_RESULT_BACKEND'],
+        broker=os.environ['CELERY_BROKER_URL'],
+        config_source=celeryconfig
+
+    )
+
+    return celery
+
+
 celery_app = make_celery(__name__)
+
 
 def get_celery():
     return celery_app
@@ -45,4 +77,3 @@ def read_config_map():
     except Exception:
         logger.exception("Failed to load EC YAML file")
         raise
-
