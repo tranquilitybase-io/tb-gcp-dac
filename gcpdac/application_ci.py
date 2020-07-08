@@ -35,11 +35,18 @@ def create_application(applicationdata):
     copy_repo_response = copy_repo(application_git_url, repo_name, workspace_project_id, eagle_project_id)
     logger.debug("Copy repo response code {}".format(copy_repo_response))
 
-    jenkins_url = "{}/buildByToken/build?job={}&token={}".format(jenkins_base_url, jenkins_deploy_activator_job,
-                                                                 jenkins_token)
-    jenkins_job_instance_name = "JENKINS_JOB_NAME_TODO"
-    call_jenkins_response = call_jenkins(jenkins_url, repo_name, deployment_environment, deployment_project_id,
-                           jenkins_job_instance_name)
+    jenkins_url = "{jenkins_base_url}/buildByToken/build?job={jenkins_deploy_activator_job}&token={jenkins_token}".format(
+        jenkins_base_url=jenkins_base_url,
+        jenkins_deploy_activator_job=jenkins_deploy_activator_job,
+        jenkins_token=jenkins_token)
+    jenkins_job_instance_name = "JENKINS_JOB_NAME_TODO"  # TODO unique job instance name that can be tracked
+    jenkins_params = {}
+    git_repo_url = "https://source.developers.google.com/p/{workspace_project_id}/r/{repo_name}".format(
+        workspace_project_id=workspace_project_id, repo_name=repo_name)
+    jenkins_params["git_repo_url"] = git_repo_url
+    jenkins_params["deployment_project_id"] = deployment_project_id
+    jenkins_params["jenkins_job_instance_name"] = jenkins_job_instance_name
+    call_jenkins_response = call_jenkins(jenkins_url, jenkins_params)
     logger.debug("Call Jenkins response code {}".format(call_jenkins_response))
 
     # TODO check results of jenkins job

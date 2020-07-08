@@ -35,13 +35,14 @@ def delete_repo(repo_name, project_to, project_from):
     call_process(call_string)
 
 
-def call_jenkins(jenkins_url, git_repo_url, deployment_environment, deployment_project_id, jenkins_job_instance_name):
+def call_jenkins(jenkins_url, jenkins_params: dict):
     logger.info("Calling Jenkins")
-    logger.info("Git Repo URL {}".format(git_repo_url))
-    logger.info("Deployment Environment {}".format(deployment_environment))
-    logger.info("Deployment Project ID {}".format(deployment_project_id))
     logger.info("Jenkins URL = {}".format(jenkins_url))
-    logger.info("Jenkins Job Instance Name = {}".format(jenkins_job_instance_name))
+    for key in jenkins_params:
+        value = jenkins_params[key]
+        logger.info("{key}={value}".format(key=key, value=value))
+        jenkins_url = "{jenkins_url}&{key}={value}".format(jenkins_url=jenkins_url, key=key, value=value)
+    logger.info("Full Jenkins URL with params = {}".format(jenkins_url))
 
     call_string = "curl -X POST {}".format(jenkins_url)
     call_process(call_string)
