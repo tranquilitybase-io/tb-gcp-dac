@@ -40,7 +40,7 @@ services:
   #    command: [ "redis-server", "/redis.conf" ]
 
   worker:
-    # to run with more workers 'docker-compose up --scale worker = <num of workers>
+    # to run with more workers 'docker-compose up --scale worker=<num of workers>
     # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
     image: gcr.io/tranquility-base-images/tb-gcp-dac:local
     build:
