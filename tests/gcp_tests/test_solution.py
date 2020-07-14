@@ -122,26 +122,27 @@ class SolutionTest(unittest.TestCase):
         environment_projects = solution_response["environment_projects"]["value"]
         for environment_project in environment_projects:
             labels = environment_project["labels"]
+            self.check_common_project_labels(labels)
             if 'environment' not in labels:
                 self.fail("No environment label")
-            if 'cost_centre' not in labels:
-                self.fail("No cost_centre label")
-            if 'business_unit' not in labels:
-                self.fail("No business_unit label")
             environment_label = labels['environment']
             if environment_label not in processed_environments:
                 self.fail("Invalid environment label")
 
         workspace_project = solution_response["workspace_project"]["value"]
-        labels = workspace_project["labels"]
-        if 'cost_centre' not in labels:
-            self.fail("No cost_centre label")
-        if 'business_unit' not in labels:
-            self.fail("No business_unit label")
+        self.check_common_project_labels(workspace_project["labels"])
 
         solution_folder = solution_response["solution_folder"]["value"]
         display_name = solution_folder["display_name"]
         self.assertEqual(solution_input['name'], display_name)
+
+    def check_common_project_labels(self, labels):
+        if 'cost_centre' not in labels:
+            self.fail("No cost_centre label")
+        if 'business_unit' not in labels:
+            self.fail("No business_unit label")
+        if 'team' not in labels:
+            self.fail("No team label")
 
 
 if __name__ == '__main__':

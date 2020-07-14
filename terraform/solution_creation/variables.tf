@@ -13,59 +13,107 @@
 # limitations under the License.
 
 variable "region" {
-  type        = string
+  type = string
   description = "region name."
 }
 
 variable "region_zone" {
-  type        = string
+  type = string
   description = "zone name in the region provided."
 }
 
 variable "deployment_folder_id" {
-  type        = string
+  type = string
   description = "id for the parent where these folders will be created."
 }
 
 variable "tb_discriminator" {
-  type        = string
-  default     = ""
+  type = string
+  default = ""
   description = "suffix added to the Tranquility Base folder allowing coexistence of other TBase instances within the same Organisation/Folder. Example: 'uat', 'dev-am'. Default value is empty so no suffix will be added."
 }
 
 variable "solution_name" {
-  type        = string
+  type = string
   description = "name of the solution to be created"
 }
 
 variable "cost_centre" {
-  type        = string
+  type = string
   description = "cost centre"
 }
 
 variable "business_unit" {
-  type        = string
+  type = string
   description = "business_unit"
 }
 
+variable "team" {
+  type = string
+  description = "team"
+}
 
 variable "solution_id" {
-  type        = string
+  type = string
   description = "solution_id"
 }
 
 variable "billing_account" {
-  type        = string
+  type = string
   description = "billing_account"
 }
 
 variable "random_element" {
-  type        = string
+  type = string
   description = "random element introduced to ensure uniqueness"
 }
 
 variable "environments" {
   description = "Create projects for these environments"
-  type        = list(string)
+  type = list(string)
 }
+
+variable "team_members" {
+  description = "team members and their cloud identity group"
+  type = "map"
+  default = {
+    "john.smith@db.com" = "ecadmins@gftdevgcp.com"
+    "user email" = "cloud identity group"
+  }
+
+}
+
+//variable "environments" {
+//  type = list(object({
+//    name = string
+//    labels = list(object({
+//      key = string
+//      value = string
+//    }))
+//  }))
+//  default = [
+//    {
+//      name = "Dev"
+//      labels = [
+//        {
+//          key = "LABELNAME"
+//          value = "LABELVALUE"
+//        },
+//        {
+//          key = "LABELNAME2"
+//          value = "LABELVALUE2"
+//        },
+//      ]
+//    }..
+//  ]
+//}
+
+//variable "workspace_labels" {
+//  type = list(object({
+//    key = string
+//    value = string
+//  }))
+//  description = "Labels to apply to project"
+//}
+
 

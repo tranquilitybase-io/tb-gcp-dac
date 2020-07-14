@@ -19,6 +19,7 @@ module "workspace_project" {
   billing_account = var.billing_account
   solution_name = var.solution_name
   solution_id = var.solution_id
+  team = var.team
 }
 
 
@@ -35,5 +36,6 @@ module "environment_projects" {
   environments = var.environments
   solution_name = var.solution_name
   solution_id = var.solution_id
+  team = var.team
 }
 

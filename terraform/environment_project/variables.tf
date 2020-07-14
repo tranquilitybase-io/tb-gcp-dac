@@ -42,6 +42,11 @@ variable "business_unit" {
   description = "business_unit"
 }
 
+variable "team" {
+  type        = string
+  description = "team"
+}
+
 variable "solution_id" {
   type        = string
   description = "solution_id"
@@ -67,3 +72,13 @@ variable "solution_name" {
   type        = string
   description = "name of the solution to be created"
 }
+
+//variable "environments" {
+//  type = list(object({
+//    name = string
+//    labels = list(object({
+//      key = string
+//      value = string
+//    }))
+//  }))
+//}

@@ -25,6 +25,7 @@ resource "google_project" "workspace_project" {
     "cost_centre" = var.cost_centre,
     "business_unit" = var.business_unit
     "solution_id" = var.solution_id
+    "team" = var.team
   }
 }
 

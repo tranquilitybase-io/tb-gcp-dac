@@ -12,7 +12,7 @@ logger.info("Logger initialised")
 basedir = os.path.abspath(os.path.dirname(__file__))
 print("basedir: {}".format(basedir))
 DEFAULT_SHELL="/bin/bash"
-JENKINS_URL=os.environ['JENKINS_URL']
+JENKINS_BASE_URL=os.environ['JENKINS_BASE_URL']
 
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
