@@ -73,14 +73,26 @@ variable "environments" {
   type = list(string)
 }
 
-variable "team_members" {
-  description = "team members and their cloud identity group"
-  type = map(string)
-  default = {
-    "john.smith@db.com" = "ecadmins@gftdevgcp.com"
-    "user email" = "cloud identity group"
-  }
+//variable "team_members" {
+//  description = "team members and their cloud identity group"
+//  type = map(string)
+//  default = {
+//    "john.smith@db.com" = "ecadmins@gftdevgcp.com"
+//    "user email" = "cloud identity group"
+//  }
+//
+//}
 
+variable "admin_role" {
+  type        = string
+  description = "name of the admin role"
+//  default     = "roles/owner"
+}
+
+variable "admin_members" {
+  type        = string
+  description = "users that have the admin role"
+//  default     = "user:snul@gft.com"
 }
 
 //variable "environments" {

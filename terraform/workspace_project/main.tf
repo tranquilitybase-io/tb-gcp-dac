@@ -27,5 +27,23 @@ resource "google_project" "workspace_project" {
     "solution_id" = var.solution_id
     "team" = var.team
   }
+
 }
+
+//resource "google_project_iam_binding" "project" {
+//  project = "your-project-id"
+//  role    = "roles/editor"
+//
+//  members = [
+//    "user:jane@example.com",
+//  ]
+//}
+
+
+resource "google_project_iam_binding" "project" {
+  project = google_project.workspace_project.project_id
+  role    = var.admin_role
+  members = var.admin_members
+}
+
 

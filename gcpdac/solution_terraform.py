@@ -46,15 +46,23 @@ def create_solution(solutiondata):
         team: dict = solutiondata['team']
 
         tf_data['team'] = labellize(team['name'])
-        team_members: dict = dict()
-        for team_member in team['teamMembers']:
-            member_email = team_member['user']['email']
-            cloud_identity_group = team_member['role']['cloudIdentityGroup']
-            team_members[member_email] = cloud_identity_group
+        # team_members: dict = dict()
+        # for team_member in team['teamMembers']:
+        #     member_email = team_member['user']['email']
+        #     cloud_identity_group = team_member['role']['cloudIdentityGroup']
+            # team_members[member_email] = cloud_identity_group
 
-        logger.debug("tf_data {}".format(team_members))
+        # logger.debug("tf_data {}".format(team_members))
 
-        tf_data['team_members'] = team_members
+        # tf_data['team_members'] = team_members
+        # TODO make more generic
+        member_email = "user:snul@gft.com"
+        cloud_identity_group = "roles/owner"
+        tf_data['admin_role'] = cloud_identity_group # "roles/owner"
+        admin_members = list()
+        admin_members.append(member_email)
+        tf_data['admin_members'] = admin_members # "user:snul@gft.com"
+
         region = ec_config['region']
         tf_data['region'] = region
         tf_data['billing_account'] = ec_config['billing_account']

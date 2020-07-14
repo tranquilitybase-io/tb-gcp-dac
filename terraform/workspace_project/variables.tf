@@ -62,15 +62,14 @@ variable "random_element" {
   description = "random element introduced to ensure uniqueness"
 }
 
-variable "solution_name" {
+variable "admin_role" {
   type        = string
-  description = "name of the solution to be created"
+  description = "name of the admin role"
+  default     = "roles/owner"
 }
 
-//variable "labels" {
-//  type = list(object({
-//    key = string
-//    value = string
-//  }))
-//  description = "Labels to apply to project"
-//}
+variable "admin_members" {
+  type        = string
+  description = "users that have the admin role"
+  default     = "user:snul@gft.com"
+}
