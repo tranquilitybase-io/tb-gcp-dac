@@ -75,7 +75,7 @@ variable "environments" {
 
 variable "team_members" {
   description = "team members and their cloud identity group"
-  type = "map"
+  type = map(string)
   default = {
     "john.smith@db.com" = "ecadmins@gftdevgcp.com"
     "user email" = "cloud identity group"
