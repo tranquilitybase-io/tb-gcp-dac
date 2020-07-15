@@ -1,9 +1,14 @@
 # Supports all actions concerning Solutions
+import os
+import logging
 import json
-from pprint import pformat
 from config import app
 from config import counter
 import random
+from pprint import pformat
+
+
+logger = logging.getLogger("folder")
 
 folder_response_json = ""
 folder_response_file = "gcpdac/folder_response_example.json"
@@ -33,14 +38,21 @@ def get_random_status():
     return status
 
 
+def get_status():
+    if os.environ.get("MOCK_MODE"):
+        return get_random_status()
+    else:
+        return "SUCCESS"
+
+
 def create_async(folderDetails):
     """
     Return just the task_id.
     """
 
-    app.logger.debug(pformat(folderDetails))
+    logger.debug(pformat(folderDetails))
     taskid = next_taskid()
-    app.logger.info("Task ID %s", taskid)
+    logger.info("Task ID %s", taskid)
     context = {
         "taskid": f"{taskid}"
     }
@@ -51,9 +63,9 @@ def delete_async(oid):
     """
     Return just the task_id.
     """
-    app.logger.debug("Id is {}".format(oid))
+    logger.debug("Id is {}".format(oid))
     taskid = next_taskid()
-    app.logger.info("Task ID %s", taskid)
+    logger.info("Task ID %s", taskid)
     context = {
         "taskid": f"{taskid}"
     }
@@ -61,11 +73,10 @@ def delete_async(oid):
 
 
 def create_folder_result(taskid):
-    app.logger.info("CREATE FOLDER RESULT %s", format(taskid))
-    print(f"taskid: {taskid}")
+    logger.info("CREATE FOLDER RESULT %s", format(taskid))
 
     retval = {}
-    status = get_random_status()
+    status = get_status()
     retval["status"] = status
 
     if status == "SUCCESS":
@@ -77,11 +88,10 @@ def create_folder_result(taskid):
 
 
 def delete_folder_result(taskid):
-    app.logger.info("DELETE FOLDER RESULT %s", format(taskid))
-    print(f"taskid: {taskid}")
+    logger.info("DELETE FOLDER RESULT %s", format(taskid))
 
     retval = {}
-    status = get_random_status()
+    status = get_status()
     retval["status"] = status
 
     if status == "SUCCESS":

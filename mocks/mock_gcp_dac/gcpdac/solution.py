@@ -1,10 +1,14 @@
 # Supports all actions concerning Solutions
+import os
+import logging
 import json
-from pprint import pformat
 from config import app
 from config import counter
 import random
+from pprint import pformat
 
+
+logger = logging.getLogger("solution")
 
 solution_response_json = ""
 solution_response_file = "gcpdac/solution_response_example.json"
@@ -26,15 +30,20 @@ def get_random_status():
         status = "SUCCESS"
     return status
 
+def get_status():
+    if os.environ.get("MOCK_MODE"):
+        return get_random_status()
+    else:
+        return "SUCCESS"
 
 def create_async(solutionDetails):
     """
     Return just the task_id.
     """
 
-    app.logger.debug(pformat(solutionDetails))
+    logger.debug(pformat(solutionDetails))
     taskid =  next_taskid()
-    app.logger.info("Task ID %s", taskid)
+    logger.info("Task ID %s", taskid)
     context = {
         "taskid": f"{taskid}"
     }
@@ -45,9 +54,9 @@ def delete_async(oid):
     """
     Return just the task_id.
     """
-    app.logger.debug("Id is {}".format(oid))
+    logger.debug("Id is {}".format(oid))
     taskid =  next_taskid()
-    app.logger.info("Task ID %s", taskid)
+    logger.info("Task ID %s", taskid)
     context = {
         "taskid": f"{taskid}"
     }
@@ -55,11 +64,10 @@ def delete_async(oid):
 
 
 def create_solution_result(taskid):
-    app.logger.info("CREATE SOLUTION RESULT %s",format(taskid))
-    print(f"taskid: {taskid}")
+    logger.info("CREATE SOLUTION RESULT %s",format(taskid))
 
     retval = {
-        "status": get_random_status()
+        "status": get_status()
     }
     if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
         retval["payload"] = json.dumps(solution_response_json['payload'])
@@ -67,11 +75,10 @@ def create_solution_result(taskid):
 
 
 def delete_solution_result(taskid):
-    app.logger.info("DELETE SOLUTION RESULT %s",format(taskid))
-    print(f"taskid: {taskid}")
+    logger.info("DELETE SOLUTION RESULT %s",format(taskid))
 
     retval = {
-        "status": get_random_status()
+        "status": get_status()
     }
     if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
         retval["payload"] = json.dumps(solution_response_json['payload'])
