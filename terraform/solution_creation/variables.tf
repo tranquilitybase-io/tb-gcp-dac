@@ -73,59 +73,26 @@ variable "environments" {
   type = list(string)
 }
 
-//variable "team_members" {
-//  description = "team members and their cloud identity group"
-//  type = map(string)
-//  default = {
-//    "john.smith@db.com" = "ecadmins@gftdevgcp.com"
-//    "user email" = "cloud identity group"
-//  }
-//
-//}
-
 variable "admin_role" {
   type        = string
   description = "name of the admin role"
-//  default     = "roles/owner"
+  default     = "roles/owner"
 }
 
-variable "admin_members" {
+variable "member_role" {
   type        = string
+  description = "name of the member role"
+  default     = "roles/editor"
+}
+
+variable "team_admins" {
+  type        = list(string)
   description = "users that have the admin role"
 //  default     = "user:snul@gft.com"
 }
 
-//variable "environments" {
-//  type = list(object({
-//    name = string
-//    labels = list(object({
-//      key = string
-//      value = string
-//    }))
-//  }))
-//  default = [
-//    {
-//      name = "Dev"
-//      labels = [
-//        {
-//          key = "LABELNAME"
-//          value = "LABELVALUE"
-//        },
-//        {
-//          key = "LABELNAME2"
-//          value = "LABELVALUE2"
-//        },
-//      ]
-//    }..
-//  ]
-//}
-
-//variable "workspace_labels" {
-//  type = list(object({
-//    key = string
-//    value = string
-//  }))
-//  description = "Labels to apply to project"
-//}
-
-
+variable "team_members" {
+  type        = list(string)
+  description = "users that are ordinary team members"
+  //  default     = "user:snul@gft.com"
+}

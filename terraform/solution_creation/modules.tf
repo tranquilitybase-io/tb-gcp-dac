@@ -20,6 +20,10 @@ module "workspace_project" {
   solution_name = var.solution_name
   solution_id = var.solution_id
   team = var.team
+  admin_role = var.admin_role
+  team_admins = var.team_admins
+  member_role = var.member_role
+  team_members = var.team_members
 }
 
 
@@ -37,5 +41,9 @@ module "environment_projects" {
   solution_name = var.solution_name
   solution_id = var.solution_id
   team = var.team
+  admin_role = var.admin_role
+  team_admins = var.team_admins
+  member_role = var.member_role
+  team_members = var.team_members
 }
 

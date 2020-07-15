@@ -40,10 +40,16 @@ resource "google_project" "workspace_project" {
 //}
 
 
-resource "google_project_iam_binding" "project" {
+//resource "google_project_iam_binding" "project_admin" {
+//  project = google_project.workspace_project.project_id
+//  role    = var.admin_role
+//  members = var.team_admins
+//}
+
+resource "google_project_iam_binding" "project_member" {
   project = google_project.workspace_project.project_id
-  role    = var.admin_role
-  members = var.admin_members
+  role    = var.member_role
+  members = var.team_members
 }
 
 
