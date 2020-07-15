@@ -13,6 +13,7 @@ solution_id = 1001
 business_unit = 'BU-1'
 cost_centre = 'CC-1'
 deployment_folder_id = config.base_folder_id
+team_members = config.team_members
 environments = [
     'Development',
     'QA',
@@ -38,25 +39,7 @@ solution_json = {
     "team": {
         "lastUpdated": "2020-03-01 12:34:56",
         "businessUnitId": 1,
-        "teamMembers": [
-            {
-                "role": {
-                    "name": "admin",
-                    "cloudIdentityGroup": "ecadmins@gftdevgcp.com",
-                    "id": 1,
-                    "description": "eagle console admin role"
-                },
-                "user": {
-                    "lastName": "Snow",
-                    "email": "dev@your.company",
-                    "id": 1,
-                    "firstName": "Jon",
-                    "isAdmin": False,
-                    "showWelcome": True
-                },
-                "id": 2
-            }
-        ],
+        "teamMembers": team_members,
         "businessUnit": {
             "name": "Modern Apps",
             "isActive": True,

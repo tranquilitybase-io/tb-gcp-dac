@@ -23,7 +23,6 @@ from gcpdac.utils import labellize, random_element, sanitize
 
 logger = config.logger
 
-
 def create_solution(solutiondata):
     logger.debug("solution_id is %s", type(solutiondata))
 
@@ -47,31 +46,11 @@ def create_solution(solutiondata):
 
         tf_data['team'] = labellize(team['name'])
         team_members = list()
-        team_admins = list()
         for team_member in team['teamMembers']:
             member_email = team_member['user']['email']
-            is_admin = team_member['user']['isAdmin']
-            cloud_identity_group = team_member['role']['cloudIdentityGroup']
-            if is_admin == True:
-                team_admins.append(member_email)
-            else:
-                team_members.append(member_email)
+            team_members.append("user:{}".format(member_email))
 
-        # TODO Check at least 1 admin and 1 member?
-
-        # logger.debug("tf_data {}".format(team_members))
-
-        # tf_data['team_members'] = team_members
-        # TODO make more generic
-        # member_email = "user:snul@gft.com"
-        # cloud_identity_group = "roles/owner"
-        # tf_data['admin_role'] = cloud_identity_group # "roles/owner"
-        team_admins = list()
-        team_admins.append("user:snul@gft.com")
-        team_members = list()
-        team_members.append("user:kotg@gft.com")
-        tf_data['team_admins'] = [x for x in team_admins] # "user:snul@gft.com"
-        tf_data['team_members'] = [x for x in team_members] # "user:snul@gft.com"
+        tf_data['team_members'] = [x for x in team_members]
 
         region = ec_config['region']
         tf_data['region'] = region
@@ -118,7 +97,6 @@ def delete_solution(solutiondata):
     tf_data['region_zone'] = None
     tf_data['tb_discriminator'] = None
     tf_data['team'] = None
-    tf_data['team_admins'] = list()
     tf_data['team_members'] = list()
 
     ec_config = config.read_config_map()

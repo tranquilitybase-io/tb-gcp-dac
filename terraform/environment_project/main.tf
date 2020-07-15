@@ -32,13 +32,6 @@ resource "google_project" "environment_project" {
   }
 }
 
-//resource "google_project_iam_binding" "project_admin" {
-//  count = length(var.environments)
-//  project = google_project.environment_project[count.index].project_id
-//  role    = var.admin_role
-//  members = var.team_admins
-//}
-
 resource "google_project_iam_binding" "project_member" {
   count = length(var.environments)
   project = google_project.environment_project[count.index].project_id

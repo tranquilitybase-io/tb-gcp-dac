@@ -13,17 +13,17 @@
 # limitations under the License.
 
 variable "region" {
-  type        = string
+  type = string
   description = "region name."
 }
 
 variable "region_zone" {
-  type        = string
+  type = string
   description = "zone name in the region provided."
 }
 
 variable "tb_discriminator" {
-  type        = string
+  type = string
   description = "suffix added to the Tranquility Base folder allowing coexistence of other TBase instances within the same Organisation/Folder. Example: 'uat', 'dev-am'. Default value is empty so no suffix will be added."
 }
 
@@ -33,60 +33,48 @@ variable "folder_id" {
 }
 
 variable "cost_centre" {
-  type        = string
+  type = string
   description = "Cost Centre"
 }
 
 variable "business_unit" {
-  type        = string
+  type = string
   description = "business_unit"
 }
 
 variable "team" {
-  type        = string
+  type = string
   description = "team"
 }
 
 variable "solution_id" {
-  type        = string
+  type = string
   description = "solution_id"
 }
 
 variable "billing_account" {
-  type        = string
+  type = string
   description = "billing_account"
 }
 
 variable "random_element" {
-  type        = string
+  type = string
   description = "random element introduced to ensure uniqueness"
 }
 
 variable "solution_name" {
-  type        = string
+  type = string
   description = "name of the solution to be created"
 }
 
-variable "admin_role" {
-  type        = string
-  description = "name of the admin role"
-  default     = "roles/owner"
-}
-
 variable "member_role" {
-  type        = string
+  type = string
   description = "name of the member role"
-  default     = "roles/editor"
-}
-
-variable "team_admins" {
-  type        = list(string)
-  description = "users that have the admin role"
-  //  default     = "user:snul@gft.com"
+  default = "roles/viewer"
 }
 
 variable "team_members" {
-  type        = list(string)
+  type = list(string)
   description = "users that are ordinary team members"
-  //  default     = "user:snul@gft.com"
+  default = []
 }

@@ -73,26 +73,14 @@ variable "environments" {
   type = list(string)
 }
 
-variable "admin_role" {
-  type        = string
-  description = "name of the admin role"
-  default     = "roles/owner"
-}
-
 variable "member_role" {
   type        = string
   description = "name of the member role"
-  default     = "roles/editor"
-}
-
-variable "team_admins" {
-  type        = list(string)
-  description = "users that have the admin role"
-//  default     = "user:snul@gft.com"
+  default     = "roles/viewer"
 }
 
 variable "team_members" {
   type        = list(string)
   description = "users that are ordinary team members"
-  //  default     = "user:snul@gft.com"
+  default = []
 }
