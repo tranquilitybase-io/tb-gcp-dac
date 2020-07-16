@@ -10,4 +10,4 @@ echo "Using port: ${PORT}"
 
 gcloud auth activate-service-account --key-file "$GOOGLE_APPLICATION_CREDENTIALS"
 
-DEBUG="True" APP_PORT=${PORT} gunicorn app:connex_app --workers=${NUMBER_OF_WORKERS} --bind=0.0.0.0:${PORT} --log-level="${LOGLEVEL}" --access-logformat '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
+DEBUG="True" APP_PORT="${PORT}" gunicorn app:connex_app --workers="${NUMBER_OF_WORKERS}" --bind="0.0.0.0:${PORT}" --log-level="${LOGLEVEL}" --access-logformat '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"'
