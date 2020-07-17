@@ -42,6 +42,11 @@ variable "business_unit" {
   description = "business_unit"
 }
 
+variable "team" {
+  type        = string
+  description = "team"
+}
+
 variable "solution_id" {
   type        = string
   description = "solution_id"
@@ -66,4 +71,21 @@ variable "environments" {
 variable "solution_name" {
   type        = string
   description = "name of the solution to be created"
+}
+
+variable "created_by" {
+  type        = string
+  description = "solution created by user"
+}
+
+variable "member_role" {
+  type        = string
+  description = "name of the member role"
+  default     = "roles/viewer"
+}
+
+variable "team_members" {
+  type        = list(string)
+  description = "users that are ordinary team members"
+  default = []
 }

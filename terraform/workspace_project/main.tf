@@ -25,6 +25,15 @@ resource "google_project" "workspace_project" {
     "cost_centre" = var.cost_centre,
     "business_unit" = var.business_unit
     "solution_id" = var.solution_id
+    "created_by" = var.created_by
+    "team" = var.team
   }
 }
+
+resource "google_project_iam_binding" "project_member" {
+  project = google_project.workspace_project.project_id
+  role    = var.member_role
+  members = var.team_members
+}
+
 
