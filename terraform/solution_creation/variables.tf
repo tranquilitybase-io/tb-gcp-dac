@@ -71,7 +71,7 @@ variable "random_element" {
 variable "created_by" {
   type        = string
   description = "solution created by user"
-  default = "value TBA"
+  default = "labeltba"
 }
 
 variable "environments" {

@@ -38,7 +38,7 @@ def create_solution(solutiondata):
         tf_data['cost_centre'] = labellize(solutiondata['costCentre'])
         tf_data['business_unit'] = labellize(solutiondata['businessUnit'])
         tf_data['deployment_folder_id'] = solutiondata['deploymentFolderId']
-        tf_data['created_by'] = solutiondata.get('createdBy', 'labeltba')
+        tf_data['created_by'] = labellize(solutiondata.get('createdBy', 'labeltba'))
         tf_data['environments'] = [sanitize(x) for x in (solutiondata.get('environments', list()))]
 
         tf_data['solution_name'] = solutiondata["name"]
