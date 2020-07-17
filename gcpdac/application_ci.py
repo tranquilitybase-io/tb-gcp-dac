@@ -14,6 +14,7 @@ def create_application(applicationdata):
     application_id = applicationdata.get("id")
     application_name = applicationdata.get("name")
     logger.debug("application is %s", application_id)
+    logger.debug("application data is {}".format(applicationdata))
     application_git_url, workspace_project_id, deployment_environment, deployment_project_id = validateInput(
         applicationdata)
     try:
