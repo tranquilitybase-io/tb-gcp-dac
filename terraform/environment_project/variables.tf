@@ -73,6 +73,11 @@ variable "solution_name" {
   description = "name of the solution to be created"
 }
 
+variable "created_by" {
+  type        = string
+  description = "solution created by user"
+}
+
 variable "member_role" {
   type        = string
   description = "name of the member role"

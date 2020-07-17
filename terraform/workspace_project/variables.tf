@@ -78,3 +78,8 @@ variable "team_members" {
   description = "users that are ordinary team members"
   default = []
 }
+
+variable "created_by" {
+  type        = string
+  description = "solution created by user"
+}

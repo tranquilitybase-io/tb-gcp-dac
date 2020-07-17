@@ -23,9 +23,8 @@ from gcpdac.utils import labellize, random_element, sanitize
 
 logger = config.logger
 
-def create_solution(solutiondata):
-    logger.debug("solution_id is %s", type(solutiondata))
 
+def create_solution(solutiondata):
     ec_config = config.read_config_map()
     terraform_source_path = '/app/terraform/solution_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
@@ -39,6 +38,7 @@ def create_solution(solutiondata):
         tf_data['cost_centre'] = labellize(solutiondata['costCentre'])
         tf_data['business_unit'] = labellize(solutiondata['businessUnit'])
         tf_data['deployment_folder_id'] = solutiondata['deploymentFolderId']
+        tf_data['created_by'] = labellize(solutiondata.get('createdBy', 'labeltba'))
         tf_data['environments'] = [sanitize(x) for x in (solutiondata.get('environments', list()))]
 
         tf_data['solution_name'] = solutiondata["name"]
@@ -96,6 +96,7 @@ def delete_solution(solutiondata):
     tf_data['region'] = None
     tf_data['region_zone'] = None
     tf_data['tb_discriminator'] = None
+    tf_data['created_by'] = None
     tf_data['team'] = None
     tf_data['team_members'] = list()
 

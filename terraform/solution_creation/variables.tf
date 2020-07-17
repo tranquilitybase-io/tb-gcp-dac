@@ -68,6 +68,12 @@ variable "random_element" {
   description = "random element introduced to ensure uniqueness"
 }
 
+variable "created_by" {
+  type        = string
+  description = "solution created by user"
+  default = "labeltba"
+}
+
 variable "environments" {
   description = "Create projects for these environments"
   type = list(string)
