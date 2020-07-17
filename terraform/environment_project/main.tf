@@ -29,6 +29,7 @@ resource "google_project" "environment_project" {
     "solution_id" = var.solution_id
     "team" = var.team
     "environment" = var.environments[count.index]
+    "created_by" = var.created_by
   }
 }
 
@@ -38,10 +39,3 @@ resource "google_project_iam_binding" "project_member" {
   role    = var.member_role
   members = var.team_members
 }
-
-
-
-
-
-
-

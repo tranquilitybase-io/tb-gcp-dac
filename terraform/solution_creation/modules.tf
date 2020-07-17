@@ -22,6 +22,8 @@ module "workspace_project" {
   team = var.team
   member_role = var.member_role
   team_members = var.team_members
+  created_by = var.created_by
+
 }
 
 
@@ -41,6 +43,7 @@ module "environment_projects" {
   team = var.team
   member_role = var.member_role
   team_members = var.team_members
+  created_by = var.created_by
 
 }
 
