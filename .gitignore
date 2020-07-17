@@ -151,3 +151,5 @@ dmypy.json
 .vscode/settings.json
 docker-compose-local.yml
 mocks/mock_gcp_dac/openapi.yml
+terraform/solution_creation/input.auto.tfvars
+/tests/gcp_tests/config.py

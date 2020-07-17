@@ -5,13 +5,15 @@ from time import sleep
 from celery import states
 
 from gcpdac.utils import labellize
+from tests.gcp_tests import config
 from tests.gcp_tests.solution_utils import create_solution_task, create_solution_task_result, delete_solution_task, \
     delete_solution_task_result
 
 solution_id = 1001
 business_unit = 'BU-1'
 cost_centre = 'CC-1'
-deployment_folder_id = '302197932093'
+deployment_folder_id = config.base_folder_id
+team_members = config.team_members
 environments = [
     'Development',
     'QA',
@@ -33,7 +35,22 @@ solution_json = {
     'environments': environments,
     'active': True,
     'favourite': True,
-    'teams': 1,
+    "teamId": 1,
+    "team": {
+        "lastUpdated": "2020-03-01 12:34:56",
+        "businessUnitId": 1,
+        "teamMembers": team_members,
+        "businessUnit": {
+            "name": "Modern Apps",
+            "isActive": True,
+            "id": 1,
+            "description": "Modern Apps"
+        },
+        "isActive": True,
+        "id": 1,
+        "description": "All Developers",
+        "name": "Developers"
+    },
     'lastUpdated': '2020-04-21T08:30:52+00:00'
 }
 
@@ -88,26 +105,27 @@ class SolutionTest(unittest.TestCase):
         environment_projects = solution_response["environment_projects"]["value"]
         for environment_project in environment_projects:
             labels = environment_project["labels"]
+            self.check_common_project_labels(labels)
             if 'environment' not in labels:
                 self.fail("No environment label")
-            if 'cost_centre' not in labels:
-                self.fail("No cost_centre label")
-            if 'business_unit' not in labels:
-                self.fail("No business_unit label")
             environment_label = labels['environment']
             if environment_label not in processed_environments:
                 self.fail("Invalid environment label")
 
         workspace_project = solution_response["workspace_project"]["value"]
-        labels = workspace_project["labels"]
-        if 'cost_centre' not in labels:
-            self.fail("No cost_centre label")
-        if 'business_unit' not in labels:
-            self.fail("No business_unit label")
+        self.check_common_project_labels(workspace_project["labels"])
 
         solution_folder = solution_response["solution_folder"]["value"]
         display_name = solution_folder["display_name"]
         self.assertEqual(solution_input['name'], display_name)
+
+    def check_common_project_labels(self, labels):
+        if 'cost_centre' not in labels:
+            self.fail("No cost_centre label")
+        if 'business_unit' not in labels:
+            self.fail("No business_unit label")
+        if 'team' not in labels:
+            self.fail("No team label")
 
 
 if __name__ == '__main__':

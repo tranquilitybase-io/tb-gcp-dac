@@ -41,7 +41,7 @@ def call_jenkins(git_repo_url, deployment_environment, deployment_project_id):
     logger.info("Deployment Environment {}".format(deployment_environment))
     logger.info("Deployment Project ID {}".format(deployment_project_id))
 
-    jenkins_server = config.JENKINS_URL
+    jenkins_server = config.JENKINS_BASE_URL
     logger.info("Jenkins URL = {}".format(jenkins_server))
     call_string = "curl -X POST {}".format(jenkins_server)
     call_process(call_string)

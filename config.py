@@ -11,8 +11,8 @@ logger.info("Logger initialised")
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 print("basedir: {}".format(basedir))
-DEFAULT_SHELL="/bin/bash"
-JENKINS_URL=os.environ['JENKINS_URL']
+DEFAULT_SHELL = "/bin/bash"
+JENKINS_BASE_URL = os.environ['JENKINS_BASE_URL']
 
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
@@ -28,6 +28,7 @@ ma = Marshmallow(app)
 setDefaultGoogleCloudProject()
 
 celery_app = make_celery(__name__)
+
 
 def get_celery():
     return celery_app
@@ -46,4 +47,3 @@ def read_config_map():
     except Exception:
         logger.exception("Failed to load EC YAML file")
         raise
-

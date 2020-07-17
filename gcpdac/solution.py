@@ -47,6 +47,7 @@ def create_solution_result(taskid):
         result: Exception = asyncResult.result
         logger.info("Exception {}".format(result))
         # TODO add error message to payload
+        # payload = {"error": result}
 
     if status == states.SUCCESS:
         retval = asyncResult.get(timeout=1.0)

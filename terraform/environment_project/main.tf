@@ -22,12 +22,26 @@ resource "google_project" "environment_project" {
   project_id = "${var.environments[count.index]}-${var.random_element}-${var.tb_discriminator}"
   folder_id = var.folder_id
   billing_account = var.billing_account
+//  labels = "${var.environments[count.index].labels}"
   labels = {
     "cost_centre" = var.cost_centre,
     "business_unit" = var.business_unit
     "solution_id" = var.solution_id
+    "team" = var.team
     "environment" = var.environments[count.index]
   }
 }
+
+resource "google_project_iam_binding" "project_member" {
+  count = length(var.environments)
+  project = google_project.environment_project[count.index].project_id
+  role    = var.member_role
+  members = var.team_members
+}
+
+
+
+
+
 
 
