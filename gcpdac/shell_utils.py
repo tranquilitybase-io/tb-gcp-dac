@@ -45,7 +45,7 @@ def call_jenkins(jenkins_url, jenkins_params: dict):
     logger.info("Full Jenkins URL with params = {}".format(jenkins_url))
 
     call_string = "curl -X POST {}".format(jenkins_url)
-    call_process(call_string)
+    return call_process(call_string)
 
 
 def call_process(call_string):

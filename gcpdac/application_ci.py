@@ -19,12 +19,9 @@ def create_application(applicationdata):
         applicationdata)
     try:
         jenkins_base_url = os.environ[JENKINS_BASE_URL]
-        # jenkins_token = os.environ[JENKINS_TOKEN]
-        # jenkins_deploy_activator_job = os.environ[JENKINS_DEPLOY_ACTIVATOR_JOB]
     except KeyError as _:
         raise DacJenkinsError(
-            "Jenkins environment variables not set. Check {},{},{} are set".format(JENKINS_BASE_URL, JENKINS_TOKEN,
-                                                                                   JENKINS_DEPLOY_ACTIVATOR_JOB))
+            "Jenkins environment variables not set. Check {} are set".format(JENKINS_BASE_URL))
     ec_config = config.ec_config
     eagle_project_id = ec_config['ec_project_name']
 
@@ -38,15 +35,16 @@ def create_application(applicationdata):
     logger.debug("Copy repo response code {}".format(copy_repo_response))
     jenkins_token = JENKINS_TOKEN
     jenkins_deploy_activator_job = JENKINS_DEPLOY_ACTIVATOR_JOB
-    jenkins_job_instance_name = random_element(12)  # TODO exact format of name to be agreed on
+    # jenkins_job_instance_name = random_element(12)  # TODO exact format of name to be agreed on
 
     jenkins_url = "{jenkins_base_url}/buildByToken/buildWithParameters?job={jenkins_deploy_activator_job}&token={jenkins_token}".format(
         jenkins_base_url=jenkins_base_url,
         jenkins_deploy_activator_job=jenkins_deploy_activator_job,
         jenkins_token=jenkins_token)
     jenkins_params = {}
-    git_repo_url = "https://source.developers.google.com/p/{workspace_project_id}/r/{repo_name}".format(
-        workspace_project_id=workspace_project_id, repo_name=repo_name)
+    # TODO re-add this when Jenkins job supports GSR
+    # git_repo_url = "https://source.developers.google.com/p/{workspace_project_id}/r/{repo_name}".format(
+    #     workspace_project_id=workspace_project_id, repo_name=repo_name)
     jenkins_params[ACTIVATOR_GIT_REPO_URL] = application_git_url
     jenkins_params[DEPLOYMENT_PROJECT_ID] = deployment_project_id
     # jenkins_params["jenkins_job_instance_name"] = jenkins_job_instance_name
