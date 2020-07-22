@@ -80,6 +80,8 @@ def create_solution(solutiondata):
     response = terraform_apply(None, tf)
     logger.debug("response {}".format(response))
 
+    # TODO add view access to parent folders
+
     return response
 
 

@@ -16,3 +16,9 @@ output "workspace_project" {
   description = "project created"
   value       = google_project.workspace_project
 }
+
+//output "workspace_project_members" {
+//  description = "project members"
+//  value       = google_project_iam_binding.project_member.*
+//}
+//

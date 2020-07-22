@@ -39,3 +39,10 @@ resource "google_project_iam_binding" "project_member" {
   role    = var.member_role
   members = var.team_members
 }
+
+resource "google_folder_iam_binding" "folder_member" {
+  count = length(var.environments)
+  folder = var.folder_id
+  role    = var.member_role
+  members = var.team_members
+}
