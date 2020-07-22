@@ -11,7 +11,7 @@ def create_repo(repo_name, project_to, project_from):
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
-    call_process(call_string)
+    return call_process(call_string)
 
 
 def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
@@ -23,7 +23,7 @@ def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
         target_gcp_repo_name=target_gcp_repo_name,
         project_to=project_to,
         project_from=project_from)
-    call_process(call_string)
+    return call_process(call_string)
 
 
 def delete_repo(repo_name, project_to, project_from):
@@ -32,7 +32,7 @@ def delete_repo(repo_name, project_to, project_from):
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
-    call_process(call_string)
+    return call_process(call_string)
 
 
 def call_jenkins(jenkins_url, jenkins_params: dict):

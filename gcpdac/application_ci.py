@@ -5,7 +5,7 @@ from gcpdac.constants import JENKINS_BASE_URL, JENKINS_TOKEN, JENKINS_DEPLOY_ACT
     ACTIVATOR_GIT_REPO_URL
 from gcpdac.exceptions import DacValidationError, DacJenkinsError
 from gcpdac.shell_utils import create_repo, copy_repo, call_jenkins
-from gcpdac.utils import sanitize, random_element
+from gcpdac.utils import sanitize
 
 logger = config.logger
 
@@ -19,7 +19,8 @@ def create_application(applicationdata):
         applicationdata)
     try:
         jenkins_base_url = os.environ[JENKINS_BASE_URL]
-    except KeyError as _:
+    except Exception as e:
+        print(e)
         raise DacJenkinsError(
             "Jenkins environment variables not set. Check {} are set".format(JENKINS_BASE_URL))
     ec_config = config.ec_config
