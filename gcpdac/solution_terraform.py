@@ -17,7 +17,7 @@ from python_terraform import Terraform
 
 import config
 from gcpdac.exceptions import DacError
-from gcpdac.shell_utils import delete_repo
+from gcpdac.shell_utils import delete_repo, add_access_to_folders
 from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init
 from gcpdac.utils import labellize, random_element, sanitize
 
@@ -27,7 +27,6 @@ logger = config.logger
 def create_solution(solutiondata):
     tf_data = dict()
     ec_config = config.ec_config
-    ec_config = config.read_config_map()
     terraform_source_path = '/app/terraform/solution_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_backend_prefix = get_solution_backend_prefix(solutiondata.get("id"), ec_config['tb_discriminator'])
@@ -39,7 +38,8 @@ def create_solution(solutiondata):
         tf_data['solution_id'] = solution_id
         tf_data['cost_centre'] = labellize(solutiondata['costCentre'])
         tf_data['business_unit'] = labellize(solutiondata['businessUnit'])
-        tf_data['deployment_folder_id'] = solutiondata['deploymentFolderId']
+        deployment_folder_id = solutiondata['deploymentFolderId']
+        tf_data['deployment_folder_id'] = deployment_folder_id
         tf_data['created_by'] = labellize(solutiondata.get('createdBy', 'labeltba'))
         tf_data['environments'] = [sanitize(x) for x in (solutiondata.get('environments', list()))]
 
@@ -81,6 +81,7 @@ def create_solution(solutiondata):
     logger.debug("response {}".format(response))
 
     # TODO add view access to parent folders
+    add_access_to_folders(bottom_level_folder_id=deployment_folder_id, users=team_members, top_level_folder_id=ec_config["activator_folder_id"])
 
     return response
 
