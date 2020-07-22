@@ -15,3 +15,8 @@ class DacTerraformError(DacError):
 
     def __init__(self, message):
         self.message = message
+
+class DacJenkinsError(DacError):
+
+    def __init__(self, message):
+        self.message = message

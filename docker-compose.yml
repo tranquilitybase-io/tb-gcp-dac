@@ -1,7 +1,8 @@
 version: '3.1'
 # This docker compose file just runs DAC alongside redis and a DAC worker. It doesn't include houston or eagle
-# Make a copy called docker-compose-local.yml for testing locally
+# It enables testing against a GCP environment if the file credentials.json and ec-config.yaml have been created and exist in the project root directory
 # See documentation [here](https://github.com/tranquilitybase-io/tb-gcp-dac/wiki/RunServicesWithDocker)
+# Make a copy called docker-compose-local.yml for testing locally
 
 services:
   gcp-dac:
@@ -21,7 +22,10 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
-      JENKINS_URL: http://jenkins-svc.cicd.svc.cluster.local
+      # required for calling Jenkins
+      JENKINS_BASE_URL: ADD_JENKINS_BASE_URL
+      JENKINS_TOKEN: ADD_TOKEN
+      JENKINS_DEPLOY_ACTIVATOR_JOB: ADD_JOB_NAME
     volumes:
       # NB credentials.json and ec-config.yaml should have been created and exist in the project root directory
       - .\credentials.json:/credentials.json:ro
@@ -36,7 +40,7 @@ services:
   #    command: [ "redis-server", "/redis.conf" ]
 
   worker:
-    # to run with more workers 'docker-compose up --scale worker = <num of workers>
+    # to run with more workers 'docker-compose up --scale worker=<num of workers>
     # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
     image: gcr.io/tranquility-base-images/tb-gcp-dac:local
     build:
@@ -49,7 +53,9 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
-      JENKINS_URL: http://jenkins-svc.cicd.svc.cluster.local
+      JENKINS_BASE_URL: ADD_JENKINS_BASE_URL
+      JENKINS_TOKEN: ADD_TOKEN
+      JENKINS_DEPLOY_ACTIVATOR_JOB: ADD_JOB_NAME
     volumes:
       # credentials.json and ec-config.yaml should have been created and exist in the project root directory
       - .\credentials.json:/credentials.json:ro

@@ -25,6 +25,8 @@ logger = config.logger
 
 
 def create_solution(solutiondata):
+    tf_data = dict()
+    ec_config = config.ec_config
     ec_config = config.read_config_map()
     terraform_source_path = '/app/terraform/solution_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
@@ -100,7 +102,7 @@ def delete_solution(solutiondata):
     tf_data['team'] = None
     tf_data['team_members'] = list()
 
-    ec_config = config.read_config_map()
+    ec_config = config.ec_config
 
     tf_data['billing_account'] = ec_config['billing_account']
     tb_discriminator = ec_config['tb_discriminator']

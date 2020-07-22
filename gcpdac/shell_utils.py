@@ -11,7 +11,7 @@ def create_repo(repo_name, project_to, project_from):
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
-    call_process(call_string)
+    return call_process(call_string)
 
 
 def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
@@ -23,7 +23,7 @@ def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
         target_gcp_repo_name=target_gcp_repo_name,
         project_to=project_to,
         project_from=project_from)
-    call_process(call_string)
+    return call_process(call_string)
 
 
 def delete_repo(repo_name, project_to, project_from):
@@ -32,19 +32,20 @@ def delete_repo(repo_name, project_to, project_from):
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
-    call_process(call_string)
+    return call_process(call_string)
 
 
-def call_jenkins(git_repo_url, deployment_environment, deployment_project_id):
-    logger.info("Calling Jenkins TODO IMPLEMENT")
-    logger.info("Git Repo URL {}".format(git_repo_url))
-    logger.info("Deployment Environment {}".format(deployment_environment))
-    logger.info("Deployment Project ID {}".format(deployment_project_id))
+def call_jenkins(jenkins_url, jenkins_params: dict):
+    logger.info("Calling Jenkins")
+    logger.info("Jenkins URL = {}".format(jenkins_url))
+    for key in jenkins_params:
+        value = jenkins_params[key]
+        logger.info("{key}={value}".format(key=key, value=value))
+        jenkins_url = "{jenkins_url}&{key}={value}".format(jenkins_url=jenkins_url, key=key, value=value)
+    logger.info("Full Jenkins URL with params = {}".format(jenkins_url))
 
-    jenkins_server = config.JENKINS_BASE_URL
-    logger.info("Jenkins URL = {}".format(jenkins_server))
-    call_string = "curl -X POST {}".format(jenkins_server)
-    call_process(call_string)
+    call_string = "curl -X POST {}".format(jenkins_url)
+    return call_process(call_string)
 
 
 def call_process(call_string):
