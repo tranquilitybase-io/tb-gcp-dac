@@ -79,11 +79,18 @@ variable "environments" {
   type = list(string)
 }
 
-variable "member_role" {
+variable "project_access_role" {
   type        = string
-  description = "name of the member role"
+  description = "name of the project acccess role"
   default     = "roles/viewer"
 }
+
+variable "folder_access_role" {
+  type        = string
+  description = "name of the folder access role"
+  default     = "roles/resourcemanager.folderViewer"
+}
+
 
 variable "team_members" {
   type        = list(string)

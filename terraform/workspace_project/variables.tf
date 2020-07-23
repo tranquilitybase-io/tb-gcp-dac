@@ -67,11 +67,16 @@ variable "solution_name" {
   description = "name of the solution to be created"
 }
 
-variable "member_role" {
-  type = string
-  description = "name of the member role"
-  default = "roles/viewer"
+variable "project_access_role" {
+  type        = string
+  description = "name of the project acccess role"
 }
+
+variable "folder_access_role" {
+  type        = string
+  description = "name of the folder access role"
+}
+
 
 variable "team_members" {
   type = list(string)
