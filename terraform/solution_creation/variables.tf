@@ -90,3 +90,8 @@ variable "team_members" {
   description = "users that are ordinary team members"
   default = []
 }
+
+variable "shared_vpc_host_project" {
+  type        = string
+  description = "shared vpc host project"
+}

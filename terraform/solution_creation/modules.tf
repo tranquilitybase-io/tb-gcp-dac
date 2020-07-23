@@ -23,7 +23,7 @@ module "workspace_project" {
   member_role = var.member_role
   team_members = var.team_members
   created_by = var.created_by
-
+  shared_vpc_host_project = var.shared_vpc_host_project
 }
 
 
@@ -44,6 +44,6 @@ module "environment_projects" {
   member_role = var.member_role
   team_members = var.team_members
   created_by = var.created_by
-
+  shared_vpc_host_project = var.shared_vpc_host_project
 }
 

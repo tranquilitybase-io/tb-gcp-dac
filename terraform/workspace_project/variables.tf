@@ -83,3 +83,8 @@ variable "created_by" {
   type        = string
   description = "solution created by user"
 }
+
+variable "shared_vpc_host_project" {
+  type        = string
+  description = "shared vpc host project"
+}

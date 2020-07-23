@@ -58,6 +58,7 @@ def create_solution(solutiondata):
         tf_data['region'] = region
         tf_data['billing_account'] = ec_config['billing_account']
         tf_data['shared_vpc_host_project'] = ec_config['shared_vpc_host_project']
+        logger.debug('shared_vpc_host_project {}'.format(tf_data['shared_vpc_host_project']))
         tf_data['shared_network_name'] = ec_config['shared_network_name']
         tf_data['shared_networking_id'] = ec_config['shared_networking_id']
         tb_discriminator = ec_config['tb_discriminator']
@@ -103,6 +104,7 @@ def delete_solution(solutiondata):
     tf_data['tb_discriminator'] = None
     tf_data['created_by'] = None
     tf_data['team'] = None
+    tf_data['shared_vpc_host_project'] = None
     tf_data['team_members'] = list()
 
     ec_config = config.ec_config

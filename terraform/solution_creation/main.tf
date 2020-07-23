@@ -30,6 +30,7 @@ provider "google" {
 //  version = "~> 3.17"
 //}
 //
+
 terraform {
   backend "gcs" {
     # The bucket name below is overloaded at every run with
@@ -38,14 +39,4 @@ terraform {
     bucket = "terraformdevstate"
   }
 }
-
-//module "apis_activation" {
-//  source = "../../apis-activation"
-//
-//  ec_project_id          = module.shared_projects.shared_ec_id
-//  bastion_project_id              = module.shared_projects.shared_bastion_id
-//  host_project_id         = module.shared_projects.shared_networking_id
-//  service_projects_number = var.service_projects_number
-//  service_project_ids     = [module.shared_projects.shared_secrets_id, module.shared_projects.shared_itsm_id, module.shared_projects.shared_ec_id]
-//}
 
