@@ -32,13 +32,13 @@ resource "google_project" "workspace_project" {
 
 resource "google_project_iam_binding" "project_member" {
   project = google_project.workspace_project.project_id
-  role    = var.member_role
+  role    = var.project_access_role
   members = var.team_members
 }
 
 resource "google_folder_iam_binding" "folder_member" {
   folder = var.folder_id
-  role    = var.member_role
+  role    = var.folder_access_role
   members = var.team_members
 }
 
