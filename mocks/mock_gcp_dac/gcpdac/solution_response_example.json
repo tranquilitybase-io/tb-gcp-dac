@@ -145,28 +145,12 @@
           "labels": {
             "business_unit": "bu-gft",
             "cost_centre": "cc-gft",
-            "environment": "development-1"
+            "environment": "development"
           },
-          "name": "sol999-development-1",
+          "name": "sol999-development",
           "number": "119312718634",
           "org_id": "",
-          "project_id": "development-1-h08aez-ksjs726s",
-          "skip_delete": null,
-          "timeouts": null
-        },
-        {
-          "auto_create_network": true,
-          "folder_id": "282083654038",
-          "id": "projects/development-2-h08aez-ksjs726s",
-          "labels": {
-            "business_unit": "bu-gft",
-            "cost_centre": "cc-gft",
-            "environment": "development-2"
-          },
-          "name": "sol999-development-2",
-          "number": "878261862220",
-          "org_id": "",
-          "project_id": "development-2-h08aez-ksjs726s",
+          "project_id": "development-h08aez-ksjs726s",
           "skip_delete": null,
           "timeouts": null
         },
@@ -183,22 +167,6 @@
           "number": "971423854825",
           "org_id": "",
           "project_id": "staging-h08aez-ksjs726s",
-          "skip_delete": null,
-          "timeouts": null
-        },
-        {
-          "auto_create_network": true,
-          "folder_id": "282083654038",
-          "id": "projects/qa-h08aez-ksjs726s",
-          "labels": {
-            "business_unit": "bu-gft",
-            "cost_centre": "cc-gft",
-            "environment": "qa"
-          },
-          "name": "sol999-qa",
-          "number": "662646863463",
-          "org_id": "",
-          "project_id": "qa-h08aez-ksjs726s",
           "skip_delete": null,
           "timeouts": null
         },
