@@ -20,10 +20,12 @@ module "workspace_project" {
   solution_name = var.solution_name
   solution_id = var.solution_id
   team = var.team
-  member_role = var.member_role
   team_members = var.team_members
   created_by = var.created_by
+  folder_access_role = var.folder_access_role
+  project_access_role = var.project_access_role
   shared_vpc_host_project = var.shared_vpc_host_project
+
 }
 
 
@@ -41,7 +43,8 @@ module "environment_projects" {
   solution_name = var.solution_name
   solution_id = var.solution_id
   team = var.team
-  member_role = var.member_role
+  folder_access_role = var.folder_access_role
+  project_access_role = var.project_access_role
   team_members = var.team_members
   created_by = var.created_by
   shared_vpc_host_project = var.shared_vpc_host_project

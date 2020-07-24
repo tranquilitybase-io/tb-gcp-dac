@@ -78,12 +78,15 @@ variable "created_by" {
   description = "solution created by user"
 }
 
-variable "member_role" {
+variable "project_access_role" {
   type        = string
-  description = "name of the member role"
-  default     = "roles/viewer"
+  description = "name of the project acccess role"
 }
 
+variable "folder_access_role" {
+  type        = string
+  description = "name of the folder access role"
+}
 variable "team_members" {
   type        = list(string)
   description = "users that are ordinary team members"
