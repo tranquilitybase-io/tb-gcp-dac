@@ -40,6 +40,23 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/solution.solutionDetails"
 
+#  /cloud_identity_groups/{userid}:
+#    get:
+#      operationId: gcpdac.cloudidentitygroups.read_all
+#      tags:
+#        - cloudidentitygroup
+#      summary: Get the cloudidentitygroups that a user is a member of
+#      description: Get the cloudidentitygroups that a user is a member of
+#      responses:
+#        "200":
+#          description: Successfully retrieved the cloudidentitygroups that a user is a member of
+#          content:
+#            application/json:
+#              schema:
+#                type: array
+#                items:
+#                  type: string
+
   "/solution_async/{oid}":
     delete:
       operationId: gcpdac.solution.delete_async

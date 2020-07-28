@@ -17,7 +17,7 @@ from python_terraform import Terraform
 
 import config
 from gcpdac.exceptions import DacError
-from gcpdac.shell_utils import delete_repo
+from gcpdac.shell_utils import delete_repo, get_iam_policy
 from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init
 from gcpdac.utils import labellize, random_element, sanitize
 
@@ -41,6 +41,9 @@ def create_solution(solutiondata):
         tf_data['business_unit'] = labellize(solutiondata['businessUnit'])
         tf_data['deployment_folder_id'] = solutiondata['deploymentFolderId']
         tf_data['created_by'] = labellize(solutiondata.get('createdBy', 'labeltba'))
+
+        get_iam_policy("simon.underhill@gft.com")
+
         tf_data['environments'] = [sanitize(x) for x in (solutiondata.get('environments', list()))]
 
         tf_data['solution_name'] = solutiondata["name"]

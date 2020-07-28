@@ -25,6 +25,10 @@ def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
         project_from=project_from)
     return call_process(call_string)
 
+def get_iam_policy(user_email):
+    call_string = "gcloud beta iam service-accounts get-iam-policy {user_email}".format(
+        user_email=user_email)
+    return call_process(call_string)
 
 def delete_repo(repo_name, project_to, project_from):
     logger.info("Deleting repo {repo_name} in project {project_to}".format(repo_name=repo_name, project_to=project_to))
