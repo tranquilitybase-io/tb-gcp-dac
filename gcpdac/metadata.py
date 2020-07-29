@@ -8,7 +8,7 @@ def get_metadata_from_config():
     ec_config = config.ec_config
     data = { }
     data['root_folder_id'] = str(ec_config.get('activator_folder_id')).replace("folders/","")
-    # data['root_folder_id'] = ec_config.get('activator_folder_id')
+    data['shared_vpc_host_project'] = str(ec_config.get('shared_vpc_host_project'))
     return data
 
 
