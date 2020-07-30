@@ -16,7 +16,6 @@ resource "google_compute_shared_vpc_service_project" "environment_service" {
   count = length(var.environment_project_ids)
   host_project    = var.shared_vpc_host_project
   service_project = var.environment_project_ids[count.index]
-
 }
 
 resource "google_compute_shared_vpc_service_project" "workspace_service" {

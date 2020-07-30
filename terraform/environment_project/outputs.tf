@@ -20,4 +20,5 @@ output "environment_projects" {
 output "environment_project_ids" {
   description = "project ids created"
   value       = google_project.environment_project[*].project_id
+  depends_on = [google_project.environment_project]
 }
