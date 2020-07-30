@@ -44,3 +44,4 @@ class MetadataSchema(Schema):
         super().__init__(**kwargs)
 
     root_folder_id = fields.Str()
+    shared_vpc_host_project = fields.Str()
