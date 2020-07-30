@@ -1,7 +1,7 @@
 FROM google/cloud-sdk:298.0.0
 MAINTAINER "GFT"
 
-ENV TERRAFORM_VERSION=0.12.24
+ENV TERRAFORM_VERSION=0.12.29
 
 RUN apt-get update \
  && apt-get install unzip=6.0-25 wget=1.20.1-1.1 dos2unix=7.4.0-1 nano=3.2-3 \

@@ -42,9 +42,3 @@ resource "google_folder_iam_binding" "folder_member" {
   members = var.team_members
 }
 
-resource "google_compute_shared_vpc_service_project" "service" {
-  host_project    = var.shared_vpc_host_project
-  service_project = google_project.workspace_project.project_id
-  depends_on = [google_project.workspace_project]
-}
-

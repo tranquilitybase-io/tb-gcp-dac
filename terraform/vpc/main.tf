@@ -12,12 +12,15 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-output "environment_projects" {
-  description = "project created"
-  value       = google_project.environment_project.*
+resource "google_compute_shared_vpc_service_project" "environment_service" {
+  count = length(var.environment_project_ids)
+  host_project    = var.shared_vpc_host_project
+  service_project = var.environment_project_ids[count.index]
+
 }
 
-output "environment_project_ids" {
-  description = "project ids created"
-  value       = google_project.environment_project[*].project_id
+resource "google_compute_shared_vpc_service_project" "workspace_service" {
+  host_project    = var.shared_vpc_host_project
+  service_project = var.workspace_project_id
 }
+

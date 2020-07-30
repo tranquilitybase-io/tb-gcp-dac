@@ -47,11 +47,3 @@ resource "google_folder_iam_binding" "folder_member" {
   members = var.team_members
 }
 
-resource "google_compute_shared_vpc_service_project" "service" {
-//  count = length(var.shared_vpc_host_project) > 0 ? 1 : 0
-  count = length(var.environments)
-  host_project    = var.shared_vpc_host_project
-  service_project = google_project.environment_project[count.index].project_id
-  depends_on = [google_project.environment_project]
-}
-

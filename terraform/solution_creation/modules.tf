@@ -24,7 +24,7 @@ module "workspace_project" {
   created_by = var.created_by
   folder_access_role = var.folder_access_role
   project_access_role = var.project_access_role
-  shared_vpc_host_project = var.shared_vpc_host_project
+//  shared_vpc_host_project = var.shared_vpc_host_project
 
 }
 
@@ -47,6 +47,13 @@ module "environment_projects" {
   project_access_role = var.project_access_role
   team_members = var.team_members
   created_by = var.created_by
+//  shared_vpc_host_project = var.shared_vpc_host_project
+}
+
+module "vpc" {
+  source = "../vpc"
+  environment_project_ids = module.environment_projects.environment_project_ids
   shared_vpc_host_project = var.shared_vpc_host_project
+  workspace_project_id = module.workspace_project.workspace_project_id
 }
 

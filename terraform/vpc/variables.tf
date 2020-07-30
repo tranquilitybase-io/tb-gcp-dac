@@ -12,12 +12,18 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-output "environment_projects" {
-  description = "project created"
-  value       = google_project.environment_project.*
+variable "shared_vpc_host_project" {
+  type        = string
+  description = "shared vpc host project"
 }
 
-output "environment_project_ids" {
-  description = "project ids created"
-  value       = google_project.environment_project[*].project_id
+variable "environment_project_ids" {
+  type        = list(string)
+  description = "list of environment project ids"
 }
+
+variable "workspace_project_id" {
+  type        = string
+  description = "workspace project id"
+}
+

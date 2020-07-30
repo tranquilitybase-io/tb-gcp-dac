@@ -12,12 +12,3 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-output "environment_projects" {
-  description = "project created"
-  value       = google_project.environment_project.*
-}
-
-output "environment_project_ids" {
-  description = "project ids created"
-  value       = google_project.environment_project[*].project_id
-}
