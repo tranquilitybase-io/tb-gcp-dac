@@ -22,15 +22,6 @@ provider "google" {
   version = "~> 3.17"
 }
 
-//provider "google-beta" {
-//  alias   = "shared-vpc"
-//  region  = var.region
-//  zone    = var.region_zone
-//  project = module.shared_projects.shared_networking_id
-//  version = "~> 3.17"
-//}
-//
-
 terraform {
   backend "gcs" {
     # The bucket name below is overloaded at every run with
