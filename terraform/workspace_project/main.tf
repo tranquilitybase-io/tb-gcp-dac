@@ -17,12 +17,11 @@
 ###
 
 provider "google-beta" {
-  region  = var.region
-  zone    = var.region_zone
+  region = var.region
+  zone = var.region_zone
   project = var.shared_vpc_host_project
   version = "~> 3.17"
 }
-
 
 resource "google_project" "workspace_project" {
   name = "${var.solution_name}-workspace"
@@ -40,23 +39,27 @@ resource "google_project" "workspace_project" {
 
 resource "google_project_iam_binding" "project_member" {
   project = google_project.workspace_project.project_id
-  role    = var.project_access_role
+  role = var.project_access_role
   members = var.team_members
 }
 
 resource "google_folder_iam_binding" "folder_member" {
   folder = var.folder_id
-  role    = var.folder_access_role
+  role = var.folder_access_role
   members = var.team_members
 }
 
-https://stackoverflow.com/questions/54888945/terraform-creating-gcp-project-using-shared-vpc
-For anyone encountering the same problem, in my case the project not found error was solved just by enabling the Compute Engine API.
-
+resource "google_project_services" "workspace" {
+  project = google_project.workspace_project.project_id
+  services = var.api_services
+  depends_on = [
+    google_project.workspace_project]
+}
 
 resource "google_compute_shared_vpc_service_project" "workspace_service" {
-  host_project    = var.shared_vpc_host_project
+  host_project = var.shared_vpc_host_project
   service_project = google_project.workspace_project.project_id
   provider = google-beta
-  depends_on = [google_project.workspace_project]
+  depends_on = [
+    google_project_services.workspace]
 }

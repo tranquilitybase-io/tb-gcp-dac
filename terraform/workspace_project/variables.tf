@@ -93,3 +93,8 @@ variable "shared_vpc_host_project" {
   type        = string
   description = "shared vpc host project"
 }
+
+variable "api_services" {
+  type = list(string)
+  description = "api services required for projects"
+}
