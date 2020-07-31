@@ -103,18 +103,3 @@ variable "shared_vpc_host_project" {
   description = "shared vpc host project"
 }
 
-//variable "api_services" {
-//  type = list(string)
-//  description = "api services required for projects"
-//  default = [
-//    "compute.googleapis.com"
-//    //    "oslogin.googleapis.com",
-//    //    "container.googleapis.com",
-//    //    "storage-api.googleapis.com",
-//    //    "sourcerepo.googleapis.com",
-//    //    "cloudresourcemanager.googleapis.com",
-//    //    "cloudbilling.googleapis.com",
-//    //    "serviceusage.googleapis.com",
-//    //    "datastore.googleapis.com"
-//  ]
-//}
