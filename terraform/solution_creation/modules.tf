@@ -25,7 +25,7 @@ module "workspace_project" {
   folder_access_role = var.folder_access_role
   project_access_role = var.project_access_role
   shared_vpc_host_project = var.shared_vpc_host_project
-  api_services = var.api_services
+//  api_services = var.api_services
 }
 
 
@@ -48,7 +48,7 @@ module "environment_projects" {
   team_members = var.team_members
   created_by = var.created_by
   shared_vpc_host_project = var.shared_vpc_host_project
-  api_services = var.api_services
+//  api_services = var.api_services
 }
 
 

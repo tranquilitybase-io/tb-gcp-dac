@@ -49,9 +49,10 @@ resource "google_folder_iam_binding" "folder_member" {
   members = var.team_members
 }
 
-resource "google_project_services" "workspace" {
+resource "google_project_service" "workspace" {
   project = google_project.workspace_project.project_id
-  services = var.api_services
+  service = "compute.googleapis.com"
+//  provider = google-beta
   depends_on = [
     google_project.workspace_project]
 }
@@ -61,5 +62,5 @@ resource "google_compute_shared_vpc_service_project" "workspace_service" {
   service_project = google_project.workspace_project.project_id
   provider = google-beta
   depends_on = [
-    google_project_services.workspace]
+    google_project_service.workspace]
 }
