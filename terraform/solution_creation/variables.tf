@@ -69,7 +69,7 @@ variable "random_element" {
 }
 
 variable "created_by" {
-  type        = string
+  type = string
   description = "solution created by user"
   default = "labeltba"
 }
@@ -79,14 +79,27 @@ variable "environments" {
   type = list(string)
 }
 
-variable "member_role" {
-  type        = string
-  description = "name of the member role"
-  default     = "roles/viewer"
+variable "project_access_role" {
+  type = string
+  description = "name of the project acccess role"
+  default = "roles/viewer"
 }
 
+variable "folder_access_role" {
+  type = string
+  description = "name of the folder access role"
+  default = "roles/resourcemanager.folderViewer"
+}
+
+
 variable "team_members" {
-  type        = list(string)
+  type = list(string)
   description = "users that are ordinary team members"
   default = []
 }
+
+variable "shared_vpc_host_project" {
+  type = string
+  description = "shared vpc host project"
+}
+

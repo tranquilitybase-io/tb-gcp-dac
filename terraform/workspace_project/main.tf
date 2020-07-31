@@ -13,8 +13,15 @@
 # limitations under the License.
 
 ###
-# Environment Project  Creation
+# Workspace Project  Creation
 ###
+
+provider "google-beta" {
+  region = var.region
+  zone = var.region_zone
+  project = var.shared_vpc_host_project
+  version = "~> 3.17"
+}
 
 resource "google_project" "workspace_project" {
   name = "${var.solution_name}-workspace"
@@ -32,8 +39,28 @@ resource "google_project" "workspace_project" {
 
 resource "google_project_iam_binding" "project_member" {
   project = google_project.workspace_project.project_id
-  role    = var.member_role
+  role = var.project_access_role
   members = var.team_members
 }
 
+resource "google_folder_iam_binding" "folder_member" {
+  folder = var.folder_id
+  role = var.folder_access_role
+  members = var.team_members
+}
 
+resource "google_project_service" "workspace" {
+  project = google_project.workspace_project.project_id
+  service = "compute.googleapis.com"
+//  provider = google-beta
+  depends_on = [
+    google_project.workspace_project]
+}
+
+resource "google_compute_shared_vpc_service_project" "workspace_service" {
+  host_project = var.shared_vpc_host_project
+  service_project = google_project.workspace_project.project_id
+  provider = google-beta
+  depends_on = [
+    google_project_service.workspace]
+}

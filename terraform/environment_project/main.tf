@@ -15,6 +15,12 @@
 ###
 # Environment Project Creation - creates a project for each environment specified in environments array
 ###
+provider "google-beta" {
+  region = var.region
+  zone = var.region_zone
+  project = var.shared_vpc_host_project
+  version = "~> 3.17"
+}
 
 resource "google_project" "environment_project" {
   count = length(var.environments)
@@ -22,7 +28,6 @@ resource "google_project" "environment_project" {
   project_id = "${var.environments[count.index]}-${var.random_element}-${var.tb_discriminator}"
   folder_id = var.folder_id
   billing_account = var.billing_account
-//  labels = "${var.environments[count.index].labels}"
   labels = {
     "cost_centre" = var.cost_centre,
     "business_unit" = var.business_unit
@@ -36,6 +41,33 @@ resource "google_project" "environment_project" {
 resource "google_project_iam_binding" "project_member" {
   count = length(var.environments)
   project = google_project.environment_project[count.index].project_id
-  role    = var.member_role
+  role = var.project_access_role
   members = var.team_members
 }
+
+resource "google_folder_iam_binding" "folder_member" {
+  count = length(var.environments)
+  folder = var.folder_id
+  role = var.folder_access_role
+  members = var.team_members
+}
+
+resource "google_project_service" "workspace" {
+  count = length(var.environments)
+  project = google_project.environment_project[count.index].project_id
+//  services = var.api_services
+  service = "compute.googleapis.com"
+  provider = google-beta
+  depends_on = [
+    google_project.environment_project]
+}
+
+resource "google_compute_shared_vpc_service_project" "environment_service" {
+  count = length(var.environments)
+  host_project = var.shared_vpc_host_project
+  service_project = google_project.environment_project[count.index].project_id
+  provider = google-beta
+  depends_on = [
+    google_project_service.workspace]
+}
+
