@@ -28,6 +28,7 @@ resource "google_project" "environment_project" {
   project_id = "${var.environments[count.index]}-${var.random_element}-${var.tb_discriminator}"
   folder_id = var.folder_id
   billing_account = var.billing_account
+  auto_create_network = false
   labels = {
     "cost_centre" = var.cost_centre,
     "business_unit" = var.business_unit

@@ -27,6 +27,7 @@ resource "google_project" "workspace_project" {
   name = "${var.solution_name}-workspace"
   project_id = "workspace-${var.random_element}-${var.tb_discriminator}"
   folder_id = var.folder_id
+  auto_create_network = false
   billing_account = var.billing_account
   labels = {
     "cost_centre" = var.cost_centre,
