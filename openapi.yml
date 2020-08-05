@@ -280,8 +280,14 @@ components:
           items:
             properties:
               environment:
-                type: string
-                description: environment
+                type: object
+                properties:
+                  id: 
+                    type: integer
+                  name:
+                    type: string
+                  sharedVPCProjectId:
+                    type: string
         active:
           type: boolean
           description: active
@@ -319,8 +325,14 @@ components:
           type: string
           description: git url for the activator repo
         deploymentEnvironment:
-          type: string
-          description: environment
+          type: object
+          properties:
+            id: 
+              type: integer
+            name:
+              type: string
+            sharedVPCProjectId:
+              type: string
         deploymentProjectId:
           type: string
           description: GCP Project ID for environment
@@ -346,6 +358,7 @@ components:
               value:
                 type: string
                 description: variable value
+
     Folder:
       type: object
       properties:
