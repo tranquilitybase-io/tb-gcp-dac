@@ -7,21 +7,12 @@ from tests.gcp_tests import config
 from tests.gcp_tests.application_utils import delete_application_task, delete_application_task_result, \
     create_application_task, \
     create_application_task_result
-
 # TODO write test that creates solution first, retrieves workspace project then deploys activator
 
 application_id = 101
 solution_id = 1001
 activator_git_url = config.activator_git_url
 application_name = "testapp"
-# deploymentEnvironment = dict()
-# deploymentEnvironment["name"] = "Development"
-# deploymentEnvironment["id"] = 1
-# deploymentEnvironment["sharedVPCProjectId"] = "shared_vpc_host_project"
-# deploymentEnvironment = {"name": "Development",
-#                          "id": 1,
-#                          "sharedVPCProjectId": "shared_vpc_host_project"
-#                          }
 workspaceProjectId = config.workspaceProjectId
 deploymentProjectId = config.deploymentProjectId
 

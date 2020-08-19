@@ -52,7 +52,6 @@ resource "google_folder_iam_binding" "folder_member" {
 resource "google_project_service" "workspace" {
   project = google_project.workspace_project.project_id
   service = "compute.googleapis.com"
-//  provider = google-beta
   depends_on = [
     google_project.workspace_project]
 }

@@ -55,7 +55,6 @@ resource "google_folder_iam_binding" "folder_member" {
 resource "google_project_service" "workspace" {
   count = length(var.environments)
   project = google_project.environment_project[count.index].project_id
-  //  services = var.api_services
   service = "compute.googleapis.com"
   provider = google-beta
   depends_on = [

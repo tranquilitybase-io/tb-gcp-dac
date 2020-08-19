@@ -65,14 +65,9 @@ def validateInput(applicationdata):
     deployment_project_id = applicationdata.get("deploymentProjectId", None)
     activator_git_url = applicationdata.get("activatorGitUrl", None)
     deployment_environment_object = applicationdata.get("deploymentEnvironment", None)
-    logger.info("de object {}".format(deployment_environment_object))
-    logger.info("activator_git_url {}".format(activator_git_url))
-    logger.info("workspace_project_id {}".format(workspace_project_id))
-    logger.info("deployment_project_id {}".format(deployment_project_id))
     deployment_environment = None
     if deployment_environment_object != None:
         deployment_environment = deployment_environment_object.get("name", None)
-    logger.info("de {}".format(deployment_environment))
 
     if (workspace_project_id == None or activator_git_url == None or
             deployment_environment == None or deployment_project_id == None):

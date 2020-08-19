@@ -124,8 +124,6 @@ def delete_solution(solutiondata):
 
     terraform_init(backend_prefix, terraform_state_bucket, tf)
 
-    # delete_workspace_repo(ec_config, tf)
-
     return terraform_destroy(env_data, tf)
 
 
