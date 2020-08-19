@@ -13,7 +13,6 @@ application_id = 101
 solution_id = 1001
 activator_git_url = config.activator_git_url
 application_name = "testapp"
-deploymentEnvironment = "DEV"
 workspaceProjectId = config.workspaceProjectId
 deploymentProjectId = config.deploymentProjectId
 
@@ -24,7 +23,10 @@ application_json = {
     "solutionId": solution_id,
     "workspaceProjectId": workspaceProjectId,
     "activatorGitUrl": activator_git_url,
-    "deploymentEnvironment": deploymentEnvironment,
+    "deploymentEnvironment": {"name": "Development",
+                              "id": 1,
+                              "sharedVPCProjectId": "shared_vpc_host_project"
+                              },
     "deploymentProjectId": deploymentProjectId,
     "mandatory_variables": {},
     "optional_variables": {}

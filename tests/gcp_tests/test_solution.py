@@ -15,12 +15,25 @@ cost_centre = 'CC-1'
 deployment_folder_id = config.base_folder_id
 team_members = config.team_members
 environments = [
-    'Development',
-    'QA',
-    'Staging',
-    'Production'
+    {'name':'Development',
+     'id': 1,
+     'sharedVPCProjectId': 'shared_vpc_host_project'
+     },
+    {'name':'QA',
+     'id': 2,
+     'sharedVPCProjectId': 'shared_vpc_host_project'
+     },
+    {'name':'Staging',
+     'id': 3,
+     'sharedVPCProjectId': 'shared_vpc_host_project'
+     },
+    {'name':'Production',
+     'id': 4,
+     'sharedVPCProjectId': 'shared_vpc_host_project'
+     }
 ]
-processed_environments = map(labellize, environments)
+environment_names = map(lambda x : x['name'], environments)
+processed_environments = map(labellize, environment_names)
 solution_name = 'solutionone'
 solution_json = {
     'id': solution_id,

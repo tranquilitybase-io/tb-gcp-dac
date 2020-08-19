@@ -52,12 +52,12 @@ resource "google_folder_iam_binding" "folder_member" {
 resource "google_project_service" "workspace" {
   project = google_project.workspace_project.project_id
   service = "compute.googleapis.com"
-//  provider = google-beta
   depends_on = [
     google_project.workspace_project]
 }
 
 resource "google_compute_shared_vpc_service_project" "workspace_service" {
+  count = (var.shared_vpc_host_project != "dummy" ? 1 : 0)
   host_project = var.shared_vpc_host_project
   service_project = google_project.workspace_project.project_id
   provider = google-beta
