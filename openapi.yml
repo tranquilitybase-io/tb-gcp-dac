@@ -280,8 +280,17 @@ components:
           items:
             properties:
               environment:
-                type: string
-                description: environment
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: the environment id
+                  name:
+                    type: string
+                    description: the environment name
+                  sharedVPCProjectId:
+                    type: string
+                    description: the environment shared vpc project
         active:
           type: boolean
           description: active
@@ -319,8 +328,17 @@ components:
           type: string
           description: git url for the activator repo
         deploymentEnvironment:
-          type: string
-          description: environment
+          type: object
+          properties:
+            id:
+              type: integer
+              description: the environment id
+            name:
+              type: string
+              description: the environment name
+            sharedVPCProjectId:
+              type: string
+              description: the environment shared vpc project
         deploymentProjectId:
           type: string
           description: GCP Project ID for environment

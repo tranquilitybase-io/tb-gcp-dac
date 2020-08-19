@@ -41,7 +41,7 @@ def create_solution(solutiondata):
         deployment_folder_id = solutiondata['deploymentFolderId']
         tf_data['deployment_folder_id'] = deployment_folder_id
         tf_data['created_by'] = labellize(solutiondata.get('createdBy', 'labeltba'))
-        tf_data['environments'] = [sanitize(x) for x in (solutiondata.get('environments', list()))]
+        tf_data['environments'] = [sanitize(x.get('name')) for x in (solutiondata.get('environments', list()))]
 
         tf_data['solution_name'] = solutiondata["name"]
         team: dict = solutiondata['team']
@@ -57,10 +57,10 @@ def create_solution(solutiondata):
         region = ec_config['region']
         tf_data['region'] = region
         tf_data['billing_account'] = ec_config['billing_account']
-        tf_data['shared_vpc_host_project'] = ec_config['shared_vpc_host_project']
-        logger.debug('shared_vpc_host_project {}'.format(tf_data['shared_vpc_host_project']))
-        tf_data['shared_network_name'] = ec_config['shared_network_name']
-        tf_data['shared_networking_id'] = ec_config['shared_networking_id']
+        shared_vpc_host_project = ec_config['shared_vpc_host_project']
+        if shared_vpc_host_project != None:
+            logger.info("Shared VPC Host Project not supplied - network will not be overridden")
+            tf_data['shared_vpc_host_project'] = shared_vpc_host_project
         tb_discriminator = ec_config['tb_discriminator']
         tf_data['tb_discriminator'] = tb_discriminator
         # added to ensure all resources can be deleted and recreated
@@ -81,7 +81,6 @@ def create_solution(solutiondata):
     response = terraform_apply(None, tf)
     logger.debug("response {}".format(response))
 
-    # TODO add view access to parent folders
     add_access_to_folders(bottom_level_folder_id=deployment_folder_id, users=team_members, top_level_folder_id=ec_config["activator_folder_id"])
 
     return response
@@ -104,7 +103,7 @@ def delete_solution(solutiondata):
     tf_data['tb_discriminator'] = None
     tf_data['created_by'] = None
     tf_data['team'] = None
-    tf_data['shared_vpc_host_project'] = None
+    # tf_data['shared_vpc_host_project'] = None
     tf_data['team_members'] = list()
 
     ec_config = config.ec_config

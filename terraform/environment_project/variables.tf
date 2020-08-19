@@ -96,6 +96,7 @@ variable "team_members" {
 variable "shared_vpc_host_project" {
   type        = string
   description = "shared vpc host project"
+  default = "dummy"
 }
 
 //variable "api_services" {

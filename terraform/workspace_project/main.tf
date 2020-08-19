@@ -58,6 +58,7 @@ resource "google_project_service" "workspace" {
 }
 
 resource "google_compute_shared_vpc_service_project" "workspace_service" {
+  count = (var.shared_vpc_host_project != "dummy" ? 1 : 0)
   host_project = var.shared_vpc_host_project
   service_project = google_project.workspace_project.project_id
   provider = google-beta
