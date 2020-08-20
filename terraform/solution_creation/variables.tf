@@ -76,7 +76,11 @@ variable "created_by" {
 
 variable "environments" {
   description = "Create projects for these environments"
-  type = list(string)
+  type = list(object({
+    name = string
+    id = number
+    shared_vpc_host_project = string
+  }))
 }
 
 variable "project_access_role" {

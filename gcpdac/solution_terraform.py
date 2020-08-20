@@ -25,7 +25,6 @@ logger = config.logger
 
 
 def create_solution(solutiondata):
-    tf_data = dict()
     ec_config = config.ec_config
     terraform_source_path = '/app/terraform/solution_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
@@ -41,7 +40,12 @@ def create_solution(solutiondata):
         deployment_folder_id = solutiondata['deploymentFolderId']
         tf_data['deployment_folder_id'] = deployment_folder_id
         tf_data['created_by'] = labellize(solutiondata.get('createdBy', 'labeltba'))
-        tf_data['environments'] = [sanitize(x.get('name')) for x in (solutiondata.get('environments', list()))]
+        environments = solutiondata.get("environments", list())
+        for environment in environments:
+            environment['name'] = sanitize(environment['name'])
+            environment['shared_vpc_host_project'] = environment['sharedVPCProjectId']
+
+        tf_data['environments'] = environments
 
         tf_data['solution_name'] = solutiondata["name"]
         team: dict = solutiondata['team']

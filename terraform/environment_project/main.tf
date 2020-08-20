@@ -24,8 +24,8 @@ provider "google-beta" {
 
 resource "google_project" "environment_project" {
   count = length(var.environments)
-  name = "${var.solution_name}-${var.environments[count.index]}"
-  project_id = "${var.environments[count.index]}-${var.random_element}-${var.tb_discriminator}"
+  name = "${var.solution_name}-${var.environments[count.index].name}"
+  project_id = "${var.environments[count.index].name}-${var.random_element}-${var.tb_discriminator}"
   folder_id = var.folder_id
   billing_account = var.billing_account
   labels = {
@@ -33,7 +33,7 @@ resource "google_project" "environment_project" {
     "business_unit" = var.business_unit
     "solution_id" = var.solution_id
     "team" = var.team
-    "environment" = var.environments[count.index]
+    "environment" = var.environments[count.index].name
     "created_by" = var.created_by
   }
 }
@@ -63,7 +63,7 @@ resource "google_project_service" "workspace" {
 
 resource "google_compute_shared_vpc_service_project" "environment_service" {
   count = length(var.environments) * (var.shared_vpc_host_project != "dummy" ? 1 : 0)
-  host_project = var.shared_vpc_host_project
+  host_project = var.environments[count.index].shared_vpc_host_project
   service_project = google_project.environment_project[count.index].project_id
   provider = google-beta
   depends_on = [

@@ -17,19 +17,19 @@ team_members = config.team_members
 environments = [
     {'name':'Development',
      'id': 1,
-     'sharedVPCProjectId': 'shared_vpc_host_project'
+     'sharedVPCProjectId': 'dummy'
      },
     {'name':'QA',
      'id': 2,
-     'sharedVPCProjectId': 'shared_vpc_host_project'
+     'sharedVPCProjectId': 'dummy'
      },
     {'name':'Staging',
      'id': 3,
-     'sharedVPCProjectId': 'shared_vpc_host_project'
+     'sharedVPCProjectId': 'dummy'
      },
     {'name':'Production',
      'id': 4,
-     'sharedVPCProjectId': 'shared_vpc_host_project'
+     'sharedVPCProjectId': 'dummy'
      }
 ]
 environment_names = map(lambda x : x['name'], environments)
