@@ -63,8 +63,9 @@ def create_solution(solutiondata):
         tf_data['billing_account'] = ec_config['billing_account']
         shared_vpc_host_project = ec_config['shared_vpc_host_project']
         if shared_vpc_host_project != None:
-            logger.info("Shared VPC Host Project not supplied - network will not be overridden")
             tf_data['shared_vpc_host_project'] = shared_vpc_host_project
+        else:
+            logger.info("Shared VPC Host Project not supplied - network will not be overridden")
         tb_discriminator = ec_config['tb_discriminator']
         tf_data['tb_discriminator'] = tb_discriminator
         # added to ensure all resources can be deleted and recreated
