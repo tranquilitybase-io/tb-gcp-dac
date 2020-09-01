@@ -63,10 +63,13 @@ variable "billing_account" {
 }
 
 variable "environments" {
-  type = list(string)
   description = "Create projects for these environments"
+  type = list(object({
+    name = string
+    id = number
+    shared_vpc_host_project = string
+  }))
 }
-
 
 variable "solution_name" {
   type        = string

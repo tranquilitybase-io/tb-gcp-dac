@@ -25,7 +25,6 @@ logger = config.logger
 
 
 def create_solution(solutiondata):
-    tf_data = dict()
     ec_config = config.ec_config
     terraform_source_path = '/app/terraform/solution_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
@@ -41,7 +40,12 @@ def create_solution(solutiondata):
         deployment_folder_id = solutiondata['deploymentFolderId']
         tf_data['deployment_folder_id'] = deployment_folder_id
         tf_data['created_by'] = labellize(solutiondata.get('createdBy', 'labeltba'))
-        tf_data['environments'] = [sanitize(x.get('name')) for x in (solutiondata.get('environments', list()))]
+        environments = solutiondata.get("environments", list())
+        for environment in environments:
+            environment['name'] = sanitize(environment['name'])
+            environment['shared_vpc_host_project'] = environment['sharedVPCProjectId']
+
+        tf_data['environments'] = environments
 
         tf_data['solution_name'] = solutiondata["name"]
         team: dict = solutiondata['team']
@@ -59,8 +63,9 @@ def create_solution(solutiondata):
         tf_data['billing_account'] = ec_config['billing_account']
         shared_vpc_host_project = ec_config['shared_vpc_host_project']
         if shared_vpc_host_project != None:
-            logger.info("Shared VPC Host Project not supplied - network will not be overridden")
             tf_data['shared_vpc_host_project'] = shared_vpc_host_project
+        else:
+            logger.info("Shared VPC Host Project not supplied - network will not be overridden")
         tb_discriminator = ec_config['tb_discriminator']
         tf_data['tb_discriminator'] = tb_discriminator
         # added to ensure all resources can be deleted and recreated
