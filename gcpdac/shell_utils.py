@@ -2,14 +2,15 @@ import json
 import shlex
 import subprocess
 from json import JSONDecodeError
-
+import config
+logger = config.logger
 
 def create_repo(repo_name, project_to, project_from):
     call_string = "/bin/bash /app/bash_scripts/create_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
-    return call_process(call_string)
+    return call_process(call_string, shell=True)
 
 
 def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
@@ -18,7 +19,7 @@ def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
         target_gcp_repo_name=target_gcp_repo_name,
         project_to=project_to,
         project_from=project_from)
-    return call_process(call_string)
+    return call_process(call_string, shell=True)
 
 
 def delete_repo(repo_name, project_to, project_from):
@@ -26,7 +27,7 @@ def delete_repo(repo_name, project_to, project_from):
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
-    return call_process(call_string)
+    return call_process(call_string, shell=True)
 
 
 def call_jenkins(jenkins_url, jenkins_params: dict):
@@ -35,7 +36,8 @@ def call_jenkins(jenkins_url, jenkins_params: dict):
         jenkins_url = "{jenkins_url}&{key}={value}".format(jenkins_url=jenkins_url, key=key, value=value)
 
     call_string = "curl -X POST {}".format(jenkins_url)
-    return call_process(call_string)
+    logger.info("call jenkins process string {}".format(call_string))
+    return call_process(call_string, shell=False)
 
 
 # Add access to given users from bottom_level_folder_id to top_level_folder_id
@@ -73,10 +75,10 @@ def get_parent_folder_id(folder_id):
     return parent_folder_id
 
 
-def call_process(call_string):
+def call_process(call_string, shell):
     command_line_args = shlex.split(call_string)
     subprocess_call = subprocess.Popen(command_line_args, stdout=subprocess.PIPE,
-                                       stderr=subprocess.STDOUT, universal_newlines=True, shell=True)
+                                       stderr=subprocess.STDOUT, universal_newlines=True, shell=shell)
     process_output, _ = subprocess_call.communicate()
     returncode = subprocess_call.returncode
 

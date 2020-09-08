@@ -38,17 +38,21 @@ def create_application(applicationdata):
     jenkins_deploy_activator_job = JENKINS_DEPLOY_ACTIVATOR_JOB
     # jenkins_job_instance_name = random_element(12)  # TODO exact format of name to be agreed on
 
+
+# "jenkins-master-svc.cicd/buildByToken/buildWithParameters?job=Activator-Pipeline&token=activatorbuild&repourl=https://github.com/tranquilitybase-io/tb-gcp-hpc-activator.git&projectid=development-zzmnjt-f9e64e73"
     jenkins_url = "{jenkins_base_url}/buildByToken/buildWithParameters?job={jenkins_deploy_activator_job}&token={jenkins_token}".format(
         jenkins_base_url=jenkins_base_url,
         jenkins_deploy_activator_job=jenkins_deploy_activator_job,
         jenkins_token=jenkins_token)
+    logger.info("jenkins_url before params added {}".format(jenkins_url))
     jenkins_params = {}
     # TODO re-add this when Jenkins job supports GSR
     # git_repo_url = "https://source.developers.google.com/p/{workspace_project_id}/r/{repo_name}".format(
     #     workspace_project_id=workspace_project_id, repo_name=repo_name)
     jenkins_params[ACTIVATOR_GIT_REPO_URL] = application_git_url
+    logger.info("application_git_url {}".format(application_git_url))
     jenkins_params[DEPLOYMENT_PROJECT_ID] = deployment_project_id
-    # jenkins_params["jenkins_job_instance_name"] = jenkins_job_instance_name
+    logger.info("deployment_project_id {}".format(deployment_project_id))
     call_jenkins_response = call_jenkins(jenkins_url, jenkins_params)
     logger.debug("Call Jenkins response code {}".format(call_jenkins_response))
 
