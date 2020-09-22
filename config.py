@@ -5,6 +5,7 @@ import yaml
 from celery import Celery
 from flask_marshmallow import Marshmallow
 from google.cloud import storage
+from rsmq import RedisSMQ
 
 import celeryconfig
 from gcpdac.local_logging import get_logger
@@ -22,8 +23,8 @@ connex_app = connexion.App(__name__, specification_dir=basedir)
 app = connex_app.app
 
 app.config.update(
-    CELERY_BROKER_URL=os.environ['CELERY_RESULT_BACKEND'],
-    CELERY_RESULT_BACKEND=os.environ['CELERY_BROKER_URL'],
+    CELERY_BROKER_URL=os.environ['CELERY_BROKER_URL'],
+    CELERY_RESULT_BACKEND=os.environ['CELERY_RESULT_BACKEND'],
 )
 
 ma = Marshmallow(app)
@@ -62,6 +63,12 @@ celery_app = make_celery(__name__)
 
 def get_celery():
     return celery_app
+
+redis_queue_controller = RedisSMQ(host="redis", qname="eaglequeue")
+
+def get_redis_queue_controller():
+    return redis_queue_controller
+
 
 
 def read_config_map():

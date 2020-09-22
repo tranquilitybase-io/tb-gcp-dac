@@ -27,6 +27,17 @@ paths:
         '200':
           description: Successful
 
+  /redismq:
+    get:
+      operationId: gcpdac.message_queue.mqtest
+      tags:
+        - redismq
+      summary: redis message queue
+      description: redis message queue
+      responses:
+        '200':
+          description: Successful
+
   /solution_async/:
     post:
       operationId: gcpdac.solution.create_async
