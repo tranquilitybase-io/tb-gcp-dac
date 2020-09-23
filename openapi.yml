@@ -49,6 +49,17 @@ paths:
         '200':
           description: Successful
 
+  /jenkins_raw:
+    get:
+      operationId: gcpdac.jenkins_check.jenkins_raw
+      tags:
+        - jenkins
+      summary: jenkins jobs
+      description: jenkins jobs
+      responses:
+        '200':
+          description: Successful
+
   /solution_async/:
     post:
       operationId: gcpdac.solution.create_async
