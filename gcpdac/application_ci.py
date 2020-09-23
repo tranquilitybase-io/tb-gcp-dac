@@ -2,7 +2,8 @@ import os
 
 import config
 from gcpdac.constants import JENKINS_BASE_URL, JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB, DEPLOYMENT_PROJECT_ID, \
-    ACTIVATOR_GIT_REPO_URL
+    ACTIVATOR_GIT_REPO_URL, ACTIVATOR_PARAMS , JOB_UNIQUE_ID
+
 from gcpdac.exceptions import DacValidationError, DacJenkinsError
 from gcpdac.shell_utils import create_repo, copy_repo, call_jenkins
 from gcpdac.utils import sanitize
@@ -49,10 +50,20 @@ def create_application(applicationdata):
     # TODO re-add this when Jenkins job supports GSR
     # git_repo_url = "https://source.developers.google.com/p/{workspace_project_id}/r/{repo_name}".format(
     #     workspace_project_id=workspace_project_id, repo_name=repo_name)
+    # TODO pull from input
+    activator_params = "a=123,b=456"
+    # TODO generate id
+    job_unique_id = "ABC"
+
     jenkins_params[ACTIVATOR_GIT_REPO_URL] = application_git_url
     logger.info("application_git_url {}".format(application_git_url))
     jenkins_params[DEPLOYMENT_PROJECT_ID] = deployment_project_id
     logger.info("deployment_project_id {}".format(deployment_project_id))
+    jenkins_params[ACTIVATOR_PARAMS] = activator_params
+    logger.info("activator_params {}".format(activator_params))
+    jenkins_params[JOB_UNIQUE_ID] = job_unique_id
+    logger.info("job_unique_id {}".format(job_unique_id))
+
     call_jenkins_response = call_jenkins(jenkins_url, jenkins_params)
     logger.debug("Call Jenkins response code {}".format(call_jenkins_response))
 
