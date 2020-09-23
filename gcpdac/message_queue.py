@@ -2,10 +2,7 @@ import config
 
 logger = config.logger
 
-from pprint import pprint
 import time
-
-from rsmq import RedisSMQ
 
 
 def mqtest():

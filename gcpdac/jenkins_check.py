@@ -1,21 +1,15 @@
-##Import our dependencies
-import jenkinsapi
 import sys
+from typing import Any, Union, Tuple
+
+from jenkinsapi.artifact import Artifact
+from jenkinsapi.build import Build
 from jenkinsapi.jenkins import Jenkins
+from jenkinsapi.job import Job
 
-JENKINS_ADMIN_USER = "admin"
-JENKINS_PASSWORD = "gftdev@123"
-JENKINS_URL = "http://34.89.36.243:8080/"
+import config
+from config import JENKINS_BASE_URL, JENKINS_ADMIN_USER, JENKINS_ADMIN_PASSWORD
 
-
-##Define a function to connect to Jenkins
-# import config
-
-
-def connectToJenkins():
-    # server = Jenkins(config.JENKINS_URL)
-    server = Jenkins(baseurl=JENKINS_URL, username=JENKINS_ADMIN_USER, password=JENKINS_PASSWORD)
-    return server
+logger = config.logger
 
 
 ##Define a function to give us all of our Jobs on our server
@@ -57,7 +51,7 @@ def noJobs():
 
 
 def get_server_instance():
-    server = Jenkins(JENKINS_URL, username=JENKINS_ADMIN_USER, password=JENKINS_PASSWORD)
+    server = Jenkins(JENKINS_BASE_URL, username=JENKINS_ADMIN_USER, password=JENKINS_ADMIN_PASSWORD)
     return server
 
 
@@ -66,23 +60,35 @@ def get_server_instance():
 
 def get_job_details():
     # Refer Example #1 for definition of function 'get_server_instance'
-    server = get_server_instance()
-    for job_name, job_instance in server.get_jobs():
-        print('Job Name:%s' % (job_instance.name))
-        print('Job Description:%s' % (job_instance.get_description()))
-        print('Is Job running:%s' % (job_instance.is_running()))
-        print('Is Job enabled:%s' % (job_instance.is_enabled()))
+    jenkins = get_server_instance()
+    jobs = jenkins.get_jobs()
+    logger.debug("jobs type is {}".format(type(jobs)))
+    for job_name, job_instance in jobs:
+        logger.debug('Job Name:%s' % (job_instance.name))
+        logger.debug('Job Description:%s' % (job_instance.get_description()))
+        logger.debug('Is Job running:%s' % (job_instance.is_running()))
+        logger.debug('Is Job enabled:%s' % (job_instance.is_enabled()))
+        job: Job = job_instance
+        job_params = job.get_params()
+        for job_param in job_params:
+            logger.debug("param {}".format(job_param))
+        build: Build = job.get_last_build()
+        artifacts = build.get_artifacts()
+        # artifact: Artifact
+        for artifact in artifacts:
+            logger.debug("artifact file name {}".format(artifact.filename))
+            logger.debug("artifact data {}".format(artifact.get_data()))
 
 
 def get_plugin_details():
     # Refer Example #1 for definition of function 'get_server_instance'
     server = get_server_instance()
     for plugin in server.get_plugins().values():
-        print("Short Name:%s" % (plugin.shortName))
-        print("Long Name:%s" % (plugin.longName))
-        print("Version:%s" % (plugin.version))
-        print("URL:%s" % (plugin.url))
-        print("Active:%s" % (plugin.active))
+        logger.debug("Short Name:%s" % (plugin.shortName))
+        logger.debug("Long Name:%s" % (plugin.longName))
+        logger.debug("Version:%s" % (plugin.version))
+        logger.debug("URL:%s" % (plugin.url))
+        logger.debug("Active:%s" % (plugin.active))
         print("Enabled:%s" % (plugin.enabled))
 
 
