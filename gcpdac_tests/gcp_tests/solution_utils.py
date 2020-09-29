@@ -2,7 +2,7 @@ import json
 import logging
 
 import requests
-from tests.gcp_tests.common_utils import BASE_URL
+from gcpdac_tests.gcp_tests.common_utils import BASE_URL
 
 LOG_LEVEL = logging.INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
 

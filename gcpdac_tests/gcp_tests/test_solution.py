@@ -5,8 +5,8 @@ from time import sleep
 from celery import states
 
 from gcpdac.utils import labellize
-from tests.gcp_tests import config
-from tests.gcp_tests.solution_utils import create_solution_task, create_solution_task_result, delete_solution_task, \
+from gcpdac_tests.gcp_tests import config
+from gcpdac_tests.gcp_tests.solution_utils import create_solution_task, create_solution_task_result, delete_solution_task, \
     delete_solution_task_result
 
 solution_id = 1001
