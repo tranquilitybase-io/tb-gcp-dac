@@ -29,10 +29,10 @@ resource "google_project" "workspace_project" {
   folder_id = var.folder_id
   billing_account = var.billing_account
   labels = {
-    "cost_centre" = var.cost_centre,
-    "business_unit" = var.business_unit
-    "solution_id" = var.solution_id
-    "created_by" = var.created_by
+    "cost-code" = var.cost_code,
+    "business-unit" = var.business_unit
+    "solution-id" = var.solution_id
+    "created-by" = var.created_by
     "team" = var.team
   }
 }

@@ -32,9 +32,9 @@ variable "folder_id" {
   description = "name of the folder id to put project in"
 }
 
-variable "cost_centre" {
+variable "cost_code" {
   type = string
-  description = "Cost Centre"
+  description = "Cost Code"
 }
 
 variable "business_unit" {

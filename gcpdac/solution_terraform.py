@@ -35,7 +35,7 @@ def create_solution(solutiondata):
         solution_id = solutiondata['id']
         logger.debug("solution_id is %s", solution_id)
         tf_data['solution_id'] = solution_id
-        tf_data['cost_centre'] = labellize(solutiondata['costCentre'])
+        tf_data['cost_code'] = labellize(solutiondata['costCentre'])
         tf_data['business_unit'] = labellize(solutiondata['businessUnit'])
         deployment_folder_id = solutiondata['deploymentFolderId']
         tf_data['deployment_folder_id'] = deployment_folder_id
@@ -96,7 +96,7 @@ def delete_solution(solutiondata):
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
 
-    tf_data['cost_centre'] = None
+    tf_data['cost_code'] = None
     tf_data['business_unit'] = None
     tf_data['deployment_folder_id'] = None
     tf_data['environments'] = list()

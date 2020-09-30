@@ -324,6 +324,9 @@ components:
         workspaceProjectId:
           type: string
           description: the solution id
+        createdBy:
+          type: string
+          description: user created by
         activatorGitUrl:
           type: string
           description: git url for the activator repo

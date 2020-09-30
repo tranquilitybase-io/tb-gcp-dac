@@ -38,9 +38,9 @@ variable "solution_name" {
   description = "name of the solution to be created"
 }
 
-variable "cost_centre" {
+variable "cost_code" {
   type = string
-  description = "cost centre"
+  description = "cost code"
 }
 
 variable "business_unit" {

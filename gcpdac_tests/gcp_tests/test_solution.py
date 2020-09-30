@@ -5,13 +5,13 @@ from time import sleep
 from celery import states
 
 from gcpdac.utils import labellize
-from tests.gcp_tests import config
-from tests.gcp_tests.solution_utils import create_solution_task, create_solution_task_result, delete_solution_task, \
+from gcpdac_tests.gcp_tests import config
+from gcpdac_tests.gcp_tests.solution_utils import create_solution_task, create_solution_task_result, delete_solution_task, \
     delete_solution_task_result
 
 solution_id = 1001
 business_unit = 'BU-1'
-cost_centre = 'CC-1'
+cost_code = 'CC-1'
 deployment_folder_id = config.base_folder_id
 team_members = config.team_members
 environments = [
@@ -40,7 +40,7 @@ solution_json = {
     'name': solution_name,
     'description': 'solution one description',
     'businessUnit': business_unit,
-    'costCentre': cost_centre,
+    'costCentre': cost_code,
     'ci': 'jenkins',
     'cd': 'jenkins',
     'sourceControl': 'git',
@@ -133,10 +133,10 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(solution_input['name'], display_name)
 
     def check_common_project_labels(self, labels):
-        if 'cost_centre' not in labels:
-            self.fail("No cost_centre label")
-        if 'business_unit' not in labels:
-            self.fail("No business_unit label")
+        if 'cost-centre' not in labels:
+            self.fail("No cost-code label")
+        if 'business-unit' not in labels:
+            self.fail("No business-unit label")
         if 'team' not in labels:
             self.fail("No team label")
 

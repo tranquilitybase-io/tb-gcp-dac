@@ -14,7 +14,7 @@ module "workspace_project" {
   folder_id = module.solution_folder.folder_id
   tb_discriminator = var.tb_discriminator
   business_unit = var.business_unit
-  cost_centre = var.cost_centre
+  cost_code = var.cost_code
   random_element = var.random_element
   billing_account = var.billing_account
   solution_name = var.solution_name
@@ -35,7 +35,7 @@ module "environment_projects" {
   folder_id = module.solution_folder.folder_id
   tb_discriminator = var.tb_discriminator
   business_unit = var.business_unit
-  cost_centre = var.cost_centre
+  cost_code = var.cost_code
   random_element = var.random_element
   billing_account = var.billing_account
   environments = var.environments

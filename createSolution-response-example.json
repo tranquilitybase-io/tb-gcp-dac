@@ -121,8 +121,8 @@
         "folder_id": "626202176798",
         "id": "projects/development-dqo31l-ksjs726s",
         "labels": {
-          "business_unit": "bu-1",
-          "cost_centre": "cc-1",
+          "business-unit": "bu-1",
+          "cost-code": "cc-1",
           "environment": "development"
         },
         "name": "solutionone-development",
@@ -138,8 +138,8 @@
         "folder_id": "626202176798",
         "id": "projects/qa-dqo31l-ksjs726s",
         "labels": {
-          "business_unit": "bu-1",
-          "cost_centre": "cc-1",
+          "business-unit": "bu-1",
+          "cost-code": "cc-1",
           "environment": "qa"
         },
         "name": "solutionone-qa",
@@ -155,8 +155,8 @@
         "folder_id": "626202176798",
         "id": "projects/staging-dqo31l-ksjs726s",
         "labels": {
-          "business_unit": "bu-1",
-          "cost_centre": "cc-1",
+          "business-unit": "bu-1",
+          "cost-code": "cc-1",
           "environment": "staging"
         },
         "name": "solutionone-staging",
@@ -172,8 +172,8 @@
         "folder_id": "626202176798",
         "id": "projects/production-dqo31l-ksjs726s",
         "labels": {
-          "business_unit": "bu-1",
-          "cost_centre": "cc-1",
+          "business-unit": "bu-1",
+          "cost-code": "cc-1",
           "environment": "production"
         },
         "name": "solutionone-production",
@@ -252,8 +252,8 @@
       "folder_id": "626202176798",
       "id": "projects/workspace-dqo31l-ksjs726s",
       "labels": {
-        "business_unit": "bu-1",
-        "cost_centre": "cc-1"
+        "business-unit": "bu-1",
+        "cost-code": "cc-1"
       },
       "name": "solutionone-workspace",
       "number": "614177856418",
