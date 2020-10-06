@@ -3,8 +3,8 @@ from time import sleep
 
 from celery import states
 
-from tests.gcp_tests import config
-from tests.gcp_tests.application_utils import delete_application_task, delete_application_task_result, \
+from gcpdac_tests.gcp_tests import config
+from gcpdac_tests.gcp_tests.application_utils import delete_application_task, delete_application_task_result, \
     create_application_task, \
     create_application_task_result
 # TODO write test that creates solution first, retrieves workspace project then deploys activator
