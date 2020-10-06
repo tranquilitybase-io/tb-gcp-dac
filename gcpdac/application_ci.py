@@ -1,11 +1,16 @@
 import os
+import re
+import traceback
+
+from requests import Response
 
 import config
+import requests
 from gcpdac.constants import JENKINS_BASE_URL, JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB, DEPLOYMENT_PROJECT_ID, \
     ACTIVATOR_GIT_REPO_URL, ACTIVATOR_PARAMS , JOB_UNIQUE_ID
 
-from gcpdac.exceptions import DacValidationError, DacJenkinsError
-from gcpdac.shell_utils import create_repo, copy_repo, call_jenkins
+from gcpdac.exceptions import DacValidationError, DacJenkinsError, DacError
+from gcpdac.shell_utils import create_repo, copy_repo, call_jenkins, format_jenkins_url
 from gcpdac.utils import sanitize
 
 logger = config.logger
@@ -64,10 +69,28 @@ def create_application(applicationdata):
     jenkins_params[JOB_UNIQUE_ID] = job_unique_id
     logger.info("job_unique_id {}".format(job_unique_id))
 
-    call_jenkins_response = call_jenkins(jenkins_url, jenkins_params)
-    logger.debug("Call Jenkins response code {}".format(call_jenkins_response))
+    jenkins_url = "http://{}".format(format_jenkins_url(jenkins_params, jenkins_url))
+    logger.info("jenkins_url {}".format(jenkins_url))
+    try:
+        r: Response = requests.post(jenkins_url)
 
-    # TODO check results of jenkins job
+        # call_jenkins_response = call_jenkins(jenkins_url)
+        # logger.debug("Call Jenkins response code {}".format(call_jenkins_response))
+
+        # TODO check results of jenkins job
+        logger.debug("response is {} ".format(r))
+        r.headers
+    except Exception as ex:
+        logger.debug(traceback.format_exc())
+        traceback.format_exc()
+        raise DacError(ex, "Error occurred in deploy activator")
+    # from return headers get job queue location
+    #
+    m = re.match(r"http.+(queue.+)\/", r.headers['Location'])
+    if not m:
+        # To Do: handle error
+        logger.debug("Job start request did not have queue location")
+        # sys.exit(1)
 
     response = {}
     response["repo_name"] = repo_name
