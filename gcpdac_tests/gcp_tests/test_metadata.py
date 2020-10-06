@@ -1,7 +1,7 @@
 import unittest
 
 import requests
-from tests.gcp_tests.common_utils import BASE_URL
+from gcpdac_tests.gcp_tests.common_utils import BASE_URL
 
 headers = {'Content-Type': 'application/json'}
 

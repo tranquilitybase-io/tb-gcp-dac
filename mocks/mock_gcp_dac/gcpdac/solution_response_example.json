@@ -143,8 +143,8 @@
           "folder_id": "282083654038",
           "id": "projects/development-1-h08aez-ksjs726s",
           "labels": {
-            "business_unit": "bu-gft",
-            "cost_centre": "cc-gft",
+            "business-unit": "bu-gft",
+            "cost-code": "cc-gft",
             "environment": "development"
           },
           "name": "sol999-development",
@@ -159,8 +159,8 @@
           "folder_id": "282083654038",
           "id": "projects/staging-h08aez-ksjs726s",
           "labels": {
-            "business_unit": "bu-gft",
-            "cost_centre": "cc-gft",
+            "business-unit": "bu-gft",
+            "cost-code": "cc-gft",
             "environment": "staging"
           },
           "name": "sol999-staging",
@@ -175,8 +175,8 @@
           "folder_id": "282083654038",
           "id": "projects/production-h08aez-ksjs726s",
           "labels": {
-            "business_unit": "bu-gft",
-            "cost_centre": "cc-gft",
+            "business-unit": "bu-gft",
+            "cost-code": "cc-gft",
             "environment": "production"
           },
           "name": "sol999-production",
@@ -253,8 +253,8 @@
         "folder_id": "282083654038",
         "id": "projects/workspace-h08aez-ksjs726s",
         "labels": {
-          "business_unit": "bu-gft",
-          "cost_centre": "cc-gft"
+          "business-unit": "bu-gft",
+          "cost-code": "cc-gft"
         },
         "name": "sol999-workspace",
         "number": "3227416706",
