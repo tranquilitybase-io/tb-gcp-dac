@@ -91,26 +91,21 @@ def create_application(applicationdata):
                 # TODO add check to give up on Jenkins job if takes too long
                 logger.debug("Job Build {} is still running".format(job_build.buildno))
                 time.sleep(60)
-            if job_build.is_good():
-                logger.debug("Job build finished")
-                logger.debug("Build Status {}".format(job_build.get_status()))
-                build_url = job_build.get_build_url()
-                logger.debug("Build URL {}".format(build_url))
-                logger.debug("Result URL {}".format(job_build.get_result_url()))
-                # http://10.0.1.9/job/Activator-Pipeline/17/api/json
-                build_url_json = build_url + "/api/json"
-                r: Response = requests.get(build_url_json)
-                results: dict = r.json()
-                logger.debug("results {}".format(results))
-                build_result = results["result"]
-                logger.debug("result {}".format(build_result))
-                if build_result == "SUCCESS":
-                    response["return_code"] = 0
-                else:
-                    response["return_code"] = 999
+            logger.debug("Job build finished")
+            logger.debug("Build Status {}".format(job_build.get_status()))
+            build_url = job_build.get_build_url()
+            logger.debug("Build URL {}".format(build_url))
+            logger.debug("Result URL {}".format(job_build.get_result_url()))
+            # http://10.0.1.9/job/Activator-Pipeline/17/api/json
+            build_url_json = build_url + "/api/json"
+            r: Response = requests.get(build_url_json)
+            results: dict = r.json()
+            logger.debug("results {}".format(results))
+            build_result = results["result"]
+            logger.debug("result {}".format(build_result))
+            if build_result == "SUCCESS":
+                response["return_code"] = 0
             else:
-                logger.debug("Job build failed")
-                # TODO get actual return code from jenkins if possible
                 response["return_code"] = 999
         else:
             logger.debug("No job build created")
