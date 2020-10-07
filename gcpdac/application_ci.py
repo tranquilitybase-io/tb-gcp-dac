@@ -1,17 +1,18 @@
+import json
 import os
-import re
+import time
 import traceback
 
+import requests
 from requests import Response
 
 import config
-import requests
 from gcpdac.constants import JENKINS_BASE_URL, JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB, DEPLOYMENT_PROJECT_ID, \
-    ACTIVATOR_GIT_REPO_URL, ACTIVATOR_PARAMS , JOB_UNIQUE_ID
-
+    ACTIVATOR_GIT_REPO_URL, ACTIVATOR_PARAMS, JOB_UNIQUE_ID
 from gcpdac.exceptions import DacValidationError, DacJenkinsError, DacError
-from gcpdac.shell_utils import create_repo, copy_repo, call_jenkins, format_jenkins_url
-from gcpdac.utils import sanitize
+from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
+from gcpdac.shell_utils import create_repo, copy_repo
+from gcpdac.utils import sanitize, random_element
 
 logger = config.logger
 
@@ -57,8 +58,8 @@ def create_application(applicationdata):
     #     workspace_project_id=workspace_project_id, repo_name=repo_name)
     # TODO pull from input
     activator_params = "a=123,b=456"
-    # TODO generate id
-    job_unique_id = "ABC"
+    # TODO generate id - is this required?
+    job_unique_id = random_element(num_chars=12)
 
     jenkins_params[ACTIVATOR_GIT_REPO_URL] = application_git_url
     logger.info("application_git_url {}".format(application_git_url))
@@ -68,33 +69,59 @@ def create_application(applicationdata):
     logger.info("activator_params {}".format(activator_params))
     jenkins_params[JOB_UNIQUE_ID] = job_unique_id
     logger.info("job_unique_id {}".format(job_unique_id))
-
+    # TODO tidy this
     jenkins_url = "http://{}".format(format_jenkins_url(jenkins_params, jenkins_url))
     logger.info("jenkins_url {}".format(jenkins_url))
+
+    response = {}
+    payload = {}
+    payload["jenkins_job_params"] = jenkins_params
+    # TODO add more details to response
+
     try:
         r: Response = requests.post(jenkins_url)
-
-        # call_jenkins_response = call_jenkins(jenkins_url)
-        # logger.debug("Call Jenkins response code {}".format(call_jenkins_response))
-
-        # TODO check results of jenkins job
         logger.debug("response is {} ".format(r))
-        r.headers
+        # TODO check response from Jenkins
+
+        # sleep to wait for build to be created
+        time.sleep(10)
+        job_build = get_job_build(jenkins_deploy_activator_job, jenkins_params)
+        if job_build != None:
+            while job_build.is_running():
+                # TODO add check to give up on Jenkins job if takes too long
+                logger.debug("Job Build {} is still running".format(job_build.buildno))
+                time.sleep(60)
+            if job_build.is_good():
+                logger.debug("Job build finished")
+                logger.debug("Build Status {}".format(job_build.get_status()))
+                build_url = job_build.get_build_url()
+                logger.debug("Build URL {}".format(build_url))
+                logger.debug("Result URL {}".format(job_build.get_result_url()))
+                # http://10.0.1.9/job/Activator-Pipeline/17/api/json
+                build_url_json = build_url + "/api/json"
+                r: Response = requests.get(build_url_json)
+                results: dict = r.json()
+                logger.debug("results {}".format(results))
+                build_result = results["result"]
+                logger.debug("result {}".format(build_result))
+                if build_result == "SUCCESS":
+                    response["return_code"] = 0
+                else:
+                    response["return_code"] = 999
+            else:
+                logger.debug("Job build failed")
+                # TODO get actual return code from jenkins if possible
+                response["return_code"] = 999
+        else:
+            logger.debug("No job build created")
+            response["return_code"] = 999
+
     except Exception as ex:
         logger.debug(traceback.format_exc())
         traceback.format_exc()
         raise DacError(ex, "Error occurred in deploy activator")
-    # from return headers get job queue location
-    #
-    m = re.match(r"http.+(queue.+)\/", r.headers['Location'])
-    if not m:
-        # To Do: handle error
-        logger.debug("Job start request did not have queue location")
-        # sys.exit(1)
 
-    response = {}
-    response["repo_name"] = repo_name
-
+    response["payload"] = payload
     return response
 
 

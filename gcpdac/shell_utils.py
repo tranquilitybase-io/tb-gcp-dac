@@ -30,18 +30,12 @@ def delete_repo(repo_name, project_to, project_from):
     return call_process(call_string, shell=True)
 
 
-def call_jenkins(jenkins_url):
-
-    call_string = "curl -X POST {}".format(jenkins_url)
-    logger.info("call jenkins process string {}".format(call_string))
-    return call_process(call_string, shell=False)
-
-
-def format_jenkins_url(jenkins_params, jenkins_url):
-    for key in jenkins_params:
-        value = jenkins_params[key]
-        jenkins_url = "{jenkins_url}&{key}={value}".format(jenkins_url=jenkins_url, key=key, value=value)
-    return jenkins_url
+# def call_jenkins(jenkins_url):
+#
+#     call_string = "curl -X POST {}".format(jenkins_url)
+#     logger.info("call jenkins process string {}".format(call_string))
+#     return call_process(call_string, shell=False)
+#
 
 
 # Add access to given users from bottom_level_folder_id to top_level_folder_id

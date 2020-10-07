@@ -68,12 +68,14 @@ def get_job_details():
         jenkins = get_server_instance()
         jobs: Generator[Union[Tuple[str, Job], Tuple[Any, Job]], Any, None] = jenkins.get_jobs()
         logger.debug("jobs type is {}".format(type(jobs)))
+
         for job_name, job_instance in jobs:
             logger.debug('Job Name:%s' % (job_instance.name))
             logger.debug('Job Description:%s' % (job_instance.get_description()))
             logger.debug('Is Job running:%s' % (job_instance.is_running()))
             logger.debug('Is Job enabled:%s' % (job_instance.is_enabled()))
             build_ids = jenkins[job_name].get_build_ids()
+            # jenkins[job_name].get_build_by_params()
             for build_id in build_ids:
                 logger.debug("build id {}".format(build_id))
                 build = jenkins[job_name].get_build(build_id)
@@ -102,13 +104,20 @@ def get_build_details(build):
     # build.block_until_complete()
     # logger.debug("repo url {}".format(build.get_repo_url()))
     logger.debug("build url {}".format(build.get_build_url()))
+
+    # http://10.0.1.9/job/Activator-Pipeline/17/api/json
     logger.debug("build is running {}".format(build.is_running()))
+
     logger.debug("build is good {}".format(build.is_good()))
     if build.has_resultset():
         logger.debug("build resultset {}".format(build.get_resultset()))
         logger.debug("build results url {}".format(build.get_result_url()))
+
     else:
         logger.debug("No result set")
+    causes = build.get_causes()
+    for cause in causes:
+        logger.debug("build param cause {}".format(cause))
     # try:
     #     build_env_vars = build.get_env_vars()
     #     for build_env_var in build_env_vars:
@@ -132,9 +141,8 @@ def get_plugin_details():
 
 def main():
     logger.debug(get_server_instance().version)
-    get_job_details()
-    get_plugin_details()
-    # jenkins_raw()
+#     get_job_details()
+#     get_plugin_details()
 
 
 def jenkins_raw():
