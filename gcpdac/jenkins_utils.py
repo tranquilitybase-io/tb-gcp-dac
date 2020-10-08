@@ -5,45 +5,22 @@ from jenkinsapi.jenkins import Jenkins
 from jenkinsapi.job import Job
 
 import config
-from config import JENKINS_BASE_URL, JENKINS_ADMIN_USER, JENKINS_ADMIN_PASSWORD
+from config import JENKINS_BASE_URL
+from gcpdac.constants import JENKINS_USER, JENKINS_PASSWORD
 
 logger = config.logger
 
 
 def get_server_instance():
-    server = Jenkins(JENKINS_BASE_URL, username=JENKINS_ADMIN_USER, password=JENKINS_ADMIN_PASSWORD)
+    server = Jenkins(JENKINS_BASE_URL, username=JENKINS_USER, password=JENKINS_PASSWORD)
     return server
 
 
-def get_job_details():
-    # Refer Example #1 for definition of function 'get_server_instance'
-    try:
-        jenkins = get_server_instance()
-        jobs: Generator[Union[Tuple[str, Job], Tuple[Any, Job]], Any, None] = jenkins.get_jobs()
-        logger.debug("jobs type is {}".format(type(jobs)))
-
-        for job_name, job_instance in jobs:
-            logger.debug('Job Name:%s' % (job_instance.name))
-            logger.debug('Job Description:%s' % (job_instance.get_description()))
-            logger.debug('Is Job running:%s' % (job_instance.is_running()))
-            logger.debug('Is Job enabled:%s' % (job_instance.is_enabled()))
-            build_ids = jenkins[job_name].get_build_ids()
-            # jenkins[job_name].get_build_by_params()
-            for build_id in build_ids:
-                logger.debug("build id {}".format(build_id))
-                build = jenkins[job_name].get_build(build_id)
-                get_build_details(build)
-        return jobs
-    except Exception as ex:
-        logger.debug("Exception: {0}".format(ex))
-
-
 def get_job_build(job_name, job_params):
-    # Refer Example #1 for definition of function 'get_server_instance'
     try:
         jenkins = get_server_instance()
 
-        job_instance : Job = jenkins[job_name]
+        job_instance: Job = jenkins[job_name]
         logger.debug('Job Name:%s' % (job_instance.name))
         logger.debug('Job Description:%s' % (job_instance.get_description()))
         logger.debug('Is Job running:%s' % (job_instance.is_running()))
@@ -71,11 +48,39 @@ def get_job_build(job_name, job_params):
     return None
 
 
+def format_jenkins_url(jenkins_params, jenkins_url):
+    for key in jenkins_params:
+        value = jenkins_params[key]
+        jenkins_url = "{jenkins_url}&{key}={value}".format(jenkins_url=jenkins_url, key=key, value=value)
+    return jenkins_url
+
+
+def get_all_job_details():
+    # Refer Example #1 for definition of function 'get_server_instance'
+    try:
+        jenkins = get_server_instance()
+        jobs: Generator[Union[Tuple[str, Job], Tuple[Any, Job]], Any, None] = jenkins.get_jobs()
+        logger.debug("jobs type is {}".format(type(jobs)))
+
+        for job_name, job_instance in jobs:
+            logger.debug('Job Name:%s' % (job_instance.name))
+            logger.debug('Job Description:%s' % (job_instance.get_description()))
+            logger.debug('Is Job running:%s' % (job_instance.is_running()))
+            logger.debug('Is Job enabled:%s' % (job_instance.is_enabled()))
+            build_ids = jenkins[job_name].get_build_ids()
+            # jenkins[job_name].get_build_by_params()
+            for build_id in build_ids:
+                logger.debug("build id {}".format(build_id))
+                build = jenkins[job_name].get_build(build_id)
+                get_build_details(build)
+        return jobs
+    except Exception as ex:
+        logger.debug("Exception: {0}".format(ex))
+
 
 def get_build_details(build):
     # https://jenkinsapi.readthedocs.io/en/latest/build.html
     artifacts = build.get_artifacts()
-    # artifact: Artifact
     for artifact in artifacts:
         logger.debug("artifact file name {}".format(artifact.filename))
         logger.debug("artifact data {}".format(artifact.get_data()))
@@ -84,21 +89,27 @@ def get_build_details(build):
     for build_param in build_params:
         logger.debug("build param key {}".format(build_param))
         logger.debug("build param value{}".format(build_params[build_param]))
-    # build.block_until_complete()
-    # logger.debug("repo url {}".format(build.get_repo_url()))
     logger.debug("build url {}".format(build.get_build_url()))
+
     logger.debug("build is running {}".format(build.is_running()))
+
     logger.debug("build is good {}".format(build.is_good()))
     if build.has_resultset():
         logger.debug("build resultset {}".format(build.get_resultset()))
         logger.debug("build results url {}".format(build.get_result_url()))
     else:
         logger.debug("No result set")
-
-def format_jenkins_url(jenkins_params, jenkins_url):
-    for key in jenkins_params:
-        value = jenkins_params[key]
-        jenkins_url = "{jenkins_url}&{key}={value}".format(jenkins_url=jenkins_url, key=key, value=value)
-    return jenkins_url
+    causes = build.get_causes()
+    for cause in causes:
+        logger.debug("build param cause {}".format(cause))
 
 
+def get_plugin_details():
+    server = get_server_instance()
+    for plugin in server.get_plugins().values():
+        logger.debug("Short Name:%s" % (plugin.shortName))
+        logger.debug("Long Name:%s" % (plugin.longName))
+        logger.debug("Version:%s" % (plugin.version))
+        logger.debug("URL:%s" % (plugin.url))
+        logger.debug("Active:%s" % (plugin.active))
+        logger.debug("Enabled:%s" % (plugin.enabled))

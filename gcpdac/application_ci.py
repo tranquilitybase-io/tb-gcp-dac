@@ -1,5 +1,3 @@
-import json
-import os
 import time
 import traceback
 
@@ -7,9 +5,9 @@ import requests
 from requests import Response
 
 import config
-from gcpdac.constants import JENKINS_BASE_URL, JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB, DEPLOYMENT_PROJECT_ID, \
+from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB, DEPLOYMENT_PROJECT_ID, \
     ACTIVATOR_GIT_REPO_URL, ACTIVATOR_PARAMS, JOB_UNIQUE_ID
-from gcpdac.exceptions import DacValidationError, DacJenkinsError, DacError
+from gcpdac.exceptions import DacValidationError, DacError
 from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
 from gcpdac.shell_utils import create_repo, copy_repo
 from gcpdac.utils import sanitize, random_element
@@ -22,14 +20,9 @@ def create_application(applicationdata):
     application_name = applicationdata.get("name")
     logger.debug("application is %s", application_id)
     logger.debug("application data is {}".format(applicationdata))
-    application_git_url, workspace_project_id, deployment_environment, deployment_project_id = validateInput(
+    application_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables, optional_variables = validateInput(
         applicationdata)
-    try:
-        jenkins_base_url = os.environ[JENKINS_BASE_URL]
-    except Exception as e:
-        print(e)
-        raise DacJenkinsError(
-            "Jenkins environment variables not set. Check {} are set".format(JENKINS_BASE_URL))
+    jenkins_base_url = config.JENKINS_BASE_URL
     ec_config = config.ec_config
     eagle_project_id = ec_config['ec_project_name']
 
@@ -43,10 +36,8 @@ def create_application(applicationdata):
     logger.debug("Copy repo response code {}".format(copy_repo_response))
     jenkins_token = JENKINS_TOKEN
     jenkins_deploy_activator_job = JENKINS_DEPLOY_ACTIVATOR_JOB
-    # jenkins_job_instance_name = random_element(12)  # TODO exact format of name to be agreed on
 
-
-# "jenkins-master-svc.cicd/buildByToken/buildWithParameters?job=Activator-Pipeline&token=activatorbuild&repourl=https://github.com/tranquilitybase-io/tb-gcp-hpc-activator.git&projectid=development-zzmnjt-f9e64e73"
+    # "jenkins-master-svc.cicd/buildByToken/buildWithParameters?job=Activator-Pipeline&token=activatorbuild&repourl=https://github.com/tranquilitybase-io/tb-gcp-hpc-activator.git&projectid=development-zzmnjt-f9e64e73"
     jenkins_url = "{jenkins_base_url}/buildByToken/buildWithParameters?job={jenkins_deploy_activator_job}&token={jenkins_token}".format(
         jenkins_base_url=jenkins_base_url,
         jenkins_deploy_activator_job=jenkins_deploy_activator_job,
@@ -57,8 +48,8 @@ def create_application(applicationdata):
     # git_repo_url = "https://source.developers.google.com/p/{workspace_project_id}/r/{repo_name}".format(
     #     workspace_project_id=workspace_project_id, repo_name=repo_name)
     # TODO pull from input
-    activator_params = "a=123,b=456"
-    # TODO generate id - is this required?
+    activator_params = get_activator_params(mandatory_variables, optional_variables)
+
     job_unique_id = random_element(num_chars=12)
 
     jenkins_params[ACTIVATOR_GIT_REPO_URL] = application_git_url
@@ -69,8 +60,8 @@ def create_application(applicationdata):
     logger.info("activator_params {}".format(activator_params))
     jenkins_params[JOB_UNIQUE_ID] = job_unique_id
     logger.info("job_unique_id {}".format(job_unique_id))
-    # TODO tidy this
-    jenkins_url = "http://{}".format(format_jenkins_url(jenkins_params, jenkins_url))
+
+    jenkins_url = format_jenkins_url(jenkins_params, jenkins_url)
     logger.info("jenkins_url {}".format(jenkins_url))
 
     response = {}
@@ -81,7 +72,6 @@ def create_application(applicationdata):
     try:
         r: Response = requests.post(jenkins_url)
         logger.debug("response is {} ".format(r))
-        # TODO check response from Jenkins
 
         # sleep to wait for build to be created
         time.sleep(10)
@@ -98,6 +88,7 @@ def create_application(applicationdata):
             logger.debug("Result URL {}".format(job_build.get_result_url()))
             # http://10.0.1.9/job/Activator-Pipeline/17/api/json
             build_url_json = build_url + "/api/json"
+            logger.debug("Build URL JSON {}".format(build_url_json))
             r: Response = requests.get(build_url_json)
             results: dict = r.json()
             logger.debug("results {}".format(results))
@@ -120,11 +111,19 @@ def create_application(applicationdata):
     return response
 
 
+def get_activator_params(mandatory_variables, optional_variables):
+    # TODO convert input dicts to key-value pair string
+
+    return "a=123,b=456"
+
+
 def validateInput(applicationdata):
     workspace_project_id = applicationdata.get("workspaceProjectId", None)
     deployment_project_id = applicationdata.get("deploymentProjectId", None)
     activator_git_url = applicationdata.get("activatorGitUrl", None)
     deployment_environment_object = applicationdata.get("deploymentEnvironment", None)
+    mandatory_variables = applicationdata.get("mandatoryVariables", None)
+    optional_variables = applicationdata.get("optionalVariables", None)
     deployment_environment = None
     if deployment_environment_object != None:
         deployment_environment = deployment_environment_object.get("name", None)
@@ -134,7 +133,7 @@ def validateInput(applicationdata):
         error_msg = "Workspace Project ID, activator Git URL, deployment environment and deployment project id must be supplied"
         logger.info(error_msg)
         raise DacValidationError(applicationdata, error_msg)
-    return activator_git_url, workspace_project_id, deployment_environment, deployment_project_id
+    return activator_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables, optional_variables
 
 
 def delete_application(applicationdata):

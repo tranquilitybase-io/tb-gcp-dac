@@ -5,9 +5,9 @@ import yaml
 from celery import Celery
 from flask_marshmallow import Marshmallow
 from google.cloud import storage
-from rsmq import RedisSMQ
 
 import celeryconfig
+from gcpdac.exceptions import DacJenkinsError
 from gcpdac.local_logging import get_logger
 
 logger = get_logger('tb-gcp-dac')
@@ -16,10 +16,18 @@ logger.info("Logger initialised")
 basedir = os.path.abspath(os.path.dirname(__file__))
 print("basedir: {}".format(basedir))
 DEFAULT_SHELL = "/bin/bash"
-JENKINS_BASE_URL = "http://"+os.environ['JENKINS_BASE_URL']
-# TODO move these out
-JENKINS_ADMIN_USER = "admin"
-JENKINS_ADMIN_PASSWORD = "admin"
+
+def setJenkinsBaseUrl():
+    jenkins_base_url = ""
+    try:
+        jenkins_base_url = "http://" + os.environ['JENKINS_BASE_URL']
+    except Exception as e:
+        print(e)
+        raise DacJenkinsError(
+            "Jenkins environment variables not set. Check JENKINS_BASE_URL are set")
+    return jenkins_base_url
+
+JENKINS_BASE_URL = setJenkinsBaseUrl()
 
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
@@ -64,14 +72,9 @@ def make_celery(name):
 
 celery_app = make_celery(__name__)
 
+
 def get_celery():
     return celery_app
-
-redis_queue_controller = RedisSMQ(host="redis", qname="eaglequeue")
-
-def get_redis_queue_controller():
-    return redis_queue_controller
-
 
 
 def read_config_map():
@@ -87,5 +90,6 @@ def read_config_map():
     except Exception:
         logger.exception("Failed to load EC YAML file")
         raise
+
 
 ec_config = read_config_map()
