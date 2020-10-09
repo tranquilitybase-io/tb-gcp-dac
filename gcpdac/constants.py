@@ -6,8 +6,6 @@ DEPLOYMENT_PROJECT_ID = "projectid"
 ACTIVATOR_GIT_REPO_URL = "repourl"
 ACTIVATOR_PARAMS = "activator_params"
 JOB_UNIQUE_ID = "job_unique_id"
-JENKINS_USER = "dacuser"
-JENKINS_PASSWORD = "dacuser"
 
 
 

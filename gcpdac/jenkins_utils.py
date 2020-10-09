@@ -6,13 +6,12 @@ from jenkinsapi.job import Job
 
 import config
 from config import JENKINS_BASE_URL
-from gcpdac.constants import JENKINS_USER, JENKINS_PASSWORD
 
 logger = config.logger
 
 
 def get_server_instance():
-    server = Jenkins(JENKINS_BASE_URL, username=JENKINS_USER, password=JENKINS_PASSWORD)
+    server = Jenkins(JENKINS_BASE_URL, username=config.JENKINS_USER, password=config.JENKINS_PASSWORD)
     return server
 
 

@@ -18,7 +18,6 @@ print("basedir: {}".format(basedir))
 DEFAULT_SHELL = "/bin/bash"
 
 def setJenkinsBaseUrl():
-    jenkins_base_url = ""
     try:
         jenkins_base_url = "http://" + os.environ['JENKINS_BASE_URL']
     except Exception as e:
@@ -28,6 +27,8 @@ def setJenkinsBaseUrl():
     return jenkins_base_url
 
 JENKINS_BASE_URL = setJenkinsBaseUrl()
+JENKINS_USER = os.environ.get('JENKINS_USER','dacuser')
+JENKINS_PASSWORD = os.environ.get('JENKINS_USER','dacuser')
 
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
