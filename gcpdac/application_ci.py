@@ -22,6 +22,7 @@ def create_application(applicationdata):
     logger.debug("application data is {}".format(applicationdata))
     application_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables, optional_variables = validateInput(
         applicationdata)
+    logger.debug("deployment_environment {}".format(deployment_environment))
     jenkins_base_url = config.JENKINS_BASE_URL
     ec_config = config.ec_config
     eagle_project_id = ec_config['ec_project_name']
