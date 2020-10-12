@@ -1,4 +1,4 @@
-FROM google/cloud-sdk:298.0.0
+FROM google/cloud-sdk:313.0.1
 MAINTAINER "GFT"
 
 ENV TERRAFORM_VERSION=0.12.24

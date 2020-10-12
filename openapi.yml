@@ -31,7 +31,7 @@ paths:
     get:
       operationId: gcpdac.cloud_identity_groups.read_all
       tags:
-        - metadata
+        - authentication
       summary: read all GCP cloud identity groups
       description: read all GCP cloud identity groups
       responses:
