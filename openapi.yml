@@ -33,7 +33,7 @@ paths:
       tags:
         - solution
       summary: Create a solution
-      description: Create solution in more detail - TODO
+      description: Create solution
       responses:
         '201':
           description: Successfully started a solution creation task
@@ -90,6 +90,74 @@ paths:
       responses:
         "201":
           description: Successfully deleted a solution
+
+
+  /sandbox_async/:
+    post:
+      operationId: gcpdac.sandbox.create_async
+      tags:
+        - sandbox
+      summary: Create a sandbox
+      description: Create sandbox
+      responses:
+        '201':
+          description: Successfully started a sandbox creation task
+      requestBody:
+        $ref: "#/components/requestBodies/sandbox.sandboxDetails"
+
+  "/sandbox_async/{oid}":
+    delete:
+      operationId: gcpdac.sandbox.delete_async
+      tags:
+        - sandbox
+      summary: delete a sandbox
+      description: delete a sandbox and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a sandbox deletion task
+
+  "/sandbox_async/result/create/{taskid}":
+    get:
+      operationId: gcpdac.sandbox.create_sandbox_result
+      tags:
+        - sandbox
+      summary: get create sandbox result
+      description:  get create sandbox result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a sandbox
+
+  "/sandbox_async/result/delete/{taskid}":
+    get:
+      operationId: gcpdac.sandbox.delete_sandbox_result
+      tags:
+        - sandbox
+      summary: get delete sandbox result
+      description:  get delete sandbox result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a sandbox
+
+
+
 
   /application_async/:
     post:
@@ -228,6 +296,12 @@ components:
           schema:
             x-body-name: solutionDetails
             $ref: "#/components/schemas/Solution"
+    sandbox.sandboxDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: sandboxDetails
+            $ref: "#/components/schemas/Sandbox"
     application.applicationDetails:
       content:
         application/json:
@@ -303,6 +377,36 @@ components:
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+    Sandbox:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: the sandbox id
+        name:
+          type: string
+          description: name
+        description:
+          type: string
+          description: description
+        businessUnit:
+          type: string
+          description: business unit
+        costCode:
+          type: string
+          description: cost code
+        teamName:
+          type: string
+          description: team name
+        teamCloudIdentityGroup:
+          type: string
+          description: team GCP Cloud Idenity Group
+        createdBy:
+          type: string
+          description: user that created the sandbox
+        deploymentFolderId:
+          type: string
+          description: deployment GCP folder id
     Application:
       type: object
       properties:
