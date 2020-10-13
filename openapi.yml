@@ -74,7 +74,7 @@ paths:
       tags:
         - solution
       summary: get create solution result
-      description:  get create solution result
+      description: get create solution result
       parameters:
         - name: taskid
           in: path
@@ -91,7 +91,7 @@ paths:
       tags:
         - solution
       summary: get delete solution result
-      description:  get delete solution result
+      description: get delete solution result
       parameters:
         - name: taskid
           in: path
@@ -139,7 +139,7 @@ paths:
       tags:
         - sandbox
       summary: get create sandbox result
-      description:  get create sandbox result
+      description: get create sandbox result
       parameters:
         - name: taskid
           in: path
@@ -156,7 +156,7 @@ paths:
       tags:
         - sandbox
       summary: get delete sandbox result
-      description:  get delete sandbox result
+      description: get delete sandbox result
       parameters:
         - name: taskid
           in: path
@@ -206,7 +206,7 @@ paths:
       tags:
         - application
       summary: get create application result
-      description:  get create application result
+      description: get create application result
       parameters:
         - name: taskid
           in: path
@@ -223,7 +223,7 @@ paths:
       tags:
         - application
       summary: get delete application result
-      description:  get delete application result
+      description: get delete application result
       parameters:
         - name: taskid
           in: path
@@ -270,7 +270,7 @@ paths:
       tags:
         - folder
       summary: get create folder result
-      description:  get create folder result
+      description: get create folder result
       parameters:
         - name: taskid
           in: path
@@ -287,7 +287,7 @@ paths:
       tags:
         - folder
       summary: get delete folder result
-      description:  get delete folder result
+      description: get delete folder result
       parameters:
         - name: taskid
           in: path
@@ -364,18 +364,15 @@ components:
           description: environments
           items:
             properties:
-              environment:
-                type: object
-                properties:
-                  id:
-                    type: integer
-                    description: the environment id
-                  name:
-                    type: string
-                    description: the environment name
-                  sharedVPCProjectId:
-                    type: string
-                    description: the environment shared vpc project
+              id:
+                type: integer
+                description: the environment id
+              name:
+                type: string
+                description: the environment name
+              sharedVPCProjectId:
+                type: string
+                description: the environment shared vpc project
         active:
           type: boolean
           description: active
