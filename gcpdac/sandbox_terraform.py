@@ -11,14 +11,12 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
-import json
 import traceback
 
 from python_terraform import Terraform
 
 import config
 from gcpdac.exceptions import DacError
-from gcpdac.shell_utils import delete_repo, add_access_to_folders
 from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init
 from gcpdac.utils import labellize, random_element
 
@@ -35,35 +33,39 @@ def create_sandbox(sandboxdata):
     try:
         sandbox_id = sandboxdata['id']
         logger.debug("sandbox_id is %s", sandbox_id)
+        random_string = random_element(num_chars=6)
         tf_data['sandbox_id'] = sandbox_id
         deployment_folder_id = sandboxdata['deploymentFolderId']
         tf_data['deployment_folder_id'] = deployment_folder_id
 
-        tf_data['shared_vpc_host_project'] = sandboxdata['sharedVPCProjectId']
-
-        tf_data['sandbox_name'] = sandboxdata["name"]
+        tf_data['sandbox_name'] = "{}-{}".format(sandboxdata["name"],random_string) # TODO rename
 
         region = ec_config['region']
         tf_data['region'] = region
         tf_data['billing_account'] = ec_config['billing_account']
         shared_vpc_host_project = ec_config['shared_vpc_host_project']
-        if shared_vpc_host_project != None:
-            tf_data['shared_vpc_host_project'] = shared_vpc_host_project
-        else:
-            logger.info("Shared VPC Host Project not supplied - network will not be overridden")
         tb_discriminator = ec_config['tb_discriminator']
         tf_data['tb_discriminator'] = tb_discriminator
         # added to ensure all resources can be deleted and recreated
-        tf_data['random_element'] = random_element(num_chars=6)
         # TODO pass region_zone in - comes from UI?
         tf_data['region_zone'] = region + "-b"
         logger.debug("tf_data {}".format(tf_data))
 
+        tf_data['sandbox_project_id'] = "sandbox-{}-{}".format(random_element(num_chars=6), tb_discriminator)
+        iam_accounts = list()
+        team_cloud_identity_group = sandboxdata.get('teamCloudIdentityGroup', None)
+        if team_cloud_identity_group != None:
+            iam_accounts.append("user:{}".format(team_cloud_identity_group))
+            # TODO replace with following
+            # iam_accounts.append("group:{}".format(team_cloud_identity_group))
+        tf_data["iam_accounts"] = iam_accounts
         labels = dict()
-        labels['created_by'] = labellize(sandboxdata.get('createdBy', 'labeltba'))
-        labels['cost_centre'] = labellize(sandboxdata['costCentre'])
-        labels['business_unit'] = labellize(sandboxdata['businessUnit'])
-        labels['sandbox_id'] = sandbox_id
+        labels['environment'] = "sandbox"
+        labels['team'] = labellize(sandboxdata['teamName'])
+        labels['created-by'] = labellize(sandboxdata.get('createdBy', 'labeltba'))
+        labels['cost-code'] = labellize(sandboxdata['costCode'])
+        labels['business-unit'] = labellize(sandboxdata['businessUnit'])
+        labels['sandbox-id'] = sandbox_id
         tf_data['labels'] = labels
     except Exception as ex:
         logger.debug(traceback.format_exc())

@@ -13,22 +13,16 @@
 # limitations under the License.
 
 ###
-# Workspace Project  Creation
+# Sandbox Project  Creation
 ###
 
-provider "google-beta" {
-  region = var.region
-  zone = var.region_zone
-  project = var.shared_vpc_host_project
-  version = "~> 3.17"
-}
-
 resource "google_project" "sandbox_project" {
-  name = "${var.sandbox_name}-sandbox"
-  project_id = "sandbox-${var.random_element}-${var.tb_discriminator}"
+  name = var.sandbox_name
+  project_id = var.sandbox_project_id
   folder_id = var.folder_id
   billing_account = var.billing_account
   labels = var.labels
+  auto_create_network =  false
 }
 
 resource "google_project_service" "sandbox" {
@@ -38,11 +32,27 @@ resource "google_project_service" "sandbox" {
     google_project.sandbox_project]
 }
 
-resource "google_compute_shared_vpc_service_project" "sandbox_service" {
-  count = (var.shared_vpc_host_project != "dummy" ? 1 : 0)
-  host_project = var.shared_vpc_host_project
-  service_project = google_project.sandbox_project.project_id
-  provider = google-beta
-  depends_on = [
-    google_project_service.sandbox]
+resource "google_project_iam_binding" "project_role_1" {
+  project = google_project.sandbox_project.project_id
+  role = "roles/resourcemanager.projectIamAdmin"
+  members = var.iam_accounts
 }
+
+resource "google_project_iam_binding" "project_role_2" {
+  project = google_project.sandbox_project.project_id
+  role = "roles/servicemanagement.quotaAdmin"
+  members = var.iam_accounts
+}
+
+resource "google_project_iam_binding" "project_role_3" {
+  project = google_project.sandbox_project.project_id
+  role = "roles/serviceusage.serviceUsageAdmin"
+  members = var.iam_accounts
+}
+
+resource "google_folder_iam_binding" "folder_access" {
+  folder = var.folder_id
+  role = "roles/resourcemanager.folderViewer"
+  members = var.iam_accounts
+}
+

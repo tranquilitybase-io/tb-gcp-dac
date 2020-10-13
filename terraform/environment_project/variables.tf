@@ -32,9 +32,9 @@ variable "folder_id" {
   description = "name of the folder id to put project in"
 }
 
-variable "cost_centre" {
+variable "cost_code" {
   type        = string
-  description = "Cost Centre"
+  description = "Cost Code"
 }
 
 variable "business_unit" {
@@ -90,6 +90,7 @@ variable "folder_access_role" {
   type        = string
   description = "name of the folder access role"
 }
+
 variable "team_members" {
   type        = list(string)
   description = "users that are ordinary team members"

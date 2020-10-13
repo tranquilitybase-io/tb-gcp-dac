@@ -27,6 +27,17 @@ paths:
         '200':
           description: Successful
 
+  /cloud_identity_groups:
+    get:
+      operationId: gcpdac.cloud_identity_groups.read_all
+      tags:
+        - authentication
+      summary: read all GCP cloud identity groups
+      description: read all GCP cloud identity groups
+      responses:
+        '200':
+          description: Successful
+
   /solution_async/:
     post:
       operationId: gcpdac.solution.create_async
@@ -382,46 +393,34 @@ components:
       properties:
         id:
           type: integer
-          description: the sandbox id
+          description: sandbox id
         name:
           type: string
-          description: name
+          description: sandbox name
         description:
           type: string
-          description: description
+          description: sandbox description
         businessUnit:
           type: string
-          description: businessUnit
-        costCentre:
+          description: business unit
+        costCode:
           type: string
-          description: costCentre
-        ci:
+          description: cost code
+        teamId:
+          type: integer
+          description: team id
+        teamName:
           type: string
-          description: ci
-        cd:
+          description: team name
+        teamCloudIdentityGroup:
           type: string
-          description: cd
+          description: team GCP Cloud Identity Group
         createdBy:
           type: string
-          description: user created by
+          description: user that created the sandbox
         deploymentFolderId:
           type: string
-          description: deployment folder id
-        sourceControl:
-          type: string
-          description: sourceControl
-        sharedVPCProjectId:
-          type: string
-          description: the environment shared vpc project
-        active:
-          type: boolean
-          description: active
-        favourite:
-          type: boolean
-          description: favourite
-        lastUpdated:
-          type: string
-          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+          description: deployment GCP folder id
     Application:
       type: object
       properties:
@@ -443,6 +442,9 @@ components:
         workspaceProjectId:
           type: string
           description: the solution id
+        createdBy:
+          type: string
+          description: user created by
         activatorGitUrl:
           type: string
           description: git url for the activator repo

@@ -42,33 +42,24 @@ variable "billing_account" {
   description = "billing_account"
 }
 
-variable "random_element" {
-  type = string
-  description = "random element introduced to ensure uniqueness"
-}
-
 variable "sandbox_name" {
   type = string
   description = "name of the sandbox to be created"
 }
 
-variable "project_access_role" {
-  type        = string
-  description = "name of the project acccess role"
-}
-
-variable "folder_access_role" {
-  type        = string
-  description = "name of the folder access role"
-}
-
-variable "shared_vpc_host_project" {
-  type        = string
-  description = "shared vpc host project"
-  default = "dummy"
+variable "sandbox_project_id" {
+  type = string
+  description = "project id of the sandbox to be created"
 }
 
 variable "labels" {
   type        = map(string)
   description = "Labels to assign to resources."
 }
+
+variable "iam_accounts" {
+  type        = list(string)
+  description = "IAM accounts"
+  default = []
+}
+

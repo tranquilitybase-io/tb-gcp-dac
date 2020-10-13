@@ -38,6 +38,11 @@ variable "sandbox_name" {
   description = "name of the sandbox to be created"
 }
 
+variable "sandbox_project_id" {
+  type = string
+  description = "project id of the sandbox to be created"
+}
+
 variable "sandbox_id" {
   type = string
   description = "sandbox_id"
@@ -48,31 +53,15 @@ variable "billing_account" {
   description = "billing_account"
 }
 
-variable "random_element" {
-  type = string
-  description = "random element introduced to ensure uniqueness"
-}
-
 variable "labels" {
   type        = map(string)
   description = "Labels to assign to resources."
 }
 
-variable "project_access_role" {
-  type = string
-  description = "name of the project acccess role"
-  default = "roles/viewer"
+variable "iam_accounts" {
+  type        = list(string)
+  description = "IAM accounts"
+  default = []
 }
 
-variable "folder_access_role" {
-  type = string
-  description = "name of the folder access role"
-  default = "roles/resourcemanager.folderViewer"
-}
-
-variable "shared_vpc_host_project" {
-  type = string
-  description = "shared vpc host project"
-  default = "dummy"
-}
 
