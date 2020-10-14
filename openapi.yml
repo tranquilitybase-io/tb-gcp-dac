@@ -385,6 +385,88 @@ components:
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+        team:
+          type: object
+          description: team
+          properties:
+            lastUpdated:
+              type: string
+              description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+              #            businessUnitId:
+              #              type: integer
+              #              description: business unit id - not used by DAC
+            isActive:
+              type: boolean
+              description: is active
+            id:
+              type: integer
+              description: team id
+            description:
+              type: string
+              description: team description
+            name:
+              type: string
+              description: team name
+            #            businessUnit:
+            #              type: object
+            #              description: business unit - not used by DAC
+            #              properties:
+            #                name:
+            #                  type: string
+            #                  description: business unit name
+            #                isActive:
+            #                  type: boolean
+            #                  description: is active
+            #                id:
+            #                  type: integer
+            #                  description: business unit id
+            #                description:
+            #                  type: string
+            #                  description: business unit description
+            teamMembers:
+              type: array
+              description: team members
+              items:
+                properties:
+                  id:
+                    type: integer
+                    description: team member id
+                  role:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: role name
+                      cloudIdentityGroup:
+                        type: string
+                        description: cloud identity group
+                      id:
+                        type: integer
+                        description: role id
+                      description:
+                        type: string
+                        description: role description
+                  user:
+                    type: object
+                    properties:
+                      firstName:
+                        type: string
+                        description: first name
+                      lastName:
+                        type: string
+                        description: last name
+                      email:
+                        type: string
+                        description: user email
+                      id:
+                        type: integer
+                        description: user id
+                      showWelcome:
+                        type: boolean
+                        description: show welcome - not used by DAC
+                      isAdmin:
+                        type: boolean
+                        description: is eagle admin - not used by DAC
     Sandbox:
       type: object
       properties:
