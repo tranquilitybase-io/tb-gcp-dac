@@ -7,7 +7,6 @@ from flask_marshmallow import Marshmallow
 from google.cloud import storage
 
 import celeryconfig
-from celeryconfig import task_track_started
 from gcpdac.local_logging import get_logger
 
 logger = get_logger('tb-gcp-dac')
@@ -52,8 +51,7 @@ def make_celery(name):
         name,
         backend=os.environ['CELERY_RESULT_BACKEND'],
         broker=os.environ['CELERY_BROKER_URL'],
-        config_source=celeryconfig,
-        task_track_started=True
+        config_source=celeryconfig
     )
 
     return celery

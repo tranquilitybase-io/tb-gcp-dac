@@ -1,11 +1,11 @@
 # Supports all actions concerning sandboxes
-import os
-import logging
 import json
-from config import app
-from config import counter
+import logging
+import os
 import random
 from pprint import pformat
+
+from config import counter
 
 logger = logging.getLogger("sandbox")
 

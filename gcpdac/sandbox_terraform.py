@@ -43,7 +43,6 @@ def create_sandbox(sandboxdata):
         region = ec_config['region']
         tf_data['region'] = region
         tf_data['billing_account'] = ec_config['billing_account']
-        shared_vpc_host_project = ec_config['shared_vpc_host_project']
         tb_discriminator = ec_config['tb_discriminator']
         tf_data['tb_discriminator'] = tb_discriminator
         # added to ensure all resources can be deleted and recreated
@@ -55,9 +54,7 @@ def create_sandbox(sandboxdata):
         iam_accounts = list()
         team_cloud_identity_group = sandboxdata.get('teamCloudIdentityGroup', None)
         if team_cloud_identity_group != None:
-            iam_accounts.append("user:{}".format(team_cloud_identity_group))
-            # TODO replace with following
-            # iam_accounts.append("group:{}".format(team_cloud_identity_group))
+            iam_accounts.append("group:{}".format(team_cloud_identity_group))
         tf_data["iam_accounts"] = iam_accounts
         labels = dict()
         labels['environment'] = "sandbox"

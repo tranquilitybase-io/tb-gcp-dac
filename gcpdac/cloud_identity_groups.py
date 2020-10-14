@@ -18,8 +18,3 @@ def read_all():
 
     return data
 
-
-
-# TODO retrieve from GCP
-    data = {}
-    return data, 200
