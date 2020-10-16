@@ -18,7 +18,7 @@ from python_terraform import Terraform
 import config
 from gcpdac.exceptions import DacError
 from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init
-from gcpdac.utils import labellize, random_element
+from gcpdac.utils import labellize, random_element, folderize
 
 logger = config.logger
 
@@ -38,7 +38,8 @@ def create_sandbox(sandboxdata):
         deployment_folder_id = sandboxdata['deploymentFolderId']
         tf_data['deployment_folder_id'] = deployment_folder_id
 
-        tf_data['sandbox_name'] = "{}-{}".format(sandboxdata["name"],random_string) # TODO rename
+        tf_data['sandbox_name'] = "{}-{}".format(sandboxdata["name"], random_string)  # TODO rename
+        tf_data['sandbox_folder_name'] = "{}-{}".format(folderize(sandboxdata["name"]), random_string)  # TODO rename
 
         region = ec_config['region']
         tf_data['region'] = region
@@ -51,11 +52,13 @@ def create_sandbox(sandboxdata):
         logger.debug("tf_data {}".format(tf_data))
 
         tf_data['sandbox_project_id'] = "sandbox-{}-{}".format(random_element(num_chars=6), tb_discriminator)
+
         iam_accounts = list()
         team_cloud_identity_group = sandboxdata.get('teamCloudIdentityGroup', None)
         if team_cloud_identity_group != None:
             iam_accounts.append("group:{}".format(team_cloud_identity_group))
         tf_data["iam_accounts"] = iam_accounts
+
         labels = dict()
         labels['environment'] = "sandbox"
         labels['team'] = labellize(sandboxdata['teamName'])
@@ -64,6 +67,7 @@ def create_sandbox(sandboxdata):
         labels['business-unit'] = labellize(sandboxdata['businessUnit'])
         labels['sandbox-id'] = sandbox_id
         tf_data['labels'] = labels
+
     except Exception as ex:
         logger.debug(traceback.format_exc())
         traceback.format_exc()
@@ -87,11 +91,14 @@ def delete_sandbox(sandboxdata):
 
     tf_data['deployment_folder_id'] = None
     tf_data['sandbox_name'] = None
+    tf_data['sandbox_folder_name'] = None
     tf_data['sandbox_id'] = None
+    tf_data['sandbox_project_id'] = None
     tf_data['random_element'] = None
     tf_data['region'] = None
     tf_data['region_zone'] = None
     tf_data['labels'] = None
+    tf_data['iam_accounts'] = None
 
     ec_config = config.ec_config
 

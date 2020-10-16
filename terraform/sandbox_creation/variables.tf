@@ -38,6 +38,11 @@ variable "sandbox_name" {
   description = "name of the sandbox to be created"
 }
 
+variable "sandbox_folder_name" {
+  type = string
+  description = "name of the sandbox folder to be created"
+}
+
 variable "sandbox_project_id" {
   type = string
   description = "project id of the sandbox to be created"

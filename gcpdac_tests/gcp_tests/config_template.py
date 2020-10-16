@@ -4,6 +4,7 @@ workspaceProjectId = ""  # a solution workspace project id
 deploymentProjectId = "" #  a solution environment project id
 activator_git_url = "" # git url for an external activator
 base_folder_id = "" # tranquility base folder
+teamCloudIdentityGroup = "" # valid cloud identity group
 team_members = [
     {
         "role": {

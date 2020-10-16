@@ -3,7 +3,7 @@ module "sandbox_folder" {
   region = var.region
   region_zone = var.region_zone
   parent_folder_id = var.deployment_folder_id
-  folder_name = var.sandbox_name
+  folder_name = var.sandbox_folder_name
   tb_discriminator = var.tb_discriminator
 }
 

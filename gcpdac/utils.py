@@ -51,6 +51,21 @@ def sanitize(name):
 
     return name
 
+# The name must be between 3 and 30 characters.
+# The name may contain letters, digits, spaces, hyphens and underscores.
+# The folder's display name must start and end with a letter or digit.
+# The name must be between 3 and 30 characters.
+# The name must be distinct from all other folders that share its parent.
+def folderize(name):
+
+    valid = False
+    while valid == False:
+        name = name.lower()
+        name = name[0:30]
+        name = re.sub('[^0-9a-z-_]+', '0', name)
+        valid = True
+
+    return name
 
 def remove_keys_from_dict(payload, keys_to_remove):
     for key in keys_to_remove:

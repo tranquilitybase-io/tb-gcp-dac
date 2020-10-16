@@ -1,0 +1,12 @@
+{
+  "businessUnit": "bu-1",
+  "costCode": "cc-1",
+  "createdBy": "abcde",
+  "deploymentFolderId": "12345678",
+  "description": "sandbox 123",
+  "id": 1,
+  "name": "sandbox 123",
+  "teamCloudIdentityGroup": "abc@company.com",
+  "teamId": 1,
+  "teamName": "def"
+}
