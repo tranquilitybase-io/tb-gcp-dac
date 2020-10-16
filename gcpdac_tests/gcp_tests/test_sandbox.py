@@ -84,8 +84,6 @@ class sandboxTest(unittest.TestCase):
 
         self.check_common_project_labels(sandbox_project["labels"])
 
-        sandbox_folder = sandbox_response["sandbox_folder"]["value"]
-
     def check_common_project_labels(self, labels):
         if 'cost-code' not in labels:
             self.fail("No cost-code label")
