@@ -1,0 +1,10 @@
+version: '3.1'
+
+services:
+  gcp-dac:
+    image: gcr.io/eagle-console-resources/tb-gcp-dac:mock
+    restart: always
+    environment:
+        HOUSTON_SERVICE_URL: 'houston-service:3000'
+    ports:
+      - '3100:3100'

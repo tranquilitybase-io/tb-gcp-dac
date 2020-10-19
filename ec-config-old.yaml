@@ -1,0 +1,16 @@
+# example config passed into eagle console from landing zone creator
+# following variables available to terraform creation
+# see ec-configuration-file-tf in tb-gcp repo for how this is populated
+activator_folder_id: 302197932093
+billing_account: 01A2F5-73127B-50AE5B
+region: europe-west-2
+terraform_state_bucket: tbase-terraform-4d7eef3f
+env_data: input.tfvars
+ec_project_name: bootstrap-4d7eef3f
+activator_terraform_code_store: TO ADD LATER
+#shared_vpc_host_project: qa-q9js6s-ksjs726s
+shared_vpc_host_project:
+shared_network_name: TO ADD LATER
+shared_networking_id: TO ADD LATER
+tb_discriminator: ksjs726s
+jenkins_url: TO_ADD
