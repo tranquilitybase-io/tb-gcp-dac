@@ -7,7 +7,7 @@ from config import get_celery
 from gcpdac.application_ci import create_application, delete_application
 from gcpdac.folder_terraform import create_folder, delete_folder
 from gcpdac.local_logging import get_logger
-fucx from gcpdac.sandbox_terraform import create_sandbox, delete_sandbox
+from gcpdac.sandbox_terraform import create_sandbox, delete_sandbox
 from gcpdac.solution_terraform import create_solution, delete_solution
 
 celery_app = get_celery()
