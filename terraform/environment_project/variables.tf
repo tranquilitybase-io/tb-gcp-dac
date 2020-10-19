@@ -90,6 +90,7 @@ variable "folder_access_role" {
   type        = string
   description = "name of the folder access role"
 }
+
 variable "team_members" {
   type        = list(string)
   description = "users that are ordinary team members"
