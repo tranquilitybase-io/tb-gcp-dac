@@ -7,6 +7,7 @@ from config import get_celery
 from gcpdac.application_ci import create_application, delete_application
 from gcpdac.folder_terraform import create_folder, delete_folder
 from gcpdac.local_logging import get_logger
+from gcpdac.sandbox_terraform import create_sandbox, delete_sandbox
 from gcpdac.solution_terraform import create_solution, delete_solution
 
 celery_app = get_celery()
@@ -36,6 +37,30 @@ def deploy_solution_task(self, solutionDetails):
 def destroy_solution_task(self, solutionDetails):
     logger.debug("destroy_solution_task")
     response = delete_solution(solutionDetails)
+    return_code = response.get("tf_return_code")
+    if (return_code) != 0:
+        self.update_state(state=states.FAILURE)
+    else:
+        self.update_state(state=states.SUCCESS)
+    return response
+
+
+@celery_app.task(bind=True, base=DacTask, name='deploy_sandbox')
+def deploy_sandbox_task(self, sandboxDetails):
+    logger.debug("deploy_sandbox_task")
+    response = create_sandbox(sandboxDetails)
+    return_code = response.get("tf_return_code")
+    if (return_code) != 0:
+        self.update_state(state=states.FAILURE)
+    else:
+        self.update_state(state=states.SUCCESS)
+    return response
+
+
+@celery_app.task(bind=True, base=DacTask, name='destroy_sandbox')
+def destroy_sandbox_task(self, sandboxDetails):
+    logger.debug("destroy_sandbox_task")
+    response = delete_sandbox(sandboxDetails)
     return_code = response.get("tf_return_code")
     if (return_code) != 0:
         self.update_state(state=states.FAILURE)

@@ -65,7 +65,6 @@ def make_celery(name):
         backend=os.environ['CELERY_RESULT_BACKEND'],
         broker=os.environ['CELERY_BROKER_URL'],
         config_source=celeryconfig
-
     )
 
     return celery

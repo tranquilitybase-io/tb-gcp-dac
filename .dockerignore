@@ -15,6 +15,6 @@
 /ec-config*.yaml
 /terraform/input.auto.tfvars
 /terraform/input.tfvars
-/tests/
+/gcpdac_tests/
 /venv/
 /terraform/solution_creation/input.auto.tfvars

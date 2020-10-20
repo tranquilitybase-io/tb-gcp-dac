@@ -27,6 +27,16 @@ paths:
         '200':
           description: Successful
 
+  /cloud_identity_groups:
+    get:
+      operationId: gcpdac.cloud_identity_groups.read_all
+      tags:
+        - authentication
+      summary: read all GCP cloud identity groups
+      description: read all GCP cloud identity groups
+      responses:
+        '200':
+          description: Successful
   /jenkins:
     get:
       operationId: gcpdac.jenkins_check.get_job_details
@@ -37,14 +47,13 @@ paths:
       responses:
         '200':
           description: Successful
-
   /solution_async/:
     post:
       operationId: gcpdac.solution.create_async
       tags:
         - solution
       summary: Create a solution
-      description: Create solution in more detail - TODO
+      description: Create solution
       responses:
         '201':
           description: Successfully started a solution creation task
@@ -74,7 +83,7 @@ paths:
       tags:
         - solution
       summary: get create solution result
-      description:  get create solution result
+      description: get create solution result
       parameters:
         - name: taskid
           in: path
@@ -91,7 +100,7 @@ paths:
       tags:
         - solution
       summary: get delete solution result
-      description:  get delete solution result
+      description: get delete solution result
       parameters:
         - name: taskid
           in: path
@@ -101,6 +110,74 @@ paths:
       responses:
         "201":
           description: Successfully deleted a solution
+
+
+  /sandbox_async/:
+    post:
+      operationId: gcpdac.sandbox.create_async
+      tags:
+        - sandbox
+      summary: Create a sandbox
+      description: Create sandbox
+      responses:
+        '201':
+          description: Successfully started a sandbox creation task
+      requestBody:
+        $ref: "#/components/requestBodies/sandbox.sandboxDetails"
+
+  "/sandbox_async/{oid}":
+    delete:
+      operationId: gcpdac.sandbox.delete_async
+      tags:
+        - sandbox
+      summary: delete a sandbox
+      description: delete a sandbox and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a sandbox deletion task
+
+  "/sandbox_async/result/create/{taskid}":
+    get:
+      operationId: gcpdac.sandbox.create_sandbox_result
+      tags:
+        - sandbox
+      summary: get create sandbox result
+      description: get create sandbox result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a sandbox
+
+  "/sandbox_async/result/delete/{taskid}":
+    get:
+      operationId: gcpdac.sandbox.delete_sandbox_result
+      tags:
+        - sandbox
+      summary: get delete sandbox result
+      description: get delete sandbox result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a sandbox
+
+
+
 
   /application_async/:
     post:
@@ -239,6 +316,12 @@ components:
           schema:
             x-body-name: solutionDetails
             $ref: "#/components/schemas/Solution"
+    sandbox.sandboxDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: sandboxDetails
+            $ref: "#/components/schemas/Sandbox"
     application.applicationDetails:
       content:
         application/json:
@@ -314,6 +397,121 @@ components:
         lastUpdated:
           type: string
           description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+        team:
+          type: object
+          description: team
+          properties:
+            lastUpdated:
+              type: string
+              description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+              #            businessUnitId:
+              #              type: integer
+              #              description: business unit id - not used by DAC
+            isActive:
+              type: boolean
+              description: is active
+            id:
+              type: integer
+              description: team id
+            description:
+              type: string
+              description: team description
+            name:
+              type: string
+              description: team name
+            #            businessUnit:
+            #              type: object
+            #              description: business unit - not used by DAC
+            #              properties:
+            #                name:
+            #                  type: string
+            #                  description: business unit name
+            #                isActive:
+            #                  type: boolean
+            #                  description: is active
+            #                id:
+            #                  type: integer
+            #                  description: business unit id
+            #                description:
+            #                  type: string
+            #                  description: business unit description
+            teamMembers:
+              type: array
+              description: team members
+              items:
+                properties:
+                  id:
+                    type: integer
+                    description: team member id
+                  role:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: role name
+                      cloudIdentityGroup:
+                        type: string
+                        description: cloud identity group
+                      id:
+                        type: integer
+                        description: role id
+                      description:
+                        type: string
+                        description: role description
+                  user:
+                    type: object
+                    properties:
+                      firstName:
+                        type: string
+                        description: first name
+                      lastName:
+                        type: string
+                        description: last name
+                      email:
+                        type: string
+                        description: user email
+                      id:
+                        type: integer
+                        description: user id
+                      showWelcome:
+                        type: boolean
+                        description: show welcome - not used by DAC
+                      isAdmin:
+                        type: boolean
+                        description: is eagle admin - not used by DAC
+    Sandbox:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: sandbox id
+        name:
+          type: string
+          description: sandbox name
+        description:
+          type: string
+          description: sandbox description
+        businessUnit:
+          type: string
+          description: business unit
+        costCode:
+          type: string
+          description: cost code
+        teamId:
+          type: integer
+          description: team id
+        teamName:
+          type: string
+          description: team name
+        teamCloudIdentityGroup:
+          type: string
+          description: team GCP Cloud Identity Group
+        createdBy:
+          type: string
+          description: user that created the sandbox
+        deploymentFolderId:
+          type: string
+          description: deployment GCP folder id
     Application:
       type: object
       properties:
