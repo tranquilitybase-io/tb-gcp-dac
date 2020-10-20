@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from gcpdac.utils import sanitize, labellize
+from gcpdac.utils import sanitize, labellize, folderize
 
 
 class Utils_Test(TestCase):
@@ -34,6 +34,20 @@ class Utils_Test(TestCase):
         self.assertEqual("a-123a", sanitize("_123"))
         self.assertEqual("abcdefghijklimnopqrstuvwxyz-0123456789-abcdefghijklimnopqrstuvw",
                          sanitize("abcdefghijklimnopqrstuvwxyz-0123456789-abcdefghijklimnopqrstuvwxyz"))
+
+    def test_folderize(self):
+        self.assertEqual("abc", folderize("abc"))
+        self.assertEqual("ab-c", folderize("ab c"))
+        self.assertEqual("ab-c", folderize("ab&c"))
+        self.assertEqual("ab_c", folderize("ab_c"))
+        self.assertEqual("ab-c", folderize("ab-c"))
+        self.assertEqual("ABC", folderize("ABC"))
+        self.assertEqual("123", folderize("123"))
+        self.assertEqual("123", folderize("-123"))
+        self.assertEqual("abc", folderize("-abc"))
+        self.assertEqual("123", folderize("_123"))
+        self.assertEqual("abcDEFghijklmnopqrstuvwxyz-012",
+                         folderize("abcDEFghijklmnopqrstuvwxyz-0123456789-abcdefghijklimnopqrstuvwxyz"))
 
 
 if __name__ == '__main__':

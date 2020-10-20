@@ -1,11 +1,11 @@
 # Supports all actions concerning sandboxes
-import os
-import logging
 import json
-from config import app
-from config import counter
+import logging
+import os
 import random
 from pprint import pformat
+
+from config import counter
 
 logger = logging.getLogger("sandbox")
 
@@ -40,10 +40,6 @@ def get_status():
 
 
 def create_async(sandboxDetails):
-    """
-    Return just the task_id.
-    """
-
     logger.debug(pformat(sandboxDetails))
     taskid = next_taskid()
     logger.info("Task ID %s", taskid)
@@ -54,9 +50,6 @@ def create_async(sandboxDetails):
 
 
 def delete_async(oid):
-    """
-    Return just the task_id.
-    """
     logger.debug("Id is {}".format(oid))
     taskid = next_taskid()
     logger.info("Task ID %s", taskid)
