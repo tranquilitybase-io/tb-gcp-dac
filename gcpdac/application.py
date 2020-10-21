@@ -1,4 +1,5 @@
 # Supports all actions concerning applications
+import json
 from pprint import pformat
 
 from celery import states
@@ -48,11 +49,11 @@ def create_application_result(taskid):
         # TODO add error message to payload
 
     if status == states.SUCCESS:
-        payload = asyncResult.get(timeout=1.0)
-        # return_code = retval["return_code"]
-        # payload["repo_name"] = retval["repo_name"]
-        # if return_code > 0:
-        #     status = states.FAILURE
+        retval = asyncResult.get(timeout=1.0)
+        return_code = retval["return_code"]
+        payload = json.dumps(retval["payload"])
+        if return_code > 0:
+            status = states.FAILURE
 
     return {'status': status, "payload": payload}
 

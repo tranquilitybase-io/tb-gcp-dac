@@ -7,6 +7,7 @@ from flask_marshmallow import Marshmallow
 from google.cloud import storage
 
 import celeryconfig
+from gcpdac.exceptions import DacJenkinsError
 from gcpdac.local_logging import get_logger
 
 logger = get_logger('tb-gcp-dac')
@@ -15,15 +16,27 @@ logger.info("Logger initialised")
 basedir = os.path.abspath(os.path.dirname(__file__))
 print("basedir: {}".format(basedir))
 DEFAULT_SHELL = "/bin/bash"
-JENKINS_BASE_URL = os.environ['JENKINS_BASE_URL']
+
+def setJenkinsBaseUrl():
+    try:
+        jenkins_base_url = "http://" + os.environ['JENKINS_BASE_URL']
+    except Exception as e:
+        print(e)
+        raise DacJenkinsError(
+            "Jenkins environment variables not set. Check JENKINS_BASE_URL are set")
+    return jenkins_base_url
+
+JENKINS_BASE_URL = setJenkinsBaseUrl()
+JENKINS_USER = os.environ.get('JENKINS_USER','DAC')
+JENKINS_PASSWORD = os.environ.get('JENKINS_PASSWORD','password')
 
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
 app = connex_app.app
 
 app.config.update(
-    CELERY_BROKER_URL=os.environ['CELERY_RESULT_BACKEND'],
-    CELERY_RESULT_BACKEND=os.environ['CELERY_BROKER_URL'],
+    CELERY_BROKER_URL=os.environ['CELERY_BROKER_URL'],
+    CELERY_RESULT_BACKEND=os.environ['CELERY_RESULT_BACKEND'],
 )
 
 ma = Marshmallow(app)
@@ -59,6 +72,7 @@ def make_celery(name):
 
 celery_app = make_celery(__name__)
 
+
 def get_celery():
     return celery_app
 
@@ -76,5 +90,6 @@ def read_config_map():
     except Exception:
         logger.exception("Failed to load EC YAML file")
         raise
+
 
 ec_config = read_config_map()
