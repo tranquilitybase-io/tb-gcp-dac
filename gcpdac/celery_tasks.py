@@ -4,7 +4,7 @@ from celery import states
 from celery.exceptions import Ignore
 
 from config import get_celery
-from gcpdac.application_ci import create_application, delete_application
+from gcpdac.application_jenkins import create_application, delete_application
 from gcpdac.folder_terraform import create_folder, delete_folder
 from gcpdac.local_logging import get_logger
 from gcpdac.sandbox_terraform import create_sandbox, delete_sandbox
