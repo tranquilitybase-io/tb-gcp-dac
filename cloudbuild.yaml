@@ -1,11 +1,11 @@
 steps:
   - id: Build image
     name: 'gcr.io/cloud-builders/docker'
-    args: ['build', '-t', 'gcr.io/tranquility-base-images/tb-gcp-dac:$TAG_NAME', '.']
+    args: ['build', '-t', 'gcr.io/tranquility-base-images/tb-gcp-dac-$BRANCH_NAME:$TAG_NAME', '.']
 
   - id: Push image
     name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/tranquility-base-images/tb-gcp-dac:$TAG_NAME']
+    args: ['push', 'gcr.io/tranquility-base-images/tb-gcp-dac-$BRANCH_NAME:$TAG_NAME']
 
   - id: Label image
     name: 'gcr.io/cloud-builders/gcloud'
