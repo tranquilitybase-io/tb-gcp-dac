@@ -10,7 +10,7 @@ steps:
   - id: Label image
     name: 'gcr.io/cloud-builders/gcloud'
     waitFor:
-      - Package image
+      - Build image
     args: ['compute', 'images', 'update', '$_IMAGE_NAME-$BRANCH_NAME','--update-labels','git_repo=$REPO_NAME,git_commit=$COMMIT_SHA,git_branch=$BRANCH_NAME','--project=$PROJECT_ID']
 
   - id: Grant access to image
