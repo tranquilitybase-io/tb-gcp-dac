@@ -3,9 +3,9 @@ steps:
     name: 'gcr.io/cloud-builders/docker'
     args: ['build', '-t', 'gcr.io/tranquility-base-images/$_IMAGE_NAME-$BRANCH_NAME:latest', '.']
 
-  - id: Push image
-    name: 'gcr.io/cloud-builders/docker'
-    args: ['push', 'gcr.io/tranquility-base-images/$_IMAGE_NAME-$BRANCH_NAME:latest']
+#  - id: Push image
+#    name: 'gcr.io/cloud-builders/docker'
+#    args: ['push', 'gcr.io/tranquility-base-images/$_IMAGE_NAME-$BRANCH_NAME:latest']
 
   - id: Label image
     name: 'gcr.io/cloud-builders/gcloud'
@@ -33,4 +33,6 @@ substitutions:
   _IMAGE_ROLE: roles/compute.imageUser
 #  _TESTS_DIR: tb-test/scripts
 #  _TEST_INSTANCE_ZONE: europe-west2
-
+images: [
+    'gcr.io/tranquility-base-images/$_IMAGE_NAME-$BRANCH_NAME:latest'
+]
