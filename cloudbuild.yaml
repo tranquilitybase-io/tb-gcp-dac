@@ -10,13 +10,13 @@ steps:
   - id: Label image
     name: 'gcr.io/cloud-builders/gcloud'
     waitFor:
-      - Push image
+      - Build image
     args: ['compute', 'images', 'update', '$_IMAGE_NAME-$BRANCH_NAME:latest','--update-labels','git_repo=$REPO_NAME,git_commit=$COMMIT_SHA,git_branch=$BRANCH_NAME','--project=$PROJECT_ID']
 
   - id: Tag image
     name: 'gcr.io/cloud-builders/gcloud'
     waitFor:
-      - Push image
+      - Build image
     args: ['container', 'images', 'add-tag', '$_IMAGE_NAME-$BRANCH_NAME:latest','$_IMAGE_NAME-$BRANCH_NAME:$TAG_NAME']
 
   - id: Grant access to image
