@@ -13,7 +13,7 @@ steps:
     name: 'gcr.io/cloud-builders/gcloud'
     waitFor:
       - Push image
-    args: ['container', 'images', 'add-tag', '$_IMAGE_NAME-$BRANCH_NAME','$_IMAGE_NAME-$BRANCH_NAME:$TAG_NAME']
+    args: ['container', 'images', 'add-tag', 'gcr.io/$PROJECT_ID/$_IMAGE_NAME-$BRANCH_NAME','gcr.io/$PROJECT_ID/$_IMAGE_NAME-$BRANCH_NAME:$TAG_NAME']
 
 
 substitutions:
