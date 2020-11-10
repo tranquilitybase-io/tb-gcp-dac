@@ -66,3 +66,19 @@ services:
       - redis
       - gcp-dac
 
+  jenkins:
+    container_name: jenkins-master
+    image: gcr.io/tranquility-base-images/tb-jenkins_latest:landingzone
+    hostname: jenkins
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /var/secrets/google/ec-service-account-config.json
+    ports:
+      - 8080:8080
+    volumes:
+      # credentials.json and ec-config.yaml should have been created and exist in the project root directory
+      - .\credentials.json:/var/secrets/google/ec-service-account-config.json:ro
+      - .\ec-config.yaml:/app/ec-config.yaml:ro
+
+
+
+
