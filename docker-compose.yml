@@ -22,10 +22,8 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
-      # required for calling Jenkins
-      JENKINS_BASE_URL: ADD_JENKINS_BASE_URL
-      JENKINS_TOKEN: ADD_TOKEN
-      JENKINS_DEPLOY_ACTIVATOR_JOB: ADD_JOB_NAME
+      HOUSTON_SERVICE_URL: http://localhost:3000
+      JENKINS_BASE_URL: http://localhost:3200
     volumes:
       # NB credentials.json and ec-config.yaml should have been created and exist in the project root directory
       - .\credentials.json:/credentials.json:ro
@@ -53,9 +51,8 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
-      JENKINS_BASE_URL: ADD_JENKINS_BASE_URL
-      JENKINS_TOKEN: ADD_TOKEN
-      JENKINS_DEPLOY_ACTIVATOR_JOB: ADD_JOB_NAME
+      HOUSTON_SERVICE_URL: http://localhost:3000
+      JENKINS_BASE_URL: http://localhost:3200
     volumes:
       # credentials.json and ec-config.yaml should have been created and exist in the project root directory
       - .\credentials.json:/credentials.json:ro
@@ -73,7 +70,7 @@ services:
     environment:
       GOOGLE_APPLICATION_CREDENTIALS: /var/secrets/google/ec-service-account-config.json
     ports:
-      - 8080:8080
+      - 3200:8080
     volumes:
       # credentials.json and ec-config.yaml should have been created and exist in the project root directory
       - .\credentials.json:/var/secrets/google/ec-service-account-config.json:ro
