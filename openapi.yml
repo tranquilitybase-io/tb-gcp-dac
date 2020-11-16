@@ -170,6 +170,10 @@ paths:
 
 
 
+
+
+
+
   /application_async/:
     post:
       operationId: gcpdac.application.create_async
@@ -297,6 +301,36 @@ paths:
       responses:
         "201":
           description: Successfully deleted a folder
+
+  #Clone external repo internally using the received git tag version
+  /get_repo_uri/:
+    post:
+      operationId: gcpdac.onboarding.get_repo_uri
+      tags:
+        - repo
+      summary: Clone external repo locally
+      description: Clone external repo locally
+      responses:
+        '201':
+          description: Successfully cloned external repo
+      requestBody:
+        $ref: "#/components/requestBodies/repo.gitDetails"
+
+#  "/clone_git_repo/{}":
+#    post:
+#      operationId: gcpdac.git_repo.clone
+#      tags:
+#        - repo
+#      summary: Clone external repo locally
+#      description: Clone external repo locally
+#      responses:
+#        '201':
+#          description: Successfully cloned external repo
+#      requestBody:
+#        $ref: "#/components/requestBodies/clone_git_repo"
+
+
+
 servers:
   - url: /dac
 components:
@@ -325,6 +359,13 @@ components:
           schema:
             x-body-name: folderDetails
             $ref: "#/components/schemas/Folder"
+    repo.gitDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: gitDetails
+            $ref: "#/components/schemas/Repo"
+
   schemas:
     Solution:
       type: object
@@ -584,6 +625,27 @@ components:
           folder: {
             folderName: 'ABC',
             parentFolderId: '236823'
+          }
+        }
+
+    Repo:
+      type: object
+      properties:
+        repoName:
+          type: string
+          description: repo name
+        repoURL:
+          type: string
+          description: repo url
+        tagName:
+          type: string
+          description: tag
+      example:
+        {
+          repo: {
+            activatorName: 'tb-gcp-hpc-activator'
+            repoURL: '<some git url>'
+            tagName: '<version>'
           }
         }
 

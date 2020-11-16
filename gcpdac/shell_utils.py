@@ -30,6 +30,13 @@ def delete_repo(repo_name, project_to, project_from):
     return call_process(call_string, shell=True)
 
 
+def create_and_save(local_git_repo, project_to):
+    call_string = "/bin/bash /app/bash_scripts/create_save_onboarding_repo.sh {local_git_repo} {project_to}".format(
+        local_git_repo=local_git_repo,
+        project_to=project_to)
+    return call_process(call_string, shell=True)
+
+
 # Add access to given users from bottom_level_folder_id to top_level_folder_id
 def add_access_to_folders(bottom_level_folder_id, users, top_level_folder_id):
     print("add_access_to_folders {},{},{}".format(bottom_level_folder_id, users, top_level_folder_id))
