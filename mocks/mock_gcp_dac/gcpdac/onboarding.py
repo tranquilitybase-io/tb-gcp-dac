@@ -1,9 +1,11 @@
 import json
-import tempfile
-import git
+
 import yaml
 from gcloud import resource_manager
-from gcpdac.shell_utils import create_and_save
+
+import config
+
+logger = config.logger
 
 
 def get_client():
@@ -34,17 +36,19 @@ def get_destination_project():
     return result
 
 
+# always return True
 def get_repo_uri(repo_json):
-    # json_string = '{"activatorName": "tb-gcp-hpc-activator", "repoURL":"someurl", "tagName": "sometag"}'
-    parsed_json = json.loads(repo_json)
-    gcp_repo = '{"repository": ""}'
+    json_string = '{"activatorName": "tb-gcp-activator-name", "repoURL":"someurl", "tagName": "sometag"}'
+    parsed_json = json.loads(json_string)
+    gcp_repo = '{"repository": "https://source.developers.google.com/p/shared-ec-xxxxxx/r/tb-gcp-activator-name"}'
     # git clone <repo_url> --branch <tag_name> --single-branch
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        repo_url = parsed_json['repoURL']
-        local_repo = git.Repo.clone_from(repo_url, tmpdirname)
-        local_repo.checkout(parsed_json['tagName'])
-        flag = create_and_save(local_repo, get_destination_project())
-        if flag:
-            gcp_repo["repository"] = local_repo
+    # with tempfile.TemporaryDirectory() as tmpdirname:
+    #     repo_url = parsed_json['repoURL']
+    #     local_repo = git.Repo.clone_from(repo_url, tmpdirname)
+    #     local_repo.checkout(parsed_json['tagName'])
+    #     flag = create_and_save(local_repo, get_destination_project())
+    #     if flag:
+    #         gcp_repo["repository"] = local_repo
+    #         logger.info("return json : ", gcp_repo)
 
     return json.dumps(gcp_repo)

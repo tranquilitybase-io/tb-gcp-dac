@@ -2,8 +2,11 @@ import json
 import tempfile
 import git
 import yaml
+import config
 from gcloud import resource_manager
 from gcpdac.shell_utils import create_and_save
+
+logger = config.logger
 
 
 def get_client():
@@ -46,5 +49,6 @@ def get_repo_uri(repo_json):
         flag = create_and_save(local_repo, get_destination_project())
         if flag:
             gcp_repo["repository"] = local_repo
+            logger.info("return json : ", gcp_repo)
 
     return json.dumps(gcp_repo)
