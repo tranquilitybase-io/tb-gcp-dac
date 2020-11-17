@@ -643,8 +643,8 @@ components:
       example:
         {
           repo: {
-            activatorName: 'tb-gcp-hpc-activator'
-            repoURL: '<some git url>'
+            activatorName: 'tb-gcp-hpc-activator',
+            repoURL: '<some git url>',
             tagName: '<version>'
           }
         }
