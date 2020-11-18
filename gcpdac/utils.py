@@ -1,10 +1,8 @@
 import random
 import re
+import regex
 import string
 from contextlib import suppress
-
-import regex
-
 
 def random_element(num_chars):
     """
