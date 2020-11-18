@@ -56,8 +56,8 @@ def get_repo_uri(gitDetails):
         create_and_save(local_repo, get_destination_project())
         gcp_repo = {'repository': local_repo}
         payload = json.dumps(str(gcp_repo))
-        return {'status': 201, "payload": payload}
+        return payload, 201
     except Exception as ex:
         logger.debug(ex)
 
-    return {'status': 500, "message": "Exception encountered"}
+    return "Exception encountered", 500
