@@ -4,10 +4,6 @@ import regex
 import string
 from contextlib import suppress
 
-import yaml
-from google.cloud import storage
-
-
 def random_element(num_chars):
     """
     generates a random string of numbers and lower case letters
@@ -22,6 +18,7 @@ def labellize(labelText):
     # label rules here - https://cloud.google.com/compute/docs/labeling-resources
     # in summary - lower case characters, numbers, dash or hyphen. <= 63 characters
     labelText = labelText.lower()
+    labelText = regex.sub('[^\p{Ll}\p{Lo}\p{N}-_]+', '-', labelText)
     # labelText = re.sub('[^0-9a-z-_]+', '-', labelText)
     labelText = regex.sub('[^\p{Ll}\p{Lo}\p{N}-_]+', '-', labelText)
     if len(labelText) > 63:
