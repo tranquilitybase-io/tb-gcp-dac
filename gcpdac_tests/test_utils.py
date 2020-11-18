@@ -1,6 +1,5 @@
 import unittest
 from unittest import TestCase
-
 from gcpdac.utils import sanitize, labellize, folderize
 
 
@@ -14,10 +13,12 @@ class Utils_Test(TestCase):
         self.assertEqual("ab_c", labellize("ab_c"))
         self.assertEqual("ab-c", labellize("ab-c"))
         self.assertEqual("abc", labellize("ABC"))
-        self.assertEqual("a123", labellize("123"))
-        self.assertEqual("a-123", labellize("-123"))
-        self.assertEqual("a-abc", labellize("-abc"))
-        self.assertEqual("a_123", labellize("_123"))
+        self.assertEqual("123", labellize("123"))
+        self.assertEqual("-123", labellize("-123"))
+        self.assertEqual("abc-", labellize("abc-"))
+        self.assertEqual("_123", labellize("_123"))
+        self.assertEqual("èÿā", labellize("èÿā"))
+        self.assertEqual("èÿāć", labellize("èÿāĆ"))
         self.assertEqual("abcdefghijklimnopqrstuvwxyz-0123456789_abcdefghijklimnopqrstuvw",
                          labellize("abcdefghijklimnopqrstuvwxyz-0123456789_abcdefghijklimnopqrstuvwxyz"))
 
