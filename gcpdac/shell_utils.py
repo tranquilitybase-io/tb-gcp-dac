@@ -30,10 +30,11 @@ def delete_repo(repo_name, project_to, project_from):
     return call_process(call_string, shell=True)
 
 
-def create_and_save(local_git_repo, project_to):
+def create_and_save(local_git_repo, project_to, remote_repo):
     call_string = "/bin/bash /app/bash_scripts/create_save_onboarding_repo.sh {local_git_repo} {project_to}".format(
         local_git_repo=local_git_repo,
-        project_to=project_to)
+        project_to=project_to,
+        remote_repo=remote_repo)
     return call_process(call_string, shell=True)
 
 
