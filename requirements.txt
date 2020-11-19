@@ -40,6 +40,4 @@ requests==2.24.0
 swagger-ui-bundle==0.0.6
 uritemplate==3.0.1
 Werkzeug==1.0.1
-
-gcloud~=0.18.3
-mockito~=1.2.2
+gcloud==0.18.3
