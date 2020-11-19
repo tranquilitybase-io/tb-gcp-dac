@@ -1,9 +1,11 @@
 import json
 import tempfile
+
 import git
 import yaml
-import config
 from gcloud import resource_manager
+
+import config
 from gcpdac.shell_utils import create_and_save
 
 logger = config.logger
@@ -40,15 +42,29 @@ def get_destination_project():
 def get_repo_uri(repo_json):
     # json_string = '{"activatorName": "tb-gcp-hpc-activator", "repoURL":"someurl", "tagName": "sometag"}'
     parsed_json = json.loads(repo_json)
-    gcp_repo = '{"repository": ""}'
     # git clone <repo_url> --branch <tag_name> --single-branch
     with tempfile.TemporaryDirectory() as tmpdirname:
         repo_url = parsed_json['repoURL']
         local_repo = git.Repo.clone_from(repo_url, tmpdirname)
         local_repo.checkout(parsed_json['tagName'])
-        flag = create_and_save(local_repo, get_destination_project())
+        copy_to_project_id = get_destination_project()
+        flag = create_and_save(local_repo, copy_to_project_id)
         if flag:
-            gcp_repo["repository"] = local_repo
+            gcp_repo = json_builder(copy_to_project_id, local_repo)
             logger.info("return json : ", gcp_repo)
 
     return json.dumps(gcp_repo)
+
+
+def json_builder(project_id, local_repo):
+    url_prefix = "https://source.cloud.google.com/"
+    dict_repo = '{"repo_name": "", "project_id": "", "head_link": "", "path_link": "", "browser_link": "", ' \
+                '"git_clone": "", "cloud_sdk": ""} '
+    dict_repo["repo_name"] = local_repo
+    dict_repo["project_id"] = project_id
+    dict_repo["head_link"] = url_prefix + project_id + "/" + local_repo + "/+/master:"
+    dict_repo["path_link"] = project_id + "/" + local_repo + "/master//"
+    dict_repo["browser_link"] = url_prefix + project_id + "/" + local_repo
+    dict_repo["git_clone"] = "git clone " + url_prefix + "p/" + project_id + "/r/" + local_repo
+    dict_repo["cloud_sdk"] = "gcloud source repos clone " + local_repo + " --project=" + project_id
+    return dict_repo
