@@ -49,9 +49,9 @@ def get_repo_uri(gitDetails):
     try:
         destination_project = get_destination_project()
         local_repo = clone_repo_locally(gitDetails)
-        create_and_save(local_repo, destination_project)
+        create_and_save(str(local_repo), destination_project)
         gcp_repo = json_builder(destination_project, local_repo)
-        payload = json.dumps(str(gcp_repo))
+        payload = json.dumps(gcp_repo)
         return payload, 201
     except Exception as ex:
         logger.debug(ex)
