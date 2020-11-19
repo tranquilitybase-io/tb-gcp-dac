@@ -6,6 +6,7 @@ import yaml
 from gcloud import resource_manager
 
 import config
+from gcpdac.path_utils import file_exists
 from gcpdac.shell_utils import create_and_save
 
 logger = config.logger
@@ -15,45 +16,47 @@ def get_client():
     return resource_manager.Client()
 
 
-def list_projects():
-    client = get_client()
-    for project in client.list_projects():
-        print(project)
-    return client.list_projects()
-
-
 def get_ec_config():
-    with open('/app/ec-config.yaml', 'rb') as f:
-        yaml_variables = yaml.load(f.read())
+    file_path = 'ec-config.yaml'
+    if not file_exists(file_path):
+        raise Exception("file not found")
+
+    with open(file_path, 'rb') as f:
+        yaml_variables = yaml.load(f.read(), yaml.Loader)
+
     return yaml_variables
 
 
 def get_destination_project():
-    project_list = list_projects()
-    project_to_prefix = "shared-ec-"
-    result = ""
+    project_prefix = "shared-ec-"
     yaml_variables = get_ec_config()
     tb_discriminator = yaml_variables['tb_discriminator']
-    for p in project_list:
-        result = p.match(project_to_prefix) + tb_discriminator
-    return result
+    return project_prefix + tb_discriminator
 
 
-def get_repo_uri(repo_json):
-    # json_string = '{"activatorName": "tb-gcp-hpc-activator", "repoURL":"someurl", "tagName": "sometag"}'
-    parsed_json = json.loads(repo_json)
-    # git clone <repo_url> --branch <tag_name> --single-branch
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        repo_url = parsed_json['repoURL']
-        local_repo = git.Repo.clone_from(repo_url, tmpdirname)
-        local_repo.checkout(parsed_json['tagName'])
-        copy_to_project_id = get_destination_project()
-        flag = create_and_save(local_repo, copy_to_project_id)
-        if flag:
-            gcp_repo = json_builder(copy_to_project_id, local_repo)
-            logger.info("return json : ", gcp_repo)
+def clone_repo_locally(git_details):
+    try:
+        repo_url = git_details['repoURL']
+        with tempfile.TemporaryDirectory() as tmpdirname:
+            local_repo = git.Repo.clone_from(repo_url, tmpdirname, no_checkout=True)
+            local_repo.git.checkout(git_details['tagName'])
+            return local_repo
+    except Exception:
+        raise Exception("Error cloning repository")
 
-    return json.dumps(gcp_repo)
+
+def get_repo_uri(git_details):
+    try:
+        destination_project = get_destination_project()
+        local_repo = clone_repo_locally(git_details)
+        create_and_save(local_repo, destination_project)
+        gcp_repo = json_builder(destination_project, local_repo)
+        payload = json.dumps(str(gcp_repo))
+        return {'status': 201, "payload": payload}
+    except Exception as ex:
+        logger.debug(ex)
+
+    return {'status': 500, "message": "Exception encountered"}
 
 
 def json_builder(project_id, local_repo):
