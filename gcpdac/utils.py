@@ -19,8 +19,6 @@ def labellize(labelText):
     # in summary - lower case characters, numbers, dash or hyphen. <= 63 characters
     labelText = labelText.lower()
     labelText = regex.sub('[^\p{Ll}\p{Lo}\p{N}-_]+', '-', labelText)
-    # labelText = re.sub('[^0-9a-z-_]+', '-', labelText)
-    labelText = regex.sub('[^\p{Ll}\p{Lo}\p{N}-_]+', '-', labelText)
     if len(labelText) > 63:
         labelText = labelText[0:63]
     return labelText
