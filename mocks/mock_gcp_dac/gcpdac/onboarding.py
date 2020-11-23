@@ -2,6 +2,7 @@ import json
 
 import yaml
 from gcloud import resource_manager
+from gcpdac.onboarding import json_builder
 
 import config
 
@@ -36,19 +37,6 @@ def get_destination_project():
     return result
 
 
-# always return True
 def get_repo_uri(repo_json):
-    json_string = '{"activatorName": "tb-gcp-activator-name", "repoURL":"someurl", "tagName": "sometag"}'
-    parsed_json = json.loads(json_string)
-    gcp_repo = '{"repository": "https://source.developers.google.com/p/shared-ec-xxxxxx/r/tb-gcp-activator-name"}'
-    # git clone <repo_url> --branch <tag_name> --single-branch
-    # with tempfile.TemporaryDirectory() as tmpdirname:
-    #     repo_url = parsed_json['repoURL']
-    #     local_repo = git.Repo.clone_from(repo_url, tmpdirname)
-    #     local_repo.checkout(parsed_json['tagName'])
-    #     flag = create_and_save(local_repo, get_destination_project())
-    #     if flag:
-    #         gcp_repo["repository"] = local_repo
-    #         logger.info("return json : ", gcp_repo)
-
-    return json.dumps(gcp_repo)
+    response = json_builder("project_id_mock", "local_repo_mock")
+    return json.dumps(response)
