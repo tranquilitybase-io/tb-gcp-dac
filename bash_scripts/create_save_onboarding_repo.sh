@@ -24,7 +24,6 @@ gcloud services enable sourcerepo.googleapis.com
 # REPOSITORY_NAME
 #    Name of the repository. May contain between 3 and 63 (inclusive) lowercase letters, digits, and hyphens. Must start with a letter, and may not end with a hyphen
 gcloud source repos create "$3"
-
 cd "$1" || exit
 #Clone local_git_repo to gcp_remote
 git remote add google https://source.developers.google.com/p/"$2"/r/"$3"
@@ -32,5 +31,5 @@ git remote add google https://source.developers.google.com/p/"$2"/r/"$3"
 gcloud config set project "$current_project"
 
 cd ..
-rm -rf "$1"
+sudo rm -rf "$1"
 echo "$(date) Created GCP Repo ${1} in ${2}"
