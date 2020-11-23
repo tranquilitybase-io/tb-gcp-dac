@@ -39,6 +39,8 @@ def create_application(applicationdata):
     jenkins_deploy_activator_job = JENKINS_DEPLOY_ACTIVATOR_JOB
 
     # "jenkins-master-svc.cicd/buildByToken/buildWithParameters?job=Activator-Pipeline&token=activatorbuild&repourl=https://github.com/tranquilitybase-io/tb-gcp-hpc-activator.git&projectid=development-zzmnjt-f9e64e73"
+
+    # TODO new call - curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer activator build" -d "{"activator_params": {"head":"body"}}" -vs http://eagle-console.tranquilitybase-demo.io/jenkins-service/generic-webhook-trigger/invoke?repourl=https://github.com/tranquilitybase-io/tb-activator-gft-base.git/\&projectid=anyproject&job_unique_id=anyid
     jenkins_url = "{jenkins_base_url}/buildByToken/buildWithParameters?job={jenkins_deploy_activator_job}&token={jenkins_token}".format(
         jenkins_base_url=jenkins_base_url,
         jenkins_deploy_activator_job=jenkins_deploy_activator_job,
