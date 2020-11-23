@@ -1,11 +1,8 @@
 import random
 import re
+import regex
 import string
 from contextlib import suppress
-
-import yaml
-from google.cloud import storage
-
 
 def random_element(num_chars):
     """
@@ -21,10 +18,7 @@ def labellize(labelText):
     # label rules here - https://cloud.google.com/compute/docs/labeling-resources
     # in summary - lower case characters, numbers, dash or hyphen. <= 63 characters
     labelText = labelText.lower()
-    labelText = re.sub('[^0-9a-z-_]+', '-', labelText)
-    firstChar = labelText[0]
-    if firstChar.isnumeric() or firstChar == '-' or firstChar == '_':
-        labelText = "a" + labelText
+    labelText = regex.sub('[^\p{Ll}\p{Lo}\p{N}-_]+', '-', labelText)
     if len(labelText) > 63:
         labelText = labelText[0:63]
     return labelText

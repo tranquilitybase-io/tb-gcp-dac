@@ -73,11 +73,36 @@ def get_parent_folder_id(folder_id):
     return parent_folder_id
 
 
-def call_process(call_string, shell):
-    command_line_args = shlex.split(call_string)
-    subprocess_call = subprocess.Popen(command_line_args, stdout=subprocess.PIPE,
-                                       stderr=subprocess.STDOUT, universal_newlines=True, shell=shell)
-    process_output, _ = subprocess_call.communicate()
-    returncode = subprocess_call.returncode
+def consider_process_debug(subprocess_call, shell, call_string: str, logging: bool):
+    if not logging:
+        return
 
-    return returncode
+    if shell:
+        logger.warn("shell output will not be presented to the docker logs for CMD: " + call_string)
+        process_output, _ = subprocess_call.communicate()
+        logger.debug(logger)
+    else:
+        logger.debug("stdout from " + call_string)
+        while True:
+            line = subprocess_call.stdout.readline()
+            if not line:
+                break
+            logger.debug(line.rstrip())
+
+        logger.debug("stdout end")
+
+
+def call_process(call_string, shell, debug=False):
+
+    try:
+        command_line_args = shlex.split(call_string)
+        subprocess_call = subprocess.Popen(command_line_args, stdout=subprocess.PIPE,
+                                           stderr=subprocess.STDOUT, universal_newlines=True, shell=shell)
+
+        consider_process_debug(subprocess_call, shell, call_string, debug)
+        return subprocess_call.returncode
+
+    except Exception as ex:
+        logger.debug("Error running CMD: " + call_string)
+        logger.debug(ex)
+        return 1
