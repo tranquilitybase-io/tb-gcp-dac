@@ -54,7 +54,9 @@ def create_application(applicationdata):
     # git_repo_url = "https://source.developers.google.com/p/{workspace_project_id}/r/{repo_name}".format(
     #     workspace_project_id=workspace_project_id, repo_name=repo_name)
     # TODO pull from input
-    activator_params = get_activator_params(mandatory_variables, optional_variables)
+    activator_params_1: dict = get_activator_params(mandatory_variables, optional_variables)
+    activator_params: dict = {}
+    activator_params["activator_params"]=activator_params_1
 
     job_unique_id = random_element(num_chars=12)
 
@@ -76,8 +78,11 @@ def create_application(applicationdata):
     # TODO add more details to response
 
     try:
-        # r: Response = requests.post(jenkins_url, data=json.dumps(activator_params))
-        r: Response = requests.post(jenkins_url)
+        activator_params_json = json.dumps(activator_params)
+        logger.debug("activator_params_json is {} ".format(activator_params_json))
+
+        r: Response = requests.post(jenkins_url, data=activator_params_json)
+        # r: Response = requests.post(jenkins_url)
         logger.debug("response is {} ".format(r))
 
         # sleep to wait for build to be created
