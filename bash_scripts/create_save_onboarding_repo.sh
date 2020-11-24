@@ -27,6 +27,7 @@ gcloud source repos create "$3"
 cd "$1" || exit
 #Clone local_git_repo to gcp_remote
 git remote add google https://source.developers.google.com/p/"$2"/r/"$3"
+git push google master
 
 gcloud config set project "$current_project"
 
