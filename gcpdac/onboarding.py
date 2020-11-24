@@ -44,7 +44,7 @@ def clone_repo_locally(gitDetails):
             local_repo.git.checkout(gitDetails['tagName'])
             return dirname
     except Exception as e:
-        logger.debug("Error cloning repository {}".format(e))
+        logger.exception("Error cloning repository {}", e.__traceback__)
         raise Exception("Error cloning repository")
 
 
