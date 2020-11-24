@@ -1,10 +1,10 @@
 import json
-import os
 import tempfile
 
 import git
 import yaml
 from gcloud import resource_manager
+from git import RemoteProgress, Git
 
 import config
 from gcpdac.path_utils import file_exists
@@ -38,10 +38,11 @@ def get_destination_project():
 def clone_repo_locally(gitDetails):
     try:
         repo_url = gitDetails['repo']['repoURL']
+        tag_name = gitDetails['repo']['tagName']
         with tempfile.TemporaryDirectory() as dirname:
-            logger.info("local tmp dir - %s", dirname)
-            local_repo = git.Repo.clone_from(repo_url, dirname, no_checkout=True)
-            local_repo.git.checkout(gitDetails['repo']['tagName'])
+            git.Repo.clone_from(repo_url, dirname, branch='master', progress=CloneProgress())
+            g = Git(dirname)
+            g.checkout(tag_name)
             return dirname
     except Exception as e:
         logger.exception("Error cloning repository {}", e.__traceback__)
@@ -51,9 +52,10 @@ def clone_repo_locally(gitDetails):
 def get_repo_uri(gitDetails):
     try:
         destination_project = get_destination_project()
-        logger.debug("Start cloning %s to project - %s ", gitDetails['repo']['repoURL'], destination_project)
         local_repo = clone_repo_locally(gitDetails)
+        logger.debug("Cloning %s to local - %s ", gitDetails['repo']['repoURL'], local_repo)
         gcp_repo_name = gitDetails['repo']['activatorName']
+        logger.debug("Cloud repo - %s", gcp_repo_name)
         create_and_save(str(local_repo), destination_project, gcp_repo_name)
         gcp_clone_response = json_builder(destination_project, gcp_repo_name)
         payload = json.dumps(gcp_clone_response)
@@ -72,3 +74,9 @@ def json_builder(project_id, local_repo):
             "browser_link": url_prefix + project_id + "/" + local_repo,
             "git_clone": "git clone " + url_prefix + "p/" + project_id + "/r/" + local_repo,
             "cloud_sdk": "gcloud source repos clone " + local_repo + " --project=" + project_id}
+
+
+class CloneProgress(RemoteProgress):
+    def update(self, op_code, cur_count, max_count=None, message=''):
+        if message:
+            print(message)
