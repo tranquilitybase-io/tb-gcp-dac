@@ -1,3 +1,4 @@
+import json
 import time
 import traceback
 
@@ -5,7 +6,8 @@ import requests
 from requests import Response
 
 import config
-from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB, DEPLOYMENT_PROJECT_ID, \
+from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB, JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON, \
+    DEPLOYMENT_PROJECT_ID, \
     ACTIVATOR_GIT_REPO_URL, ACTIVATOR_PARAMS, JOB_UNIQUE_ID
 from gcpdac.exceptions import DacValidationError, DacError
 from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
@@ -20,8 +22,8 @@ def create_application(applicationdata):
     application_name = applicationdata.get("name")
     logger.debug("application is %s", application_id)
     logger.debug("application data is {}".format(applicationdata))
-    application_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables, optional_variables = validateInput(
-        applicationdata)
+    application_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables, optional_variables \
+        = validateInput(applicationdata)
     logger.debug("deployment_environment {}".format(deployment_environment))
     jenkins_base_url = config.JENKINS_BASE_URL
     ec_config = config.ec_config
@@ -36,12 +38,13 @@ def create_application(applicationdata):
     copy_repo_response = copy_repo(application_git_url, repo_name, workspace_project_id, eagle_project_id)
     logger.debug("Copy repo response code {}".format(copy_repo_response))
     jenkins_token = JENKINS_TOKEN
-    jenkins_deploy_activator_job = JENKINS_DEPLOY_ACTIVATOR_JOB
+    jenkins_deploy_activator_job = JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON
 
     # "jenkins-master-svc.cicd/buildByToken/buildWithParameters?job=Activator-Pipeline&token=activatorbuild&repourl=https://github.com/tranquilitybase-io/tb-gcp-hpc-activator.git&projectid=development-zzmnjt-f9e64e73"
 
-    # TODO new call - curl -X POST -H "Content-Type: application/json" -H "Authorization: Bearer activator build" -d "{"activator_params": {"head":"body"}}" -vs http://eagle-console.tranquilitybase-demo.io/jenkins-service/generic-webhook-trigger/invoke?repourl=https://github.com/tranquilitybase-io/tb-activator-gft-base.git/\&projectid=anyproject&job_unique_id=anyid
-    jenkins_url = "{jenkins_base_url}/buildByToken/buildWithParameters?job={jenkins_deploy_activator_job}&token={jenkins_token}".format(
+    # "curl -X POST  "http://localhost:3200/generic-webhook-trigger/invoke?token=activatorbuild&repourl=https://github.com/tranquilitybase-io/tb-activator-gft-base.git&projectid=anyproject&job_unique_id=anyid"
+    # jenkins_url = "{jenkins_base_url}/buildByToken/buildWithParameters?job={jenkins_deploy_activator_job}&token={jenkins_token}".format(
+    jenkins_url = "{jenkins_base_url}/generic-webhook-trigger/invoke?job={jenkins_deploy_activator_job}&token={jenkins_token}".format(
         jenkins_base_url=jenkins_base_url,
         jenkins_deploy_activator_job=jenkins_deploy_activator_job,
         jenkins_token=jenkins_token)
@@ -59,7 +62,7 @@ def create_application(applicationdata):
     logger.info("application_git_url {}".format(application_git_url))
     jenkins_params[DEPLOYMENT_PROJECT_ID] = deployment_project_id
     logger.info("deployment_project_id {}".format(deployment_project_id))
-    jenkins_params[ACTIVATOR_PARAMS] = activator_params
+    jenkins_params[ACTIVATOR_PARAMS] = "a=b,c=d"  # TODO remove from Jenkins job
     logger.info("activator_params {}".format(activator_params))
     jenkins_params[JOB_UNIQUE_ID] = job_unique_id
     logger.info("job_unique_id {}".format(job_unique_id))
@@ -73,6 +76,7 @@ def create_application(applicationdata):
     # TODO add more details to response
 
     try:
+        # r: Response = requests.post(jenkins_url, data=json.dumps(activator_params))
         r: Response = requests.post(jenkins_url)
         logger.debug("response is {} ".format(r))
 
@@ -114,10 +118,14 @@ def create_application(applicationdata):
     return response
 
 
-def get_activator_params(mandatory_variables, optional_variables):
-    # TODO convert input dicts to key-value pair string
+def get_activator_params(mandatory_variables: list, optional_variables: list):
+    activator_params: dict = {}
+    for variable in mandatory_variables:
+        activator_params[variable["key"]] = variable["value"]
+    for variable in optional_variables:
+        activator_params[variable["key"]] = variable["value"]
 
-    return "a=123,b=456"
+    return activator_params
 
 
 def validateInput(applicationdata):
@@ -126,7 +134,9 @@ def validateInput(applicationdata):
     activator_git_url = applicationdata.get("activatorGitUrl", None)
     deployment_environment_object = applicationdata.get("deploymentEnvironment", None)
     mandatory_variables = applicationdata.get("mandatoryVariables", None)
+    logger.debug("mandatory_variables data type = {}".format(type(mandatory_variables)))
     optional_variables = applicationdata.get("optionalVariables", None)
+    logger.debug("optional_variables data type = {}".format(type(optional_variables)))
     deployment_environment = None
     if deployment_environment_object != None:
         deployment_environment = deployment_environment_object.get("name", None)
