@@ -38,11 +38,13 @@ def get_destination_project():
 def clone_repo_locally(gitDetails):
     try:
         repo_url = gitDetails['repoURL']
-        with tempfile.TemporaryDirectory() as tmpdirname:
-            local_repo = git.Repo.clone_from(repo_url, tmpdirname, no_checkout=True)
+        with tempfile.TemporaryDirectory() as dirname:
+            logger.info("local tmp dir - %s", dirname)
+            local_repo = git.Repo.clone_from(repo_url, dirname, no_checkout=True)
             local_repo.git.checkout(gitDetails['tagName'])
-            return tmpdirname
-    except Exception:
+            return dirname
+    except Exception as e:
+        logger.debug("Error cloning repository {}".format(e))
         raise Exception("Error cloning repository")
 
 

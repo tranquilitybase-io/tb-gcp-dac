@@ -38,5 +38,6 @@ def get_destination_project():
 
 
 def get_repo_uri(repo_json):
+    logger.debug("json - %s", repo_json)
     response = json_builder("project_id_mock", "local_repo_mock")
     return json.dumps(response)
