@@ -15,23 +15,24 @@
 # $1 - name of local git repo
 # $2 - project to create repo in
 # $3 - remote (GCP) repository name
-echo "$(date) Creating GCP Repo ${1} in ${2}"
+echo "$(date) Creating GCP Repo ${3} in ${2}"
 
 gcloud auth activate-service-account --key-file "$GOOGLE_APPLICATION_CREDENTIALS"
-current_project=$(gcloud config list --format 'value(core.project)' 2>/dev/null)
-gcloud config set project "$2"
+echo "Change to ${2} . . ."
+gcloud config set project "${2}"
 gcloud services enable sourcerepo.googleapis.com
 # REPOSITORY_NAME
 #    Name of the repository. May contain between 3 and 63 (inclusive) lowercase letters, digits, and hyphens. Must start with a letter, and may not end with a hyphen
-gcloud source repos create "$3"
-cd "$1" || exit
+gcloud source repos create "${3}"
+cd "${1}" || exit
 #Clone local_git_repo to gcp_remote
 git config credential.helper gcloud.sh
-git remote add google https://source.developers.google.com/p/"$2"/r/"$3"
+git remote add google https://source.developers.google.com/p/"${2}"/r/"${3}"
 git push --all google
 
-gcloud config set project "$current_project"
+gcloud config unset project
 
 cd ..
-sudo rm -rf "$1"
-echo "$(date) Created GCP Repo ${1} in ${2}"
+echo "$(date) Remove local_git_repo - ${1}"
+rm -rf "${1}"
+echo "$(date) Created GCP Repo ${3} in ${2}"

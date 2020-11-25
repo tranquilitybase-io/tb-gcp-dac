@@ -31,11 +31,11 @@ def delete_repo(repo_name, project_to, project_from):
 
 
 def create_and_save(local_git_repo, project_to, remote_repo):
-    call_string = "/bin/bash /app/bash_scripts/create_save_onboarding_repo.sh {local_git_repo} {project_to}".format(
+    call_string = "/bin/bash /app/bash_scripts/create_save_onboarding_repo.sh {local_git_repo} {project_to} {remote_repo}".format(
         local_git_repo=local_git_repo,
         project_to=project_to,
         remote_repo=remote_repo)
-    return call_process(call_string, shell=True)
+    return call_process(call_string, shell=False, debug=True)
 
 
 # Add access to given users from bottom_level_folder_id to top_level_folder_id

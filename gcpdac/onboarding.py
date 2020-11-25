@@ -1,10 +1,9 @@
 import json
-import tempfile
+import os
 
-import git
 import yaml
 from gcloud import resource_manager
-from git import RemoteProgress, Git
+from git import RemoteProgress, Git, Repo
 
 import config
 from gcpdac.path_utils import file_exists
@@ -37,13 +36,12 @@ def get_destination_project():
 
 def clone_repo_locally(gitDetails):
     try:
-        repo_url = gitDetails['repo']['repoURL']
-        tag_name = gitDetails['repo']['tagName']
-        with tempfile.TemporaryDirectory() as dirname:
-            git.Repo.clone_from(repo_url, dirname, branch='master', progress=CloneProgress())
-            g = Git(dirname)
-            g.checkout(tag_name)
-            return dirname
+        dirname = os.getcwd() + "/temp_repo"
+        g = Git(dirname)
+        cloned_repo = Repo.clone_from(gitDetails['repo']['repoURL'], dirname, progress=CloneProgress())
+        logger.info("Change repo - %s to tag - %s", str(cloned_repo), gitDetails['repo']['tagName'])
+        g.checkout(gitDetails['repo']['tagName'])
+        return dirname
     except Exception as e:
         logger.exception("Error cloning repository {}", e.__traceback__)
         raise Exception("Error cloning repository")
