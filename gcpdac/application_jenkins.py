@@ -6,9 +6,8 @@ import requests
 from requests import Response
 
 import config
-from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB, JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON, \
-    DEPLOYMENT_PROJECT_ID, \
-    ACTIVATOR_GIT_REPO_URL, ACTIVATOR_PARAMS, JOB_UNIQUE_ID
+from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON, \
+    DEPLOYMENT_PROJECT_ID, ACTIVATOR_GIT_REPO_URL, ACTIVATOR_PARAMS, JOB_UNIQUE_ID
 from gcpdac.exceptions import DacValidationError, DacError
 from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
 from gcpdac.shell_utils import create_repo, copy_repo
@@ -22,9 +21,7 @@ def create_application(applicationdata):
     application_name = applicationdata.get("name")
     logger.debug("application id is %s", application_id)
     logger.debug("application data is {}".format(applicationdata))
-    (application_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables,
-     optional_variables) \
-        = validateInput(applicationdata)
+    (application_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables, optional_variables) = validateInput(applicationdata)
     logger.debug("deployment_environment {}".format(deployment_environment))
     jenkins_base_url = config.JENKINS_BASE_URL
     ec_config = config.ec_config
