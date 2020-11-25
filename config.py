@@ -27,8 +27,8 @@ def setJenkinsBaseUrl():
     return jenkins_base_url
 
 JENKINS_BASE_URL = setJenkinsBaseUrl()
-JENKINS_USER = os.environ.get('JENKINS_USER','DAC')
-JENKINS_PASSWORD = os.environ.get('JENKINS_PASSWORD','password')
+JENKINS_USER = os.environ['DAC_JENKINS_USER']
+JENKINS_PASSWORD = os.environ['DAC_JENKINS_PASSWORD']
 
 connex_app = connexion.App(__name__, specification_dir=basedir)
 
