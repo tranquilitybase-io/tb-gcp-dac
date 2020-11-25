@@ -92,7 +92,7 @@ def consider_process_debug(subprocess_call, shell, call_string: str, logging: bo
         logger.debug("stdout end")
 
 
-def call_process(call_string, shell, debug=False):
+def call_process(call_string, shell, debug=True):
 
     try:
         command_line_args = shlex.split(call_string)
