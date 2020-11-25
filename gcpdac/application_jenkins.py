@@ -20,9 +20,10 @@ logger = config.logger
 def create_application(applicationdata):
     application_id = applicationdata.get("id")
     application_name = applicationdata.get("name")
-    logger.debug("application is %s", application_id)
+    logger.debug("application id is %s", application_id)
     logger.debug("application data is {}".format(applicationdata))
-    application_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables, optional_variables \
+    (application_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables,
+     optional_variables) \
         = validateInput(applicationdata)
     logger.debug("deployment_environment {}".format(deployment_environment))
     jenkins_base_url = config.JENKINS_BASE_URL
@@ -54,9 +55,8 @@ def create_application(applicationdata):
     # git_repo_url = "https://source.developers.google.com/p/{workspace_project_id}/r/{repo_name}".format(
     #     workspace_project_id=workspace_project_id, repo_name=repo_name)
     # TODO pull from input
-    activator_params_1: dict = get_activator_params(mandatory_variables, optional_variables)
     activator_params: dict = {}
-    activator_params["activator_params"]=activator_params_1
+    activator_params["activator_params"] = get_activator_params(mandatory_variables, optional_variables)
 
     job_unique_id = random_element(num_chars=12)
 
@@ -151,7 +151,8 @@ def validateInput(applicationdata):
         error_msg = "Workspace Project ID, activator Git URL, deployment environment and deployment project id must be supplied"
         logger.info(error_msg)
         raise DacValidationError(applicationdata, error_msg)
-    return activator_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables, optional_variables
+    return (activator_git_url, workspace_project_id, deployment_environment, deployment_project_id, mandatory_variables,
+            optional_variables)
 
 
 def delete_application(applicationdata):
