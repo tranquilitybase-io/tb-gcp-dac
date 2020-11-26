@@ -1,7 +1,7 @@
 from celery import signals
 
 from config import get_celery
-from gcpdac.local_logging import get_logger
+from tb_common.local_logging import get_logger
 
 celery_app = get_celery()
 
