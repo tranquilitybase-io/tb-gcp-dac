@@ -1,9 +1,10 @@
+import concurrent.futures
 import json
 import os
 
 import yaml
 from gcloud import resource_manager
-from git import RemoteProgress, Git, Repo
+from git import RemoteProgress, Repo
 
 import config
 from gcpdac.path_utils import file_exists
@@ -37,10 +38,8 @@ def get_destination_project():
 def clone_repo_locally(gitDetails):
     try:
         dirname = os.getcwd() + "/temp_repo"
-        g = Git(dirname)
         cloned_repo = Repo.clone_from(gitDetails['repo']['repoURL'], dirname, progress=CloneProgress())
         logger.info("Change repo - %s to tag - %s", str(cloned_repo), gitDetails['repo']['tagName'])
-        g.checkout(gitDetails['repo']['tagName'])
         return dirname
     except Exception as e:
         logger.exception("Error cloning repository {}", e.__traceback__)
@@ -54,7 +53,8 @@ def get_repo_uri(gitDetails):
         logger.debug("Cloning %s to local - %s ", gitDetails['repo']['repoURL'], local_repo)
         gcp_repo_name = gitDetails['repo']['activatorName']
         logger.debug("Cloud repo - %s", gcp_repo_name)
-        create_and_save(str(local_repo), destination_project, gcp_repo_name)
+        with concurrent.futures.ProcessPoolExecutor() as executor:
+            executor.submit(create_and_save(str(local_repo), destination_project, gcp_repo_name), 15)
         gcp_clone_response = json_builder(destination_project, gcp_repo_name)
         payload = json.dumps(gcp_clone_response)
         return payload, 201

@@ -2,8 +2,11 @@ import json
 import shlex
 import subprocess
 from json import JSONDecodeError
+
 import config
+
 logger = config.logger
+
 
 def create_repo(repo_name, project_to, project_from):
     call_string = "/bin/bash /app/bash_scripts/create_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
@@ -93,7 +96,6 @@ def consider_process_debug(subprocess_call, shell, call_string: str, logging: bo
 
 
 def call_process(call_string, shell, debug=True):
-
     try:
         command_line_args = shlex.split(call_string)
         subprocess_call = subprocess.Popen(command_line_args, stdout=subprocess.PIPE,

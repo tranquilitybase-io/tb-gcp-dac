@@ -21,15 +21,18 @@ gcloud auth activate-service-account --key-file "$GOOGLE_APPLICATION_CREDENTIALS
 echo "Change to ${2} . . ."
 gcloud config set project "${2}"
 gcloud services enable sourcerepo.googleapis.com
+
 # REPOSITORY_NAME
-#    Name of the repository. May contain between 3 and 63 (inclusive) lowercase letters, digits, and hyphens. Must start with a letter, and may not end with a hyphen
 gcloud source repos create "${3}"
 cd "${1}" || exit
 #Clone local_git_repo to gcp_remote
 git config credential.helper gcloud.sh
+git pull --tags --all
 git remote add google https://source.developers.google.com/p/"${2}"/r/"${3}"
+git push --tags --force google
 git push --all google
 
+#Unset project before exiting
 gcloud config unset project
 
 cd ..
