@@ -2,7 +2,7 @@ import json
 
 import yaml
 from gcloud import resource_manager
-from gcpdac.onboarding import json_builder
+from gcpdac.models.onboarding import OnboardingModel
 
 import config
 
@@ -37,7 +37,6 @@ def get_destination_project():
     return result
 
 
-def get_repo_uri(repo_json):
-    logger.debug("json - %s", repo_json)
-    response = json_builder("project_id_mock", "local_repo_mock")
+def get_repo_uri(gitDetails):
+    response = OnboardingModel.json_builder("project_id_mock", "local_repo_mock")
     return json.dumps(response)

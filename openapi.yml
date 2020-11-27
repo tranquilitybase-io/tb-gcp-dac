@@ -316,19 +316,6 @@ paths:
       requestBody:
         $ref: "#/components/requestBodies/repo.gitDetails"
 
-#  "/clone_git_repo/{}":
-#    post:
-#      operationId: gcpdac.git_repo.clone
-#      tags:
-#        - repo
-#      summary: Clone external repo locally
-#      description: Clone external repo locally
-#      responses:
-#        '201':
-#          description: Successfully cloned external repo
-#      requestBody:
-#        $ref: "#/components/requestBodies/clone_git_repo"
-
 
 
 servers:
@@ -633,19 +620,15 @@ components:
       properties:
         repoName:
           type: string
-          description: repo name
+          description: repository name
         repoURL:
           type: string
-          description: repo url
-        tagName:
-          type: string
-          description: tag
+          description: repository url
       example:
         {
           repo: {
-            activatorName: 'tb-gcp-hpc-activator',
-            repoURL: '<some git url>',
-            tagName: '<version>'
+            repoName: 'tb-gcp-hpc-activator',
+            repoURL: '<some git url>'
           }
         }
 

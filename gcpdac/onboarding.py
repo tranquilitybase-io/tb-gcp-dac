@@ -39,7 +39,7 @@ def clone_repo_locally(gitDetails):
     try:
         dirname = os.getcwd() + "/temp_repo"
         cloned_repo = Repo.clone_from(gitDetails['repo']['repoURL'], dirname, progress=CloneProgress())
-        logger.info("Change repo - %s to tag - %s", str(cloned_repo), gitDetails['repo']['tagName'])
+        logger.info("Change repo - %s", str(cloned_repo))
         return dirname
     except Exception as e:
         logger.exception("Error cloning repository {}", e.__traceback__)
@@ -51,7 +51,7 @@ def get_repo_uri(gitDetails):
         destination_project = get_destination_project()
         local_repo = clone_repo_locally(gitDetails)
         logger.debug("Cloning %s to local - %s ", gitDetails['repo']['repoURL'], local_repo)
-        gcp_repo_name = gitDetails['repo']['activatorName']
+        gcp_repo_name = gitDetails['repo']['repoName']
         logger.debug("Cloud repo - %s", gcp_repo_name)
         with concurrent.futures.ProcessPoolExecutor() as executor:
             executor.submit(create_and_save(str(local_repo), destination_project, gcp_repo_name), 15)
