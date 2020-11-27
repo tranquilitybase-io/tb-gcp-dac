@@ -70,7 +70,7 @@ def create_application(applicationdata):
     jenkins_params = {}
     jenkins_params[ACTIVATOR_GIT_REPO_URL] = application_git_url
     jenkins_params[DEPLOYMENT_PROJECT_ID] = deployment_project_id
-    jenkins_params[ACTIVATOR_PARAMS] = "a=b,c=d"  # TODO remove from Jenkins job and from here
+    # jenkins_params[ACTIVATOR_PARAMS] = "a=b,c=d"  # TODO remove from Jenkins job and from here
     jenkins_params[JOB_UNIQUE_ID] = job_unique_id
 
     logger.info("deployment_project_id {}".format(deployment_project_id))
