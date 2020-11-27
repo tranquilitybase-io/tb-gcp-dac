@@ -618,17 +618,17 @@ components:
     Repo:
       type: object
       properties:
-        repoName:
+        name:
           type: string
           description: repository name
-        repoURL:
+        url:
           type: string
           description: repository url
       example:
         {
           repo: {
-            repoName: 'tb-gcp-hpc-activator',
-            repoURL: '<some git url>'
+            name: 'tb-gcp-hpc-activator',
+            url: '<some git url>'
           }
         }
 
