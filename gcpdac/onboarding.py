@@ -8,6 +8,7 @@ from git import RemoteProgress, Git, Repo
 import config
 from gcpdac.path_utils import file_exists
 from gcpdac.shell_utils import create_and_save
+from gcpdac.models.onboarding import OnboardingModel
 
 logger = config.logger
 
@@ -55,23 +56,12 @@ def get_repo_uri(gitDetails):
         gcp_repo_name = gitDetails['repo']['activatorName']
         logger.debug("Cloud repo - %s", gcp_repo_name)
         create_and_save(str(local_repo), destination_project, gcp_repo_name)
-        gcp_clone_response = json_builder(destination_project, gcp_repo_name)
+        gcp_clone_response = OnboardingModel.json_builder(destination_project, gcp_repo_name)
         payload = json.dumps(gcp_clone_response)
         return payload, 201
     except Exception as ex:
         logger.exception(ex.__traceback__)
     return "Exception encountered", 500
-
-
-def json_builder(project_id, local_repo):
-    url_prefix = "https://source.cloud.google.com/"
-    return {"repo_name": local_repo,
-            "project_id": project_id,
-            "head_link": url_prefix + project_id + "/" + local_repo + "/+/master:",
-            "path_link": project_id + "/" + local_repo + "/master//",
-            "browser_link": url_prefix + project_id + "/" + local_repo,
-            "git_clone": "git clone " + url_prefix + "p/" + project_id + "/r/" + local_repo,
-            "cloud_sdk": "gcloud source repos clone " + local_repo + " --project=" + project_id}
 
 
 class CloneProgress(RemoteProgress):
