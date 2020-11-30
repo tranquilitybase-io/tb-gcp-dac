@@ -7,7 +7,7 @@ from requests import Response
 
 import config
 from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON, \
-    DEPLOYMENT_PROJECT_ID, ACTIVATOR_GIT_REPO_URL, JOB_UNIQUE_ID
+    DEPLOYMENT_PROJECT_ID, ACTIVATOR_PARAMS, ACTIVATOR_GIT_REPO_URL, JOB_UNIQUE_ID
 from gcpdac.exceptions import DacValidationError, DacError
 from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
 from gcpdac.utils import sanitize, random_element
@@ -19,6 +19,7 @@ def create_application(applicationdata):
     application_id = applicationdata.get("id")
     application_name = applicationdata.get("name")
     logger.debug("application id is %s", application_id)
+    logger.debug("application name is %s", application_name)
     logger.debug("application data is {}".format(applicationdata))
 
     workspace_project_id = applicationdata.get("workspaceProjectId", None)
@@ -44,13 +45,12 @@ def create_application(applicationdata):
     jenkins_base_url = config.JENKINS_BASE_URL
 
     ec_config = config.ec_config
-    eagle_project_id = ec_config['ec_project_name']
-
-    repo_name = "activator-{}".format(application_name)
-    repo_name = sanitize(repo_name)
 
     # Create GSR repo and copy code from external repo
     # TODO copy from master GSR repo - current scripts below copy from external git repo
+    # eagle_project_id = ec_config['ec_project_name']
+    # repo_name = "activator-{}".format(application_name)
+    # repo_name = sanitize(repo_name)
     # create_repo_response = create_repo(repo_name, workspace_project_id, eagle_project_id)
     # logger.debug("Create repo response code {}".format(create_repo_response))
     #
@@ -80,7 +80,7 @@ def create_application(applicationdata):
     # application_git_url = "https://source.developers.google.com/p/{workspace_project_id}/r/{repo_name}".format(workspace_project_id=workspace_project_id, repo_name=repo_name)
 
     activator_params: dict = {}
-    activator_params["activator_params"] = get_activator_params(mandatory_variables, optional_variables)
+    activator_params[ACTIVATOR_PARAMS] = get_activator_params(mandatory_variables, optional_variables)
 
     jenkins_url = format_jenkins_url(jenkins_params, jenkins_url)
     logger.info("jenkins_url {}".format(jenkins_url))
