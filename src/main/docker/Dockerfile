@@ -1,8 +1,14 @@
 FROM google/cloud-sdk:298.0.0
 MAINTAINER "GFT"
 
-ENV TERRAFORM_VERSION=0.12.24
 
+# ==== Arguments ====
+ENV TERRAFORM_VERSION=0.12.24
+ARG python_src=src/main/python/tranquilitybase/gcpdac
+ARG bash_src=src/main/bash
+
+
+# ==== Unix ====
 RUN apt-get update \
  && apt-get install unzip=6.0-25 wget=1.20.1-1.1 dos2unix=7.4.0-1 nano=3.2-3 \
  -y --no-install-recommends \
@@ -10,7 +16,8 @@ RUN apt-get update \
  && rm -rf /var/lib/apt/lists/*
 RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
-# install terraform
+
+# ==== terraform ====
 ENV TF_DEV=true
 ENV TF_RELEASE=true
 RUN wget https://releases.hashicorp.com/terraform/${TERRAFORM_VERSION}/terraform_${TERRAFORM_VERSION}_linux_amd64.zip
@@ -20,16 +27,22 @@ RUN mv terraform /usr/local/bin/
 ENV TF_LOG=ERROR
 ENV TF_LOG_PATH=/var/log/tb-gcp-dac-deployment.log
 
-# install python libraries
+
+# ==== python ====
 WORKDIR /app
 COPY . .
-RUN pip install -r ./requirements.txt
+RUN pip install -r ${python_src}/requirements.txt
 
+
+# ==== Shell =====
 # ensure shell scripts have unix line endings
 RUN dos2unix -- *.sh
-RUN dos2unix ./bash_scripts/*.sh
+RUN dos2unix ${bash_src}/*.sh
+RUN dos2unix ${bash_src}/bash_scripts/*.sh
 
-RUN ["chmod", "+x", "./app_docker.sh"]
-RUN ["chmod", "+x", "./bash_scripts/create_gcp_repo.sh"]
+
+# ==== Run ====
+RUN ["sh", "-c", "chmod +x ${bash_src}"]
+RUN ["sh", "-c", "chmod +x ${bash_src}/bash_scripts/create_gcp_repo.sh"]
 EXPOSE 3100
-CMD ["/bin/bash", "./app_docker.sh"]
+CMD ["/bin/bash", "${bash_src}/app_docker.sh"]
