@@ -32,7 +32,9 @@ jobs:
 
     - name: Run unit tests
       shell: bash
-      run: python3 gcpdac_tests/test_utils.py
+      run: |
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+        python3 gcpdac_tests/test_utils.py
 
 #    - name: Build Mock GCP DAC Image
 #      shell: bash
