@@ -5,6 +5,8 @@
 name: GCP DAC - CICD Workflow
 
 on:
+  push:
+
   pull_request:
     branches: [ master ]
 
