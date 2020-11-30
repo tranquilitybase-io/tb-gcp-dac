@@ -1,8 +1,8 @@
 import json
 import shlex
 import subprocess
+from asyncio import coroutine
 from json import JSONDecodeError
-
 import config
 
 logger = config.logger
@@ -33,7 +33,7 @@ def delete_repo(repo_name, project_to, project_from):
     return call_process(call_string, shell=True)
 
 
-def create_and_save(local_git_repo, project_to, remote_repo):
+async def create_and_save(local_git_repo, project_to, remote_repo):
     call_string = "/bin/bash /app/bash_scripts/create_save_onboarding_repo.sh {local_git_repo} {project_to} {remote_repo}".format(
         local_git_repo=local_git_repo,
         project_to=project_to,
