@@ -44,10 +44,9 @@ def create_application(applicationdata):
     logger.debug("deployment_environment {}".format(deployment_environment))
     jenkins_base_url = config.JENKINS_BASE_URL
 
-    ec_config = config.ec_config
-
     # Create GSR repo and copy code from external repo
-    # TODO copy from master GSR repo - current scripts below copy from external git repo
+    # TODO copy from master GSR repo - scripts used below copy from external git repo
+    # ec_config = config.ec_config
     # eagle_project_id = ec_config['ec_project_name']
     # repo_name = "activator-{}".format(application_name)
     # repo_name = sanitize(repo_name)
