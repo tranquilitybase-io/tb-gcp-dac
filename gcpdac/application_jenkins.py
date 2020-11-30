@@ -7,10 +7,9 @@ from requests import Response
 
 import config
 from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON, \
-    DEPLOYMENT_PROJECT_ID, ACTIVATOR_GIT_REPO_URL, ACTIVATOR_PARAMS, JOB_UNIQUE_ID
+    DEPLOYMENT_PROJECT_ID, ACTIVATOR_GIT_REPO_URL, JOB_UNIQUE_ID
 from gcpdac.exceptions import DacValidationError, DacError
 from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
-from gcpdac.shell_utils import create_repo, copy_repo
 from gcpdac.utils import sanitize, random_element
 
 logger = config.logger
@@ -50,12 +49,13 @@ def create_application(applicationdata):
     repo_name = "activator-{}".format(application_name)
     repo_name = sanitize(repo_name)
 
-    # Create GSR repo and copy code from external repo - TODO copy from master GSR repo
-    create_repo_response = create_repo(repo_name, workspace_project_id, eagle_project_id)
-    logger.debug("Create repo response code {}".format(create_repo_response))
-
-    copy_repo_response = copy_repo(application_git_url, repo_name, workspace_project_id, eagle_project_id)
-    logger.debug("Copy repo response code {}".format(copy_repo_response))
+    # Create GSR repo and copy code from external repo
+    # TODO copy from master GSR repo - current scripts below copy from external git repo
+    # create_repo_response = create_repo(repo_name, workspace_project_id, eagle_project_id)
+    # logger.debug("Create repo response code {}".format(create_repo_response))
+    #
+    # copy_repo_response = copy_repo(application_git_url, repo_name, workspace_project_id, eagle_project_id)
+    # logger.debug("Copy repo response code {}".format(copy_repo_response))
 
     jenkins_token = JENKINS_TOKEN
     jenkins_deploy_activator_job = JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON
@@ -70,7 +70,6 @@ def create_application(applicationdata):
     jenkins_params = {}
     jenkins_params[ACTIVATOR_GIT_REPO_URL] = application_git_url
     jenkins_params[DEPLOYMENT_PROJECT_ID] = deployment_project_id
-    # jenkins_params[ACTIVATOR_PARAMS] = "a=b,c=d"  # TODO remove from Jenkins job and from here
     jenkins_params[JOB_UNIQUE_ID] = job_unique_id
 
     logger.info("deployment_project_id {}".format(deployment_project_id))
@@ -89,7 +88,6 @@ def create_application(applicationdata):
     response = {}
     payload = {}
     payload["jenkins_job_params"] = jenkins_params
-    # TODO add more details to response
 
     try:
         activator_params_json = json.dumps(activator_params)
@@ -111,7 +109,6 @@ def create_application(applicationdata):
             build_url = job_build.get_build_url()
             logger.debug("Build URL {}".format(build_url))
             logger.debug("Result URL {}".format(job_build.get_result_url()))
-            # http://10.0.1.9/job/Activator-Pipeline/17/api/json
             build_url_json = build_url + "/api/json"
             logger.debug("Build URL JSON {}".format(build_url_json))
             r: Response = requests.get(build_url_json)
