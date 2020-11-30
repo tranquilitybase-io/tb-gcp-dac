@@ -1,6 +1,11 @@
+import os,sys,inspect
+currentdir = os.path.dirname(os.path.abspath(inspect.getfile(inspect.currentframe())))
+parentdir = os.path.dirname(currentdir)
+sys.path.insert(0, parentdir)
+
 import unittest
 from unittest import TestCase
-from gcpdac.utils import sanitize, labellize, folderize
+from tb_common.utils import sanitize, labellize, folderize
 
 
 class Utils_Test(TestCase):
