@@ -39,4 +39,4 @@ def get_destination_project():
 
 def get_repo_uri(gitDetails):
     response = OnboardingModel.json_builder("project_id_mock", "local_repo_mock")
-    return json.dumps(response)
+    return response, 200
