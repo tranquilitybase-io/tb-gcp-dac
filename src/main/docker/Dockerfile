@@ -30,19 +30,18 @@ ENV TF_LOG_PATH=/var/log/tb-gcp-dac-deployment.log
 
 # ==== python ====
 WORKDIR /app
-COPY . .
+COPY ${python_src} src/main/python/tranquilitybase/gcpdac
+COPY ${bash_src} src/main/bash
 RUN pip install -r ${python_src}/requirements.txt
 
 
 # ==== Shell =====
-# ensure shell scripts have unix line endings
-RUN dos2unix -- *.sh
-RUN dos2unix ${bash_src}/*.sh
+# ensure shell scripts have unix line endings and can run
+RUN dos2unix -- ${bash_src}/*.sh
 RUN dos2unix ${bash_src}/bash_scripts/*.sh
-
-
-# ==== Run ====
 RUN ["sh", "-c", "chmod +x ${bash_src}"]
 RUN ["sh", "-c", "chmod +x ${bash_src}/bash_scripts/create_gcp_repo.sh"]
+
+# ==== Run ====
 EXPOSE 3100
-CMD ["/bin/bash", "${bash_src}/app_docker.sh"]
+RUN ["sh", "-c", "sh ${bash_src}/app_docker.sh"]
