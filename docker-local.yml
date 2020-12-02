@@ -11,7 +11,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    image: gcr.io/tranquility-base-images/tb-gcp-dac:local
+    image: issue-98
     ports:
       - 3100:3100 #http://localhost:3100/dac/
     links:
@@ -42,7 +42,7 @@ services:
   worker:
     # to run with more workers 'docker-compose up --scale worker=<num of workers>
     # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
-    image: gcr.io/tranquility-base-images/tb-gcp-dac:local
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:issue-98
     build:
       context: .
       dockerfile: Dockerfile

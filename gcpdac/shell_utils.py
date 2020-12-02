@@ -1,9 +1,12 @@
 import json
 import shlex
 import subprocess
+from asyncio import coroutine
 from json import JSONDecodeError
 import config
+
 logger = config.logger
+
 
 def create_repo(repo_name, project_to, project_from):
     call_string = "/bin/bash /app/bash_scripts/create_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
@@ -28,6 +31,14 @@ def delete_repo(repo_name, project_to, project_from):
         project_to=project_to,
         project_from=project_from)
     return call_process(call_string, shell=True)
+
+
+async def create_and_save(local_git_repo, project_to, remote_repo):
+    call_string = "/bin/bash /app/bash_scripts/create_save_onboarding_repo.sh {local_git_repo} {project_to} {remote_repo}".format(
+        local_git_repo=local_git_repo,
+        project_to=project_to,
+        remote_repo=remote_repo)
+    return call_process(call_string, shell=False, debug=True)
 
 
 # Add access to given users from bottom_level_folder_id to top_level_folder_id
@@ -84,8 +95,7 @@ def consider_process_debug(subprocess_call, shell, call_string: str, logging: bo
         logger.debug("stdout end")
 
 
-def call_process(call_string, shell, debug=False):
-
+def call_process(call_string, shell, debug=True):
     try:
         command_line_args = shlex.split(call_string)
         subprocess_call = subprocess.Popen(command_line_args, stdout=subprocess.PIPE,
