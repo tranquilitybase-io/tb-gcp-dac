@@ -133,8 +133,8 @@ class SolutionTest(unittest.TestCase):
         self.assertEqual(solution_input['name'], display_name)
 
     def check_common_project_labels(self, labels):
-        if 'cost_centre' not in labels:
-            self.fail("No cost_centre label")
+        if 'cost_code' not in labels:
+            self.fail("No cost_code label")
         if 'business_unit' not in labels:
             self.fail("No business_unit label")
         if 'team' not in labels:
