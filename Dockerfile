@@ -32,4 +32,3 @@ RUN ["chmod", "+x", "./app_docker.sh"]
 RUN ["chmod", "+x", "./bash_scripts/create_gcp_repo.sh"]
 EXPOSE 3100
 CMD ["/bin/bash", "./app_docker.sh"]
-

@@ -8,7 +8,7 @@ from google.cloud import storage
 
 import celeryconfig
 from gcpdac.exceptions import DacJenkinsError
-from gcpdac.local_logging import get_logger
+from tb_common.local_logging import get_logger
 
 logger = get_logger('tb-gcp-dac')
 logger.info("Logger initialised")

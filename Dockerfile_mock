@@ -4,6 +4,8 @@ RUN apt-get update && apt-get install -y --no-install-recommends dos2unix=7.4.0-
  && rm -rf /var/lib/apt/lists/*
 WORKDIR /srv
 COPY mocks/mock_gcp_dac/. .
+COPY tb_common/. tb_common
+COPY gcpdac/models/. gcpdac/models/
 COPY openapi.yml .
 RUN pip install -r ./requirements.txt
 RUN dos2unix app_docker.sh
