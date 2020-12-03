@@ -1,6 +1,7 @@
 # Supports all actions concerning Solutions
 import json
 from pprint import pformat
+from typing import Optional, Any
 
 from celery import states
 from celery.result import AsyncResult
@@ -39,25 +40,31 @@ def delete_async(oid):
 
 def create_solution_result(taskid):
     logger.info("CREATE SOLUTION RESULT %s", format(taskid))
-    asyncResult = AsyncResult(taskid)
+    asyncResult: AsyncResult = AsyncResult(taskid)
     status = asyncResult.status
-    payload = {}
+    logger.debug("status {}".format(status))
+    payload_dict: dict = {}
 
     if status == states.FAILURE:
         result: Exception = asyncResult.result
         logger.info("Exception {}".format(result))
-        # TODO add error message to payload
-        # payload = {"error": result}
+        payload_dict["error"] = "Error occurred deploying solution"
 
     if status == states.SUCCESS:
-        retval = asyncResult.get(timeout=1.0)
-        return_code = retval["tf_return_code"]
-        tf_outputs = retval["tf_outputs"]
-        if return_code > 0:
-            status = states.FAILURE
+        tf_outputs : dict = {}
+        retval: Optional[Any] = asyncResult.get(timeout=1.0)
+        if retval != None:
+            return_code = retval["tf_return_code"]
+            tf_outputs = retval["tf_outputs"]
+            payload_dict = tf_outputs
+            if return_code > 0:
+                payload_dict["error"] = "Return code when deleting: {}".format(return_code)
+                status = states.FAILURE
         else:
-            payload = tf_outputs
-            payload = json.dumps(payload)
+            status = states.FAILURE
+            payload_dict["error"] = "No return code from task"
+
+    payload = json.dumps(payload_dict)
 
     return {'status': status, "payload": payload}
 
@@ -66,17 +73,21 @@ def delete_solution_result(taskid):
     logger.info("DELETE SOLUTION RESULT %s", format(taskid))
     asyncResult = AsyncResult(taskid)
     status = asyncResult.status
-    payload = {}
+    payload_dict = {}
 
     if status == states.FAILURE:
         result: Exception = asyncResult.result
         logger.info("Exception {}".format(result))
-        # TODO add error message to payload
+        payload_dict["error"] = "Error occurred deleting solution"
 
     if status == states.SUCCESS:
         retval = asyncResult.get(timeout=1.0)
-        return_code = retval["tf_return_code"]
-        if return_code > 0:
-            status = states.FAILURE
+        if retval != None:
+            return_code = retval["tf_return_code"]
+            if return_code > 0:
+                payload_dict["error"] = "Return code when deleting: {}".format(return_code)
+                status = states.FAILURE
+
+    payload = json.dumps(payload_dict)
 
     return {'status': status, "payload": payload}
