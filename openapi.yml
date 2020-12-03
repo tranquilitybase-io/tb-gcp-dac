@@ -210,7 +210,7 @@ paths:
       tags:
         - application
       summary: get create application result
-      description:  get create application result
+      description: get create application result
       parameters:
         - name: taskid
           in: path
@@ -227,7 +227,7 @@ paths:
       tags:
         - application
       summary: get delete application result
-      description:  get delete application result
+      description: get delete application result
       parameters:
         - name: taskid
           in: path
@@ -274,7 +274,7 @@ paths:
       tags:
         - folder
       summary: get create folder result
-      description:  get create folder result
+      description: get create folder result
       parameters:
         - name: taskid
           in: path
@@ -291,7 +291,7 @@ paths:
       tags:
         - folder
       summary: get delete folder result
-      description:  get delete folder result
+      description: get delete folder result
       parameters:
         - name: taskid
           in: path
@@ -312,7 +312,9 @@ paths:
       description: Clone external repo locally
       responses:
         '201':
-          description: Successfully cloned external repo
+          description: Successfully cloned external repository
+        '202':
+          description: Cloning external repository accepted
       requestBody:
         $ref: "#/components/requestBodies/repo.gitDetails"
 
@@ -614,21 +616,20 @@ components:
             parentFolderId: '236823'
           }
         }
-
     Repo:
       type: object
       properties:
-        name:
-          type: string
-          description: repository name
-        url:
-          type: string
-          description: repository url
-      example:
-        {
-          repo: {
-            name: 'tb-gcp-hpc-activator',
-            url: '<some git url>'
-          }
-        }
-
+        repo:
+          type: object
+          properties:
+            name:
+              type: string
+            url:
+              type: string
+        cred:
+          type: object
+          properties:
+            user:
+              type: string
+            token:
+              type: string
