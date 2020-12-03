@@ -1,5 +1,21 @@
-import logging
 import os
+
+def consider_config():
+    is_ide = os.getenv('IDE', default="false")
+    if is_ide == "true":
+        os.environ["DEBUG"] = "true"
+        os.environ["DAC_JENKINS_USER"] = "DAC_JENKINS_USER"
+        os.environ["DAC_JENKINS_PASSWORD"] = "DAC_JENKINS_PASSWORD"
+        os.environ["JENKINS_BASE_URL"] = "JENKINS_BASE_URL"
+
+        os.environ["CELERY_BROKER_URL"] = "CELERY_BROKER_URL"
+        os.environ["CELERY_RESULT_BACKEND"] = "CELERY_RESULT_BACKEND"
+
+consider_config()
+
+
+import logging
+
 
 basedir = os.path.abspath(os.path.dirname(__file__))
 print("basedir: {}".format(basedir))
@@ -24,9 +40,7 @@ connex_app.add_api('openapi.yml', strict_validation=True)
 
 celery = config.get_celery()
 
-# ===== Config =====
-env_debug = os.getenv('DEBUG', default="true")
-print("DEBUG: {}".format(os.environ['DEBUG']))
+
 
 if __name__ == "__main__":
-    connex_app.run(port=os.environ['APP_PORT'], debug=env_debug)
+    connex_app.run(port=os.environ['APP_PORT'], debug=os.environ['DEBUG'])
