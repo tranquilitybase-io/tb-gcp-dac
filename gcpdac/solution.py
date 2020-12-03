@@ -51,16 +51,20 @@ def create_solution_result(taskid):
         payload_dict["error"] = "Error occurred deploying solution"
 
     if status == states.SUCCESS:
-        tf_outputs : dict = {}
-        retval: Optional[Any] = asyncResult.get(timeout=1.0)
+        # retval: Optional[Any] = asyncResult.get(timeout=1.0)
+        retval = asyncResult.result
+        logger.debug("retval {}".format(retval))
         if retval != None:
             return_code = retval["tf_return_code"]
-            tf_outputs = retval["tf_outputs"]
-            payload_dict = tf_outputs
+            logger.debug("return_code {}".format(return_code))
+            payload_dict = retval["tf_outputs"]
+            logger.debug("tf_outputs {}".format(payload_dict))
             if return_code > 0:
+                logger.debug("return_code > 0")
                 payload_dict["error"] = "Return code when deleting: {}".format(return_code)
                 status = states.FAILURE
         else:
+            logger.debug("retval NONE")
             status = states.FAILURE
             payload_dict["error"] = "No return code from task"
 
