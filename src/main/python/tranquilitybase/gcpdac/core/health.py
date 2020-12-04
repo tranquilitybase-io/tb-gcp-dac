@@ -1,6 +1,6 @@
 # Health check: Very basic health check, can extend in future
 
-from gcpdac.extendedSchemas import HealthSchema
+from src.main.python.tranquilitybase.gcpdac.core.extendedSchemas import HealthSchema
 
 def check():
     # simple check that server is working. returns 200 on success

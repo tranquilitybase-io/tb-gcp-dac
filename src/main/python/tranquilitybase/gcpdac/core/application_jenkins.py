@@ -5,12 +5,12 @@ import requests
 from requests import Response
 
 import config
-from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB, DEPLOYMENT_PROJECT_ID, \
+from src.main.python.tranquilitybase.gcpdac.core.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB, DEPLOYMENT_PROJECT_ID, \
     ACTIVATOR_GIT_REPO_URL, ACTIVATOR_PARAMS, JOB_UNIQUE_ID
-from gcpdac.exceptions import DacValidationError, DacError
-from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
-from gcpdac.shell_utils import create_repo, copy_repo
-from gcpdac.utils import sanitize, random_element
+from src.main.python.tranquilitybase.gcpdac.core.exceptions import DacValidationError, DacError
+from src.main.python.tranquilitybase.gcpdac.core.jenkins_utils import get_job_build, format_jenkins_url
+from src.main.python.tranquilitybase.gcpdac.core.shell_utils import create_repo, copy_repo
+from src.main.python.tranquilitybase.lib.common.utils import sanitize, random_element
 
 logger = config.logger
 

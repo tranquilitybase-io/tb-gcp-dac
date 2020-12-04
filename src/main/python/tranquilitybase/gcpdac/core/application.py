@@ -6,7 +6,7 @@ from celery import states
 from celery.result import AsyncResult
 
 import config
-from gcpdac.celery_tasks import deploy_application_task, destroy_application_task
+from src.main.python.tranquilitybase.gcpdac.core.celery_tasks import deploy_application_task, destroy_application_task
 
 logger = config.logger
 
