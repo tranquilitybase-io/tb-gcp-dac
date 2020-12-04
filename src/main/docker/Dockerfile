@@ -4,7 +4,8 @@ MAINTAINER "GFT"
 
 # ==== Arguments ====
 ENV TERRAFORM_VERSION=0.12.24
-ARG python_src=src/main/python/tranquilitybase/gcpdac
+ARG gcpdac_src=src/main/python/tranquilitybase/gcpdac
+ARG common_src=src/main/python/tranquilitybase/lib/common
 ARG bash_src=src/main/bash
 
 
@@ -30,9 +31,10 @@ ENV TF_LOG_PATH=/var/log/tb-gcp-dac-deployment.log
 
 # ==== python ====
 WORKDIR /app
-COPY ${python_src} src/main/python/tranquilitybase/gcpdac
-COPY ${bash_src} src/main/bash
-RUN pip install -r ${python_src}/requirements.txt
+COPY ${gcpdac_src} ${gcpdac_src}
+COPY ${common_src} ${common_src}
+COPY ${bash_src} ${bash_src}
+RUN pip install -r ${gcpdac_src}/requirements.txt
 
 
 # ==== Shell =====
