@@ -2,7 +2,7 @@ import unittest
 import os
 from unittest import TestCase
 
-from src.main.python.tranquilitybase.gcpdac.configuration.envhelper import EnvHelper
+from main.python.tranquilitybase.gcpdac.configuration.envhelper import EnvHelper
 
 
 class Utils_Test(TestCase):
