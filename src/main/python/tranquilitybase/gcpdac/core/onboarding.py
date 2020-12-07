@@ -1,4 +1,3 @@
-import concurrent.futures
 import json
 import os
 
@@ -49,18 +48,23 @@ def clone_repo_locally(gitDetails):
 def get_repo_uri(gitDetails):
     try:
         destination_project = get_destination_project()
-        local_repo = clone_repo_locally(gitDetails)
+        local_repo = str(clone_repo_locally(gitDetails))
         logger.debug("Cloning %s to local - %s ", gitDetails['repo']['url'], local_repo)
         gcp_repo_name = gitDetails['repo']['name']
-        logger.debug("Cloud repo - %s", gcp_repo_name)
-        with concurrent.futures.ProcessPoolExecutor() as executor:
-            executor.submit(create_and_save(str(local_repo), destination_project, gcp_repo_name), 15)
+        run(create_and_save(local_repo, destination_project, gcp_repo_name))
         gcp_clone_response = json_builder(destination_project, gcp_repo_name)
         payload = json.dumps(gcp_clone_response)
-        return payload, 201
+        return payload, 202
     except Exception as ex:
         logger.exception(ex.__traceback__)
-    return "Exception encountered", 500
+    return "Exception encountered", 501
+
+
+def run(create_and_save):
+    try:
+        create_and_save.send(None)
+    except StopIteration as e:
+        return e.value
 
 
 def json_builder(project_id, local_repo):

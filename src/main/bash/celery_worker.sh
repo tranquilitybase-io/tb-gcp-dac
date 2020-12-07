@@ -1,3 +1,3 @@
 #!/bin/sh
 LOGLEVEL=debug
-celery -E -A celery_worker worker --loglevel="${LOGLEVEL}" --concurrency=5
+celery -A celery_worker worker --concurrency=5 --task-events  --loglevel="${LOGLEVEL}"
