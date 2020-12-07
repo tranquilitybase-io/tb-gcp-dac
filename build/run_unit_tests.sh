@@ -1,5 +1,6 @@
 #!/bin/bash
 cd ..
 export PYTHONPATH=$(pwd)
-python3 src/test/gcpdac_tests/unit/test_utils.py
+cd src/test/gcpdac_tests/unit
+python3 -m unittest discover .
 
