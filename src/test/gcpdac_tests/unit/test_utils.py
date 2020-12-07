@@ -1,9 +1,18 @@
 import unittest
 from unittest import TestCase
-from tb_common.utils import sanitize, labellize, folderize
+
+from main.python.tranquilitybase.lib.common.utils import labellize
+from main.python.tranquilitybase.lib.common.utils import folderize
+from main.python.tranquilitybase.lib.common.utils import sanitize
 
 
 class Utils_Test(TestCase):
+
+    def test_config(self):
+        env = "JENKINS_BASE_URL"
+        env2 = ""
+        self.assertEqual(env, env2)
+
 
     def test_labellize(self):
         # google label rules here - https://cloud.google.com/compute/docs/labeling-resources
