@@ -44,8 +44,7 @@ jobs:
     - name: Build and run unit tests
       shell: bash
       run: |
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build/test/
-        ls
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build/docker_test/
         sh build_and_run_unit_tests.sh
 
 

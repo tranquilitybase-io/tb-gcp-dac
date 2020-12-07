@@ -1,0 +1,19 @@
+version: '3.1'
+# This docker compose file just runs DAC alongside redis and a DAC worker. It doesn't include houston or eagle
+# It enables testing against a GCP environment if the file credentials.json and ec-config.yaml have been created and exist in the project root directory
+# See documentation [here](https://github.com/tranquilitybase-io/tb-gcp-dac/wiki/RunServicesWithDocker)
+# Make a copy called docker-compose-local.yml for testing locally
+
+services:
+  gcp-dac:
+    container_name: gcp-dac-tester
+
+    build:
+      context: .
+      dockerfile: Dockerfile_test
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:local
+
+
+
+
+
