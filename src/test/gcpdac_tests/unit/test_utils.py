@@ -1,9 +1,9 @@
 import unittest
 from unittest import TestCase
 
-from main.python.tranquilitybase.lib.common.utils import labellize
-from main.python.tranquilitybase.lib.common.utils import folderize
-from main.python.tranquilitybase.lib.common.utils import sanitize
+from src.main.python.tranquilitybase.lib.common.utils import labellize
+from src.main.python.tranquilitybase.lib.common.utils import folderize
+from src.main.python.tranquilitybase.lib.common.utils import sanitize
 
 
 class Utils_Test(TestCase):
