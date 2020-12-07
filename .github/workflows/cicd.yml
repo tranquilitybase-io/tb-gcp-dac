@@ -44,7 +44,6 @@ jobs:
     - name: Run unit tests
       shell: bash
       run: |
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/
         sh run_unit_tests.sh
 
 
