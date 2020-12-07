@@ -1,5 +1,6 @@
 #!/bin/bash
-cd ..
+#cd ..
+echo "-------------"
 echo $(pwd)
 export PYTHONPATH=$(pwd)
 python3 -c "import sys; print(sys.path)"
