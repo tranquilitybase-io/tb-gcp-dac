@@ -6,18 +6,17 @@ class EnvHelper:
     absolute_ec_config_path = None
     absolute_gcp_credentials_path = None
 
-    def __init__(self):
-        EnvHelper.__consider_config()
-        EnvHelper.__validate_config()
+    def __init__(self, validate: bool = True):
+        self.__consider_config()
+        if validate:
+            self.__validate_config()
 
-    @staticmethod
-    def is_ide():
+    def is_ide(self):
         return os.getenv('IS_IDE')
 
-    @staticmethod
-    def __consider_config():
+    def __consider_config(self):
 
-        if EnvHelper.is_ide():
+        if self.is_ide():
 
             os.environ["DEBUG"] = "true"
 
@@ -35,10 +34,10 @@ class EnvHelper:
             EnvHelper.absolute_gcp_credentials_path = os.environ["PROJECT_ROOT"] + relative_gcp_credentials_path
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = EnvHelper.absolute_gcp_credentials_path
 
-            os.environ["APP_PORT"] = "3100"
+            if not os.getenv("APP_PORT"):
+                os.environ["APP_PORT"] = "3100"
 
-    @staticmethod
-    def __validate_config():
+    def __validate_config(self):
         EnvHelper.validate_environ("DEBUG")
 
         EnvHelper.validate_environ("JENKINS_BASE_URL")

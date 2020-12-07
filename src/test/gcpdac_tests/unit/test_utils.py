@@ -8,12 +8,6 @@ from main.python.tranquilitybase.lib.common.utils import sanitize
 
 class Utils_Test(TestCase):
 
-    def test_config(self):
-        env = "JENKINS_BASE_URL"
-        env2 = ""
-        self.assertEqual(env, env2)
-
-
     def test_labellize(self):
         # google label rules here - https://cloud.google.com/compute/docs/labeling-resources
         self.assertEqual("abc", labellize("abc"))
