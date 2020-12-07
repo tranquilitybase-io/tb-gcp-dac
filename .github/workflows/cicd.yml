@@ -47,10 +47,6 @@ jobs:
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac/
         sh run_unit_tests.sh
 
-    - name: Run unit tests2
-        shell: bash
-        run: |
-          sh run_unit_tests.sh
 
 #    - name: Build Mock GCP DAC Image
 #      shell: bash
