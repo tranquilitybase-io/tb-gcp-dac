@@ -1,0 +1,82 @@
+version: '3.1'
+# This docker compose file just runs DAC alongside redis and a DAC worker. It doesn't include houston or eagle
+# It enables testing against a GCP environment if the file credentials.json and ec-config.yaml have been created and exist in the project root directory
+# See documentation [here](https://github.com/tranquilitybase-io/tb-gcp-dac/wiki/RunServicesWithDocker)
+# Make a copy called docker-compose-local.yml for testing locally
+
+services:
+  gcp-dac:
+    container_name: gcp-dac
+    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:local
+    ports:
+      - 3100:3100 #http://localhost:3100/dac/
+    links:
+      - redis
+    depends_on:
+      - redis
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
+      CELERY_BROKER_URL: redis://redis:6379
+      CELERY_RESULT_BACKEND: redis://redis:6379
+      HOUSTON_SERVICE_URL: http://localhost:3000
+      JENKINS_BASE_URL: http://localhost:3200
+      DAC_JENKINS_USER: TBA
+      DAC_JENKINS_PASSWORD: TBA
+    volumes:
+      # NB credentials.json and ec-config.yaml should have been created and exist in the project root directory
+      - .\credentials.json:/credentials.json:ro
+      - .\ec-config.yaml:/app/ec-config.yaml:ro
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    hostname: redis
+  #    volumes:
+  #      - redis.conf:/redis.conf
+  #    command: [ "redis-server", "/redis.conf" ]
+
+  worker:
+    # to run with more workers 'docker-compose up --scale worker=<num of workers>
+    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:local
+    build:
+      context: .
+      dockerfile: Dockerfile
+    hostname: worker
+    #    command:  celery -E -A celery_worker worker --loglevel=info
+    command: [ "/bin/bash", "./celery_worker.sh" ]
+    environment:
+      GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
+      CELERY_BROKER_URL: redis://redis:6379
+      CELERY_RESULT_BACKEND: redis://redis:6379
+      HOUSTON_SERVICE_URL: http://localhost:3000
+      JENKINS_BASE_URL: http://localhost:3200
+      DAC_JENKINS_USER: TBA
+      DAC_JENKINS_PASSWORD: TBA
+    volumes:
+      # credentials.json and ec-config.yaml should have been created and exist in the project root directory
+      - .\credentials.json:/credentials.json:ro
+      - .\ec-config.yaml:/app/ec-config.yaml:ro
+    links:
+      - redis
+    depends_on:
+      - redis
+      - gcp-dac
+
+#  jenkins:
+#    container_name: jenkins-master
+#    image: gcr.io/tranquility-base-images/tb-jenkins_latest:landingzone
+#    hostname: jenkins
+#    environment:
+#      GOOGLE_APPLICATION_CREDENTIALS: /var/secrets/google/ec-service-account-config.json
+#    ports:
+#      - 3200:8080
+#    volumes:
+#      # credentials.json and ec-config.yaml should have been created and exist in the project root directory
+#      - .\credentials.json:/var/secrets/google/ec-service-account-config.json:ro
+#      - .\ec-config.yaml:/app/ec-config.yaml:ro
+#
