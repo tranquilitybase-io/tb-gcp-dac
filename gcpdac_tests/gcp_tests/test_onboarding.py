@@ -26,4 +26,3 @@ class Test(TestCase):
             self.fail("Failed to return valid return url"))
 
 
-    #git clone --progress -v https://aivogft:a2a0076e37f41f706c052ccef1e15a81c5987f19@github.com/tranquilitybase-io/gcp-citrix-activator.git
