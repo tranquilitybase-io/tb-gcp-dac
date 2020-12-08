@@ -3,11 +3,10 @@ MAINTAINER "GFT"
 
 
 # ==== Arguments ====
-ARG gcpdac_src=src/main/python/tranquilitybase/gcpdac
-ARG common_src=src/main/python/tranquilitybase/lib/common
-ARG test_src=src/test/python/gcpdac_tests/unit
-ARG bash_src=src/main/bash
-ARG build_src=build/
+ARG src_main_python=src/main/python/
+ARG src_test_python=src/test/python/
+ARG src_main_bash=src/main/bash
+ARG build=build/
 
 
 # ==== Unix ====
@@ -21,10 +20,9 @@ RUN update-alternatives --install /usr/bin/pip pip /usr/bin/pip3 1
 
 # ==== python ====
 WORKDIR /app
-COPY ${gcpdac_src} ${gcpdac_src}
-COPY ${common_src} ${common_src}
-COPY ${test_src} ${test_src}
-COPY ${bash_src} ${bash_src}
-COPY ${build_src} ${build_src}
-RUN pip install -r ${gcpdac_src}/requirements.txt
+COPY ${src_main_python} ${src_main_python}
+COPY ${src_test_python} ${src_test_python}
+COPY ${src_main_bash} ${src_main_bash}
+COPY ${build} ${build}
+RUN pip install -r ${src_main_python}/tranquilitybase/requirements.txt
 

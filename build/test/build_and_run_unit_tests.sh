@@ -9,4 +9,4 @@ docker build \
  .
 
 id=$(docker images --filter="reference=${image_name}" --quiet)
-docker run $id python3 -m unittest discover -s src/test/python/gcpdac_tests/unit/
+docker run $id python3 -m unittest discover -s src/test/python/tranquilitybase/gcpdac/unit/

@@ -8,6 +8,7 @@ from src.main.python.tranquilitybase.gcpdac import config
 
 global logger
 global connex_app
+global celery_service
 
 
 def init_logging():
@@ -46,8 +47,10 @@ def init():
     init_connex_app()
     init_gunicorn_logger()
 
-    if __name__ == "__main__":
-        connex_app.run(port=config.environment_helper.get_app_port(), debug=config.environment_helper.get_debug_state())
+
+if __name__ == "__main__":
+    init()
+    connex_app.run(port=config.environment_helper.get_app_port(), debug=config.environment_helper.get_debug_state())
 
 
-init()
+
