@@ -1,7 +1,7 @@
 #!/bin/bash
 cd ../../
 
-image_name=gcr.io/tranquility-base-images/tb-gcp-dac:unit_test
+image_name=gcr.io/tranquility-base-images/tb-gcp-dac:test_harness
 
 docker build \
   -t $image_name \
