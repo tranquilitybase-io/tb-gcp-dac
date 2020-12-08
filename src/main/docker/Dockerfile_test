@@ -5,7 +5,7 @@ MAINTAINER "GFT"
 # ==== Arguments ====
 ARG gcpdac_src=src/main/python/tranquilitybase/gcpdac
 ARG common_src=src/main/python/tranquilitybase/lib/common
-ARG test_src=src/test/gcpdac_tests/unit
+ARG test_src=src/test/python/gcpdac_tests/unit
 ARG bash_src=src/main/bash
 ARG build_src=build/
 
