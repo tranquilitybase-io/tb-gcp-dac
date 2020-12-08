@@ -2,7 +2,7 @@ FROM google/cloud-sdk:298.0.0
 MAINTAINER "GFT"
 
 
-# ==== Arguments ====
+# ==== Arguments/Defaults ====
 ENV TERRAFORM_VERSION=0.12.24
 ARG gcpdac_src=src/main/python/tranquilitybase/gcpdac
 ARG common_src=src/main/python/tranquilitybase/lib/common
@@ -42,7 +42,6 @@ RUN pip install -r ${gcpdac_src}/requirements.txt
 RUN dos2unix -- ${bash_src}/*.sh
 RUN dos2unix ${bash_src}/bash_scripts/*.sh
 RUN ["sh", "-c", "chmod +x ${bash_src}"]
-RUN ["sh", "-c", "chmod +x ${bash_src}/bash_scripts/create_gcp_repo.sh"]
 
 # ==== Run ====
 EXPOSE 3100
