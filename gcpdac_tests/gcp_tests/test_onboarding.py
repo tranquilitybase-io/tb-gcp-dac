@@ -24,5 +24,3 @@ class Test(TestCase):
                 '"cred": {"user":"git user", "token": "some token"}}'))
         when(json_data).self.assertNotEqual(json_data, {"key1": "value1"}).thenReturn(
             self.fail("Failed to return valid return url"))
-
-
