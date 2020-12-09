@@ -1,5 +1,5 @@
 import os
-from main.python.tranquilitybase.gcpdac.core.exceptions import DacJenkinsError
+from src.main.python.tranquilitybase.gcpdac.core.exceptions import DacJenkinsError
 from src.main.python.tranquilitybase.lib.common.local_logging import get_logger
 
 

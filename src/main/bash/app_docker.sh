@@ -8,11 +8,11 @@ if [ ! -z "${1}" ]; then
 fi
 echo "Using port: ${PORT}"
 
-gcloud auth activate-service-account --key-file "$GOOGLE_APPLICATION_CREDENTIALS"
+#gcloud auth activate-service-account --key-file "$GOOGLE_APPLICATION_CREDENTIALS"
 
 log_dir='/var/log/tb-gcp-dac.log'
-
-DEBUG="True"
+echo "JENKINS_BASE_URL: $JENKINS_BASE_URL"
+#export DEBUG="True"
 APP_PORT="${PORT}"
 gunicorn app:connex_app \
 --workers="${NUMBER_OF_WORKERS}" \

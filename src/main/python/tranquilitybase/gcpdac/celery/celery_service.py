@@ -1,7 +1,7 @@
 from celery import Celery
 
-from main.python.tranquilitybase.gcpdac import config
-from main.python.tranquilitybase.gcpdac.celery import celeryconfig
+from src.main.python.tranquilitybase.gcpdac import config
+from src.main.python.tranquilitybase.gcpdac.celery import celeryconfig
 
 global celery_app
 

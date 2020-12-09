@@ -2,7 +2,7 @@ import os
 import connexion
 from flask_marshmallow import Marshmallow
 
-from main.python.tranquilitybase.gcpdac.celery import celery_service
+from src.main.python.tranquilitybase.gcpdac.celery import celery_service
 from src.main.python.tranquilitybase.lib.common.local_logging import get_logger
 from src.main.python.tranquilitybase.gcpdac import config
 
