@@ -1,16 +1,14 @@
 import unittest
 import requests
-from celery import states
 
-HOUSTON_SERVICE_URL = "0.0.0.0"
-headers = {"Content-Type": "application/json"}
+from src.test.python.tranquilitybase.gcpdac import local_test_runner
 
 
 class ApplicationTest(unittest.TestCase):
     def test_application(self):
-        endpoint_url = f"http://{HOUSTON_SERVICE_URL}/api/health/"
-        response = requests.get(endpoint_url, headers=headers)
-        self.assertEqual(states.SUCCESS, response)
+        endpoint_url = f"http://{local_test_runner.houston_url()}/health"
+        response = requests.get(endpoint_url, headers=local_test_runner.headers)
+        self.assertEqual(200, response.status_code)
 
 
 if __name__ == '__main__':

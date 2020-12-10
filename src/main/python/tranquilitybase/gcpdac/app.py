@@ -40,8 +40,11 @@ def init_gunicorn_logger():
 def init():
     config.init()
     init_logging()
-    init_connex_app()
     init_gunicorn_logger()
+
+
+# ===== init app =====
+init_connex_app()
 
 
 if __name__ == "__main__":

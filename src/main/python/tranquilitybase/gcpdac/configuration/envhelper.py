@@ -17,7 +17,7 @@ class EnvHelper:
     def __consider_config(self):
 
         if self.is_ide():
-
+            print("== IS IDE ==")
             os.environ["DEBUG"] = "true"
 
             os.environ["DAC_JENKINS_USER"] = "not set"
@@ -36,6 +36,8 @@ class EnvHelper:
 
             if not os.getenv("APP_PORT"):
                 os.environ["APP_PORT"] = "3100"
+        else:
+            print("== NOT IDE ==")
 
     def __validate_config(self):
         EnvHelper.validate_environ("DEBUG")
