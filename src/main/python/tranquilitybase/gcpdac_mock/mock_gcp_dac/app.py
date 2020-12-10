@@ -1,6 +1,7 @@
 import os
 import logging
-import config
+
+from src.main.python.tranquilitybase.gcpdac import config
 
 print("DEBUG: {}".format(os.environ['DEBUG']))
 

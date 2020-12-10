@@ -3,7 +3,7 @@ import connexion
 import itertools
 from flask_marshmallow import Marshmallow
 
-from tb_common.local_logging import get_logger
+from src.main.python.tranquilitybase.lib.common.local_logging import get_logger
 
 logger = get_logger('tb-gcp-dac')
 logger.info("Logger initialised")

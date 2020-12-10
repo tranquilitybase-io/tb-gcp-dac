@@ -2,13 +2,11 @@ import os
 import connexion
 from flask_marshmallow import Marshmallow
 
-from src.main.python.tranquilitybase.gcpdac.celery import celery_service
 from src.main.python.tranquilitybase.lib.common.local_logging import get_logger
 from src.main.python.tranquilitybase.gcpdac import config
 
 global logger
 global connex_app
-global celery_service
 
 
 def init_logging():
@@ -41,8 +39,6 @@ def init_gunicorn_logger():
 
 def init():
     config.init()
-    celery_service.init()
-
     init_logging()
     init_connex_app()
     init_gunicorn_logger()
