@@ -9,6 +9,11 @@ global logger
 global connex_app
 
 
+def get_app_logger():
+    global logger
+    return logger
+
+
 def init_logging():
     global logger
     logger = get_logger('tb-gcp-dac')
@@ -48,8 +53,11 @@ init_connex_app()
 
 
 if __name__ == "__main__":
+    print("ds")
     init()
-    connex_app.run(port=config.environment_helper.get_app_port(), debug=config.environment_helper.get_debug_state())
+    # connex_app.run(port=config.environment_helper.get_app_port(), debug=config.environment_helper.get_debug_state())
+
+
 
 
 

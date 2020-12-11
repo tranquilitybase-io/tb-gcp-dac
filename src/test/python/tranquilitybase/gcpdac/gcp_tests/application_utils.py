@@ -2,8 +2,7 @@ import json
 
 import requests
 
-from gcpdac_tests.gcp_tests.common_utils import BASE_URL
-
+BASE_URL = 'http://localhost:3100/dac'
 headers = {'Content-Type': 'application/json'}
 
 

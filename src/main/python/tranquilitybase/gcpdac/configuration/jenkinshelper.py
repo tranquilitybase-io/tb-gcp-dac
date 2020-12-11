@@ -1,5 +1,5 @@
 import os
-from src.main.python.tranquilitybase.gcpdac.core.exceptions import DacJenkinsError
+# from src.main.python.tranquilitybase.gcpdac.core.exceptions import DacJenkinsError
 from src.main.python.tranquilitybase.lib.common.local_logging import get_logger
 
 
@@ -21,5 +21,4 @@ class JenkinsHelper:
 
         except Exception as ex:
             self.logger.exception(ex)
-            raise DacJenkinsError(
-                "Jenkins environment variables not set. Check JENKINS_BASE_URL are set")
+            raise Exception("Jenkins environment variables not set. Check JENKINS_BASE_URL are set")

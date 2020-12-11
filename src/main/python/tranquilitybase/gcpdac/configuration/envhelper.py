@@ -24,8 +24,8 @@ class EnvHelper:
             os.environ["DAC_JENKINS_PASSWORD"] = "not set"
             os.environ["JENKINS_BASE_URL"] = "not set"
 
-            # os.environ["CELERY_BROKER_URL"] = "not set"
-            # os.environ["CELERY_RESULT_BACKEND"] = "not set"
+            os.environ["CELERY_BROKER_URL"] = "not set"
+            os.environ["CELERY_RESULT_BACKEND"] = "not set"
 
             os.environ["EC_CONFIG"] = "/resources/main/config/ec-config.yaml"
             EnvHelper.absolute_ec_config_path = os.environ["PROJECT_ROOT"] + os.environ["EC_CONFIG"]
@@ -46,8 +46,8 @@ class EnvHelper:
         EnvHelper.validate_environ("DAC_JENKINS_USER")
         EnvHelper.validate_environ("DAC_JENKINS_PASSWORD")
 
-        # EnvHelper.validate_environ("CELERY_BROKER_URL")
-        # EnvHelper.validate_environ("CELERY_RESULT_BACKEND")
+        EnvHelper.validate_environ("CELERY_BROKER_URL")
+        EnvHelper.validate_environ("CELERY_RESULT_BACKEND")
 
         EnvHelper.validate_environ("EC_CONFIG")
         EnvHelper.validate_environ("GOOGLE_APPLICATION_CREDENTIALS")
