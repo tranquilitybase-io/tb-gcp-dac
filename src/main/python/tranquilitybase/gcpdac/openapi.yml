@@ -40,7 +40,7 @@ paths:
 #
   /solution_async/:
     post:
-      operationId: src.main.python.tranquilitybase.gcpdac.core.application.create_async
+      operationId: src.main.python.tranquilitybase.gcpdac.core.solution.create_async
       tags:
         - solution
       summary: Create a solution
@@ -174,18 +174,18 @@ paths:
 #
 #
 #
-#  /application_async/:
-#    post:
-#      operationId: gcpdac.application.create_async
-#      tags:
-#        - application
-#      summary: Create an application (application deployment)
-#      description: Create application in more detail - TODO
-#      responses:
-#        '201':
-#          description: Successfully started a application creation task
-#      requestBody:
-#        $ref: "#/components/requestBodies/application.applicationDetails"
+  /application_async/:
+    post:
+      operationId: src.main.python.tranquilitybase.gcpdac.core.application.create_async
+      tags:
+        - application
+      summary: Create an application (application deployment)
+      description: Create application in more detail - TODO
+      responses:
+        '201':
+          description: Successfully started a application creation task
+      requestBody:
+        $ref: "#/components/requestBodies/application.applicationDetails"
 #
 #  "/application_async/{oid}":
 #    delete:
@@ -334,12 +334,12 @@ components:
 #          schema:
 #            x-body-name: sandboxDetails
 #            $ref: "#/components/schemas/Sandbox"
-#    application.applicationDetails:
-#      content:
-#        application/json:
-#          schema:
-#            x-body-name: applicationDetails
-#            $ref: "#/components/schemas/Application"
+    application.applicationDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: applicationDetails
+            $ref: "#/components/schemas/Application"
 #    folder.folderDetails:
 #      content:
 #        application/json:
@@ -404,100 +404,100 @@ components:
                   sharedVPCProjectId:
                     type: string
                     description: the environment shared vpc project
-#        active:
-#          type: boolean
-#          description: active
-#        favourite:
-#          type: boolean
-#          description: favourite
-#        teams:
-#          type: integer
-#          description: teams
-#        lastUpdated:
-#          type: string
-#          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
-#        team:
-#          type: object
-#          description: team
-#          properties:
-#            lastUpdated:
-#              type: string
-#              description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
-#              #            businessUnitId:
-#              #              type: integer
-#              #              description: business unit id - not used by DAC
-#            isActive:
-#              type: boolean
-#              description: is active
-#            id:
-#              type: integer
-#              description: team id
-#            description:
-#              type: string
-#              description: team description
-#            name:
-#              type: string
-#              description: team name
-#            #            businessUnit:
-#            #              type: object
-#            #              description: business unit - not used by DAC
-#            #              properties:
-#            #                name:
-#            #                  type: string
-#            #                  description: business unit name
-#            #                isActive:
-#            #                  type: boolean
-#            #                  description: is active
-#            #                id:
-#            #                  type: integer
-#            #                  description: business unit id
-#            #                description:
-#            #                  type: string
-#            #                  description: business unit description
-#            teamMembers:
-#              type: array
-#              description: team members
-#              items:
-#                properties:
-#                  id:
-#                    type: integer
-#                    description: team member id
-#                  role:
-#                    type: object
-#                    properties:
-#                      name:
-#                        type: string
-#                        description: role name
-#                      cloudIdentityGroup:
-#                        type: string
-#                        description: cloud identity group
-#                      id:
-#                        type: integer
-#                        description: role id
-#                      description:
-#                        type: string
-#                        description: role description
-#                  user:
-#                    type: object
-#                    properties:
-#                      firstName:
-#                        type: string
-#                        description: first name
-#                      lastName:
-#                        type: string
-#                        description: last name
-#                      email:
-#                        type: string
-#                        description: user email
-#                      id:
-#                        type: integer
-#                        description: user id
-#                      showWelcome:
-#                        type: boolean
-#                        description: show welcome - not used by DAC
-#                      isAdmin:
-#                        type: boolean
-#                        description: is eagle admin - not used by DAC
+        active:
+          type: boolean
+          description: active
+        favourite:
+          type: boolean
+          description: favourite
+        teams:
+          type: integer
+          description: teams
+        lastUpdated:
+          type: string
+          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+        team:
+          type: object
+          description: team
+          properties:
+            lastUpdated:
+              type: string
+              description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+              #            businessUnitId:
+              #              type: integer
+              #              description: business unit id - not used by DAC
+            isActive:
+              type: boolean
+              description: is active
+            id:
+              type: integer
+              description: team id
+            description:
+              type: string
+              description: team description
+            name:
+              type: string
+              description: team name
+            #            businessUnit:
+            #              type: object
+            #              description: business unit - not used by DAC
+            #              properties:
+            #                name:
+            #                  type: string
+            #                  description: business unit name
+            #                isActive:
+            #                  type: boolean
+            #                  description: is active
+            #                id:
+            #                  type: integer
+            #                  description: business unit id
+            #                description:
+            #                  type: string
+            #                  description: business unit description
+            teamMembers:
+              type: array
+              description: team members
+              items:
+                properties:
+                  id:
+                    type: integer
+                    description: team member id
+                  role:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: role name
+                      cloudIdentityGroup:
+                        type: string
+                        description: cloud identity group
+                      id:
+                        type: integer
+                        description: role id
+                      description:
+                        type: string
+                        description: role description
+                  user:
+                    type: object
+                    properties:
+                      firstName:
+                        type: string
+                        description: first name
+                      lastName:
+                        type: string
+                        description: last name
+                      email:
+                        type: string
+                        description: user email
+                      id:
+                        type: integer
+                        description: user id
+                      showWelcome:
+                        type: boolean
+                        description: show welcome - not used by DAC
+                      isAdmin:
+                        type: boolean
+                        description: is eagle admin - not used by DAC
 #    Sandbox:
 #      type: object
 #      properties:
@@ -531,70 +531,70 @@ components:
 #        deploymentFolderId:
 #          type: string
 #          description: deployment GCP folder id
-#    Application:
-#      type: object
-#      properties:
-#        id:
-#          type: integer
-#          description: the application id
-#        name:
-#          type: string
-#          description: name
-#        description:
-#          type: string
-#          description: description
-#        solutionId:
-#          type: integer
-#          description: the solution id
-#        lastUpdated:
-#          type: string
-#          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
-#        workspaceProjectId:
-#          type: string
-#          description: the solution id
-#        createdBy:
-#          type: string
-#          description: user created by
-#        activatorGitUrl:
-#          type: string
-#          description: git url for the activator repo
-#        deploymentEnvironment:
-#          type: object
-#          properties:
-#            id:
-#              type: integer
-#              description: the environment id
-#            name:
-#              type: string
-#              description: the environment name
-#            sharedVPCProjectId:
-#              type: string
-#              description: the environment shared vpc project
-#        deploymentProjectId:
-#          type: string
-#          description: GCP Project ID for environment
-#        mandatoryVariables:
-#          type: array
-#          description: mandatory variables
-#          items:
-#            properties:
-#              key:
-#                type: string
-#                description: variable key
-#              value:
-#                type: string
-#                description: variable value
-#        optionalVariables:
-#          type: array
-#          description: optional variables
-#          items:
-#            properties:
-#              key:
-#                type: string
-#                description: variable key
-#              value:
-#                type: string
-#                description: variable value
+    Application:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: the application id
+        name:
+          type: string
+          description: name
+        description:
+          type: string
+          description: description
+        solutionId:
+          type: integer
+          description: the solution id
+        lastUpdated:
+          type: string
+          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+        workspaceProjectId:
+          type: string
+          description: the solution id
+        createdBy:
+          type: string
+          description: user created by
+        activatorGitUrl:
+          type: string
+          description: git url for the activator repo
+        deploymentEnvironment:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: the environment id
+            name:
+              type: string
+              description: the environment name
+            sharedVPCProjectId:
+              type: string
+              description: the environment shared vpc project
+        deploymentProjectId:
+          type: string
+          description: GCP Project ID for environment
+        mandatoryVariables:
+          type: array
+          description: mandatory variables
+          items:
+            properties:
+              key:
+                type: string
+                description: variable key
+              value:
+                type: string
+                description: variable value
+        optionalVariables:
+          type: array
+          description: optional variables
+          items:
+            properties:
+              key:
+                type: string
+                description: variable key
+              value:
+                type: string
+                description: variable value
 #    Folder:
 #      type: object
 #      properties:

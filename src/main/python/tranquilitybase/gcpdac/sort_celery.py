@@ -5,6 +5,10 @@ from celery import Celery
 from src.main.python.tranquilitybase.celery_worker import celeryconfig
 
 
+def validate():
+    pass
+
+
 def get_celery():
     global celery_app
     return celery_app
@@ -25,8 +29,18 @@ def init_celery():
     global celery_app
     # celeryconfig.init()
     celery_app = make_celery(__name__)
-    celery_app.worker_main('worker')
+    # celery_app.worker_main('worker')
     # celery_worker()
 
 
 init_celery()
+
+
+from src.main.python.tranquilitybase.celery_worker import celery_tasks
+
+task_track_started = True
+task_ignore_result = False
+
+if __name__ == '__main__':
+    celery_tasks.validate()
+    imports = 'src.main.python.tranquilitybase.celery_worker.celery_tasks'
