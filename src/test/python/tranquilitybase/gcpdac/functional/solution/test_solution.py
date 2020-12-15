@@ -12,7 +12,7 @@ class SolutionTest(unittest.TestCase):
 
         print(os.getcwd())
 
-        with open('createSolution-input-example.json') as jsn:
+        with open('functional/solution/createSolution-input-example.json') as jsn:
             payload = json.load(jsn)
             data = json.dumps(payload, indent=4)
 
