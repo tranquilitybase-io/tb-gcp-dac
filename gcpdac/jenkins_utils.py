@@ -1,4 +1,4 @@
-from typing import Any, Union, Tuple, Generator
+from typing import Any, Union, Tuple, Generator, Dict, Optional
 
 from jenkinsapi.build import Build
 from jenkinsapi.jenkins import Jenkins
@@ -15,7 +15,8 @@ def get_server_instance():
     return server
 
 
-def get_job_build(job_name, job_params):
+def get_job_build(job_name, job_params: dict) -> Optional[Build]:
+
     try:
         jenkins = get_server_instance()
 
@@ -25,26 +26,25 @@ def get_job_build(job_name, job_params):
         logger.debug('Is Job running:%s' % (job_instance.is_running()))
         logger.debug('Is Job enabled:%s' % (job_instance.is_enabled()))
         build_ids = job_instance.get_build_ids()
-        build_by_params: Build = job_instance.get_build_by_params(job_params)
-        if build_by_params != None:
-            logger.debug("Found build by params")
-            return build_by_params
-        else:
-            logger.debug("Didn't find build by params")
+
+        logger.debug("Didn't find build by params")
         for build_id in build_ids:
             logger.debug("build id {}".format(build_id))
             build = job_instance.get_build(build_id)
-            build_params = build.get_params()
+            build_params: dict = build.get_params()
             logger.debug("build params {}".format(build_params))
-            if build_params == job_params:
-                logger.debug("Matched build on params")
+            logger.debug("job params {}".format(job_params))
+            if build_params["job_unique_id"] == job_params["job_unique_id"]:
+                logger.debug("Matched build on job unique id")
                 return build
             else:
-                logger.debug("Build didn't match on params")
+                logger.debug("Could not find a build matching job unique id")
+
+        return None
     except Exception as ex:
         logger.debug("Exception: {0}".format(ex))
 
-    return None
+    return build
 
 
 def format_jenkins_url(jenkins_params, jenkins_url):
