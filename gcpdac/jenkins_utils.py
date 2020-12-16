@@ -44,7 +44,7 @@ def get_job_build(job_name, job_params: dict) -> Optional[Build]:
     except Exception as ex:
         logger.debug("Exception: {0}".format(ex))
 
-    return build
+    return None
 
 
 def format_jenkins_url(jenkins_params, jenkins_url):
