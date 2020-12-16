@@ -1,4 +1,4 @@
-from typing import Any, Union, Tuple, Generator, Dict, Optional
+from typing import Any, Union, Tuple, Generator, Optional
 
 from jenkinsapi.build import Build
 from jenkinsapi.jenkins import Jenkins

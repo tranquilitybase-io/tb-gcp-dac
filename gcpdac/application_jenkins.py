@@ -1,7 +1,7 @@
 import json
 import time
 import traceback
-from typing import Dict, Any, Union, Optional
+from typing import Optional
 
 import requests
 from jenkinsapi.build import Build
@@ -12,7 +12,7 @@ from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JS
     DEPLOYMENT_PROJECT_ID, ACTIVATOR_PARAMS, ACTIVATOR_GIT_REPO_URL, JOB_UNIQUE_ID, ACTIVATOR_GIT_REPO_BRANCH
 from gcpdac.exceptions import DacValidationError, DacError
 from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
-from gcpdac.utils import sanitize, random_element
+from gcpdac.utils import random_element
 
 logger = config.logger
 
