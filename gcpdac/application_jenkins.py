@@ -67,7 +67,7 @@ def create_application(applicationdata):
     jenkins_params[DEPLOYMENT_PROJECT_ID] = deployment_project_id
     jenkins_params[JOB_UNIQUE_ID] = job_unique_id
     # TODO will be passed from Houston in some cases - for now default to main/master
-    jenkins_params[ACTIVATOR_GIT_REPO_BRANCH] = "**"
+    jenkins_params[ACTIVATOR_GIT_REPO_BRANCH] = "master"
 
     logger.info("deployment_project_id {}".format(deployment_project_id))
     logger.info("application_git_url {}".format(application_git_url))
