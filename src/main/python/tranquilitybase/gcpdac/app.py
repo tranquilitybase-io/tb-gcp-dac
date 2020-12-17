@@ -1,7 +1,6 @@
 import os
 import connexion
 
-
 from flask_marshmallow import Marshmallow
 from src.main.python.tranquilitybase.lib.common.local_logging import get_logger
 from src.main.python.tranquilitybase.gcpdac import config
@@ -38,31 +37,34 @@ def init_connex_app():
 
 def init_gunicorn_logger():
     gunicorn_logger = get_logger("gunicorn.info")
+
+    global connex_app
     connex_app.app.logger.handlers = gunicorn_logger.handlers
     connex_app.app.logger.setLevel(gunicorn_logger.level)
-    connex_app.add_api('openapi.yml', strict_validation=True)
 
 
 def init():
     config.init()
     init_logging()
-    init_gunicorn_logger()
-
 
 
 # ===== init app =====
+init()
 init_connex_app()
+init_gunicorn_logger()
+
+# TODO sort out celery life cycle
+from src.main.python.tranquilitybase.gcpdac.sort_celery import init_celery
+init_celery()
+
+# Run app
+connex_app.add_api('openapi.yml', strict_validation=False)
 
 
 if __name__ == "__main__":
-    print("ds")
-    init()
-
-    from src.main.python.tranquilitybase.gcpdac.sort_celery import init_celery
-    init_celery()
-
-    # Run app
+    print("=== Main run ===", flush=True)
     connex_app.run(port=config.environment_helper.get_app_port(), debug=config.environment_helper.get_debug_state())
+
 
 
 

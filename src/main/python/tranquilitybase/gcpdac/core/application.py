@@ -7,8 +7,8 @@ from pprint import pformat
 from src.main.python.tranquilitybase.celery_worker.celery_tasks import deploy_application_task, destroy_application_task
 from celery.result import AsyncResult
 
-from main.python.tranquilitybase.lib.common.local_logging import get_logger
-from src.main.python.tranquilitybase.gcpdac import app
+from src.main.python.tranquilitybase.lib.common.local_logging import get_logger
+# from src.main.python.tranquilitybase.gcpdac import app
 
 
 logger = get_logger("application.py")

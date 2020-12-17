@@ -5,7 +5,6 @@ from src.main.python.tranquilitybase.gcpdac.configuration.jenkinshelper import J
 
 global DEFAULT_SHELL
 global environment_helper
-environment_helper = EnvHelper()
 
 # TODO: remove these from global scope
 global JENKINS_BASE_URL
@@ -14,6 +13,8 @@ global JENKINS_PASSWORD
 
 
 def init():
+    global environment_helper
+    environment_helper = EnvHelper()
     establish_bash()
     establish_jenkins()
     establish_gcp()
