@@ -10,7 +10,7 @@ services:
     # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
     build:
       context: ../../../
-      dockerfile: ../../gcpdac/main/Dockerfile
+      dockerfile: build_src/gcpdac/main/Dockerfile
     image: gcr.io/tranquility-base-images/tb-gcp-dac:main
     ports:
       - 3100:3100
