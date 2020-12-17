@@ -10,10 +10,10 @@ class Environments(Enum):
 class EnvHelper:
 
     environment: Environments = None
-    hasRun = False
+    has_run_previously = False
 
     def __init__(self, validate: bool = True):
-        if EnvHelper.hasRun:
+        if EnvHelper.has_run_previously:
             raise Exception("EnvHelper has already been initialised")
 
         EnvHelper.hasRun = True
