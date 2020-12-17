@@ -14,4 +14,4 @@ docker build \
  .
 
 ## Spin up
-#docker-compose -f build_src/gcpdac/test/docker-compose-test.yml up
+docker-compose -f build_src/gcpdac/test/docker-compose-test.yml up

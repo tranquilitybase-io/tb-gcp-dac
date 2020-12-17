@@ -33,9 +33,11 @@ def establish_jenkins():
 
 def establish_gcp():
     gcp_helper = GcpHelper(environment_helper.get_ec_config_path())
-    gcp_helper.get_gcp_project_name()
-    print("GOOGLE_CLOUD_PROJECT: {}".format(gcp_helper.get_gcp_project_name()))
-    storage.Client(project=gcp_helper.get_gcp_project_name())
+
+    if EnvHelper.has_google_credentials():
+        gcp_helper.get_gcp_project_name()
+        print("GOOGLE_CLOUD_PROJECT: {}".format(gcp_helper.get_gcp_project_name()))
+        storage.Client(project=gcp_helper.get_gcp_project_name())
 
 
 def establish_bash():

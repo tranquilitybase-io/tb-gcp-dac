@@ -30,6 +30,10 @@ class EnvHelper:
     def is_ide() -> bool:
         return os.getenv('IS_IDE')
 
+    @staticmethod
+    def has_google_credentials() -> bool:
+        return os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+
     @classmethod
     def print_env(cls, name: str, redact: bool = False):
         if not redact:
@@ -54,7 +58,10 @@ class EnvHelper:
         EnvHelper.print_env("CELERY_BROKER_URL")
         EnvHelper.print_env("CELERY_RESULT_BACKEND")
         EnvHelper.print_env("EC_CONFIG")
-        EnvHelper.print_env("GOOGLE_APPLICATION_CREDENTIALS")
+        if EnvHelper.has_google_credentials():
+            EnvHelper.print_env("GOOGLE_APPLICATION_CREDENTIALS")
+        else:
+            print("GOOGLE_APPLICATION_CREDENTIALS are not set - GCP functionality disabled")
         print("")
         print("====================")
         print("", flush=True)
@@ -92,7 +99,6 @@ class EnvHelper:
         EnvHelper.validate_environ("CELERY_RESULT_BACKEND")
 
         EnvHelper.absolute_ec_config_path = EnvHelper.validate_environ("EC_CONFIG")
-        EnvHelper.validate_environ("GOOGLE_APPLICATION_CREDENTIALS")
 
         EnvHelper.validate_environ("APP_PORT")
 

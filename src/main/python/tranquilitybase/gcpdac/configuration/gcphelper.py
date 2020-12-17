@@ -1,5 +1,7 @@
 import os
 import yaml
+
+from src.main.python.tranquilitybase.gcpdac.configuration.envhelper import EnvHelper
 from src.main.python.tranquilitybase.lib.common.FileUtils import FileUtils
 
 
@@ -8,8 +10,9 @@ class GcpHelper:
     __ec_file_path_from_project_root = None
 
     def __init__(self, ec_file_path: str):
-        self.__configure_credentials_path()
-        self.__validate_credentials_file()
+        if EnvHelper.has_google_credentials():
+            self.__configure_credentials_path()
+            self.__validate_credentials_file()
 
         GcpHelper.__ec_file_path_from_project_root = GcpHelper.redirect_path(ec_file_path)
         self.__validate_config_file()
