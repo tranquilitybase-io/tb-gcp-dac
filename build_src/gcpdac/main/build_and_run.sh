@@ -8,7 +8,7 @@ image_name=gcr.io/tranquility-base-images/tb-gcp-dac:main
 python3 -m unittest discover -s src/test/python/tranquilitybase/gcpdac/unit/
 
 # Build
-docker build_src \
+docker build \
   -t $image_name \
   -f build_src/gcpdac/main/Dockerfile \
  .
