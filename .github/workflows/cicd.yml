@@ -41,11 +41,11 @@ jobs:
         path: tb-gcp-dac
         fetch-depth: 0
 
-    - name: Build and run unit tests
+    - name: Build and run all tests
       shell: bash
       run: |
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build/test/
-        sh build_and_run_unit_tests.sh
+        sh build_and_run_tests.sh
 
 
 #    - name: Build Mock GCP DAC Image
