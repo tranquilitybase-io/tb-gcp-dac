@@ -2,6 +2,7 @@ import os
 import unittest
 from unittest import TestSuite
 
+from src.main.python.tranquilitybase.gcpdac.configuration.envhelper import EnvHelper
 from src.main.python.tranquilitybase.lib.common.FileUtils import FileUtils
 
 global HOUSTON_SERVICE_URL
@@ -24,7 +25,11 @@ def establish_hostname():
 
 
 def get_base_functional_test_path():
-    return FileUtils.get_project_root() + "/app/src/test/python/tranquilitybase/gcpdac/functional/"
+    root = FileUtils.get_project_root()
+    if not EnvHelper.is_ide():
+        root += "/app"
+
+    return root + "/src/test/python/tranquilitybase/gcpdac/functional/"
 
 
 def houston_url():

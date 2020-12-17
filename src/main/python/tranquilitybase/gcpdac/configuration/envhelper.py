@@ -26,7 +26,8 @@ class EnvHelper:
             # Used for unit tests
             pass
 
-    def is_ide(self) -> bool:
+    @staticmethod
+    def is_ide() -> bool:
         return os.getenv('IS_IDE')
 
     @classmethod
@@ -60,7 +61,7 @@ class EnvHelper:
 
     def __consider_config(self):
 
-        if self.is_ide():
+        if EnvHelper.is_ide():
             EnvHelper.environment = Environments.IDE
             os.environ["DEBUG"] = "true"
 
