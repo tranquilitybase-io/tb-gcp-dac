@@ -5,18 +5,17 @@ from jenkinsapi.jenkins import Jenkins
 from jenkinsapi.job import Job
 
 import config
-from config import JENKINS_BASE_URL
+from gcpdac.constants import JOB_UNIQUE_ID
 
 logger = config.logger
 
 
 def get_server_instance():
-    server = Jenkins(JENKINS_BASE_URL, username=config.JENKINS_USER, password=config.JENKINS_PASSWORD)
+    server = Jenkins(config.JENKINS_BASE_URL, username=config.JENKINS_USER, password=config.JENKINS_PASSWORD)
     return server
 
 
 def get_job_build(job_name, job_params: dict) -> Optional[Build]:
-
     try:
         jenkins = get_server_instance()
 
@@ -27,14 +26,13 @@ def get_job_build(job_name, job_params: dict) -> Optional[Build]:
         logger.debug('Is Job enabled:%s' % (job_instance.is_enabled()))
         build_ids = job_instance.get_build_ids()
 
-        logger.debug("Didn't find build by params")
         for build_id in build_ids:
             logger.debug("build id {}".format(build_id))
             build = job_instance.get_build(build_id)
             build_params: dict = build.get_params()
             logger.debug("build params {}".format(build_params))
             logger.debug("job params {}".format(job_params))
-            if build_params["job_unique_id"] == job_params["job_unique_id"]:
+            if build_params[JOB_UNIQUE_ID] == job_params[JOB_UNIQUE_ID]:
                 logger.debug("Matched build on job unique id")
                 return build
             else:
@@ -55,7 +53,6 @@ def format_jenkins_url(jenkins_params, jenkins_url):
 
 
 def get_all_job_details():
-    # Refer Example #1 for definition of function 'get_server_instance'
     try:
         jenkins = get_server_instance()
         jobs: Generator[Union[Tuple[str, Job], Tuple[Any, Job]], Any, None] = jenkins.get_jobs()
@@ -67,7 +64,6 @@ def get_all_job_details():
             logger.debug('Is Job running:%s' % (job_instance.is_running()))
             logger.debug('Is Job enabled:%s' % (job_instance.is_enabled()))
             build_ids = jenkins[job_name].get_build_ids()
-            # jenkins[job_name].get_build_by_params()
             for build_id in build_ids:
                 logger.debug("build id {}".format(build_id))
                 build = jenkins[job_name].get_build(build_id)
