@@ -45,6 +45,8 @@ jobs:
       shell: bash
       run: |
         cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build_src/gcpdac/test/
+        ls
+        echo "start build_and_run_tests"
         sh build_and_run_tests.sh
 
 

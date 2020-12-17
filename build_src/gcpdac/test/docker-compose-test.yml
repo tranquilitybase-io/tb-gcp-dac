@@ -9,8 +9,8 @@ services:
     container_name: gcp-dac-test-target
     # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
     build:
-#      context: ../../../
-      dockerfile: build_src/gcpdac/main/Dockerfile
+      context: ../../../
+      dockerfile: ../../build_src/gcpdac/main/Dockerfile
     image: gcr.io/tranquility-base-images/tb-gcp-dac:main
     ports:
       - 3100:3100
@@ -25,7 +25,7 @@ services:
       CELERY_BROKER_URL: notset
       CELERY_RESULT_BACKEND: notset
     volumes:
-      - /resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
+      - ../../../resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
     command: [ "sh", "-c", "sh src/main/bash/tranquilitybase/gcpdac/app_docker.sh" ]
     network_mode: "host"
 
