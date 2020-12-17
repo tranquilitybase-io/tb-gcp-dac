@@ -44,7 +44,7 @@ jobs:
     - name: Build and run all tests
       shell: bash
       run: |
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build/test/
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build/gcpdac/test/
         sh build_and_run_tests.sh
 
 
