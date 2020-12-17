@@ -1,0 +1,46 @@
+version: '3.8'
+# This docker compose file just runs DAC alongside redis and a DAC worker. It doesn't include houston or eagle
+# It enables testing against a GCP environment if the file credentials.json and ec-config.yaml have been created and exist in the project root directory
+# See documentation [here](https://github.com/tranquilitybase-io/tb-gcp-dac/wiki/RunServicesWithDocker)
+# Make a copy called docker-compose-local.yml for testing locally
+
+services:
+  gcp-dac:
+    container_name: gcp-dac
+    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    build:
+      context: ../../../
+      dockerfile: ../../gcpdac/main/Dockerfile
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:main
+    ports:
+      - 3100:3100
+    environment:
+      DEBUG: "True"
+      APP_PORT: 3100
+      HOUSTON_SERVICE_URL: http://localhost:3000
+      JENKINS_BASE_URL: http://localhost:3200
+      DAC_JENKINS_USER: localuser
+      DAC_JENKINS_PASSWORD: localpass
+      EC_CONFIG: /resources/ec-config.yaml
+      GOOGLE_APPLICATION_CREDENTIALS: /credentials/credentials.json
+      CELERY_BROKER_URL: notset
+      CELERY_RESULT_BACKEND: notset
+    volumes:
+      - ../../../credentials/credentials.json:/app/credentials/credentials.json:ro
+      - ../../../resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
+    command: ["sh", "-c", "sh src/main/bash/tranquilitybase/gcpdac/app_docker.sh"]
+
+#  worker:
+#    # to run with more workers 'docker-compose up --scale worker=<num of workers>
+#    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+#    image: gcr.io/tranquility-base-images/tb-gcp-dac:main
+#    build:
+#      context: ../../
+#      dockerfile: build/celery_worker/main/Dockerfile
+#    hostname: worker
+#    #    command:  celery -E -A celery_worker worker --loglevel=info
+#    command: [ "/bin/bash", "src/main/bash/celery_worker.sh" ]
+#    environment:
+#      CELERY_BROKER_URL: redis://redis:6379
+#      CELERY_RESULT_BACKEND: redis://redis:6379
+#      GOOGLE_APPLICATION_CREDENTIALS: /credentials.json

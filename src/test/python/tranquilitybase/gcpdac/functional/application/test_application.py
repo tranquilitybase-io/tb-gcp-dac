@@ -14,6 +14,7 @@ class ApplicationTest(unittest.TestCase):
         # with open(request_json_file) as jsn:
         #     payload = json.load(jsn)
         #     data = json.dumps(payload, indent=4)
+
         #
         # response = requests.post(endpoint_url, data=data, headers=local_test_runner.headers)
         # self.assertEqual(201, response.status_code)
