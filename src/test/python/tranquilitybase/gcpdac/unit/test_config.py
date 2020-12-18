@@ -12,7 +12,7 @@ class Utils_Test(TestCase):
         environment_helper = EnvHelper(False)
         environment_helper.get_app_port()
 
-        env_start = "200"
+        env_start = "200" 
         env_end = os.environ["APP_PORT"]
         self.assertEqual(env_start, env_end)
 
