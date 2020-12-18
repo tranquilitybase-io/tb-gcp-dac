@@ -1,16 +1,18 @@
 import json
 import time
 import traceback
+from typing import Optional
 
 import requests
+from jenkinsapi.build import Build
 from requests import Response
 
 import config
 from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON, \
-    DEPLOYMENT_PROJECT_ID, ACTIVATOR_PARAMS, ACTIVATOR_GIT_REPO_URL, JOB_UNIQUE_ID
+    DEPLOYMENT_PROJECT_ID, ACTIVATOR_PARAMS, ACTIVATOR_GIT_REPO_URL, JOB_UNIQUE_ID, ACTIVATOR_GIT_REPO_BRANCH
 from gcpdac.exceptions import DacValidationError, DacError
 from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
-from gcpdac.utils import sanitize, random_element
+from gcpdac.utils import random_element
 
 logger = config.logger
 
@@ -27,9 +29,7 @@ def create_application(applicationdata):
     application_git_url = applicationdata.get("activatorGitUrl", None)
     deployment_environment_object = applicationdata.get("deploymentEnvironment", None)
     mandatory_variables = applicationdata.get("mandatoryVariables", None)
-    logger.debug("mandatory_variables data type = {}".format(type(mandatory_variables)))
     optional_variables = applicationdata.get("optionalVariables", None)
-    logger.debug("optional_variables data type = {}".format(type(optional_variables)))
 
     deployment_environment = None
     if deployment_environment_object != None:
@@ -42,7 +42,6 @@ def create_application(applicationdata):
         raise DacValidationError(applicationdata, error_msg)
 
     logger.debug("deployment_environment {}".format(deployment_environment))
-    jenkins_base_url = config.JENKINS_BASE_URL
 
     # Create GSR repo and copy code from external repo
     # TODO copy from master GSR repo - scripts used below copy from external git repo
@@ -56,27 +55,23 @@ def create_application(applicationdata):
     # copy_repo_response = copy_repo(application_git_url, repo_name, workspace_project_id, eagle_project_id)
     # logger.debug("Copy repo response code {}".format(copy_repo_response))
 
-    jenkins_token = JENKINS_TOKEN
-    jenkins_deploy_activator_job = JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON
-
     jenkins_url = "{jenkins_base_url}/generic-webhook-trigger/invoke?job={jenkins_deploy_activator_job}&token={jenkins_token}".format(
-        jenkins_base_url=jenkins_base_url,
-        jenkins_deploy_activator_job=jenkins_deploy_activator_job,
-        jenkins_token=jenkins_token)
+        jenkins_base_url=(config.JENKINS_BASE_URL),
+        jenkins_deploy_activator_job=(JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON),
+        jenkins_token=(JENKINS_TOKEN))
     logger.info("jenkins_url before params added {}".format(jenkins_url))
 
-    job_unique_id = random_element(num_chars=12)
-    jenkins_params = {}
+    job_unique_id = random_element(num_chars=20)
+    jenkins_params: dict = {}
     jenkins_params[ACTIVATOR_GIT_REPO_URL] = application_git_url
     jenkins_params[DEPLOYMENT_PROJECT_ID] = deployment_project_id
     jenkins_params[JOB_UNIQUE_ID] = job_unique_id
+    # TODO will be passed from Houston in some cases - for now default to main/master
+    jenkins_params[ACTIVATOR_GIT_REPO_BRANCH] = "master"
 
     logger.info("deployment_project_id {}".format(deployment_project_id))
     logger.info("application_git_url {}".format(application_git_url))
     logger.info("job_unique_id {}".format(job_unique_id))
-
-    # TODO re-add this when Jenkins job supports GSR
-    # application_git_url = "https://source.developers.google.com/p/{workspace_project_id}/r/{repo_name}".format(workspace_project_id=workspace_project_id, repo_name=repo_name)
 
     activator_params: dict = {}
     activator_params[ACTIVATOR_PARAMS] = get_activator_params(mandatory_variables, optional_variables)
@@ -97,8 +92,8 @@ def create_application(applicationdata):
 
         # sleep to wait for build to be created
         time.sleep(10)
-        job_build = get_job_build(jenkins_deploy_activator_job, jenkins_params)
-        if job_build != None:
+        job_build: Optional[Build] = get_job_build(JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON, jenkins_params)
+        if job_build is not None:
             while job_build.is_running():
                 # TODO add check to give up on Jenkins job if takes too long
                 logger.debug("Job Build {} is still running".format(job_build.buildno))
