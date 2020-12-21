@@ -13,10 +13,14 @@
 # limitations under the License.
 from python_terraform import Terraform
 
-import config
-from gcpdac.terraform_utils import terraform_init, terraform_apply, terraform_destroy
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
 
-logger = config.logger
+from src.main.python.tranquilitybase.gcpdac.configuration.eaglehelper import EagleConfigHelper
+from src.main.python.tranquilitybase.gcpdac.core.terraform.terraform_utils import terraform_init, terraform_apply, \
+    terraform_destroy
 
 
 def create_folder(folderDetails):
@@ -26,7 +30,7 @@ def create_folder(folderDetails):
     # Accepts JSON content-type input.
     # returns return code and response from terraform
     tf_data = dict()
-    ec_config = config.ec_config
+    ec_config = EagleConfigHelper.config_dict
     logger.debug("folder is %s", folderDetails)
     folder = folderDetails.get('folder')
 
@@ -67,7 +71,7 @@ def delete_folder(folder):
     tf_data['tb_discriminator'] = None
     tf_data['folder_name'] = None
 
-    ec_config = config.ec_config
+    ec_config = EagleConfigHelper.config_dict
     tf_data['billing_account'] = ec_config['billing_account']
     tb_discriminator = ec_config['tb_discriminator']
     tf_data['tb_discriminator'] = tb_discriminator
@@ -83,7 +87,6 @@ def delete_folder(folder):
 
     return terraform_destroy(env_data, tf)
 
+
 def get_folder_backend_prefix(folder_name, tb_discriminator):
     return 'folder-' + folder_name + '-' + tb_discriminator
-
-

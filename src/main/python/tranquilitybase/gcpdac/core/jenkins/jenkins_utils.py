@@ -4,14 +4,16 @@ from jenkinsapi.build import Build
 from jenkinsapi.jenkins import Jenkins
 from jenkinsapi.job import Job
 
-import config
-from config import JENKINS_BASE_URL
+from src.main.python.tranquilitybase.gcpdac.configuration.jenkinshelper import JenkinsHelper
 
-logger = config.logger
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def get_server_instance():
-    server = Jenkins(JENKINS_BASE_URL, username=config.JENKINS_USER, password=config.JENKINS_PASSWORD)
+    server = Jenkins(JenkinsHelper.jenkins_base_url, username=JenkinsHelper.jenkins_user, password=JenkinsHelper.jenkins_password)
     return server
 
 

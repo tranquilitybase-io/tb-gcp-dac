@@ -11,20 +11,20 @@
 # WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
 # See the License for the specific language governing permissions and
 # limitations under the License.
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
+
 import traceback
-
-from python_terraform import Terraform
-
-import config
-from gcpdac.exceptions import DacError
-from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init
-from gcpdac.utils import labellize, random_element, folderize
-
-logger = config.logger
+from src.main.python.tranquilitybase.gcpdac.core.exceptions.exceptions import DacError
+from src.main.python.tranquilitybase.gcpdac.core.terraform.terraform_utils import *
+from src.main.python.tranquilitybase.lib.common.utils import random_element, folderize, labellize
+from src.main.python.tranquilitybase.gcpdac.configuration.eaglehelper import EagleConfigHelper
 
 
 def create_sandbox(sandboxdata):
-    ec_config = config.ec_config
+    ec_config = EagleConfigHelper.config_dict
     terraform_source_path = '/app/terraform/sandbox_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_backend_prefix = get_sandbox_backend_prefix(sandboxdata.get("id"), ec_config['tb_discriminator'])
@@ -100,7 +100,7 @@ def delete_sandbox(sandboxdata):
     tf_data['labels'] = None
     tf_data['iam_accounts'] = None
 
-    ec_config = config.ec_config
+    ec_config = EagleConfigHelper.config_dict
 
     tf_data['billing_account'] = ec_config['billing_account']
     tb_discriminator = ec_config['tb_discriminator']

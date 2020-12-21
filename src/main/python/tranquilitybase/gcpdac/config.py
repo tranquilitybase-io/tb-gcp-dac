@@ -8,12 +8,8 @@ from src.main.python.tranquilitybase.gcpdac.configuration.jenkinshelper import J
 global DEFAULT_SHELL
 global environment_helper
 global eagle_config_helper
+global jenkins_helper
 global gcp_helper
-
-# TODO: remove these from global scope
-global JENKINS_BASE_URL
-global JENKINS_USER
-global JENKINS_PASSWORD
 
 
 def init():
@@ -26,14 +22,8 @@ def init():
 
 
 def establish_jenkins():
-    global JENKINS_BASE_URL
-    global JENKINS_USER
-    global JENKINS_PASSWORD
-
+    global jenkins_helper
     jenkins_helper = JenkinsHelper()
-    JENKINS_BASE_URL = jenkins_helper.jenkins_base_url
-    JENKINS_USER = jenkins_helper.jenkins_user
-    JENKINS_PASSWORD = jenkins_helper.jenkins_password
 
 
 def establish_eagle_config():

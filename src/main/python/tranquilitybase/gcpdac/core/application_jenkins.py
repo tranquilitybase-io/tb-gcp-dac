@@ -5,14 +5,16 @@ import traceback
 import requests
 from requests import Response
 
-import config
-from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON, \
-    DEPLOYMENT_PROJECT_ID, ACTIVATOR_PARAMS, ACTIVATOR_GIT_REPO_URL, JOB_UNIQUE_ID
-from gcpdac.exceptions import DacValidationError, DacError
-from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
-from gcpdac.utils import sanitize, random_element
+from src.main.python.tranquilitybase.gcpdac.configuration.jenkinshelper import JenkinsHelper
+from src.main.python.tranquilitybase.gcpdac.core.jenkins.constants import *
+from src.main.python.tranquilitybase.gcpdac.core.exceptions.exceptions import DacValidationError, DacError
+from src.main.python.tranquilitybase.gcpdac.core.jenkins.jenkins_utils import get_job_build, format_jenkins_url
+from src.main.python.tranquilitybase.lib.common.utils import random_element
 
-logger = config.logger
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def create_application(applicationdata):
@@ -42,7 +44,7 @@ def create_application(applicationdata):
         raise DacValidationError(applicationdata, error_msg)
 
     logger.debug("deployment_environment {}".format(deployment_environment))
-    jenkins_base_url = config.JENKINS_BASE_URL
+    jenkins_base_url = JenkinsHelper.jenkins_base_url
 
     # Create GSR repo and copy code from external repo
     # TODO copy from master GSR repo - scripts used below copy from external git repo

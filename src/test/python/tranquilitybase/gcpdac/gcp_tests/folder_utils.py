@@ -2,11 +2,10 @@ import json
 import logging
 
 import requests
-from gcpdac_tests.gcp_tests.common_utils import BASE_URL
 
-LOG_LEVEL = logging.INFO  # DEBUG, INFO, WARNING, ERROR, CRITICAL
+LOG_LEVEL = logging.INFO
 
-# Additional headers.
+BASE_URL = 'http://localhost:3100/dac'
 headers = {'Content-Type': 'application/json'}
 
 

@@ -50,57 +50,57 @@ paths:
           description: Successfully started a solution creation task
       requestBody:
         $ref: "#/components/requestBodies/solution.solutionDetails"
-#
-#  "/solution_async/{oid}":
-#    delete:
-#      operationId: gcpdac.solution.delete_async
-#      tags:
-#        - solution
-#      summary: delete a solution
-#      description: delete a solution and its resources
-#      parameters:
-#        - name: oid
-#          in: path
-#          required: true
-#          schema:
-#            type: integer
-#      responses:
-#        "200":
-#          description: Successfully started a solution deletion task
-#
-#  "/solution_async/result/create/{taskid}":
-#    get:
-#      operationId: gcpdac.solution.create_solution_result
-#      tags:
-#        - solution
-#      summary: get create solution result
-#      description: get create solution result
-#      parameters:
-#        - name: taskid
-#          in: path
-#          required: true
-#          schema:
-#            type: string
-#      responses:
-#        "201":
-#          description: Successfully created a solution
-#
-#  "/solution_async/result/delete/{taskid}":
-#    get:
-#      operationId: gcpdac.solution.delete_solution_result
-#      tags:
-#        - solution
-#      summary: get delete solution result
-#      description: get delete solution result
-#      parameters:
-#        - name: taskid
-#          in: path
-#          required: true
-#          schema:
-#            type: string
-#      responses:
-#        "201":
-#          description: Successfully deleted a solution
+
+  "/solution_async/{oid}":
+    delete:
+      operationId: src.main.python.tranquilitybase.gcpdac.core.solution.delete_async
+      tags:
+        - solution
+      summary: delete a solution
+      description: delete a solution and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a solution deletion task
+
+  "/solution_async/result/create/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.core.solution.create_solution_result
+      tags:
+        - solution
+      summary: get create solution result
+      description: get create solution result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a solution
+
+  "/solution_async/result/delete/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.core.solution.delete_solution_result
+      tags:
+        - solution
+      summary: get delete solution result
+      description: get delete solution result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a solution
 #
 #
 #  /sandbox_async/:
@@ -186,57 +186,57 @@ paths:
           description: Successfully started a application creation task
       requestBody:
         $ref: "#/components/requestBodies/application.applicationDetails"
-#
-#  "/application_async/{oid}":
-#    delete:
-#      operationId: gcpdac.application.delete_async
-#      tags:
-#        - application
-#      summary: delete a application
-#      description: delete a application and its resources
-#      parameters:
-#        - name: oid
-#          in: path
-#          required: true
-#          schema:
-#            type: integer
-#      responses:
-#        "200":
-#          description: Successfully started a application deletion task
-#
-#  "/application_async/result/create/{taskid}":
-#    get:
-#      operationId: gcpdac.application.create_application_result
-#      tags:
-#        - application
-#      summary: get create application result
-#      description:  get create application result
-#      parameters:
-#        - name: taskid
-#          in: path
-#          required: true
-#          schema:
-#            type: string
-#      responses:
-#        "201":
-#          description: Successfully created a application
-#
-#  "/application_async/result/delete/{taskid}":
-#    get:
-#      operationId: gcpdac.application.delete_application_result
-#      tags:
-#        - application
-#      summary: get delete application result
-#      description:  get delete application result
-#      parameters:
-#        - name: taskid
-#          in: path
-#          required: true
-#          schema:
-#            type: string
-#      responses:
-#        "201":
-#          description: Successfully deleted a application
+
+  "/application_async/{oid}":
+    delete:
+      operationId: src.main.python.tranquilitybase.gcpdac.core.application.delete_async
+      tags:
+        - application
+      summary: delete a application
+      description: delete a application and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a application deletion task
+
+  "/application_async/result/create/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.core.application.create_application_result
+      tags:
+        - application
+      summary: get create application result
+      description:  get create application result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a application
+
+  "/application_async/result/delete/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.core.application.delete_application_result
+      tags:
+        - application
+      summary: get delete application result
+      description:  get delete application result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a application
 #
 #  /folder_async/:
 #    post:

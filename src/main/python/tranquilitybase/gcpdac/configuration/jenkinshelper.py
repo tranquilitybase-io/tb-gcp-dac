@@ -15,9 +15,9 @@ class JenkinsHelper:
 
     def __set_jenkins_config(self):
         try:
-            self.jenkins_base_url = "http://" + os.environ['JENKINS_BASE_URL']
-            self.jenkins_user = os.environ['DAC_JENKINS_USER']
-            self.jenkins_password = os.environ['DAC_JENKINS_PASSWORD']
+            JenkinsHelper.jenkins_base_url = "http://" + os.environ['JENKINS_BASE_URL']
+            JenkinsHelper.jenkins_user = os.environ['DAC_JENKINS_USER']
+            JenkinsHelper.jenkins_password = os.environ['DAC_JENKINS_PASSWORD']
 
         except Exception as ex:
             self.logger.exception(ex)
