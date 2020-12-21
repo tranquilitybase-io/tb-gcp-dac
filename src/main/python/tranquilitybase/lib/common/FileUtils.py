@@ -13,4 +13,9 @@ class FileUtils:
 
     @staticmethod
     def get_project_root() -> str:
+        # TODO: something better
         return os.path.normpath('../../../../../')
+
+    @staticmethod
+    def redirect_path(original: str) -> str:
+        return FileUtils.get_project_root() + original

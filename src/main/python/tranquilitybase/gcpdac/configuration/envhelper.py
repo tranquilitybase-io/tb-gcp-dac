@@ -76,8 +76,8 @@ class EnvHelper:
             os.environ["DAC_JENKINS_PASSWORD"] = "not set"
             os.environ["JENKINS_BASE_URL"] = "not set"
 
-            os.environ["CELERY_BROKER_URL"] = "not set"
-            os.environ["CELERY_RESULT_BACKEND"] = "not set"
+            os.environ["CELERY_BROKER_URL"] = "redis://redis:6379"
+            os.environ["CELERY_RESULT_BACKEND"] = "redis://redis:6379"
 
             os.environ["EC_CONFIG"] = "/resources/main/config/ec-config.yaml"
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = "/credentials/credentials.json"

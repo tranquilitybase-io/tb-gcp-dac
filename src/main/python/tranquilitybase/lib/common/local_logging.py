@@ -12,15 +12,21 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-
+import ntpath
 import logging
 import os
 from pathlib import Path
 
 
-def get_logger(app):
+def get_frame_name(frame) -> str:
+    co_filename: str = frame.f_code.co_filename
+    base_name = ntpath.basename(co_filename)
+    return base_name
+
+
+def get_logger(name: str):
     # Returns a logger object. Used to ensure logging consistency across the project.
-    logger = logging.getLogger(app)
+    logger = logging.getLogger(name)
     logger.setLevel(logging.DEBUG)
 
     formatter = logging.Formatter('%(asctime)s - %(name)s - %(funcName)s - %(levelname)s - %(message)s')

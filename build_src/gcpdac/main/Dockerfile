@@ -34,7 +34,6 @@ ENV TF_LOG_PATH=/var/log/tb-gcp-dac-deployment.log
 WORKDIR /app
 COPY credentials/ credentials/
 COPY ${src_main_python} ${src_main_python}
-COPY ${src_test_python} ${src_test_python}
 COPY ${src_main_bash} ${src_main_bash}
 COPY ${build} ${build}
 RUN pip install -r ${src_main_python}tranquilitybase/requirements.txt

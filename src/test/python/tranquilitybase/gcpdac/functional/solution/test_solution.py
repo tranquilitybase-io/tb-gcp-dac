@@ -17,12 +17,12 @@ class SolutionTest(unittest.TestCase):
 
         # print(os.getcwd())
         #
-        # with open('functional/solution/createSolution-input-example.json') as jsn:
-        #     payload = json.load(jsn)
-        #     data = json.dumps(payload, indent=4)
-        #
-        # response = requests.post(endpoint_url, data=data, headers=local_test_runner.headers)
-        # self.assertEqual(201, response.status_code)
+        with open('functional/solution/createSolution-input-example.json') as jsn:
+            payload = json.load(jsn)
+            data = json.dumps(payload, indent=4)
+
+        response = requests.post(endpoint_url, data=data, headers=local_test_runner.headers)
+        self.assertEqual(201, response.status_code)
 
 
 if __name__ == '__main__':

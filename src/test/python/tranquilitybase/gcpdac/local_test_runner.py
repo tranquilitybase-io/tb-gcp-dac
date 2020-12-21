@@ -27,6 +27,7 @@ def establish_hostname():
 def get_base_functional_test_path():
     root = FileUtils.get_project_root()
     if not EnvHelper.is_ide():
+        root = ""
         root += "/app"
 
     return root + "/src/test/python/tranquilitybase/gcpdac/functional/"

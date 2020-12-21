@@ -3,9 +3,11 @@ import shlex
 import subprocess
 from asyncio import coroutine
 from json import JSONDecodeError
-import config
 
-logger = config.logger
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def create_repo(repo_name, project_to, project_from):

@@ -54,8 +54,8 @@ init_connex_app()
 init_gunicorn_logger()
 
 # TODO sort out celery life cycle
-from src.main.python.tranquilitybase.gcpdac.sort_celery import init_celery
-init_celery()
+import src.main.python.tranquilitybase.gcpdac.sort_celery
+# init_celery()
 
 # Run app
 connex_app.add_api('openapi.yml', strict_validation=False)

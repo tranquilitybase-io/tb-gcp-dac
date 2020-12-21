@@ -13,19 +13,21 @@
 # limitations under the License.
 import json
 import traceback
-from python_terraform import Terraform
 
-import config
-from gcpdac.exceptions import DacError
-from gcpdac.shell_utils import delete_repo, add_access_to_folders
-from gcpdac.terraform_utils import terraform_apply, terraform_destroy, terraform_init
-from gcpdac.utils import labellize, random_element, sanitize
+from src.main.python.tranquilitybase.gcpdac.configuration.eaglehelper import EagleConfigHelper
+from src.main.python.tranquilitybase.gcpdac.core.exceptions.exceptions import DacError
+from src.main.python.tranquilitybase.gcpdac.core.shell_wrappers.shell_utils import add_access_to_folders, delete_repo
+from src.main.python.tranquilitybase.gcpdac.core.terraform.terraform_utils import *
+from src.main.python.tranquilitybase.lib.common.utils import *
 
-logger = config.logger
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def create_solution(solutiondata):
-    ec_config = config.ec_config
+    ec_config = EagleConfigHelper.config_dict
     terraform_source_path = '/app/terraform/solution_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_backend_prefix = get_solution_backend_prefix(solutiondata.get("id"), ec_config['tb_discriminator'])
@@ -111,7 +113,7 @@ def delete_solution(solutiondata):
     # tf_data['shared_vpc_host_project'] = None
     tf_data['team_members'] = list()
 
-    ec_config = config.ec_config
+    ec_config = EagleConfigHelper.config_dict
 
     tf_data['billing_account'] = ec_config['billing_account']
     tb_discriminator = ec_config['tb_discriminator']

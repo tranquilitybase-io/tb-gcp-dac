@@ -2,9 +2,12 @@ import time
 
 from python_terraform import Terraform
 
-import config
 
-logger = config.logger
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
+
 
 def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):
     return_code, stdout, stderr = tf.init(capture_output=True,
@@ -41,6 +44,7 @@ def terraform_apply(env_data, tf: Terraform):
         tf_state = {}
         tf_outputs = {}
     return {"tf_return_code": return_code, "tf_outputs": tf_outputs, "tf_state": tf_state}
+
 
 def terraform_destroy(env_data, tf):
     return_code, stdout, stderr = tf.destroy(var_file=env_data, capture_output=True)

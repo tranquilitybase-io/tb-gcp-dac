@@ -4,23 +4,23 @@ from pprint import pformat
 #
 # # from celery import states
 #
-from src.main.python.tranquilitybase.celery_worker.celery_tasks import deploy_application_task, destroy_application_task
+from src.main.python.tranquilitybase.celery_worker.celery_tasks import deploy_application_task
+    # , destroy_application_task
 from celery.result import AsyncResult
 
-from src.main.python.tranquilitybase.lib.common.local_logging import get_logger
-# from src.main.python.tranquilitybase.gcpdac import app
-
-
-logger = get_logger("application.py")
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def create_async(applicationDetails):
     logger.debug(pformat(applicationDetails))
 
-    # result: AsyncResult = deploy_application_task.delay(applicationDetails=applicationDetails)
-    #
-    # logger.info("Task ID %s", result.task_id)
-    context = {"taskid": 1}
+    result: AsyncResult = deploy_application_task.delay(applicationDetails=applicationDetails)
+
+    logger.info("Task ID %s", result.task_id)
+    context = {"taskid": result.task_id}
 
     return context, 201
 
