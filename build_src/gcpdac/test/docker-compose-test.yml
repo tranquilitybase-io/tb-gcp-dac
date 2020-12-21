@@ -38,6 +38,7 @@ services:
     volumes:
       - ../../../resources/main/config/redis.conf:/redis.conf:ro
     command: [ "redis-server", "/redis.conf" ]
+    network_mode: "host"
 
   gcp-dac-testrunner:
     container_name: gcp-dac-testrunner
