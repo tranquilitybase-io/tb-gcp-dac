@@ -1,9 +1,11 @@
 from flask import Response
 
-import config
 import requests
 
-logger = config.logger
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def read_all():

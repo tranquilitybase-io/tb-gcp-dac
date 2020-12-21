@@ -1,4 +1,4 @@
-from src.main.python.tranquilitybase.gcpdac.core.todo.extendedSchemas import HealthSchema
+from src.main.python.tranquilitybase.gcpdac.core.schemas.extendedSchemas import HealthSchema
 
 
 def check():

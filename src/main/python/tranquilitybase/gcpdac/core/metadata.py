@@ -1,13 +1,15 @@
-# Module to serve metadata endpoint
-import config
-from gcpdac.extendedSchemas import MetadataSchema
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
 
-logger = config.logger
+from src.main.python.tranquilitybase.gcpdac.core.schemas.extendedSchemas import MetadataSchema
+from src.main.python.tranquilitybase.gcpdac.configuration.eaglehelper import EagleConfigHelper
 
 
 def get_metadata_from_config():
     logger.debug("get_metadata_from_config")
-    ec_config = config.ec_config
+    ec_config = EagleConfigHelper.config_dict
     data = {}
     data['root_folder_id'] = str(ec_config.get('activator_folder_id')).replace("folders/", "")
     data['shared_vpc_host_project'] = str(ec_config.get('shared_vpc_host_project'))
