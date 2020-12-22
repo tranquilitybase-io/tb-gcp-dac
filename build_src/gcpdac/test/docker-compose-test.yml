@@ -14,8 +14,6 @@ services:
     image: gcr.io/tranquility-base-images/tb-gcp-dac:main
     depends_on:
       - redis
-    links:
-      - redis
     ports:
       - 3100:3100
     environment:
