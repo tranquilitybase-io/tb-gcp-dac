@@ -14,7 +14,7 @@ class SolutionTest(unittest.TestCase):
                             + 'application/createSolution-input-example.json'
         FileUtils.file_exists(request_json_file)
 
-        with open('functional/solution/createSolution-input-example.json') as jsn:
+        with open(request_json_file) as jsn:
             payload = json.load(jsn)
             data = json.dumps(payload, indent=4)
 
