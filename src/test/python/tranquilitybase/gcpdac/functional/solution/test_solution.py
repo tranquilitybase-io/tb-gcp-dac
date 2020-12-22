@@ -6,9 +6,9 @@ from src.main.python.tranquilitybase.lib.common.FileUtils import FileUtils
 from src.test.python.tranquilitybase.gcpdac import local_test_runner
 
 
-class SolutionTest(unittest.TestCase):
+class SmokeTests(unittest.TestCase):
     def test_create_solution_async(self):
-        endpoint_url = f"http://{local_test_runner.houston_url()}/dac/solution_async/"
+        endpoint_url = f"http://{local_test_runner.houston_url()}/solution_async/"
 
         request_json_file = local_test_runner.get_base_functional_test_path() \
                             + 'solution/createSolution-input-example.json'
@@ -23,20 +23,20 @@ class SolutionTest(unittest.TestCase):
 
     def test_delete_solution_async(self):
         taskid = 1
-        endpoint_url = f"http://{local_test_runner.houston_url()}/dac/solution_async/{taskid}"
+        endpoint_url = f"http://{local_test_runner.houston_url()}/solution_async/{taskid}"
         response = requests.delete(endpoint_url, headers=local_test_runner.headers)
         self.assertEqual(201, response.status_code)
 
     def test_create_solution_async_result(self):
         taskid = 1
-        endpoint_url = f"http://{local_test_runner.houston_url()}/dac/solution_async/result/create/{taskid}"
+        endpoint_url = f"http://{local_test_runner.houston_url()}/solution_async/result/create/{taskid}"
 
         response = requests.get(endpoint_url, headers=local_test_runner.headers)
         self.assertEqual(200, response.status_code)
 
     def test_delete_solution_async_result(self):
         taskid = 1
-        endpoint_url = f"http://{local_test_runner.houston_url()}/dac/solution_async/result/delete/{taskid}"
+        endpoint_url = f"http://{local_test_runner.houston_url()}/solution_async/result/delete/{taskid}"
 
         response = requests.post(endpoint_url, headers=local_test_runner.headers)
         self.assertEqual(405, response.status_code)

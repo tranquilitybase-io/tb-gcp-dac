@@ -1,12 +1,10 @@
-import json
 import unittest
 from time import sleep
 
 from celery import states
 
-from gcpdac_tests.gcp_tests import config
-from gcpdac_tests.gcp_tests.sandbox_utils import create_sandbox_task, create_sandbox_task_result, delete_sandbox_task, \
-    delete_sandbox_task_result
+from tranquilitybase.gcpdac.functional import config
+from tranquilitybase.gcpdac.integration.sandbox.sandbox_utils import *
 
 sandbox_id = 1001
 team_id = 1001

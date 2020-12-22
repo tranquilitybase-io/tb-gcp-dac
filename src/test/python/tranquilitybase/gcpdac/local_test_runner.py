@@ -22,6 +22,7 @@ def establish_hostname():
 
     global HOUSTON_SERVICE_URL
     HOUSTON_SERVICE_URL = hostname + ":" + port
+    HOUSTON_SERVICE_URL = HOUSTON_SERVICE_URL + "/dac"
 
 
 def get_base_functional_test_path():

@@ -34,6 +34,12 @@ class EnvHelper:
     def has_google_credentials() -> bool:
         return os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
 
+    @staticmethod
+    def get_disable_terraform() -> bool:
+        if os.getenv("DISABLE_TERRAFORM"):
+            return os.environ["DISABLE_TERRAFORM"]
+        return False
+
     @classmethod
     def print_env(cls, name: str, redact: bool = False):
         if not redact:

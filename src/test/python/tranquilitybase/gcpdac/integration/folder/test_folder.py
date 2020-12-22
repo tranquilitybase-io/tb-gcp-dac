@@ -1,12 +1,10 @@
-import json
 import unittest
 from time import sleep
 
 from celery import states
 
-from gcpdac_tests.gcp_tests import config
-from gcpdac_tests.gcp_tests.folder_utils import create_folder_task, delete_folder_task, create_folder_task_result, \
-    delete_folder_task_result
+from tranquilitybase.gcpdac.functional import config
+from tranquilitybase.gcpdac.integration.folder.folder_utils import *
 
 validParentFolderId = config.base_folder_id
 validFolderName = "TEST_FOLDER"

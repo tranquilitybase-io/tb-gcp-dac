@@ -3,13 +3,10 @@ from time import sleep
 
 from celery import states
 
-# from gcpdac_tests.gcp_tests import config
-# from gcpdac_tests.gcp_tests.application_utils import delete_application_task, delete_application_task_result, \
-#     create_application_task, \
-#     create_application_task_result
+
 # TODO write test that creates solution first, retrieves workspace project then deploys activator
 from src.test.python.tranquilitybase.gcpdac.functional import config
-from src.test.python.tranquilitybase.gcpdac.gcp_tests.application_utils import *
+from tranquilitybase.gcpdac.integration.application.application_utils import *
 
 application_id = 101
 solution_id = 1001
