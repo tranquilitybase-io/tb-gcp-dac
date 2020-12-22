@@ -1,36 +1,24 @@
 import json
-import os
 
-import yaml
 from gcloud import resource_manager
 from git import RemoteProgress, Repo
 
-import config
-from gcpdac.path_utils import file_exists
-from gcpdac.shell_utils import create_and_save
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
 
-logger = config.logger
+from src.main.python.tranquilitybase.gcpdac.configuration.eaglehelper import EagleConfigHelper
+from src.main.python.tranquilitybase.gcpdac.core.shell_wrappers.shell_utils import create_and_save
 
 
 def get_client():
     return resource_manager.Client()
 
 
-def get_ec_config():
-    file_path = 'ec-config.yaml'
-    if not file_exists(file_path):
-        raise Exception("file not found")
-
-    with open(file_path, 'rb') as f:
-        yaml_variables = yaml.load(f.read(), yaml.Loader)
-
-    return yaml_variables
-
-
 def get_destination_project():
     project_prefix = "shared-ec-"
-    yaml_variables = get_ec_config()
-    tb_discriminator = yaml_variables['tb_discriminator']
+    tb_discriminator = EagleConfigHelper.config_dict['tb_discriminator']
     return project_prefix + tb_discriminator
 
 
