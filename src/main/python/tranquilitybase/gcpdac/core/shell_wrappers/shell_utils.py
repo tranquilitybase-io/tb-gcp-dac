@@ -9,9 +9,12 @@ import inspect
 from src.main.python.tranquilitybase.lib.common.local_logging import *
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
+bash_scripts_root = "/app/src/main/bash/tranquilitybase/gcpdac/bash_scripts/"
+
 
 def create_repo(repo_name, project_to, project_from):
-    call_string = "/bin/bash /app/bash_scripts/create_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
+    call_string = "/bin/bash {bash_scripts_root}create_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
+        bash_scripts_root=bash_scripts_root,
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
@@ -19,7 +22,8 @@ def create_repo(repo_name, project_to, project_from):
 
 
 def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
-    call_string = "/bin/bash /app/bash_scripts/copy_repo_with_history.sh {source_repo_url} {target_gcp_repo_name}  {project_to} {project_from}".format(
+    call_string = "/bin/bash {bash_scripts_root}copy_repo_with_history.sh {source_repo_url} {target_gcp_repo_name}  {project_to} {project_from}".format(
+        bash_scripts_root=bash_scripts_root,
         source_repo_url=source_repo_url,
         target_gcp_repo_name=target_gcp_repo_name,
         project_to=project_to,
@@ -28,7 +32,8 @@ def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
 
 
 def delete_repo(repo_name, project_to, project_from):
-    call_string = "/bin/bash /app/bash_scripts/delete_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
+    call_string = "/bin/bash {bash_scripts_root}delete_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
+        bash_scripts_root=bash_scripts_root,
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
@@ -36,7 +41,8 @@ def delete_repo(repo_name, project_to, project_from):
 
 
 async def create_and_save(local_git_repo, project_to, remote_repo):
-    call_string = "/bin/bash /app/bash_scripts/create_save_onboarding_repo.sh {local_git_repo} {project_to} {remote_repo}".format(
+    call_string = "/bin/bash {bash_scripts_root}create_save_onboarding_repo.sh {local_git_repo} {project_to} {remote_repo}".format(
+        bash_scripts_root=bash_scripts_root,
         local_git_repo=local_git_repo,
         project_to=project_to,
         remote_repo=remote_repo)

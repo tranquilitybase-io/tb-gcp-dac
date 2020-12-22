@@ -29,10 +29,7 @@ def make_celery(name):
 
 def init_celery():
     global celery_app
-    # celeryconfig.init()
     celery_app = make_celery(__name__)
-    # celery_app.worker_main('worker')
-    # celery_worker()
 
 
 init_celery()
@@ -45,14 +42,3 @@ task_ignore_result = False
 
 celery_tasks.validate()
 imports = 'celery_tasks'
-print("===========")
-
-
-# if __name__ == '__main__':
-#     celery_tasks.validate()
-#
-#
-#     print("=====CELAREY======")
-#     print("=====CELAREY======")
-#     print("=====CELAREY======")
-#     print("=====CELAREY======")
