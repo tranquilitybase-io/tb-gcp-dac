@@ -10,7 +10,7 @@ class ApplicationTest(unittest.TestCase):
         print("test url: " + endpoint_url)
         response = requests.get(endpoint_url, headers=local_test_runner.headers)
 
-        self.assertTrue(response.status_code == 200 or response.status_code == 500)
+        self.assertTrue(response.status_code == 200 or response.status_code == 401 or response.status_code == 500)
 
 
 if __name__ == '__main__':
