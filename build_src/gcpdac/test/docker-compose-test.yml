@@ -32,12 +32,14 @@ services:
     network_mode: "host"
 
   redis:
-    container_name: redis
+    container_name: redis-test-target
     image: redis:alpine
+    ports:
+      - 6379:6379
     hostname: redis
     volumes:
       - ../../../resources/main/config/redis.conf:/redis.conf:ro
-    command: [ "redis-server", "/redis.conf" ]
+    command: [ "redis-server", "--bind", "redis", "--port", "6379", "/redis.conf" ]
     network_mode: "host"
 
   gcp-dac-testrunner:
