@@ -1,6 +1,11 @@
 import os
 from enum import Enum
 
+# --- Logger ---
+import inspect
+from src.main.python.tranquilitybase.lib.common.local_logging import *
+logger = get_logger(get_frame_name(inspect.currentframe()))
+
 
 class Environments(Enum):
     IDE = 1
@@ -43,19 +48,19 @@ class EnvHelper:
     @classmethod
     def print_env(cls, name: str, redact: bool = False):
         if not redact:
-            print("Env {0}: {1}".format(name, os.environ[name]))
+            logger.debug("Env {0}: {1}".format(name, os.environ[name]))
         else:
-            print("Env {0}: {1}".format(name, "****"))
+            logger.debug("Env {0}: {1}".format(name, "****"))
 
     @classmethod
     def print_config(self):
-        print("")
-        print("====================")
-        print("====== Config ======")
-        print("====================")
-        print("")
-        print("Environment: " + EnvHelper.environment.name)
-        print("")
+        logger.debug("")
+        logger.debug("====================")
+        logger.debug("====== Config ======")
+        logger.debug("====================")
+        logger.debug("")
+        logger.debug("Environment: " + EnvHelper.environment.name)
+        logger.debug("")
         EnvHelper.print_env("DEBUG")
         EnvHelper.print_env("APP_PORT")
         EnvHelper.print_env("DAC_JENKINS_USER")
@@ -67,10 +72,9 @@ class EnvHelper:
         if EnvHelper.has_google_credentials():
             EnvHelper.print_env("GOOGLE_APPLICATION_CREDENTIALS")
         else:
-            print("GOOGLE_APPLICATION_CREDENTIALS are not set - GCP functionality disabled")
-        print("")
-        print("====================")
-        print("", flush=True)
+            logger.debug("GOOGLE_APPLICATION_CREDENTIALS are not set - GCP functionality disabled")
+        logger.debug("")
+        logger.debug("====================")
 
     def __consider_config(self):
 
