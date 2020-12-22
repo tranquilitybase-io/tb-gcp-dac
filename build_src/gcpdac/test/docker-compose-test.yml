@@ -39,7 +39,7 @@ services:
     hostname: redis
     volumes:
       - ../../../resources/main/config/redis.conf:/redis.conf:ro
-    command: [ "redis-server", "--bind", "redis", "--port", "6379", "/redis.conf" ]
+    command: [ "redis-server", "/redis.conf" ]
     network_mode: "host"
 
   gcp-dac-testrunner:
