@@ -11,7 +11,7 @@ class SolutionTest(unittest.TestCase):
         endpoint_url = f"http://{local_test_runner.houston_url()}/dac/solution_async/"
 
         request_json_file = local_test_runner.get_base_functional_test_path() \
-                            + 'application/createSolution-input-example.json'
+                            + 'solution/createSolution-input-example.json'
         FileUtils.file_exists(request_json_file)
 
         with open(request_json_file) as jsn:
