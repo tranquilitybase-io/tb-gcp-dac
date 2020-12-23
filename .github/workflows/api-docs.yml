@@ -22,7 +22,11 @@ jobs:
     - name: Install redoc-cli and generate API documentation
       shell: bash
       run: |
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build_src/gcpdac/api-docs/
+        ls
+        echo "-----"
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build_src/gcpdac/
+        ls
+        echo "-----"
         echo "generate API documentation"
         sh generate_docs.sh
 
