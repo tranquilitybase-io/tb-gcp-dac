@@ -20,6 +20,7 @@ def init_logging():
     logger.info("Logger initialised")
 
 
+
 def init_connex_app():
     basedir = os.path.abspath(os.path.dirname(__file__))
 
