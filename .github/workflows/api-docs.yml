@@ -23,11 +23,7 @@ jobs:
     - name: Install redoc-cli and generate API documentation
       shell: bash
       run: |
-        ls
-        echo "-----"
         cd build_src/gcpdac/api-docs/
-        ls
-        echo "-----"
         echo "generate API documentation"
         sh generate_docs.sh
 
@@ -37,7 +33,6 @@ jobs:
         cd build_src/gcpdac/api-docs/
         echo "git add, commit, push"
         sh generate_docs.sh
-        git status
 
     - name: Extract current branch name
       shell: bash
