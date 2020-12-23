@@ -30,6 +30,9 @@ jobs:
     - name: git add, commit and push
       shell: bash
       run: |
+        cd docs/
+        ls
+        cd ../
         cd build_src/gcpdac/api-docs/
         echo "git add, commit, push"
         sh add_commit_push.sh
