@@ -19,12 +19,13 @@ jobs:
         repository: tranquilitybase-io/tb-gcp-dac
         path: .
         fetch-depth: 0
+
     - name: Install redoc-cli and generate API documentation
       shell: bash
       run: |
         ls
         echo "-----"
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build_src/gcpdac/
+        cd build_src/gcpdac/
         ls
         echo "-----"
         echo "generate API documentation"
