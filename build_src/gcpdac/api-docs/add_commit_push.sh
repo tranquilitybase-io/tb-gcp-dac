@@ -6,5 +6,5 @@ git config user.name "gitaction gft"
 git status
 if ! git diff --no-ext-diff --quiet --exit-code ../../../docs/index.html; then
   git add ../../../docs/index.html
-  git commit -m "Add automatically generated openapi static HTML documentation"
+  git commit -m "[CICD ignore] Add automatically generated openapi static HTML documentation"
 fi
