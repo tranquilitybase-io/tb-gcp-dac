@@ -1,4 +1,4 @@
-# === git add, commit and push ===
+# === git add and commit ===
 git config user.email git.action@gft.com
 git config user.name "gitaction gft"
 

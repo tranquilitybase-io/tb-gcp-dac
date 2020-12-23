@@ -28,7 +28,7 @@ jobs:
         echo "generate API documentation"
         sh generate_docs.sh
 
-    - name: git add, commit and push
+    - name: git add and commit
       shell: bash
       run: |
         cd docs/
