@@ -22,26 +22,22 @@ jobs:
     - name: Install redoc-cli and generate API documentation
       shell: bash
       run: |
-        npm install redoc-cli
-        npx redoc-cli bundle openapi.yml --title "GCP DAC service REST API"
-        rm -fr node_modules
-        rm -fr package-lock.json
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build_src/gcpdac/api-docs/
+        echo "generate API documentation"
+        sh generate_docs.sh
+
     - name: git add, commit and push
       shell: bash
       run: |
-        git config user.email git.action@gft.com
-        git config user.name "gitaction gft"
-        chmod 777 redoc-static.html
-        mv redoc-static.html docs/index.html
-        # check if file changed
-        if ! git diff --no-ext-diff --quiet --exit-code docs/index.html; then
-          git add docs/index.html
-          git commit -m "Add automatically generated openapi static HTML documentation"
-        fi
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build_src/gcpdac/api-docs/
+        echo "git add, commit, push"
+        sh generate_docs.sh
+
     - name: Extract current branch name
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
+
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
