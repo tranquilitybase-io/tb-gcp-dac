@@ -25,7 +25,7 @@ jobs:
       run: |
         ls
         echo "-----"
-        cd build_src/gcpdac/
+        cd build_src/gcpdac/api-docs/
         ls
         echo "-----"
         echo "generate API documentation"
@@ -34,7 +34,7 @@ jobs:
     - name: git add, commit and push
       shell: bash
       run: |
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build_src/gcpdac/api-docs/
+        cd build_src/gcpdac/api-docs/
         echo "git add, commit, push"
         sh generate_docs.sh
 
