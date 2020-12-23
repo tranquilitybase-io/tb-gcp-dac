@@ -15,6 +15,8 @@ from python_terraform import Terraform
 
 # --- Logger ---
 import inspect
+
+from src.main.python.tranquilitybase.gcpdac.core.terraform.terraform_config import get_terraform_root
 from src.main.python.tranquilitybase.lib.common.local_logging import *
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
@@ -50,7 +52,7 @@ def create_folder(folderDetails):
     env_data = None
     backend_prefix = get_folder_backend_prefix(folder_name, tb_discriminator)
     terraform_state_bucket = ec_config['terraform_state_bucket']
-    terraform_source_path = '/app/terraform/folder_creation'
+    terraform_source_path = get_terraform_root() + '/folder_creation'
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
 
@@ -80,7 +82,7 @@ def delete_folder(folder):
 
     backend_prefix = get_folder_backend_prefix(folder_name, tb_discriminator)
     terraform_state_bucket = ec_config['terraform_state_bucket']
-    terraform_source_path = '/app/terraform/folder_creation'
+    terraform_source_path = get_terraform_root() + 'folder_creation'
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
     terraform_init(backend_prefix, terraform_state_bucket, tf)

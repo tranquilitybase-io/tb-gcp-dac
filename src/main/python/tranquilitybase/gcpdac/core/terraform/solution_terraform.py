@@ -17,6 +17,7 @@ import traceback
 from src.main.python.tranquilitybase.gcpdac.configuration.eaglehelper import EagleConfigHelper
 from src.main.python.tranquilitybase.gcpdac.core.exceptions.exceptions import DacError
 from src.main.python.tranquilitybase.gcpdac.core.shell_wrappers.shell_utils import add_access_to_folders, delete_repo
+from src.main.python.tranquilitybase.gcpdac.core.terraform.terraform_config import get_terraform_root
 from src.main.python.tranquilitybase.gcpdac.core.terraform.terraform_utils import *
 from src.main.python.tranquilitybase.lib.common.utils import *
 
@@ -28,7 +29,7 @@ logger = get_logger(get_frame_name(inspect.currentframe()))
 
 def create_solution(solutiondata):
     ec_config = EagleConfigHelper.config_dict
-    terraform_source_path = '/app/terraform/solution_creation'
+    terraform_source_path = get_terraform_root() + 'solution_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_backend_prefix = get_solution_backend_prefix(solutiondata.get("id"), ec_config['tb_discriminator'])
 
@@ -125,7 +126,7 @@ def delete_solution(solutiondata):
     # location of this solution's state with terraform bucket
     backend_prefix = get_solution_backend_prefix(solution_id, tb_discriminator)
     # source of the terraform used for this deployment
-    terraform_source_path = '/app/terraform/solution_creation'
+    terraform_source_path = get_terraform_root() + 'solution_creation'
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
 

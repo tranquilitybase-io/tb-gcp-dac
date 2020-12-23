@@ -13,6 +13,8 @@
 # limitations under the License.
 # --- Logger ---
 import inspect
+
+from src.main.python.tranquilitybase.gcpdac.core.terraform.terraform_config import get_terraform_root
 from src.main.python.tranquilitybase.lib.common.local_logging import *
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
@@ -25,7 +27,7 @@ from src.main.python.tranquilitybase.gcpdac.configuration.eaglehelper import Eag
 
 def create_sandbox(sandboxdata):
     ec_config = EagleConfigHelper.config_dict
-    terraform_source_path = '/app/terraform/sandbox_creation'
+    terraform_source_path = get_terraform_root() + 'sandbox_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_backend_prefix = get_sandbox_backend_prefix(sandboxdata.get("id"), ec_config['tb_discriminator'])
 
@@ -112,7 +114,7 @@ def delete_sandbox(sandboxdata):
     # location of this sandbox's state with terraform bucket
     backend_prefix = get_sandbox_backend_prefix(sandbox_id, tb_discriminator)
     # source of the terraform used for this deployment
-    terraform_source_path = '/app/terraform/sandbox_creation'
+    terraform_source_path = get_terraform_root() + 'sandbox_creation'
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
 
