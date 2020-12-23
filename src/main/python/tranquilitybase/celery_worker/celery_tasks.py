@@ -1,11 +1,9 @@
-from celery.utils.log import get_task_logger
-
-from src.main.python.tranquilitybase.gcpdac.configuration.envhelper import EnvHelper
+from src.main.python.tranquilitybase.celery_worker.celery_worker import get_celery
 from src.main.python.tranquilitybase.gcpdac.core.application_jenkins import create_application, delete_application
 from src.main.python.tranquilitybase.gcpdac.core.terraform.folder_terraform import create_folder, delete_folder
 from src.main.python.tranquilitybase.gcpdac.core.terraform.sandbox_terraform import create_sandbox, delete_sandbox
 from src.main.python.tranquilitybase.gcpdac.core.terraform.solution_terraform import create_solution, delete_solution
-from src.main.python.tranquilitybase.gcpdac.sort_celery import get_celery
+# from src.main.python.tranquilitybase.gcpdac.sort_celery import get_celery
 from celery import states
 from celery.exceptions import Ignore
 import traceback

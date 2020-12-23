@@ -5,7 +5,6 @@ MAINTAINER "GFT"
 ## ==== Arguments/Defaults ====
 ENV TERRAFORM_VERSION=0.12.24
 ARG src_main_python=src/main/python/
-ARG src_test_python=src/test/python/
 ARG src_main_bash=src/main/bash
 ARG build=build_src/
 
@@ -34,18 +33,19 @@ ENV TF_LOG_PATH=/var/log/tb-gcp-dac-deployment.log
 WORKDIR /app
 COPY credentials/ credentials/
 COPY ${src_main_python} ${src_main_python}
-COPY ${src_test_python} ${src_test_python}
 COPY ${src_main_bash} ${src_main_bash}
 COPY ${build} ${build}
+COPY src/main/python/tranquilitybase/celery_worker/celery_worker.py celery_worker.py
+COPY src/main/bash/tranquilitybase/celery_worker/celery_worker.sh celery_worker.sh
 RUN pip install -r ${src_main_python}/tranquilitybase/requirements.txt
 
 
 # ==== Shell =====
 # ensure shell scripts have unix line endings and can run
-RUN dos2unix -- ${src_main_bash}/*.sh
-RUN dos2unix ${src_main_bash}/bash_scripts/*.sh
+#RUN dos2unix -- ${src_main_bash}/*.sh
+#RUN dos2unix ${src_main_bash}/bash_scripts/*.sh
 
 # ==== Run ====
 EXPOSE 3100
 
-#RUN ["sh", "-c", "sh ${src_main_bash}/tranquilitybase/main/app_docker.sh"]
+#RUN ["sh", "-c", "sh celery_worker.sh"]

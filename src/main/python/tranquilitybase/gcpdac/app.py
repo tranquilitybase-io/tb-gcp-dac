@@ -20,7 +20,6 @@ def init_logging():
     logger.info("Logger initialised")
 
 
-
 def init_connex_app():
     basedir = os.path.abspath(os.path.dirname(__file__))
 
@@ -54,9 +53,6 @@ init()
 init_connex_app()
 init_gunicorn_logger()
 
-# TODO sort out celery life cycle
-import src.main.python.tranquilitybase.gcpdac.sort_celery
-# init_celery()
 
 # Run app
 connex_app.add_api('openapi.yml', strict_validation=False)

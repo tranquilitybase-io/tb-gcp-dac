@@ -14,6 +14,7 @@ services:
     image: gcr.io/tranquility-base-images/tb-gcp-dac:main
     depends_on:
       - redis
+      - worker
     ports:
       - 3100:3100
     environment:
@@ -61,17 +62,21 @@ services:
       "
     network_mode: "host"
 
-#  worker:
-#    # to run with more workers 'docker-compose up --scale worker=<num of workers>
-#    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
-#    image: gcr.io/tranquility-base-images/tb-gcp-dac:main
-#    build:
-#      context: ../../
-#      dockerfile: build/celery_worker/main/Dockerfile
-#    hostname: worker
-#    #    command:  celery -E -A celery_worker worker --loglevel=info
-#    command: [ "/bin/bash", "src/main/bash/celery_worker.sh" ]
-#    environment:
-#      CELERY_BROKER_URL: redis://redis:6379
-#      CELERY_RESULT_BACKEND: redis://redis:6379
-#      GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
+
+  worker:
+    # to run with more workers 'docker-compose up --scale worker=<num of workers>
+    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    image: gcr.io/tranquility-base-images/tb-gcp-dac-worker:main
+    build:
+      context: ../../../
+      dockerfile: build_src/celery_worker/main/Dockerfile
+    hostname: worker
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379
+      CELERY_RESULT_BACKEND: redis://redis:6379
+      GOOGLE_APPLICATION_CREDENTIALS: /credentials/credentials.json
+    volumes:
+      - ../../../credentials/credentials.json:/app/credentials/credentials.json:ro
+    command: bash -c "sh celery_worker.sh"
+    network_mode: "host"
+

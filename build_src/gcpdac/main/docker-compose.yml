@@ -40,17 +40,23 @@ services:
       - ../../../resources/main/config/redis.conf:/redis.conf:ro
     command: [ "redis-server", "/redis.conf" ]
 
-#  worker:
-#    # to run with more workers 'docker-compose up --scale worker=<num of workers>
-#    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
-#    image: gcr.io/tranquility-base-images/tb-gcp-dac:main
-#    build:
-#      context: ../../
-#      dockerfile: build/celery_worker/main/Dockerfile
-#    hostname: worker
-#    #    command:  celery -E -A celery_worker worker --loglevel=info
-#    command: [ "/bin/bash", "src/main/bash/celery_worker.sh" ]
-#    environment:
-#      CELERY_BROKER_URL: redis://redis:6379
-#      CELERY_RESULT_BACKEND: redis://redis:6379
-#      GOOGLE_APPLICATION_CREDENTIALS: /credentials.json
+  worker:
+    # to run with more workers 'docker-compose up --scale worker=<num of workers>
+    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    image: gcr.io/tranquility-base-images/tb-gcp-dac-worker:main
+    build:
+      context: ../../../
+      dockerfile: build_src/celery_worker/main/Dockerfile
+    hostname: worker
+    environment:
+      CELERY_BROKER_URL: redis://redis:6379
+      CELERY_RESULT_BACKEND: redis://redis:6379
+      GOOGLE_APPLICATION_CREDENTIALS: /credentials/credentials.json
+    volumes:
+      - ../../../credentials/credentials.json:/app/credentials/credentials.json:ro
+    #    command:  celery -E -A celery_worker worker --loglevel=info
+#    command: ["sh", "-c", "sh celery_worker.sh"]
+    command: bash -c "
+      ls
+      && sh celery_worker.sh
+      "

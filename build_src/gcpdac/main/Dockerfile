@@ -5,7 +5,6 @@ MAINTAINER "GFT"
 ## ==== Arguments/Defaults ====
 ENV TERRAFORM_VERSION=0.12.24
 ARG src_main_python=src/main/python/
-ARG src_test_python=src/test/python/
 ARG src_main_bash=src/main/bash
 ARG build=build_src/gcpdac
 

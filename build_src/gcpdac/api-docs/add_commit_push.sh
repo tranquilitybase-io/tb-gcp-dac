@@ -10,3 +10,4 @@ if ! git diff --no-ext-diff --quiet --exit-code ../../../docs/index.html; then
 else
   echo "no diff detected, skipping updating doc"
 fi
+
