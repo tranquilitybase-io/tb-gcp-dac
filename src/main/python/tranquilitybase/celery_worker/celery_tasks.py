@@ -3,7 +3,6 @@ from src.main.python.tranquilitybase.gcpdac.core.application_jenkins import crea
 from src.main.python.tranquilitybase.gcpdac.core.terraform.folder_terraform import create_folder, delete_folder
 from src.main.python.tranquilitybase.gcpdac.core.terraform.sandbox_terraform import create_sandbox, delete_sandbox
 from src.main.python.tranquilitybase.gcpdac.core.terraform.solution_terraform import create_solution, delete_solution
-# from src.main.python.tranquilitybase.gcpdac.sort_celery import get_celery
 from celery import states
 from celery.exceptions import Ignore
 import traceback
@@ -12,10 +11,6 @@ import traceback
 import inspect
 from src.main.python.tranquilitybase.lib.common.local_logging import *
 logger = get_logger(get_frame_name(inspect.currentframe()))
-
-
-def validate():
-    pass
 
 
 celery_app = get_celery()

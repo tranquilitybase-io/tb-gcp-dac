@@ -54,9 +54,4 @@ services:
       GOOGLE_APPLICATION_CREDENTIALS: /credentials/credentials.json
     volumes:
       - ../../../credentials/credentials.json:/app/credentials/credentials.json:ro
-    #    command:  celery -E -A celery_worker worker --loglevel=info
-#    command: ["sh", "-c", "sh celery_worker.sh"]
-    command: bash -c "
-      ls
-      && sh celery_worker.sh
-      "
+    command: bash -c "sh celery_worker.sh"
