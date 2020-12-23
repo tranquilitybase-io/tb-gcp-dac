@@ -25,8 +25,8 @@ services:
       DAC_JENKINS_USER: localuser
       DAC_JENKINS_PASSWORD: localpass
       EC_CONFIG: /resources/ec-config.yaml
-      CELERY_BROKER_URL: redis://redis:6379
-      CELERY_RESULT_BACKEND: redis://redis:6379
+      CELERY_BROKER_URL: redis://localhost:6379
+      CELERY_RESULT_BACKEND: redis://localhost:6379
     volumes:
       - ../../../resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
     command: bash -c "sh src/main/bash/tranquilitybase/gcpdac/app_docker.sh"
@@ -37,7 +37,7 @@ services:
     image: redis:alpine
     ports:
       - 6379:6379
-    hostname: redis
+#    hostname: redis
     volumes:
       - ../../../resources/main/config/redis.conf:/redis.conf:ro
     command: [ "redis-server", "/redis.conf" ]
