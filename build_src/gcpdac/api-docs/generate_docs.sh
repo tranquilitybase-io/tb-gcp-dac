@@ -5,3 +5,4 @@ npx redoc-cli bundle ../../../src/main/python/tranquilitybase/gcpdac/openapi.yml
  --output ../../../docs/index.html
 rm -fr node_modules
 rm -fr package-lock.json
+git status

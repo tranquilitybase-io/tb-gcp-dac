@@ -37,6 +37,7 @@ jobs:
         cd build_src/gcpdac/api-docs/
         echo "git add, commit, push"
         sh generate_docs.sh
+        git status
 
     - name: Extract current branch name
       shell: bash
