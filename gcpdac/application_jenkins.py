@@ -1,7 +1,7 @@
 import json
 import time
 import traceback
-from typing import Optional
+from typing import Optional, Dict, List, Any, Union, Hashable
 
 import requests
 from jenkinsapi.build import Build
@@ -9,7 +9,8 @@ from requests import Response
 
 import config
 from gcpdac.constants import JENKINS_TOKEN, JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON, \
-    DEPLOYMENT_PROJECT_ID, ACTIVATOR_PARAMS, ACTIVATOR_GIT_REPO_URL, JOB_UNIQUE_ID, ACTIVATOR_GIT_REPO_BRANCH
+    DEPLOYMENT_PROJECT_ID, ACTIVATOR_PARAMS, ACTIVATOR_GIT_REPO_URL, JOB_UNIQUE_ID, ACTIVATOR_GIT_REPO_BRANCH, \
+    ENVIRONMENT_PARAMS
 from gcpdac.exceptions import DacValidationError, DacError
 from gcpdac.jenkins_utils import get_job_build, format_jenkins_url
 from gcpdac.utils import random_element
@@ -32,8 +33,10 @@ def create_application(applicationdata):
     optional_variables = applicationdata.get("optionalVariables", None)
 
     deployment_environment = None
+    shared_vpc_project_id = None
     if deployment_environment_object != None:
         deployment_environment = deployment_environment_object.get("name", None)
+        shared_vpc_project_id = deployment_environment_object.get("sharedVPCProjectId", None)
 
     if (workspace_project_id == None or application_git_url == None or
             deployment_environment == None or deployment_project_id == None):
@@ -42,18 +45,6 @@ def create_application(applicationdata):
         raise DacValidationError(applicationdata, error_msg)
 
     logger.debug("deployment_environment {}".format(deployment_environment))
-
-    # Create GSR repo and copy code from external repo
-    # TODO copy from master GSR repo - scripts used below copy from external git repo
-    # ec_config = config.ec_config
-    # eagle_project_id = ec_config['ec_project_name']
-    # repo_name = "activator-{}".format(application_name)
-    # repo_name = sanitize(repo_name)
-    # create_repo_response = create_repo(repo_name, workspace_project_id, eagle_project_id)
-    # logger.debug("Create repo response code {}".format(create_repo_response))
-    #
-    # copy_repo_response = copy_repo(application_git_url, repo_name, workspace_project_id, eagle_project_id)
-    # logger.debug("Copy repo response code {}".format(copy_repo_response))
 
     jenkins_url = "{jenkins_base_url}/generic-webhook-trigger/invoke?job={jenkins_deploy_activator_job}&token={jenkins_token}".format(
         jenkins_base_url=(config.JENKINS_BASE_URL),
@@ -73,8 +64,13 @@ def create_application(applicationdata):
     logger.info("application_git_url {}".format(application_git_url))
     logger.info("job_unique_id {}".format(job_unique_id))
 
-    activator_params: dict = {}
-    activator_params[ACTIVATOR_PARAMS] = get_activator_params(mandatory_variables, optional_variables)
+    deployment_params = dict()
+    environment_params = dict()
+    environment_params["shared_vpc_project_id"] = shared_vpc_project_id
+    environment_params["region"] = config.ec_config["region"]
+
+    deployment_params[ACTIVATOR_PARAMS] = get_activator_params(mandatory_variables, optional_variables)
+    deployment_params[ENVIRONMENT_PARAMS] = environment_params
 
     jenkins_url = format_jenkins_url(jenkins_params, jenkins_url)
     logger.info("jenkins_url {}".format(jenkins_url))
@@ -84,7 +80,7 @@ def create_application(applicationdata):
     payload["jenkins_job_params"] = jenkins_params
 
     try:
-        activator_params_json = json.dumps(activator_params)
+        activator_params_json = json.dumps(deployment_params)
         logger.debug("activator_params_json is {} ".format(activator_params_json))
 
         r: Response = requests.post(jenkins_url, data=activator_params_json)

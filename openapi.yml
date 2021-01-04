@@ -440,22 +440,6 @@ components:
             name:
               type: string
               description: team name
-            #            businessUnit:
-            #              type: object
-            #              description: business unit - not used by DAC
-            #              properties:
-            #                name:
-            #                  type: string
-            #                  description: business unit name
-            #                isActive:
-            #                  type: boolean
-            #                  description: is active
-            #                id:
-            #                  type: integer
-            #                  description: business unit id
-            #                description:
-            #                  type: string
-            #                  description: business unit description
             teamMembers:
               type: array
               description: team members
