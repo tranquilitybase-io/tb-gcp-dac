@@ -35,6 +35,7 @@ COPY credentials/ credentials/
 COPY ${src_main_python} ${src_main_python}
 COPY ${src_main_bash} ${src_main_bash}
 COPY ${build} ${build}
+COPY hello.sh hello.sh
 RUN pip install -r ${src_main_python}tranquilitybase/requirements.txt
 
 
