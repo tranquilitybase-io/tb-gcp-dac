@@ -1,7 +1,7 @@
 import json
 import time
 import traceback
-from typing import Optional, Dict, List, Any, Union, Hashable
+from typing import Optional
 
 import requests
 from jenkinsapi.build import Build
@@ -71,6 +71,7 @@ def create_application(applicationdata):
 
     deployment_params[ACTIVATOR_PARAMS] = get_activator_params(mandatory_variables, optional_variables)
     deployment_params[ENVIRONMENT_PARAMS] = environment_params
+    # example deployment params - {"activator_params": {"MAND1": "MV1", "OPT1": "OV1"}, "environment_params": {"shared_vpc_project_id": "SHVPC", "region": "europe-west-2"}}
 
     jenkins_url = format_jenkins_url(jenkins_params, jenkins_url)
     logger.info("jenkins_url {}".format(jenkins_url))
