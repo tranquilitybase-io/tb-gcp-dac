@@ -15,10 +15,10 @@ global gcp_helper
 def init():
     global environment_helper
     environment_helper = EnvHelper()
-    establish_eagle_config()
-    establish_bash()
-    establish_jenkins()
-    establish_gcp()
+    # establish_eagle_config()
+    # establish_bash()
+    # establish_jenkins()
+    # establish_gcp()
 
 
 def establish_jenkins():
