@@ -3,7 +3,7 @@ LOGLEVEL=debug
 NUMBER_OF_WORKERS=1
 PORT=3100
 
-exit 222
+
 
 if [ ! -z "${1}" ]; then
   PORT=${1}
@@ -14,6 +14,8 @@ echo "Using port: ${PORT}"
 
 log_dir='/var/log/tb-gcp-dac.log'
 APP_PORT="${PORT}"
+
+exit 222
 gunicorn app:connex_app \
 --workers="${NUMBER_OF_WORKERS}" \
 --bind="0.0.0.0:${PORT}" \
