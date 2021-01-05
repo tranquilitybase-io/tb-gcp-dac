@@ -39,8 +39,8 @@ def create_application(applicationdata):
         shared_vpc_project_id = deployment_environment_object.get("sharedVPCProjectId", None)
 
     if (workspace_project_id == None or application_git_url == None or
-            deployment_environment == None or deployment_project_id == None):
-        error_msg = "Workspace Project ID, activator Git URL, deployment environment and deployment project id must be supplied"
+            deployment_environment == None or deployment_project_id == None or shared_vpc_project_id == None):
+        error_msg = "Workspace Project ID, activator Git URL, deployment environment, shared vpc project id and deployment project id must be supplied"
         logger.info(error_msg)
         raise DacValidationError(applicationdata, error_msg)
 
@@ -57,7 +57,7 @@ def create_application(applicationdata):
     jenkins_params[ACTIVATOR_GIT_REPO_URL] = application_git_url
     jenkins_params[DEPLOYMENT_PROJECT_ID] = deployment_project_id
     jenkins_params[JOB_UNIQUE_ID] = job_unique_id
-    # TODO will be passed from Houston in some cases - for now default to main/master
+    # TODO will be passed from Houston in some cases where a branch or tag needs to be used - for now default to main/master
     jenkins_params[ACTIVATOR_GIT_REPO_BRANCH] = "master"
 
     logger.info("deployment_project_id {}".format(deployment_project_id))
