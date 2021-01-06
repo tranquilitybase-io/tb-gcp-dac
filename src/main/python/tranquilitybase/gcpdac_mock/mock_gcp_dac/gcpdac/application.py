@@ -3,10 +3,9 @@ import os
 import logging
 import json
 import random
-from config import app
-from config import counter
 from pprint import pformat
 
+from src.main.python.tranquilitybase.gcpdac_mock.mock_gcp_dac.config import counter
 
 logger = logging.getLogger("application")
 
