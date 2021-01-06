@@ -99,7 +99,7 @@ class EnvHelper:
             EnvHelper.environment = Environments.CONTAINER
 
     def __validate_config(self):
-        EnvHelper.validate_environ("DEBUG")
+        EnvHelper.validate_environ("DEBUG", "false")
 
         EnvHelper.validate_environ("JENKINS_BASE_URL")
         EnvHelper.validate_environ("DAC_JENKINS_USER")
@@ -113,10 +113,16 @@ class EnvHelper:
         EnvHelper.validate_environ("APP_PORT")
 
     @staticmethod
-    def validate_environ(name: str) -> str:
+    def validate_environ(name: str, default: str = None) -> str:
         value = os.getenv(name)
         if not value:
-            raise Exception("Required environmental variable: {0} not found.".format(name))
+            if default is None:
+                raise Exception("Required environmental variable: {0} not found.".format(name))
+            else:
+                logger.log("No environmental value for {0}, defaulting to {1}".format(name, default))
+                os.environ[name] = default
+                return default
+
         return value
 
     #
