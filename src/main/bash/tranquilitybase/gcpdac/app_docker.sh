@@ -15,7 +15,7 @@ echo "Using port: ${PORT}"
 log_dir='/var/log/tb-gcp-dac.log'
 APP_PORT="${PORT}"
 
-if [[ -f "src/main/python/tranquilitybase/gcpdac/" ]]
+if [[ -d "src/main/python/tranquilitybase/gcpdac/" ]]
 then
     printf "This file exists on your filesystem."
     exit 201
