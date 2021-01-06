@@ -59,7 +59,6 @@ connex_app.add_api('openapi.yml', strict_validation=False)
 
 
 if __name__ == "__main__":
-    print("=== Main run ===", flush=True)
     connex_app.run(port=config.environment_helper.get_app_port(), debug=config.environment_helper.get_debug_state())
 
 

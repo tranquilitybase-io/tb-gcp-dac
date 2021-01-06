@@ -23,6 +23,6 @@ APP_PORT="${PORT}"
   --access-logformat '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"' \
   --chdir src/main/python/tranquilitybase/gcpdac/
 } || {
-  echo "what"
+  echo "signature error code that gunicorn call has failed"
   exit 20
 }
