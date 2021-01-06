@@ -15,7 +15,7 @@ echo "Using port: ${PORT}"
 log_dir='/var/log/tb-gcp-dac.log'
 APP_PORT="${PORT}"
 
-exit 222
+exit 223
 gunicorn app:connex_app \
 --workers="${NUMBER_OF_WORKERS}" \
 --bind="0.0.0.0:${PORT}" \
