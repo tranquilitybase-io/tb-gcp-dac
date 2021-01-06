@@ -7,6 +7,7 @@ DEPLOYMENT_PROJECT_ID = "projectid"
 ACTIVATOR_GIT_REPO_URL = "repourl"
 ACTIVATOR_GIT_REPO_BRANCH = "repobranch"
 ACTIVATOR_PARAMS = "activator_params"
+ENVIRONMENT_PARAMS = "environment_params"
 JOB_UNIQUE_ID = "job_unique_id"
 
 
