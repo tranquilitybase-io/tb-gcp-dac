@@ -27,12 +27,10 @@ APP_PORT="${PORT}"
 #
 #exit 10
 
+[ ! -f src/main/python/tranquilitybase/gcpdac/app.py ] && exit 100
+
 {
   gunicorn app:connex_app \
-  --workers="${NUMBER_OF_WORKERS}" \
-  --bind="0.0.0.0:${PORT}" \
-  --log-level="${LOGLEVEL}" \
-  --access-logformat '%(h)s %(l)s %(u)s %(t)s "%(r)s" %(s)s %(b)s "%(f)s" "%(a)s"' \
   --chdir src/main/python/tranquilitybase/gcpdac/
 } || {
   echo "what"
