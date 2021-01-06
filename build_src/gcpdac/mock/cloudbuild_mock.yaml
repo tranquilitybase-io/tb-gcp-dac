@@ -1,7 +1,7 @@
 steps:
   - id: Build image
     name: 'gcr.io/cloud-builders/docker'
-    args: [ 'build', '-f', 'Dockerfile_mock', '-t', 'gcr.io/${PROJECT_ID}/${_IMAGE_NAME}', '.' ]
+    args: [ 'build', '-f', 'build_src/gcpdac/mock/Dockerfile_mock', '-t', 'gcr.io/${PROJECT_ID}/${_IMAGE_NAME}', '.' ]
 
   - id: Push image
     name: 'gcr.io/cloud-builders/docker'
