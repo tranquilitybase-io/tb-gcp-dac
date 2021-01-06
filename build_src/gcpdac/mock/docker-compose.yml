@@ -6,7 +6,7 @@ version: '3.1'
 
 services:
   gcp-dac:
-    container_name: gcp-dac
+    container_name: gcp-dac-mock
     # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
     build:
       context: ../../../
