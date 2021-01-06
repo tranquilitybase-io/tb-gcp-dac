@@ -119,7 +119,7 @@ class EnvHelper:
             if default is None:
                 raise Exception("Required environmental variable: {0} not found.".format(name))
             else:
-                logger.log("No environmental value for {0}, defaulting to {1}".format(name, default))
+                logger.debug("No environmental value for {0}, defaulting to '{1}'".format(name, default))
                 os.environ[name] = default
                 return default
 
