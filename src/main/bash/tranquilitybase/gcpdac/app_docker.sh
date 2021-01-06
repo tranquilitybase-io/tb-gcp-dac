@@ -15,7 +15,17 @@ echo "Using port: ${PORT}"
 log_dir='/var/log/tb-gcp-dac.log'
 APP_PORT="${PORT}"
 
-exit 223
+if [[ -f "src/main/python/tranquilitybase/gcpdac/" ]]
+then
+    printf "This file exists on your filesystem."
+    exit 201
+else
+    printf "no file."
+    exit 202
+fi
+
+exit 10
+
 gunicorn app:connex_app \
 --workers="${NUMBER_OF_WORKERS}" \
 --bind="0.0.0.0:${PORT}" \
