@@ -1,23 +1,24 @@
-# Supports all actions concerning Solutions
-import os
-import logging
 import json
+import logging
+import os
 import random
 from pprint import pformat
 
-from src.main.python.tranquilitybase.gcpdac_mock.mock_gcp_dac.config import counter
+from src.main.python.tranquilitybase.gcpdac_mock.config import counter
 
-logger = logging.getLogger("solution")
+logger = logging.getLogger("sandbox")
 
-solution_response_json = ""
-solution_response_file = "gcpdac/solution_response_example.json"
-with open(solution_response_file, "r") as fh:
-    solution_response_json = json.load(fh)
+sandbox_response_json = ""
+sandbox_response_file = "core/sample_responses/sandbox/sandbox_response_example.json"
+with open(sandbox_response_file, "r") as fh:
+    sandbox_response_json = json.load(fh)
+
 
 def next_taskid():
     task_cnt = next(counter)
     taskid = f"MOCKTASKID{task_cnt}"
     return taskid
+
 
 def get_random_status():
     r = random.randint(0, 10)
@@ -29,19 +30,17 @@ def get_random_status():
         status = "SUCCESS"
     return status
 
+
 def get_status():
     if os.environ.get("MOCK_MODE"):
         return get_random_status()
     else:
         return "SUCCESS"
 
-def create_async(solutionDetails):
-    """
-    Return just the task_id.
-    """
 
-    logger.debug(pformat(solutionDetails))
-    taskid =  next_taskid()
+def create_async(sandboxDetails):
+    logger.debug(pformat(sandboxDetails))
+    taskid = next_taskid()
     logger.info("Task ID %s", taskid)
     context = {
         "taskid": f"{taskid}"
@@ -50,11 +49,8 @@ def create_async(solutionDetails):
 
 
 def delete_async(oid):
-    """
-    Return just the task_id.
-    """
     logger.debug("Id is {}".format(oid))
-    taskid =  next_taskid()
+    taskid = next_taskid()
     logger.info("Task ID %s", taskid)
     context = {
         "taskid": f"{taskid}"
@@ -62,23 +58,23 @@ def delete_async(oid):
     return context, 200
 
 
-def create_solution_result(taskid):
-    logger.info("CREATE SOLUTION RESULT %s",format(taskid))
+def create_sandbox_result(taskid):
+    logger.info("CREATE sandbox RESULT %s", format(taskid))
 
     retval = {
         "status": get_status()
     }
     if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
-        retval["payload"] = json.dumps(solution_response_json['payload'])
+        retval["payload"] = json.dumps(sandbox_response_json['payload'])
     return retval, 201
 
 
-def delete_solution_result(taskid):
-    logger.info("DELETE SOLUTION RESULT %s",format(taskid))
+def delete_sandbox_result(taskid):
+    logger.info("DELETE sandbox RESULT %s", format(taskid))
 
     retval = {
         "status": get_status()
     }
     if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
-        retval["payload"] = json.dumps(solution_response_json['payload'])
+        retval["payload"] = json.dumps(sandbox_response_json['payload'])
     return retval, 200

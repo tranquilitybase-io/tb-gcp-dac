@@ -5,12 +5,12 @@ import json
 import random
 from pprint import pformat
 
-from src.main.python.tranquilitybase.gcpdac_mock.mock_gcp_dac.config import counter
+from src.main.python.tranquilitybase.gcpdac_mock.config import counter
 
 logger = logging.getLogger("folder")
 
 folder_response_json = ""
-folder_response_file = "gcpdac/folder_response_example.json"
+folder_response_file = "core/sample_responses/folder/folder_response_example.json"
 with open(folder_response_file, "r") as fh:
     folder_response_json = json.load(fh)
 

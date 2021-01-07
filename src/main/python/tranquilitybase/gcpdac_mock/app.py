@@ -1,7 +1,6 @@
 import os
 import logging
-
-from src.main.python.tranquilitybase.gcpdac import config
+from src.main.python.tranquilitybase.gcpdac_mock import config
 
 print("DEBUG: {}".format(os.environ['DEBUG']))
 

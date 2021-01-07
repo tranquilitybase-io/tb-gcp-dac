@@ -1,18 +1,19 @@
-# Supports all actions concerning applications
+# Supports all actions concerning Solutions
 import os
 import logging
 import json
 import random
 from pprint import pformat
 
-from src.main.python.tranquilitybase.gcpdac_mock.mock_gcp_dac.config import counter
+from src.main.python.tranquilitybase.gcpdac_mock.config import counter
 
-logger = logging.getLogger("application")
+logger = logging.getLogger("solution")
 
-application_response_json = ""
-application_response_file = "gcpdac/application_response_example.json"
-with open(application_response_file, "r") as fh:
-    application_response_json = json.load(fh)
+
+solution_response_json = ""
+solution_response_file = "core/sample_responses/solution/solution_response_example.json"
+with open(solution_response_file, "r") as fh:
+    solution_response_json = json.load(fh)
 
 def next_taskid():
     task_cnt = next(counter)
@@ -29,20 +30,18 @@ def get_random_status():
         status = "SUCCESS"
     return status
 
-
 def get_status():
     if os.environ.get("MOCK_MODE"):
         return get_random_status()
     else:
         return "SUCCESS"
 
-
-def create_async(applicationDetails):
+def create_async(solutionDetails):
     """
     Return just the task_id.
     """
 
-    logger.debug(pformat(applicationDetails))
+    logger.debug(pformat(solutionDetails))
     taskid =  next_taskid()
     logger.info("Task ID %s", taskid)
     context = {
@@ -64,23 +63,23 @@ def delete_async(oid):
     return context, 200
 
 
-def create_application_result(taskid):
-    logger.info("CREATE application RESULT %s",format(taskid))
+def create_solution_result(taskid):
+    logger.info("CREATE SOLUTION RESULT %s",format(taskid))
 
     retval = {
         "status": get_status()
     }
     if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
-        retval["payload"] = json.dumps(application_response_json['payload'])
+        retval["payload"] = json.dumps(solution_response_json['payload'])
     return retval, 201
 
 
-def delete_application_result(taskid):
-    logger.info("DELETE application RESULT %s",format(taskid))
+def delete_solution_result(taskid):
+    logger.info("DELETE SOLUTION RESULT %s",format(taskid))
 
     retval = {
         "status": get_status()
     }
     if retval.get('status') == "SUCCESS" or retval.get('status') == "FAILURE":
-        retval["payload"] = json.dumps(application_response_json['payload'])
+        retval["payload"] = json.dumps(solution_response_json['payload'])
     return retval, 200

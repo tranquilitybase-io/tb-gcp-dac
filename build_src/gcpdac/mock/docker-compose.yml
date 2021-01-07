@@ -11,7 +11,7 @@ services:
     build:
       context: ../../../
       dockerfile: build_src/gcpdac/mock/Dockerfile_mock
-    image: gcr.io/tranquility-base-images/tb-gcp-dac:main
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:mock
     ports:
       - 3100:3100
     environment:
@@ -24,7 +24,7 @@ services:
       EC_CONFIG: /resources/ec-config.yaml
     volumes:
       - ../../../resources/mock/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
-    command: ["sh", "-c", "sh src/main/bash/tranquilitybase/gcpdac/app_docker.sh"]
+    command: ["sh", "-c", "sh src/main/bash/tranquilitybase/gcpdac_mock/app_docker.sh"]
 
 #  redis:
 #    container_name: redis

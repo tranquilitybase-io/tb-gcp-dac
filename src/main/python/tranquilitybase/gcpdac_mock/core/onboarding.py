@@ -2,9 +2,10 @@ import json
 
 import yaml
 from gcloud import resource_manager
-from gcpdac.models.onboarding import OnboardingModel
 
 import config
+
+from src.main.python.tranquilitybase.gcpdac.core.models.onboarding import OnboardingModel
 
 logger = config.logger
 

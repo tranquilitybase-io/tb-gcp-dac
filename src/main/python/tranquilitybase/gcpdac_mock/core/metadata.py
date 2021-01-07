@@ -1,5 +1,4 @@
-# Module to serve metadata endpoint
-from gcpdac.extendedSchemas import MetadataSchema
+from src.main.python.tranquilitybase.gcpdac.core.schemas.extendedSchemas import MetadataSchema
 
 
 def read_all():
