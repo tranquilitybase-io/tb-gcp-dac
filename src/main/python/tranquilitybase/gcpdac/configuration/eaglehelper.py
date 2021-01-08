@@ -15,16 +15,29 @@ class EagleConfigHelper:
         self.__parse_config_file()
 
     def __validate_config_file(self):
+        print("-- proj root --")
+        import pathlib
+        currentDirectory = pathlib.Path(FileUtils.get_project_root())
+        print(currentDirectory)
+        for currentFile in currentDirectory.glob("*"):
+            print(currentFile)
+
+        print("-- src --")
+        currentDirectory = pathlib.Path(FileUtils.get_project_root()+"/src/")
+        print(currentDirectory)
+        for currentFile in currentDirectory.glob("*"):
+            print(currentFile)
+
+        print("-- resources --")
+        currentDirectory = pathlib.Path(FileUtils.get_project_root()+"/resources/")
+        print(currentDirectory)
+        for currentFile in currentDirectory.glob("*"):
+            print(currentFile)
+        print("----", flush=True)
+
         if not FileUtils.file_exists(EagleConfigHelper.__ec_file_path_from_project_root):
 
-            import glob
-            print("-- proj root --")
-            # print(glob.glob(FileUtils.get_project_root()))
-            import pathlib
-            currentDirectory = pathlib.Path(FileUtils.get_project_root())
-            for currentFile in currentDirectory.glob("*"):
-                print(currentFile)
-            print("----", flush=True)
+
 
             raise Exception("No file found for " + EagleConfigHelper.__ec_file_path_from_project_root)
 
@@ -34,6 +47,7 @@ class EagleConfigHelper:
                 EagleConfigHelper.config_dict: dict = yaml.safe_load(f)
                 EagleConfigHelper.__gcp_project_name = EagleConfigHelper.config_dict.get("ec_project_name")
             except yaml.YAMLError as exc:
+                print("path: " + EagleConfigHelper.__ec_file_path_from_project_root)
                 raise SystemError("Failed to parse EC YAML after successfully opening - {}".format(exc))
 
     @staticmethod
