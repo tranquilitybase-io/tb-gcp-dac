@@ -28,6 +28,17 @@ class EagleConfigHelper:
         for currentFile in currentDirectory.glob("*"):
             print(currentFile)
 
+
+        print("-- recursive --")
+        import glob
+        currentDirectory = pathlib.Path(FileUtils.get_project_root()+"/resources/")
+        for currentpath, folders, files in os.walk(currentDirectory):
+            for file in files:
+                print(os.path.join(currentpath, file))
+
+        print("done", flush=True)
+
+
         print("-- resources --")
         currentDirectory = pathlib.Path(FileUtils.get_project_root()+"/resources/")
         print(currentDirectory)
@@ -39,16 +50,6 @@ class EagleConfigHelper:
         with open(EagleConfigHelper.__ec_file_path_from_project_root, 'r') as viewFileOpen:
             data = viewFileOpen.read()
         print(data, flush=True)
-
-
-        print("-- recursive --")
-        import glob
-        currentDirectory = pathlib.Path(FileUtils.get_project_root()+"/resources/")
-        for currentpath, folders, files in os.walk(currentDirectory):
-            for file in files:
-                print(os.path.join(currentpath, file))
-
-        print("done", flush=True)
 
         currentDirectory = pathlib.Path(EagleConfigHelper.__ec_file_path_from_project_root)
         if not FileUtils.file_exists(currentDirectory):
