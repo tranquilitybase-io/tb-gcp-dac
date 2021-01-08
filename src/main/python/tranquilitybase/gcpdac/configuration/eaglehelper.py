@@ -16,6 +16,12 @@ class EagleConfigHelper:
 
     def __validate_config_file(self):
         if not FileUtils.file_exists(EagleConfigHelper.__ec_file_path_from_project_root):
+
+            import glob
+            print("-- proj root --")
+            print(glob.glob(FileUtils.get_project_root()))
+            print("----", flush=True)
+            
             raise Exception("No file found for " + EagleConfigHelper.__ec_file_path_from_project_root)
 
     def __parse_config_file(self):
