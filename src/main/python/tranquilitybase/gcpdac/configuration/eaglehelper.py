@@ -36,6 +36,10 @@ class EagleConfigHelper:
         print("----", flush=True)
         print("EagleConfigHelper.__ec_file_path_from_project_root: " + EagleConfigHelper.__ec_file_path_from_project_root, flush=True)
 
+        with open(EagleConfigHelper.__ec_file_path_from_project_root, 'r') as viewFileOpen:
+            data = viewFileOpen.read()
+        print(data, flush=True)
+
         currentDirectory = pathlib.Path(EagleConfigHelper.__ec_file_path_from_project_root)
         if not FileUtils.file_exists(currentDirectory):
 
