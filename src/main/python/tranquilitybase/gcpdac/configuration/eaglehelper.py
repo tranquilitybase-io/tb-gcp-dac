@@ -34,8 +34,10 @@ class EagleConfigHelper:
         for currentFile in currentDirectory.glob("*"):
             print(currentFile)
         print("----", flush=True)
+        print("EagleConfigHelper.__ec_file_path_from_project_root: " + EagleConfigHelper.__ec_file_path_from_project_root, flush=True)
 
-        if not FileUtils.file_exists(EagleConfigHelper.__ec_file_path_from_project_root):
+        currentDirectory = pathlib.Path(EagleConfigHelper.__ec_file_path_from_project_root)
+        if not FileUtils.file_exists(currentDirectory):
 
 
 
