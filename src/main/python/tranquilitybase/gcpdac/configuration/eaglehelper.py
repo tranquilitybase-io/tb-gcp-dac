@@ -19,9 +19,13 @@ class EagleConfigHelper:
 
             import glob
             print("-- proj root --")
-            print(glob.glob(FileUtils.get_project_root()))
+            # print(glob.glob(FileUtils.get_project_root()))
+            import pathlib
+            currentDirectory = pathlib.Path(FileUtils.get_project_root())
+            for currentFile in currentDirectory.glob("*"):
+                print(currentFile)
             print("----", flush=True)
-            
+
             raise Exception("No file found for " + EagleConfigHelper.__ec_file_path_from_project_root)
 
     def __parse_config_file(self):
