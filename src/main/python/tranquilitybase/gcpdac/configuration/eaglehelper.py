@@ -11,7 +11,7 @@ class EagleConfigHelper:
 
     def __init__(self, ec_file_path: str):
         EagleConfigHelper.__ec_file_path_from_project_root = FileUtils.redirect_path(ec_file_path)
-        self.__validate_config_file()
+        # self.__validate_config_file()
         self.__parse_config_file()
 
     def __validate_config_file(self):
@@ -53,9 +53,6 @@ class EagleConfigHelper:
 
         currentDirectory = pathlib.Path(EagleConfigHelper.__ec_file_path_from_project_root)
         if not FileUtils.file_exists(currentDirectory):
-
-
-
             raise Exception("No file found for " + EagleConfigHelper.__ec_file_path_from_project_root)
 
     def __parse_config_file(self):
