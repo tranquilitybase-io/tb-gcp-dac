@@ -24,7 +24,7 @@ services:
       DAC_JENKINS_USER: localuser
       DAC_JENKINS_PASSWORD: localpass
       EC_CONFIG: /resources/ec-config.yaml
-      GOOGLE_APPLICATION_CREDENTIALS: /credentials/credentials.json
+      GOOGLE_APPLICATION_CREDENTIALS: /app/credentials/credentials.json
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
 

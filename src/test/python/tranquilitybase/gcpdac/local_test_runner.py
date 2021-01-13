@@ -2,7 +2,7 @@ import os
 import unittest
 from unittest import TestSuite
 
-from src.main.python.tranquilitybase.gcpdac.configuration.envhelper import EnvHelper
+from src.main.python.tranquilitybase.gcpdac.configuration.helpers.envhelper import EnvHelper
 from src.main.python.tranquilitybase.lib.common.FileUtils import FileUtils
 
 global HOUSTON_SERVICE_URL

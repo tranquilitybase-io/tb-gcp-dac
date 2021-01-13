@@ -29,7 +29,7 @@ services:
       CELERY_RESULT_BACKEND: redis://localhost:6379
     volumes:
       - ../../../resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
-    command: bash -c "sh src/main/bash/tranquilitybase/gcpdac/app_docker.sh"
+    command: bash -c "sh src/main/bash/tranquilitybase/gcpdac/main/app_docker.sh"
     network_mode: "host"
 
   redis:
