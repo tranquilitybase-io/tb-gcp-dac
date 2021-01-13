@@ -37,6 +37,10 @@ COPY ${src_main_bash} ${src_main_bash}
 COPY ${build} ${build}
 RUN pip install -r ${src_main_python}tranquilitybase/requirements.txt
 
+# merging celery worker into this image for the short term (to save on the need to set up a new pipline)
+# celery seems to be non-intuative working outside the root
+COPY src/main/python/tranquilitybase/gcpdac/celery_worker/celery_worker.py celery_worker.py
+COPY src/main/bash/tranquilitybase/gcpdac/celery_worker/celery_worker.sh celery_worker.sh
 
 
 # ==== Shell =====

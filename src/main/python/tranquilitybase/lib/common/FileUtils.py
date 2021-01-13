@@ -13,8 +13,7 @@ class FileUtils:
 
     @staticmethod
     def get_project_root() -> str:
-        # TODO: something better
-        return os.path.normpath('../../../../../')
+        return os.path.abspath('/app')
 
     @staticmethod
     def redirect_path(original: str) -> str:

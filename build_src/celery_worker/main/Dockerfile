@@ -35,8 +35,11 @@ COPY credentials/ credentials/
 COPY ${src_main_python} ${src_main_python}
 COPY ${src_main_bash} ${src_main_bash}
 COPY ${build} ${build}
-COPY src/main/python/tranquilitybase/celery_worker/celery_worker.py celery_worker.py
-COPY src/main/bash/tranquilitybase/celery_worker/celery_worker.sh celery_worker.sh
+
+# celery seems to be non-intuative working outside the root
+COPY src/main/python/tranquilitybase/gcpdac/celery_worker/celery_worker.py celery_worker.py
+COPY src/main/bash/tranquilitybase/gcpdac/celery_worker/celery_worker.sh celery_worker.sh
+
 RUN pip install -r ${src_main_python}/tranquilitybase/requirements.txt
 
 
