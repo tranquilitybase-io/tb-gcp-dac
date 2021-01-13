@@ -11,7 +11,7 @@ ARG build=build_src/gcpdac
 
 # ==== Unix ====
 RUN apt-get update \
- && apt-get install unzip=6.0-25 wget=1.20.1-1.1 dos2unix=7.4.0-1 nano=3.2-3 \
+ && apt-get install unzip wget dos2unix nano \
  -y --no-install-recommends \
  && apt-get clean \
  && rm -rf /var/lib/apt/lists/*
