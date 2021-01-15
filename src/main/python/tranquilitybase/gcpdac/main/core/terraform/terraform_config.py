@@ -1,6 +1,6 @@
 import time
 
-mock_mode = True
+mock_mode = False
 terraform_script_root = "/app/src/main/terraform/"
 
 
