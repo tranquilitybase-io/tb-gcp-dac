@@ -80,13 +80,11 @@ services:
       APP_PORT: "3200"
       CELERY_BROKER_URL: redis://localhost:6379
       CELERY_RESULT_BACKEND: redis://localhost:6379
-      GOOGLE_APPLICATION_CREDENTIALS: /app/credentials/credentials.json
       EC_CONFIG: /resources/ec-config.yaml
       JENKINS_BASE_URL: http://localhost:3200
       DAC_JENKINS_USER: localuser
       DAC_JENKINS_PASSWORD: localpass
     volumes:
-      - ../../../credentials/credentials.json:/app/credentials/credentials.json:ro
       - ../../../resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
     command: [ "sh", "-c", "sh celery_worker.sh" ]
     network_mode: "host"
