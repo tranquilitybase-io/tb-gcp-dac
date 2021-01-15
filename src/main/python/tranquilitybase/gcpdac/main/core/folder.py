@@ -3,7 +3,7 @@ from pprint import pformat
 
 from celery import states
 from celery.result import AsyncResult
-# from src.main.python.tranquilitybase.gcpdac.celery_worker.celery_tasks import create_folder_task, delete_folder_task
+from src.main.python.tranquilitybase.gcpdac.celery_worker.celery_tasks import create_folder_task, delete_folder_task
 
 # --- Logger ---
 import inspect
@@ -12,31 +12,20 @@ logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def create_async(folderDetails):
-    # logger.debug(pformat(folderDetails))
-    #
-    # result: AsyncResult = create_folder_task.delay(folderDetails)
-    #
-    # logger.info("Task ID %s", result.task_id)
-    #
-    # context = {"taskid": result.task_id}
-    #
-    # return context, 201
-    pass
+    logger.debug(pformat(folderDetails))
+    result: AsyncResult = create_folder_task.delay(folderDetails)
+    logger.info("Task ID %s", result.task_id)
+    context = {"taskid": result.task_id}
+    return context, 201
 
 
 def delete_async(oid):
-    # logger.debug("Id is {}".format(oid))
-    #
-    # folderDetails = {"id": oid}
-    #
-    # result: AsyncResult = delete_folder_task.delay(folderDetails=folderDetails)
-    #
-    # logger.info("Task ID %s", result.task_id)
-    #
-    # context = {"taskid": result.task_id}
-    #
-    # return context, 201
-    pass
+    logger.debug("Id is {}".format(oid))
+    folderDetails = {"id": oid}
+    result: AsyncResult = delete_folder_task.delay(folderDetails=folderDetails)
+    logger.info("Task ID %s", result.task_id)
+    context = {"taskid": result.task_id}
+    return context, 201
 
 
 def create_folder_result(taskid):

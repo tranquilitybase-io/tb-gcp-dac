@@ -3,7 +3,7 @@ from pprint import pformat
 
 from celery import states
 
-# from src.main.python.tranquilitybase.gcpdac.celery_worker.celery_tasks import deploy_application_task, destroy_application_task
+from src.main.python.tranquilitybase.gcpdac.celery_worker.celery_tasks import deploy_application_task, destroy_application_task
 from celery.result import AsyncResult
 
 # --- Logger ---
@@ -13,22 +13,20 @@ logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def create_async(applicationDetails):
-    # logger.debug(pformat(applicationDetails))
-    # result: AsyncResult = deploy_application_task.delay(applicationDetails=applicationDetails)
-    # logger.info("Task ID %s", result.task_id)
-    # context = {"taskid": result.task_id}
-    # return context, 201
-    pass
+    logger.debug(pformat(applicationDetails))
+    result: AsyncResult = deploy_application_task.delay(applicationDetails=applicationDetails)
+    logger.info("Task ID %s", result.task_id)
+    context = {"taskid": result.task_id}
+    return context, 201
 
 
 def delete_async(oid):
-    # logger.debug("Id is {}".format(oid))
-    # applicationDetails = {"id": oid}
-    # result: AsyncResult = destroy_application_task.delay(applicationDetails=applicationDetails)
-    # logger.info("Task ID %s", result.task_id)
-    # context = {"taskid": result.task_id}
-    # return context, 201
-    pass
+    logger.debug("Id is {}".format(oid))
+    applicationDetails = {"id": oid}
+    result: AsyncResult = destroy_application_task.delay(applicationDetails=applicationDetails)
+    logger.info("Task ID %s", result.task_id)
+    context = {"taskid": result.task_id}
+    return context, 201
 
 
 def create_application_result(taskid):

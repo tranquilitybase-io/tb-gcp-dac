@@ -1,5 +1,6 @@
 from celery import signals, Celery
 from src.main.python.tranquilitybase.gcpdac.celery_worker import celeryconfig
+from src.main.python.tranquilitybase.gcpdac.configuration import config
 
 global celery_app
 
@@ -9,12 +10,11 @@ def setup_celery_logging(**kwargs):
     pass
 
 
-def make_celery(name: str, backend: str, broker: str):
-
+def make_celery():
     celery = Celery(
-        name,
-        backend=backend,
-        broker=broker,
+        __name__,
+        backend=config.environment_helper.get_celery_result_backend(),
+        broker=config.environment_helper.get_celery_broker_url(),
         config_source=celeryconfig
     )
 
@@ -23,9 +23,12 @@ def make_celery(name: str, backend: str, broker: str):
 
 def get_celery():
     global celery_app
+
+    try:
+        celery_app
+    except Exception as e:
+        celery_app = make_celery()
+
     return celery_app
 
 
-def set_celery(backend, broker):
-    global celery_app
-    celery_app = make_celery(__name__, backend, broker)

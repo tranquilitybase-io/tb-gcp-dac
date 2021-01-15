@@ -1,5 +1,6 @@
 from src.main.python.tranquilitybase.gcpdac.celery_worker.celery_access import get_celery
-from src.main.python.tranquilitybase.gcpdac.main.core.application_jenkins import create_application, delete_application
+from src.main.python.tranquilitybase.gcpdac.celery_worker.tasks.application_jenkins import create_application, delete_application
+
 from src.main.python.tranquilitybase.gcpdac.main.core.terraform.folder_terraform import create_folder, delete_folder
 from src.main.python.tranquilitybase.gcpdac.main.core.terraform.sandbox_terraform import create_sandbox, delete_sandbox
 from src.main.python.tranquilitybase.gcpdac.main.core.terraform.solution_terraform import create_solution, delete_solution

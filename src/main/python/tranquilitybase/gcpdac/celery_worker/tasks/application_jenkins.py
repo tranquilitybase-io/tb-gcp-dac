@@ -6,9 +6,9 @@ import requests
 from requests import Response
 
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.jenkinshelper import JenkinsHelper
-from src.main.python.tranquilitybase.gcpdac.main.core.jenkins.constants import *
+from src.main.python.tranquilitybase.gcpdac.celery_worker.tasks.jenkins.constants import *
 from src.main.python.tranquilitybase.gcpdac.main.core.exceptions.exceptions import DacValidationError, DacError
-from src.main.python.tranquilitybase.gcpdac.main.core.jenkins.jenkins_utils import get_job_build, format_jenkins_url
+from src.main.python.tranquilitybase.gcpdac.celery_worker.tasks.jenkins.jenkins_utils import get_job_build, format_jenkins_url
 from src.main.python.tranquilitybase.lib.common.utils import random_element
 
 # --- Logger ---
