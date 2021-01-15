@@ -25,8 +25,8 @@ services:
       DAC_JENKINS_USER: localuser
       DAC_JENKINS_PASSWORD: localpass
       EC_CONFIG: /resources/ec-config.yaml
-      CELERY_BROKER_URL: redis://redis:6379
-      CELERY_RESULT_BACKEND: redis://redis:6379
+      CELERY_BROKER_URL: redis://localhost:6379
+      CELERY_RESULT_BACKEND: redis://localhost:6379
 
     volumes:
       - ../../../resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
@@ -78,8 +78,8 @@ services:
     environment:
       DEBUG: "True"
       APP_PORT: "3200"
-      CELERY_BROKER_URL: redis://redis:6379
-      CELERY_RESULT_BACKEND: redis://redis:6379
+      CELERY_BROKER_URL: redis://localhost:6379
+      CELERY_RESULT_BACKEND: redis://localhost:6379
       GOOGLE_APPLICATION_CREDENTIALS: /app/credentials/credentials.json
       EC_CONFIG: /resources/ec-config.yaml
       JENKINS_BASE_URL: http://localhost:3200
