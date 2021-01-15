@@ -19,17 +19,18 @@ services:
       - 3100:3100
     environment:
       DEBUG: "True"
-      APP_PORT: 3100
+      APP_PORT: "3100"
       HOUSTON_SERVICE_URL: http://localhost:3000
       JENKINS_BASE_URL: http://localhost:3200
       DAC_JENKINS_USER: localuser
       DAC_JENKINS_PASSWORD: localpass
       EC_CONFIG: /resources/ec-config.yaml
-      CELERY_BROKER_URL: redis://localhost:6379
-      CELERY_RESULT_BACKEND: redis://localhost:6379
+      CELERY_BROKER_URL: redis://redis:6379
+      CELERY_RESULT_BACKEND: redis://redis:6379
+
     volumes:
       - ../../../resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
-    command: bash -c "sh src/main/bash/tranquilitybase/gcpdac/main/app_docker.sh"
+    command: [ "sh", "-c", "sh src/main/bash/tranquilitybase/gcpdac/main/app_docker.sh" ]
     network_mode: "host"
 
   redis:
@@ -64,19 +65,29 @@ services:
 
 
   worker:
-    # to run with more workers 'docker-compose up --scale worker=<num of workers>
-    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
-    image: gcr.io/tranquility-base-images/tb-gcp-dac-worker:main
+    #     to run with more workers 'docker-compose up --scale worker=<num of workers>
+    #     replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:main
+    depends_on:
+      - redis
+    container_name: gcp-dac-test-targetworker
     build:
       context: ../../../
       dockerfile: build_src/celery_worker/main/Dockerfile
     hostname: worker
     environment:
+      DEBUG: "True"
+      APP_PORT: "3200"
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
-      GOOGLE_APPLICATION_CREDENTIALS: /credentials/credentials.json
+      GOOGLE_APPLICATION_CREDENTIALS: /app/credentials/credentials.json
+      EC_CONFIG: /resources/ec-config.yaml
+      JENKINS_BASE_URL: http://localhost:3200
+      DAC_JENKINS_USER: localuser
+      DAC_JENKINS_PASSWORD: localpass
     volumes:
       - ../../../credentials/credentials.json:/app/credentials/credentials.json:ro
-    command: bash -c "sh celery_worker.sh"
+      - ../../../resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
+    command: [ "sh", "-c", "sh celery_worker.sh" ]
     network_mode: "host"
 

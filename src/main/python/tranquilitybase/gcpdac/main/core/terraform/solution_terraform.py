@@ -17,7 +17,7 @@ import traceback
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper import EagleConfigHelper
 from src.main.python.tranquilitybase.gcpdac.main.core.exceptions.exceptions import DacError
 from src.main.python.tranquilitybase.gcpdac.main.core.shell_wrappers.shell_utils import add_access_to_folders, delete_repo
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import get_terraform_root
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import *
 from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils import *
 from src.main.python.tranquilitybase.lib.common.utils import *
 
@@ -28,6 +28,9 @@ logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def create_solution(solutiondata):
+    if mock_mode:
+        return mock_response()
+
     ec_config = EagleConfigHelper.config_dict
     terraform_source_path = get_terraform_root() + 'solution_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
@@ -95,6 +98,9 @@ def create_solution(solutiondata):
 
 
 def delete_solution(solutiondata):
+    if mock_mode:
+        return mock_response()
+
     tf_data = dict()
     solution_id = solutiondata.get("id")
     logger.debug("solution_id is %s", solution_id)
@@ -136,6 +142,9 @@ def delete_solution(solutiondata):
 
 
 def delete_workspace_repo(ec_config, tf):
+    if mock_mode:
+        return mock_response()
+
     _, tf_state_json, _ = tf.show(json=True)
     tf_state: dict = json.loads(tf_state_json)
     if 'values' in tf_state:

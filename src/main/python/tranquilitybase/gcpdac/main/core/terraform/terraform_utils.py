@@ -1,7 +1,7 @@
 import time
 
 from python_terraform import Terraform
-
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import mock_mode
 
 # --- Logger ---
 import inspect
@@ -10,6 +10,9 @@ logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):
+    if mock_mode:
+        return
+
     return_code, stdout, stderr = tf.init(capture_output=True,
                                           backend_config={'bucket': terraform_state_bucket,
                                                           'prefix': backend_prefix})
@@ -19,6 +22,10 @@ def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):
 
 
 def terraform_apply(env_data, tf: Terraform):
+    if mock_mode:
+        time.sleep(10)
+        return {"tf_return_code": "0", "tf_outputs": "hi", "tf_state": "state"}
+
     retry_count = 0
     return_code = 0
     while retry_count < 5:
@@ -47,6 +54,10 @@ def terraform_apply(env_data, tf: Terraform):
 
 
 def terraform_destroy(env_data, tf):
+    if mock_mode:
+        time.sleep(10)
+        return {"tf_return_code": "0"}
+
     return_code, stdout, stderr = tf.destroy(var_file=env_data, capture_output=True)
     logger.debug('Terraform destroy return code is {}'.format(return_code))
     logger.debug('Terraform destroy stdout is {}'.format(stdout))

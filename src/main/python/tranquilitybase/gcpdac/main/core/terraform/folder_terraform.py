@@ -12,11 +12,10 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from python_terraform import Terraform
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import *
 
 # --- Logger ---
 import inspect
-
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import get_terraform_root
 from src.main.python.tranquilitybase.lib.common.local_logging import *
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
@@ -26,6 +25,9 @@ from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils 
 
 
 def create_folder(folderDetails):
+    if mock_mode:
+        return mock_response()
+
     # builds and destroys a folder
     # The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
     # within a GCP project, as well as setting other properties like billing.
@@ -62,6 +64,9 @@ def create_folder(folderDetails):
 
 
 def delete_folder(folder):
+    if mock_mode:
+        return mock_response()
+
     tf_data = dict()
     folder_name = folder.get("id")
 

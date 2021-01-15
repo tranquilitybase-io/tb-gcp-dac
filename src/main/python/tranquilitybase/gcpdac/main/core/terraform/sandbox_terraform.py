@@ -14,11 +14,11 @@
 # --- Logger ---
 import inspect
 
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import get_terraform_root
 from src.main.python.tranquilitybase.lib.common.local_logging import *
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
 import traceback
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import *
 from src.main.python.tranquilitybase.gcpdac.main.core.exceptions.exceptions import DacError
 from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils import *
 from src.main.python.tranquilitybase.lib.common.utils import random_element, folderize, labellize
@@ -26,6 +26,9 @@ from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper im
 
 
 def create_sandbox(sandboxdata):
+    if mock_mode:
+        return mock_response()
+
     ec_config = EagleConfigHelper.config_dict
     terraform_source_path = get_terraform_root() + 'sandbox_creation'
     terraform_state_bucket = ec_config['terraform_state_bucket']
@@ -87,6 +90,9 @@ def create_sandbox(sandboxdata):
 
 
 def delete_sandbox(sandboxdata):
+    if mock_mode:
+        return mock_response()
+
     tf_data = dict()
     sandbox_id = sandboxdata.get("id")
     logger.debug("sandbox_id is %s", sandbox_id)

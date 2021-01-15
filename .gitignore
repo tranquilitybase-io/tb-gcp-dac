@@ -152,3 +152,4 @@ mocks/mock_gcp_dac/openapi.yml
 terraform/solution_creation/input.auto.tfvars
 /gcpdac_tests/gcp_tests/config.py
 /build_src/gcpdac/api-docs/package.json
+/out/

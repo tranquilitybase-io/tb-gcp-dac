@@ -14,6 +14,7 @@ services:
     image: gcr.io/tranquility-base-images/tb-gcp-dac:main
     depends_on:
       - redis
+      - worker
     ports:
       - 3100:3100
     environment:
@@ -45,6 +46,8 @@ services:
 #     to run with more workers 'docker-compose up --scale worker=<num of workers>
 #     replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
     image: gcr.io/tranquility-base-images/tb-gcp-dac:main
+    depends_on:
+      - redis
     build:
       context: ../../../
       dockerfile: build_src/celery_worker/main/Dockerfile
