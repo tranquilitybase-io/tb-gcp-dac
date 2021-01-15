@@ -18,7 +18,7 @@ services:
       - 3100:3100
     environment:
       DEBUG: "True"
-      APP_PORT: 3100
+      APP_PORT: "3100"
       HOUSTON_SERVICE_URL: http://localhost:3000
       JENKINS_BASE_URL: http://localhost:3200
       DAC_JENKINS_USER: localuser
@@ -51,7 +51,7 @@ services:
     hostname: worker
     environment:
       DEBUG: "True"
-      APP_PORT: 3200
+      APP_PORT: "3200"
       CELERY_BROKER_URL: redis://redis:6379
       CELERY_RESULT_BACKEND: redis://redis:6379
       GOOGLE_APPLICATION_CREDENTIALS: /app/credentials/credentials.json

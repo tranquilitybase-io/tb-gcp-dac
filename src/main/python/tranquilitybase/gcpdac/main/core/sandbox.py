@@ -3,7 +3,7 @@ from pprint import pformat
 
 from celery import states
 from celery.result import AsyncResult
-from src.main.python.tranquilitybase.gcpdac.celery_worker.celery_tasks import deploy_sandbox_task, destroy_sandbox_task
+# from src.main.python.tranquilitybase.gcpdac.celery_worker.celery_tasks import deploy_sandbox_task, destroy_sandbox_task
 
 # --- Logger ---
 import inspect
@@ -12,20 +12,22 @@ logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def create_async(sandboxDetails):
-    logger.debug(pformat(sandboxDetails))
-    result: AsyncResult = deploy_sandbox_task.delay(sandboxDetails=sandboxDetails)
-    logger.info("Task ID %s", result.task_id)
-    context = {"taskid": result.task_id}
-    return context, 201
+    # logger.debug(pformat(sandboxDetails))
+    # result: AsyncResult = deploy_sandbox_task.delay(sandboxDetails=sandboxDetails)
+    # logger.info("Task ID %s", result.task_id)
+    # context = {"taskid": result.task_id}
+    # return context, 201
+    pass
 
 
 def delete_async(oid):
-    logger.debug("Id is {}".format(oid))
-    sandboxDetails = {"id": oid}
-    result: AsyncResult = destroy_sandbox_task.delay(sandboxDetails=sandboxDetails)
-    logger.info("Task ID %s", result.task_id)
-    context = {"taskid": result.task_id}
-    return context, 201
+    # logger.debug("Id is {}".format(oid))
+    # sandboxDetails = {"id": oid}
+    # result: AsyncResult = destroy_sandbox_task.delay(sandboxDetails=sandboxDetails)
+    # logger.info("Task ID %s", result.task_id)
+    # context = {"taskid": result.task_id}
+    # return context, 201
+    pass
 
 
 def create_sandbox_result(taskid):

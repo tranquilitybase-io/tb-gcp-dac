@@ -14,6 +14,7 @@ class Environments(Enum):
 
 class EnvHelper:
 
+    done: bool = False
     environment: Environments = None
     has_run_previously = False
 
@@ -54,6 +55,11 @@ class EnvHelper:
 
     @classmethod
     def print_config(self):
+
+        if EnvHelper.done:
+            raise Exception("nooooo")
+
+        EnvHelper.done = True
         logger.debug("")
         logger.debug("====================")
         logger.debug("====== Config ======")

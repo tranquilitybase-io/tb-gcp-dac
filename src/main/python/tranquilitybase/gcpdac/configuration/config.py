@@ -38,7 +38,6 @@ def establish_gcp():
     if EnvHelper.has_google_credentials():
         global eagle_config_helper
         gcp_project_name = eagle_config_helper.get_gcp_project_name()
-        print("GOOGLE_CLOUD_PROJECT: {}".format(gcp_project_name))
         storage.Client(project=gcp_project_name)
 
 
