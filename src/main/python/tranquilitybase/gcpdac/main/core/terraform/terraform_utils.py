@@ -1,12 +1,28 @@
 import time
 
 from python_terraform import Terraform
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import mock_mode
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import mock_mode, get_terraform_path
 
 # --- Logger ---
 import inspect
 from src.main.python.tranquilitybase.lib.common.local_logging import *
 logger = get_logger(get_frame_name(inspect.currentframe()))
+
+
+def validate_terraform_path():
+    terraform_source_path = get_terraform_path('folder_creation')
+    tf = Terraform(working_dir=terraform_source_path)
+    terraform_plan(tf)
+
+
+def terraform_plan(tf: Terraform):
+    if mock_mode:
+        return
+
+    return_code, stdout, stderr = tf.plan(capture_output=True)
+    logger.debug('Terraform plan return code is {}'.format(return_code))
+    logger.debug('Terraform plan stdout is {}'.format(stdout))
+    logger.debug('Terraform plan stderr is {}'.format(stderr))
 
 
 def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):

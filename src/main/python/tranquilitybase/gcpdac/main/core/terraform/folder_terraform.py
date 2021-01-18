@@ -54,7 +54,7 @@ def create_folder(folderDetails):
     env_data = None
     backend_prefix = get_folder_backend_prefix(folder_name, tb_discriminator)
     terraform_state_bucket = ec_config['terraform_state_bucket']
-    terraform_source_path = get_terraform_root() + 'folder_creation'
+    terraform_source_path = get_terraform_path('folder_creation')
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
 
@@ -87,7 +87,7 @@ def delete_folder(folder):
 
     backend_prefix = get_folder_backend_prefix(folder_name, tb_discriminator)
     terraform_state_bucket = ec_config['terraform_state_bucket']
-    terraform_source_path = get_terraform_root() + 'folder_creation'
+    terraform_source_path = get_terraform_path('folder_creation')
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
     terraform_init(backend_prefix, terraform_state_bucket, tf)

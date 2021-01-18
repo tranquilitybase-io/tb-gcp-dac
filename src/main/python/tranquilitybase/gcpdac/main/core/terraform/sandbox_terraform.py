@@ -30,7 +30,7 @@ def create_sandbox(sandboxdata):
         return mock_response()
 
     ec_config = EagleConfigHelper.config_dict
-    terraform_source_path = get_terraform_root() + 'sandbox_creation'
+    terraform_source_path = get_terraform_path('sandbox_creation')
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_backend_prefix = get_sandbox_backend_prefix(sandboxdata.get("id"), ec_config['tb_discriminator'])
 
@@ -120,7 +120,7 @@ def delete_sandbox(sandboxdata):
     # location of this sandbox's state with terraform bucket
     backend_prefix = get_sandbox_backend_prefix(sandbox_id, tb_discriminator)
     # source of the terraform used for this deployment
-    terraform_source_path = get_terraform_root() + 'sandbox_creation'
+    terraform_source_path = get_terraform_path('sandbox_creation')
 
     tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
 

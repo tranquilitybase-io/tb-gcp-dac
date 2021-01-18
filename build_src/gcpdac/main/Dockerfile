@@ -6,6 +6,7 @@ MAINTAINER "GFT"
 ENV TERRAFORM_VERSION=0.12.24
 ARG src_main_python=src/main/python/
 ARG src_main_bash=src/main/bash
+ARG src_main_terraform=src/main/terraform
 ARG build=build_src/gcpdac
 
 
@@ -34,6 +35,7 @@ WORKDIR /app
 COPY credentials/ credentials/
 COPY ${src_main_python} ${src_main_python}
 COPY ${src_main_bash} ${src_main_bash}
+COPY ${src_main_terraform} ${src_main_terraform}
 COPY ${build} ${build}
 RUN pip install -r ${src_main_python}tranquilitybase/requirements.txt
 
