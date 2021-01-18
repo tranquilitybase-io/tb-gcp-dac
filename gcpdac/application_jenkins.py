@@ -58,7 +58,8 @@ def create_application(applicationdata):
     jenkins_params[DEPLOYMENT_PROJECT_ID] = deployment_project_id
     jenkins_params[JOB_UNIQUE_ID] = job_unique_id
     # TODO will be passed from Houston in some cases where a branch or tag needs to be used - for now default to main/master
-    jenkins_params[ACTIVATOR_GIT_REPO_BRANCH] = "master"
+    # jenkins_params[ACTIVATOR_GIT_REPO_BRANCH] = "master"
+    jenkins_params[ACTIVATOR_GIT_REPO_BRANCH] = "issue-30"
 
     logger.info("deployment_project_id {}".format(deployment_project_id))
     logger.info("application_git_url {}".format(application_git_url))
@@ -68,6 +69,8 @@ def create_application(applicationdata):
     environment_params = dict()
     environment_params["shared_vpc_project_id"] = shared_vpc_project_id
     environment_params["region"] = config.ec_config["region"]
+    # TODO allow zone to be chosen dependent on region - for now pass valid zone compatible with region
+    environment_params["zone"] = config.ec_config["region"] + "-b"
 
     deployment_params[ACTIVATOR_PARAMS] = get_activator_params(mandatory_variables, optional_variables)
     deployment_params[ENVIRONMENT_PARAMS] = environment_params
@@ -100,6 +103,11 @@ def create_application(applicationdata):
             build_url = job_build.get_build_url()
             logger.debug("Build URL {}".format(build_url))
             logger.debug("Result URL {}".format(job_build.get_result_url()))
+
+            build_env_vars: dict = job_build.get_env_vars()
+            for build_env_var_key in build_env_vars.keys():
+                logger.debug("Env Var Key {} Value {}".format(build_env_var_key, build_env_vars[build_env_var_key]))
+
             build_url_json = build_url + "/api/json"
             logger.debug("Build URL JSON {}".format(build_url_json))
             r: Response = requests.get(build_url_json)
