@@ -1,5 +1,5 @@
 import time
-
+import traceback
 from python_terraform import Terraform
 
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper import EagleConfigHelper
@@ -74,6 +74,7 @@ def terraform_apply(env_data, tf: Terraform):
         # TODO get output for errors
         tf_state = {}
         tf_outputs = {}
+        traceback.print_stack()
     return {"tf_return_code": return_code, "tf_outputs": tf_outputs, "tf_state": tf_state}
 
 
