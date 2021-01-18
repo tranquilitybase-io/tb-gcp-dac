@@ -26,8 +26,6 @@ from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper im
 
 
 def create_sandbox(sandboxdata):
-    if mock_mode:
-        return mock_response()
 
     ec_config = EagleConfigHelper.config_dict
     terraform_source_path = get_terraform_path('sandbox_creation')
@@ -78,20 +76,21 @@ def create_sandbox(sandboxdata):
         traceback.format_exc()
         raise DacError(ex, "Error occurred in deploy sandbox")
 
-    # Call terraform
-    tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
+    if mock_mode:
+        return mock_response()
+    else:
+        # Call terraform
+        tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
 
-    terraform_init(terraform_backend_prefix, terraform_state_bucket, tf)
+        terraform_init(terraform_backend_prefix, terraform_state_bucket, tf)
 
-    response = terraform_apply(None, tf)
-    logger.debug("response {}".format(response))
+        response = terraform_apply(None, tf)
+        logger.debug("response {}".format(response))
 
-    return response
+        return response
 
 
 def delete_sandbox(sandboxdata):
-    if mock_mode:
-        return mock_response()
 
     tf_data = dict()
     sandbox_id = sandboxdata.get("id")
@@ -122,11 +121,14 @@ def delete_sandbox(sandboxdata):
     # source of the terraform used for this deployment
     terraform_source_path = get_terraform_path('sandbox_creation')
 
-    tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
+    if mock_mode:
+        return mock_response()
+    else:
+        tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
 
-    terraform_init(backend_prefix, terraform_state_bucket, tf)
+        terraform_init(backend_prefix, terraform_state_bucket, tf)
 
-    return terraform_destroy(env_data, tf)
+        return terraform_destroy(env_data, tf)
 
 
 def get_sandbox_backend_prefix(sandbox_id, tb_discriminator):

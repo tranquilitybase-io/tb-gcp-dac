@@ -4,7 +4,8 @@ from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper im
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.envhelper import EnvHelper
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.gcphelper import GcpHelper
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.jenkinshelper import JenkinsHelper
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils import validate_terraform_path
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils import validate_terraform_path, validate_terraform_config
+
 
 global DEFAULT_SHELL
 global environment_helper
@@ -50,3 +51,4 @@ def establish_bash():
 
 def establish_terraform():
     validate_terraform_path()
+    validate_terraform_config()

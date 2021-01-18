@@ -28,9 +28,6 @@ logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def create_solution(solutiondata):
-    if mock_mode:
-        return mock_response()
-
     ec_config = EagleConfigHelper.config_dict
     terraform_source_path = get_terraform_path('solution_creation')
     terraform_state_bucket = ec_config['terraform_state_bucket']
@@ -84,22 +81,23 @@ def create_solution(solutiondata):
         traceback.format_exc()
         raise DacError(ex, "Error occurred in deploy solution")
 
-    # Call terraform
-    tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
+    if mock_mode:
+        return mock_response()
+    else:
+        # Call terraform
+        tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
 
-    terraform_init(terraform_backend_prefix, terraform_state_bucket, tf)
+        terraform_init(terraform_backend_prefix, terraform_state_bucket, tf)
 
-    response = terraform_apply(None, tf)
-    logger.debug("response {}".format(response))
+        response = terraform_apply(None, tf)
+        logger.debug("response {}".format(response))
 
-    add_access_to_folders(bottom_level_folder_id=deployment_folder_id, users=team_members, top_level_folder_id=ec_config["activator_folder_id"])
+        add_access_to_folders(bottom_level_folder_id=deployment_folder_id, users=team_members, top_level_folder_id=ec_config["activator_folder_id"])
 
-    return response
+        return response
 
 
 def delete_solution(solutiondata):
-    if mock_mode:
-        return mock_response()
 
     tf_data = dict()
     solution_id = solutiondata.get("id")
@@ -134,11 +132,12 @@ def delete_solution(solutiondata):
     # source of the terraform used for this deployment
     terraform_source_path = get_terraform_path('solution_creation')
 
-    tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
-
-    terraform_init(backend_prefix, terraform_state_bucket, tf)
-
-    return terraform_destroy(env_data, tf)
+    if mock_mode:
+        return mock_response()
+    else:
+        tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
+        terraform_init(backend_prefix, terraform_state_bucket, tf)
+        return terraform_destroy(env_data, tf)
 
 
 def delete_workspace_repo(ec_config, tf):

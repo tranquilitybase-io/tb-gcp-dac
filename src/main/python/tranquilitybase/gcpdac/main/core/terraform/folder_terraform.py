@@ -25,8 +25,6 @@ from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils 
 
 
 def create_folder(folderDetails):
-    if mock_mode:
-        return mock_response()
 
     # builds and destroys a folder
     # The configuration YAML file read by read_config_map() determines where this new infrastructure should sit
@@ -56,16 +54,17 @@ def create_folder(folderDetails):
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_source_path = get_terraform_path('folder_creation')
 
-    tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
+    if mock_mode:
+        return mock_response()
+    else:
+        tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
 
-    terraform_init(backend_prefix, terraform_state_bucket, tf)
+        terraform_init(backend_prefix, terraform_state_bucket, tf)
 
-    return terraform_apply(env_data, tf)
+        return terraform_apply(env_data, tf)
 
 
 def delete_folder(folder):
-    if mock_mode:
-        return mock_response()
 
     tf_data = dict()
     folder_name = folder.get("id")
@@ -89,10 +88,13 @@ def delete_folder(folder):
     terraform_state_bucket = ec_config['terraform_state_bucket']
     terraform_source_path = get_terraform_path('folder_creation')
 
-    tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
-    terraform_init(backend_prefix, terraform_state_bucket, tf)
+    if mock_mode:
+        return mock_response()
+    else:
+        tf = Terraform(working_dir=terraform_source_path, variables=tf_data)
+        terraform_init(backend_prefix, terraform_state_bucket, tf)
 
-    return terraform_destroy(env_data, tf)
+        return terraform_destroy(env_data, tf)
 
 
 def get_folder_backend_prefix(folder_name, tb_discriminator):

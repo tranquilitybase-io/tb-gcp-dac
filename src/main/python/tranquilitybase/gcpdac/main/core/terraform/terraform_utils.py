@@ -1,11 +1,16 @@
 import time
 
 from python_terraform import Terraform
+
+from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper import EagleConfigHelper
 from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import mock_mode, get_terraform_path
 
 # --- Logger ---
 import inspect
+
+from src.main.python.tranquilitybase.lib.common.StringUtils import is_none_or_empty
 from src.main.python.tranquilitybase.lib.common.local_logging import *
+
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
@@ -15,9 +20,17 @@ def validate_terraform_path():
     terraform_plan(tf)
 
 
+def validate_terraform_config():
+    ec_config = EagleConfigHelper.config_dict
+
+    terraform_state_bucket = ec_config['terraform_state_bucket']
+    tb_discriminator = ec_config['tb_discriminator']
+    if is_none_or_empty(terraform_state_bucket) or \
+            is_none_or_empty(tb_discriminator):
+        raise Exception("terraform value from ec_config found to be invalid")
+
+
 def terraform_plan(tf: Terraform):
-    if mock_mode:
-        return
 
     return_code, stdout, stderr = tf.plan(capture_output=True)
     logger.debug('Terraform plan return code is {}'.format(return_code))
@@ -26,8 +39,6 @@ def terraform_plan(tf: Terraform):
 
 
 def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):
-    if mock_mode:
-        return
 
     return_code, stdout, stderr = tf.init(capture_output=True,
                                           backend_config={'bucket': terraform_state_bucket,
@@ -38,9 +49,6 @@ def terraform_init(backend_prefix, terraform_state_bucket, tf: Terraform):
 
 
 def terraform_apply(env_data, tf: Terraform):
-    if mock_mode:
-        time.sleep(10)
-        return {"tf_return_code": "0", "tf_outputs": "hi", "tf_state": "state"}
 
     retry_count = 0
     return_code = 0
@@ -63,16 +71,13 @@ def terraform_apply(env_data, tf: Terraform):
         for output_value in tf_outputs:
             logger.debug('Terraform output value is {}'.format(output_value))
     else:
-        #TODO get output for errors
+        # TODO get output for errors
         tf_state = {}
         tf_outputs = {}
     return {"tf_return_code": return_code, "tf_outputs": tf_outputs, "tf_state": tf_state}
 
 
 def terraform_destroy(env_data, tf):
-    if mock_mode:
-        time.sleep(10)
-        return {"tf_return_code": "0"}
 
     return_code, stdout, stderr = tf.destroy(var_file=env_data, capture_output=True)
     logger.debug('Terraform destroy return code is {}'.format(return_code))
