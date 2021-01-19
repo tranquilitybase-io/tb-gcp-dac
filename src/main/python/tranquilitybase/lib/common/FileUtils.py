@@ -12,12 +12,10 @@ class FileUtils:
         return True
 
     @staticmethod
-    def get_project_root(containerBuild: bool = True) -> str:
-        if not containerBuild:
-            # TODO: something better
-            return os.path.normpath('../../../../../../')
+    def get_project_root() -> str:
         return os.path.abspath('/app')
 
     @staticmethod
     def redirect_path(original: str) -> str:
         return FileUtils.get_project_root() + original
+

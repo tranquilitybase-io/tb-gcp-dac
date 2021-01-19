@@ -1,4 +1,3 @@
-import os
 from enum import Enum
 
 # --- Logger ---
@@ -34,6 +33,9 @@ class EnvHelper:
 
     @staticmethod
     def is_ide() -> bool:
+        # Can be set in your IDE.
+        # referenced to correct pathing difference between IDE and container
+        # - allowing use of breakpoints
         return os.getenv('IS_IDE')
 
     @staticmethod
@@ -57,7 +59,7 @@ class EnvHelper:
     def print_config(self):
 
         if EnvHelper.done:
-            raise Exception("nooooo")
+            raise Exception("EnvHelper has been instantiated multiple times")
 
         EnvHelper.done = True
         logger.debug("")
