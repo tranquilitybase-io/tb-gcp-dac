@@ -18,6 +18,9 @@ class Test(TestCase):
 
     def test_get_repo_uri(self):
         json_data = mock(
-            json.loads('{"activatorName": "tb-gcp-hpc-activator", "repoURL":"someurl", "tagName": "sometag"}'))
+            json.loads(
+                '{"repo": {"name": "activator name", '
+                '"url":"https://github.com/tranquilitybase-io/gcp-citrix-activator.git"}, '
+                '"cred": {"user":"git user", "token": "some token"}}'))
         when(json_data).self.assertNotEqual(json_data, {"key1": "value1"}).thenReturn(
             self.fail("Failed to return valid return url"))

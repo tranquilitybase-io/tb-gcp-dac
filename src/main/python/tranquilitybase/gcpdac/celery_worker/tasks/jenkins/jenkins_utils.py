@@ -1,9 +1,10 @@
-from typing import Any, Union, Tuple, Generator
+from typing import Any, Union, Tuple, Generator, Optional
 
 from jenkinsapi.build import Build
 from jenkinsapi.jenkins import Jenkins
 from jenkinsapi.job import Job
 
+from src.main.python.tranquilitybase.gcpdac.celery_worker.tasks.jenkins.constants import JOB_UNIQUE_ID
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.jenkinshelper import JenkinsHelper
 
 # --- Logger ---
@@ -17,7 +18,7 @@ def get_server_instance():
     return server
 
 
-def get_job_build(job_name, job_params):
+def get_job_build(job_name, job_params: dict) -> Optional[Build]:
     try:
         jenkins = get_server_instance()
 
@@ -27,22 +28,20 @@ def get_job_build(job_name, job_params):
         logger.debug('Is Job running:%s' % (job_instance.is_running()))
         logger.debug('Is Job enabled:%s' % (job_instance.is_enabled()))
         build_ids = job_instance.get_build_ids()
-        build_by_params: Build = job_instance.get_build_by_params(job_params)
-        if build_by_params != None:
-            logger.debug("Found build by params")
-            return build_by_params
-        else:
-            logger.debug("Didn't find build by params")
+
         for build_id in build_ids:
             logger.debug("build id {}".format(build_id))
             build = job_instance.get_build(build_id)
-            build_params = build.get_params()
+            build_params: dict = build.get_params()
             logger.debug("build params {}".format(build_params))
-            if build_params == job_params:
-                logger.debug("Matched build on params")
+            logger.debug("job params {}".format(job_params))
+            if build_params[JOB_UNIQUE_ID] == job_params[JOB_UNIQUE_ID]:
+                logger.debug("Matched build on job unique id")
                 return build
             else:
-                logger.debug("Build didn't match on params")
+                logger.debug("Could not find a build matching job unique id")
+
+        return None
     except Exception as ex:
         logger.debug("Exception: {0}".format(ex))
 
@@ -57,7 +56,6 @@ def format_jenkins_url(jenkins_params, jenkins_url):
 
 
 def get_all_job_details():
-    # Refer Example #1 for definition of function 'get_server_instance'
     try:
         jenkins = get_server_instance()
         jobs: Generator[Union[Tuple[str, Job], Tuple[Any, Job]], Any, None] = jenkins.get_jobs()
@@ -69,7 +67,6 @@ def get_all_job_details():
             logger.debug('Is Job running:%s' % (job_instance.is_running()))
             logger.debug('Is Job enabled:%s' % (job_instance.is_enabled()))
             build_ids = jenkins[job_name].get_build_ids()
-            # jenkins[job_name].get_build_by_params()
             for build_id in build_ids:
                 logger.debug("build id {}".format(build_id))
                 build = jenkins[job_name].get_build(build_id)
