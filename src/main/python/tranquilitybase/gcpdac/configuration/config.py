@@ -4,6 +4,7 @@ from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper im
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.envhelper import EnvHelper
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.gcphelper import GcpHelper
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.jenkinshelper import JenkinsHelper
+from src.main.python.tranquilitybase.gcpdac.main.core.shell_wrappers.shell_utils import validate_bash_script_invocation
 from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils import validate_terraform_path, validate_terraform_config
 
 
@@ -47,6 +48,7 @@ def establish_gcp():
 def establish_bash():
     global DEFAULT_SHELL
     DEFAULT_SHELL = "/bin/bash"
+    validate_bash_script_invocation()
 
 
 def establish_terraform():

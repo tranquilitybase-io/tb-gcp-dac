@@ -3,18 +3,34 @@ import shlex
 import subprocess
 from asyncio import coroutine
 from json import JSONDecodeError
+from src.main.python.tranquilitybase.lib.common.FileUtils import FileUtils
+
 
 # --- Logger ---
 import inspect
+
 from src.main.python.tranquilitybase.lib.common.local_logging import *
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
-bash_scripts_root = "/app/src/main/bash/tranquilitybase/gcpdac/bash_scripts/"
+
+def get_bash_path():
+    return FileUtils.get_project_root() + "/src/main/bash/tranquilitybase/gcpdac/main/bash_scripts/"
+
+
+def generate_call_string_prefix():
+    call_string = "/bin/bash {bash_scripts_root}".format(
+        bash_scripts_root=get_bash_path())
+    return call_string
+
+
+def validate_bash_script_invocation():
+    validator_path = generate_call_string_prefix() + "validator.sh"
+    return call_process(validator_path, shell=False)
 
 
 def create_repo(repo_name, project_to, project_from):
-    call_string = "/bin/bash {bash_scripts_root}create_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
-        bash_scripts_root=bash_scripts_root,
+    call_string = "{bash_prefix}create_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
+        bash_prefix=generate_call_string_prefix(),
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
@@ -22,8 +38,8 @@ def create_repo(repo_name, project_to, project_from):
 
 
 def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
-    call_string = "/bin/bash {bash_scripts_root}copy_repo_with_history.sh {source_repo_url} {target_gcp_repo_name}  {project_to} {project_from}".format(
-        bash_scripts_root=bash_scripts_root,
+    call_string = "{bash_prefix}copy_repo_with_history.sh {source_repo_url} {target_gcp_repo_name} {project_to} {project_from}".format(
+        bash_prefix=generate_call_string_prefix(),
         source_repo_url=source_repo_url,
         target_gcp_repo_name=target_gcp_repo_name,
         project_to=project_to,
@@ -32,8 +48,8 @@ def copy_repo(source_repo_url, target_gcp_repo_name, project_to, project_from):
 
 
 def delete_repo(repo_name, project_to, project_from):
-    call_string = "/bin/bash {bash_scripts_root}delete_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
-        bash_scripts_root=bash_scripts_root,
+    call_string = "{bash_prefix}delete_gcp_repo.sh {repo_name} {project_to} {project_from}".format(
+        bash_prefix=generate_call_string_prefix(),
         repo_name=repo_name,
         project_to=project_to,
         project_from=project_from)
@@ -41,8 +57,8 @@ def delete_repo(repo_name, project_to, project_from):
 
 
 async def create_and_save(local_git_repo, project_to, remote_repo):
-    call_string = "/bin/bash {bash_scripts_root}create_save_onboarding_repo.sh {local_git_repo} {project_to} {remote_repo}".format(
-        bash_scripts_root=bash_scripts_root,
+    call_string = "{bash_prefix}create_save_onboarding_repo.sh {local_git_repo} {project_to} {remote_repo}".format(
+        bash_prefix=generate_call_string_prefix(),
         local_git_repo=local_git_repo,
         project_to=project_to,
         remote_repo=remote_repo)
@@ -106,7 +122,7 @@ def consider_process_debug(subprocess_call, shell, call_string: str, logging: bo
 def call_process(call_string, shell, debug=True):
     try:
         command_line_args = shlex.split(call_string)
-        subprocess_call = subprocess.Popen(command_line_args, stdout=subprocess.PIPE,
+        subprocess_call = subprocess.Popen(command_line_args, stdout=subprocess.PIPE, cwd=FileUtils.get_project_root(),
                                            stderr=subprocess.STDOUT, universal_newlines=True, shell=shell)
 
         consider_process_debug(subprocess_call, shell, call_string, debug)
