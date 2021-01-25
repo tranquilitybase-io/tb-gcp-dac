@@ -1,5 +1,6 @@
 import os
 from pathlib import Path
+import shutil
 
 
 class FileUtils:
@@ -10,6 +11,18 @@ class FileUtils:
         if not file.is_file():
             return False
         return True
+
+    @staticmethod
+    def dir_exists(path: str) -> bool:
+        dir = Path(path)
+        if not dir.is_dir():
+            return False
+        return True\
+
+
+    @staticmethod
+    def delete_path(path: str):
+        shutil.rmtree(path, ignore_errors=True)
 
     @staticmethod
     def get_project_root() -> str:
