@@ -4,6 +4,7 @@ import traceback
 from typing import Optional
 
 import requests
+from jenkinsapi.artifact import Artifact
 from jenkinsapi.build import Build
 from requests import Response
 
@@ -104,9 +105,35 @@ def create_application(applicationdata):
             logger.debug("Build URL {}".format(build_url))
             logger.debug("Result URL {}".format(job_build.get_result_url()))
 
-            build_env_vars: dict = job_build.get_env_vars()
-            for build_env_var_key in build_env_vars.keys():
-                logger.debug("Env Var Key {} Value {}".format(build_env_var_key, build_env_vars[build_env_var_key]))
+            try:
+                build_env_vars: dict = job_build.get_env_vars()
+                for build_env_var_key in build_env_vars.keys():
+                    logger.debug("Env Var Key {} Value {}".format(build_env_var_key, build_env_vars[build_env_var_key]))
+            except Exception as ex:
+                logger.debug("Exception getting env vars: {0}".format(ex))
+
+            activator_outputs = dict()
+            try:
+                logger.debug("Getting build artifacts")
+                build_artifacts = job_build.get_artifacts()
+                for build_artifact in build_artifacts:
+                    build_artifact: Artifact = build_artifact
+                    logger.debug("build_artifact.relative_path {}".format(build_artifact.relative_path))
+                    logger.debug("build_artifact.url {}".format(build_artifact.url))
+                    logger.debug("build_artifact.filename {}".format(build_artifact.filename))
+                    logger.debug("build_artifact.build {}".format(build_artifact.build))
+                    # look for activator_outputs.json artifact
+                    if build_artifact.filename == "activator_outputs.json":
+                        response: Response = requests.get(build_artifact.url)
+                        activator_outputs_text = response.text
+                        logger.debug("activator_outputs_text {}".format(activator_outputs_text))
+                        activator_outputs: dict = json.loads(activator_outputs_text)
+                        logger.debug("activator_outputs {}".format(activator_outputs))
+
+            except Exception as ex:
+                logger.debug("Exception getting artifacts: {0}".format(ex))
+
+            payload["activator_outputs"] = activator_outputs
 
             build_url_json = build_url + "/api/json"
             logger.debug("Build URL JSON {}".format(build_url_json))
@@ -129,6 +156,7 @@ def create_application(applicationdata):
         raise DacError(ex, "Error occurred in deploy activator")
 
     response["payload"] = payload
+
     return response
 
 
