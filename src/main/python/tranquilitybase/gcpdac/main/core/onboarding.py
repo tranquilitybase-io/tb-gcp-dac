@@ -89,7 +89,7 @@ def get_repo_uri(gitDetails):
         destination_project = get_destination_project()
         url = url_builder(o)
 
-        logger.debug("Cloning %s to local - %s ", o.url)
+        logger.debug("Cloning to local - %s ", o.url)
         local_repo = clone_repo_locally(url)
         logger.debug("Cloning Done - %s ", local_repo)
         gcp_repo_name = o.name
