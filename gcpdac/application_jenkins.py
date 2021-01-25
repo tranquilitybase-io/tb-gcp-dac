@@ -154,6 +154,8 @@ def create_application(applicationdata):
         traceback.format_exc()
         raise DacError(ex, "Error occurred in deploy activator")
 
+
+    logger.debug("Payload is: {}".format(payload))
     response["payload"] = payload
 
     return response
