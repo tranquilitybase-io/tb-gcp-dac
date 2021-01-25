@@ -34,23 +34,16 @@ def cleanup():
 
 
 def clone_repo_locally(url):
-    print("-clone_repo_locally-")
     try:
         dirname = get_temp_dir()
         if FileUtils.dir_exists(dirname):
-            print("A temp directory already exists")
             logger.warn("A temp directory already exists, did the last process fail?")
             cleanup()
 
-        print("url: " + url, flush=True)
-        print("dirname: " + dirname, flush=True)
         cloned_repo = Repo.clone_from(url, dirname, progress=CloneProgress())
         logger.info("Change repo - %s", str(cloned_repo))
-
-        print("-DONE-", flush=True)
         return str(dirname)
     except Exception as e:
-        print("-exception-", flush=True)
         logger.exception("Error cloning repository {}", e.__traceback__)
         raise Exception("Error cloning repository")
 
@@ -97,6 +90,8 @@ def get_repo_uri(gitDetails):
         logger.debug("run create_and_save")
         run(create_and_save(local_repo, destination_project, gcp_repo_name))
         logger.debug("create_and_save done")
+
+        cleanup()
 
         gcp_clone_response = json_builder(destination_project, gcp_repo_name)
         payload = json.dumps(gcp_clone_response)

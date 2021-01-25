@@ -6,9 +6,9 @@ from src.main.python.tranquilitybase.gcpdac.main.core.onboarding import clone_re
 
 class UtilsTest(TestCase):
 
-    def test_onboarding(self):
+    def test_clone_repo_multiple_calls(self):
         clone_repo_locally("https://github.com/tranquilitybase-io/tb-activator-gft-base")
-        cleanup()
+        clone_repo_locally("https://github.com/tranquilitybase-io/tb-activator-gft-base")
 
 
 if __name__ == '__main__':
