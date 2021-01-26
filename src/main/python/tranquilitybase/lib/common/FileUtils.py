@@ -14,8 +14,8 @@ class FileUtils:
 
     @staticmethod
     def dir_exists(path: str) -> bool:
-        dir = Path(path)
-        if not dir.is_dir():
+        directory = Path(path)
+        if not directory.is_dir():
             return False
         return True\
 
