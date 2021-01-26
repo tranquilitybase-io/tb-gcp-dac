@@ -24,9 +24,7 @@ def make_celery():
 def get_celery():
     global celery_app
 
-    try:
-        celery_app
-    except Exception as e:
+    if not('celery_app' in globals()):
         celery_app = make_celery()
 
     return celery_app

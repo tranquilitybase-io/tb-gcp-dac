@@ -85,7 +85,8 @@ class EnvHelper:
         logger.debug("")
         logger.debug("====================")
 
-    def __consider_config(self):
+    @staticmethod
+    def __consider_config():
 
         if EnvHelper.is_ide():
             EnvHelper.environment = Environments.IDE
@@ -107,7 +108,8 @@ class EnvHelper:
         else:
             EnvHelper.environment = Environments.CONTAINER
 
-    def __validate_config(self):
+    @staticmethod
+    def __validate_config():
         EnvHelper.validate_environ("DEBUG", "false")
 
         EnvHelper.validate_environ("JENKINS_BASE_URL")
@@ -136,19 +138,24 @@ class EnvHelper:
 
     #
     # =========
-    def get_app_port(self) -> str:
+    @staticmethod
+    def get_app_port() -> str:
         return os.getenv("APP_PORT")
 
-    def get_ec_config_path(self) -> str:
+    @staticmethod
+    def get_ec_config_path() -> str:
         return os.getenv("EC_CONFIG")
 
-    def get_debug_state(self) -> str:
+    @staticmethod
+    def get_debug_state() -> str:
         return os.getenv("DEBUG")
 
-    def get_celery_result_backend(self) -> str:
+    @staticmethod
+    def get_celery_result_backend() -> str:
         return os.getenv("CELERY_RESULT_BACKEND")
 
-    def get_celery_broker_url(self) -> str:
+    @staticmethod
+    def get_celery_broker_url() -> str:
         return os.getenv("CELERY_BROKER_URL")
 
 
