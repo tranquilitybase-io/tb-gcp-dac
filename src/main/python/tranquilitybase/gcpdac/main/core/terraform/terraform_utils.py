@@ -3,7 +3,7 @@ import traceback
 from python_terraform import Terraform
 
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper import EagleConfigHelper
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import mock_mode, get_terraform_path
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import get_terraform_path
 
 # --- Logger ---
 import inspect
