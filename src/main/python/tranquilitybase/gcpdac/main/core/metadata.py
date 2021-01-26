@@ -1,6 +1,6 @@
 # --- Logger ---
 import inspect
-from src.main.python.tranquilitybase.lib.common.local_logging import *
+from src.main.python.tranquilitybase.lib.common.local_logging import get_logger, get_frame_name
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
 from src.main.python.tranquilitybase.gcpdac.main.core.schemas.extendedSchemas import MetadataSchema

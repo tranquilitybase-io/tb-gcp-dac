@@ -9,7 +9,7 @@ from src.main.python.tranquilitybase.gcpdac.celery_worker.celery_tasks import de
 
 # --- Logger ---
 import inspect
-from src.main.python.tranquilitybase.lib.common.local_logging import *
+from src.main.python.tranquilitybase.lib.common.local_logging import get_logger, get_frame_name
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
 

@@ -23,7 +23,7 @@ class UserFlowTests(unittest.TestCase):
 class SolutionTest_methods():
 
     def delete_solution(self):
-        taskid = SolutionUtils.delete_solution_task()
+        taskid = SolutionUtils.delete_solution_task(get_solutionId())
         print("Deleting a solution")
         print("Celery task id {}".format(taskid))
         status = ''

@@ -1,4 +1,5 @@
 import json
+import os
 from types import SimpleNamespace
 
 from gcloud import resource_manager
@@ -8,7 +9,7 @@ from git import RemoteProgress, Repo
 import inspect
 
 from src.main.python.tranquilitybase.lib.common.FileUtils import FileUtils
-from src.main.python.tranquilitybase.lib.common.local_logging import *
+from src.main.python.tranquilitybase.lib.common.local_logging import get_logger, get_frame_name
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper import EagleConfigHelper
@@ -44,7 +45,7 @@ def clone_repo_locally(url):
         logger.info("Change repo - %s", str(cloned_repo))
         return str(dirname)
     except Exception as e:
-        logger.exception("Error cloning repository {}", e.__traceback__)
+        logger.exception(f"Error cloning repository {e.__traceback__}")
         raise Exception("Error cloning repository")
 
 

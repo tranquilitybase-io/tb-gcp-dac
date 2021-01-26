@@ -32,3 +32,24 @@ class FileUtils:
     def redirect_path(original: str) -> str:
         return FileUtils.get_project_root() + original
 
+    @staticmethod
+    def print_folder_contents():
+        print("-- getcwd --")
+        cwd = os.getcwd()
+        print("Current working directory: {0}".format(cwd))
+
+        print("-- proj root --")
+        import pathlib
+        currentDirectory = pathlib.Path(FileUtils.get_project_root())
+        print(currentDirectory)
+        for currentFile in currentDirectory.glob("*"):
+            print(currentFile)
+
+        # print("-- recursive root --")
+        # import glob
+        # currentDirectory = pathlib.Path(FileUtils.get_project_root())
+        # for currentpath, folders, files in os.walk(currentDirectory):
+        #     for file in files:
+        #         print(os.path.join(currentpath, file))
+        #
+        # print("done", flush=True)

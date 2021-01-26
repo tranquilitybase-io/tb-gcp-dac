@@ -1,5 +1,4 @@
 FROM google/cloud-sdk:298.0.0
-MAINTAINER "GFT"
 
 
 ## ==== Arguments/Defaults ====
