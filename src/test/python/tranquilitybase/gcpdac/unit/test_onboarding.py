@@ -1,7 +1,7 @@
 import unittest
 from unittest import TestCase
 
-from src.main.python.tranquilitybase.gcpdac.main.core.onboarding import clone_repo_locally, cleanup
+from src.main.python.tranquilitybase.gcpdac.main.core.onboarding import clone_repo_locally
 
 
 class UtilsTest(TestCase):
