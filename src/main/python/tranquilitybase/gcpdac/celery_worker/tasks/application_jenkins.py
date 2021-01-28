@@ -4,6 +4,7 @@ import traceback
 
 import requests
 
+from typing import Optional
 from requests import Response
 from jenkinsapi.build import Build
 from jenkinsapi.artifact import Artifact
