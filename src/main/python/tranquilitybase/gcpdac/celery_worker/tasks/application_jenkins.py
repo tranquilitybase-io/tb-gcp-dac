@@ -3,7 +3,10 @@ import time
 import traceback
 
 import requests
+
 from requests import Response
+from jenkinsapi.build import Build
+from jenkinsapi.artifact import Artifact
 
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper import EagleConfigHelper
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.jenkinshelper import JenkinsHelper
@@ -64,21 +67,19 @@ def create_application(applicationdata):
     logger.info("application_git_url {}".format(application_git_url))
     logger.info("job_unique_id {}".format(job_unique_id))
 
-    deployment_params = dict()
     environment_params = dict()
     environment_params["shared_vpc_project_id"] = shared_vpc_project_id
     environment_params["region"] = EagleConfigHelper.config_dict["region"]
 
+    deployment_params = dict()
     deployment_params[ACTIVATOR_PARAMS] = get_activator_params(mandatory_variables, optional_variables)
     deployment_params[ENVIRONMENT_PARAMS] = environment_params
-    # example deployment params - {"activator_params": {"MAND1": "MV1", "OPT1": "OV1"}, "environment_params": {"shared_vpc_project_id": "SHVPC", "region": "europe-west-2"}}
 
     jenkins_url = format_jenkins_url(jenkins_params, jenkins_url)
     logger.info("jenkins_url {}".format(jenkins_url))
 
     response = {}
     payload = {}
-    payload["jenkins_job_params"] = jenkins_params
 
     try:
         activator_params_json = json.dumps(deployment_params)
@@ -100,13 +101,19 @@ def create_application(applicationdata):
             build_url = job_build.get_build_url()
             logger.debug("Build URL {}".format(build_url))
             logger.debug("Result URL {}".format(job_build.get_result_url()))
+
+            payload["activator_outputs"] = get_activator_outputs(job_build)
+
             build_url_json = build_url + "/api/json"
             logger.debug("Build URL JSON {}".format(build_url_json))
             r: Response = requests.get(build_url_json)
             results: dict = r.json()
             logger.debug("results {}".format(results))
+
+            # will be either SUCCESS or FAILURE
             build_result = results["result"]
             logger.debug("result {}".format(build_result))
+
             if build_result == "SUCCESS":
                 response["return_code"] = 0
             else:
@@ -120,8 +127,36 @@ def create_application(applicationdata):
         traceback.format_exc()
         raise DacError(ex, "Error occurred in deploy activator")
 
+
+    logger.debug("Payload is: {}".format(payload))
     response["payload"] = payload
+
     return response
+
+
+def get_activator_outputs(job_build):
+    activator_outputs = dict()
+    try:
+        logger.debug("Getting build artifacts")
+        build_artifacts = job_build.get_artifacts()
+        for build_artifact in build_artifacts:
+            build_artifact: Artifact = build_artifact
+            logger.debug("build_artifact.relative_path {}".format(build_artifact.relative_path))
+            logger.debug("build_artifact.url {}".format(build_artifact.url))
+            logger.debug("build_artifact.filename {}".format(build_artifact.filename))
+            logger.debug("build_artifact.build {}".format(build_artifact.build))
+            # look for activator_outputs.json artifact
+            if build_artifact.filename == "activator_outputs.json":
+                response: Response = requests.get(build_artifact.url)
+                activator_outputs_text = response.text
+                logger.debug("activator_outputs_text {}".format(activator_outputs_text))
+                activator_outputs: dict = json.loads(activator_outputs_text)
+                logger.debug("activator_outputs {}".format(activator_outputs))
+
+    except Exception as ex:
+        logger.debug("Exception getting artifacts: {0}".format(ex))
+
+    return activator_outputs
 
 
 def get_activator_params(mandatory_variables: list, optional_variables: list):
