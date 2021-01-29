@@ -128,6 +128,8 @@ class EnvHelper:
         value = os.getenv(name)
         if not value:
             if default is None:
+                print("Are you trying to run in an IDE?")
+                print("add 'IS_IDE=true' to your IDE invocation")
                 raise Exception("Required environmental variable: {0} not found.".format(name))
             else:
                 logger.debug("No environmental value for {0}, defaulting to '{1}'".format(name, default))
