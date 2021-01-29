@@ -1,5 +1,5 @@
 from src.main.python.tranquilitybase.lib.common.utils import labellize
-from tranquilitybase.gcpdac.functional.config import *
+from tranquilitybase.gcpdac.functional.config import base_folder_id, team_members
 
 solution_id = 1001
 business_unit = 'BU-1'

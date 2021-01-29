@@ -16,9 +16,7 @@ class GcpHelper:
     def __configure_credentials_path():
         if EnvHelper.is_ide():
             os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = FileUtils.redirect_path(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
-        # google_application_credentials = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
-        print("000000: " + os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
-        pass
+            print("GOOGLE_APPLICATION_CREDENTIALS redirect_path: " + os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
 
     @staticmethod
     def __validate_credentials_file():
