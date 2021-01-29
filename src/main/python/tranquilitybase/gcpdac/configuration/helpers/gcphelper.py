@@ -14,13 +14,16 @@ class GcpHelper:
 
     @staticmethod
     def __configure_credentials_path():
+        if EnvHelper.is_ide():
+            os.environ["GOOGLE_APPLICATION_CREDENTIALS"] = FileUtils.redirect_path(os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
         # google_application_credentials = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
-        # print("000000: " + os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
+        print("000000: " + os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
         pass
 
     @staticmethod
     def __validate_credentials_file():
-        if not FileUtils.file_exists(os.environ["GOOGLE_APPLICATION_CREDENTIALS"]):
-            raise Exception("No file found for GOOGLE_APPLICATION_CREDENTIALS: " + os.environ["GOOGLE_APPLICATION_CREDENTIALS"])
+        cred_file = os.environ["GOOGLE_APPLICATION_CREDENTIALS"]
+        if not FileUtils.file_exists(cred_file):
+            raise Exception("No file found for GOOGLE_APPLICATION_CREDENTIALS: " + cred_file)
 
 

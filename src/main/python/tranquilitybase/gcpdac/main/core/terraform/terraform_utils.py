@@ -3,19 +3,26 @@ import traceback
 from python_terraform import Terraform
 
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper import EagleConfigHelper
+from src.main.python.tranquilitybase.gcpdac.configuration.helpers.envhelper import EnvHelper
 from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import get_terraform_path
+from src.main.python.tranquilitybase.lib.common.FileUtils import FileUtils
+from src.main.python.tranquilitybase.lib.common.StringUtils import is_none_or_empty
 
 # --- Logger ---
 import inspect
-
-from src.main.python.tranquilitybase.lib.common.StringUtils import is_none_or_empty
 from src.main.python.tranquilitybase.lib.common.local_logging import get_logger, get_frame_name
-
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
 
 def validate_terraform_path():
     terraform_source_path = get_terraform_path('folder_creation')
+    if not FileUtils.dir_exists(terraform_source_path):
+        raise Exception("terraform directory not found: " + terraform_source_path)
+
+    if EnvHelper.is_ide():
+        logger.warn("running in IDE skipping terraform validation")
+        return
+
     tf = Terraform(working_dir=terraform_source_path)
     terraform_plan(tf)
 

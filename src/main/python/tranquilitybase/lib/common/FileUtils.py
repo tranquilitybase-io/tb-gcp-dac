@@ -2,6 +2,9 @@ import os
 from pathlib import Path
 import shutil
 
+from src.main.python.tranquilitybase.gcpdac.configuration.helpers import envhelper
+import sys
+
 
 class FileUtils:
 
@@ -26,6 +29,11 @@ class FileUtils:
 
     @staticmethod
     def get_project_root() -> str:
+        if envhelper.EnvHelper.is_ide():
+            main = os.path.dirname(sys.modules['__main__'].__file__)
+            project_root = os.path.join(main, "../../../../../../")
+            project_root = os.path.abspath(project_root)
+            return project_root
         return os.path.abspath('/app')
 
     @staticmethod

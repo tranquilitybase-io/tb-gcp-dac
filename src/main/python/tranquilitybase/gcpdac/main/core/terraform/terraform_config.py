@@ -4,11 +4,11 @@ import time
 from src.main.python.tranquilitybase.lib.common.FileUtils import FileUtils
 
 mock_mode = False
-terraform_script_root = "/app/src/main/terraform"
 
 
 def get_terraform_root() -> str:
-    return os.path.join(FileUtils.get_project_root(), terraform_script_root)
+    tf_root = "/src/main/terraform"
+    return FileUtils.redirect_path(tf_root)
 
 
 def get_terraform_path(path: str) -> str:
