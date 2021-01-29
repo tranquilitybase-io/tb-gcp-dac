@@ -17,8 +17,7 @@ import inspect
 from src.main.python.tranquilitybase.lib.common.local_logging import get_logger, get_frame_name
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
-import traceback
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import *
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import mock_mode, mock_response
 from src.main.python.tranquilitybase.gcpdac.main.core.exceptions.exceptions import DacError
 from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils import *
 from src.main.python.tranquilitybase.lib.common.utils import random_element, folderize, labellize

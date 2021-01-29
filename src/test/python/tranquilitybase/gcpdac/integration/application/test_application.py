@@ -6,7 +6,8 @@ from celery import states
 
 # TODO write test that creates solution first, retrieves workspace project then deploys activator
 from src.test.python.tranquilitybase.gcpdac.functional import config
-from tranquilitybase.gcpdac.integration.application.application_utils import *
+from tranquilitybase.gcpdac.integration.application.application_utils import create_application_task, \
+    create_application_task_result, delete_application_task, delete_application_task_result
 
 application_id = 101
 solution_id = 1001

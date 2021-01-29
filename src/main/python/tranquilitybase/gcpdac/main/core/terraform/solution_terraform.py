@@ -14,17 +14,23 @@
 import json
 import traceback
 
+from python_terraform import Terraform
+
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper import EagleConfigHelper
 from src.main.python.tranquilitybase.gcpdac.main.core.exceptions.exceptions import DacError
 from src.main.python.tranquilitybase.gcpdac.main.core.shell_wrappers.shell_utils import add_access_to_folders, delete_repo
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import *
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils import *
-from src.main.python.tranquilitybase.lib.common.utils import *
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import mock_mode, mock_response, \
+    get_terraform_path
 
 # --- Logger ---
 import inspect
 from src.main.python.tranquilitybase.lib.common.local_logging import get_logger, get_frame_name
 logger = get_logger(get_frame_name(inspect.currentframe()))
+
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils import terraform_init, terraform_apply, \
+    terraform_destroy
+from src.main.python.tranquilitybase.lib.common.utils import labellize, sanitize, random_element
+
 
 
 def create_solution(solutiondata):

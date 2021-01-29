@@ -6,7 +6,8 @@ from time import sleep
 
 from unittest import TestCase
 from src.test.python.tranquilitybase.gcpdac import local_test_runner
-from tranquilitybase.gcpdac.integration.solution.solution_config import *
+from tranquilitybase.gcpdac.integration.solution.solution_config import get_solutionId, get_payload, \
+    processed_environments
 
 
 class UserFlowTests(unittest.TestCase):

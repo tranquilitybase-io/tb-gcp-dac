@@ -12,10 +12,12 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 from python_terraform import Terraform
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import *
 
 # --- Logger ---
 import inspect
+
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import get_terraform_path, mock_mode, \
+    mock_response
 from src.main.python.tranquilitybase.lib.common.local_logging import get_logger, get_frame_name
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
