@@ -1,4 +1,3 @@
-import json
 from pprint import pformat
 
 from celery import states

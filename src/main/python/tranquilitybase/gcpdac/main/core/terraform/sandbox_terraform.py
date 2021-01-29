@@ -13,13 +13,18 @@
 # limitations under the License.
 # --- Logger ---
 import inspect
+import traceback
 
+from python_terraform import Terraform
+
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils import terraform_apply, terraform_init, \
+    terraform_destroy
 from src.main.python.tranquilitybase.lib.common.local_logging import get_logger, get_frame_name
 logger = get_logger(get_frame_name(inspect.currentframe()))
 
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import mock_mode, mock_response
+from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_config import mock_mode, mock_response, \
+    get_terraform_path
 from src.main.python.tranquilitybase.gcpdac.main.core.exceptions.exceptions import DacError
-from src.main.python.tranquilitybase.gcpdac.main.core.terraform.terraform_utils import *
 from src.main.python.tranquilitybase.lib.common.utils import random_element, folderize, labellize
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper import EagleConfigHelper
 

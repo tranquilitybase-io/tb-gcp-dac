@@ -9,9 +9,11 @@ from requests import Response
 from jenkinsapi.build import Build
 from jenkinsapi.artifact import Artifact
 
+from src.main.python.tranquilitybase.gcpdac.celery_worker.tasks.jenkins.constants import \
+    JENKINS_DEPLOY_ACTIVATOR_JOB_WITH_JSON, JENKINS_TOKEN, ACTIVATOR_GIT_REPO_URL, DEPLOYMENT_PROJECT_ID, JOB_UNIQUE_ID, \
+    ACTIVATOR_GIT_REPO_BRANCH, ACTIVATOR_PARAMS, ENVIRONMENT_PARAMS
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.eaglehelper import EagleConfigHelper
 from src.main.python.tranquilitybase.gcpdac.configuration.helpers.jenkinshelper import JenkinsHelper
-from src.main.python.tranquilitybase.gcpdac.celery_worker.tasks.jenkins.constants import *
 from src.main.python.tranquilitybase.gcpdac.main.core.exceptions.exceptions import DacValidationError, DacError
 from src.main.python.tranquilitybase.gcpdac.celery_worker.tasks.jenkins.jenkins_utils import get_job_build, format_jenkins_url
 from src.main.python.tranquilitybase.lib.common.utils import random_element

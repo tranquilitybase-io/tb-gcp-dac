@@ -1,7 +1,6 @@
 import json
 import shlex
 import subprocess
-from asyncio import coroutine
 from json import JSONDecodeError
 from src.main.python.tranquilitybase.lib.common.FileUtils import FileUtils
 
