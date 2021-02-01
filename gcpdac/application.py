@@ -41,6 +41,7 @@ def create_application_result(taskid):
     logger.info("CREATE application RESULT %s", format(taskid))
     asyncResult: AsyncResult = AsyncResult(taskid)
     status = asyncResult.status
+    logger.info("Status is {}".format(status))
     payload = {}
 
     if status == states.FAILURE:
