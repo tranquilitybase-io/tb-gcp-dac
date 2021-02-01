@@ -15,6 +15,7 @@ def get_server_instance():
     return server
 
 
+# Get job build from given job params
 def get_job_build(job_name, job_params: dict) -> Optional[Build]:
     try:
         jenkins = get_server_instance()
