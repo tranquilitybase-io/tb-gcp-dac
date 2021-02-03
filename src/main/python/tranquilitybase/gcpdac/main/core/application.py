@@ -1,3 +1,4 @@
+import json
 from pprint import pformat
 
 from celery import states
@@ -32,6 +33,7 @@ def create_application_result(taskid):
     logger.info("CREATE application RESULT %s", format(taskid))
     asyncResult: AsyncResult = AsyncResult(taskid)
     status = asyncResult.status
+    logger.info("Status is {}".format(status))
     payload = {}
 
     if status == states.FAILURE:
@@ -42,9 +44,12 @@ def create_application_result(taskid):
     if status == states.SUCCESS:
         retval = asyncResult.get(timeout=1.0)
         return_code = retval["return_code"]
-        payload = retval["payload"]
+        payload = json.dumps(retval["payload"])
         if return_code > 0:
             status = states.FAILURE
+
+    logger.info("Returned Status is {}".format(status))
+    logger.info("Returned Payload is {}".format(payload))
 
     return {'status': status, "payload": payload}
 
