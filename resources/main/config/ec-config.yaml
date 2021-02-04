@@ -1,0 +1,18 @@
+# This is a template eagle config file.
+# This is ordinarily passed into eagle console cluster from the tranquility base landing zone
+# see ec-configuration-file-tf in tb-gcp repo for how this is populated
+# create a copy called ec-config.yaml with values added for testing locally
+# NOTE DO NOT CHECK IN ec.config.yaml as will contain the billing account
+activator_folder_id:  WILL BE NEEDED NOT NOW
+billing_account: ADD
+region: ADD
+terraform_state_bucket: ADD
+env_data: WILL BE NEEDED NOT NOW
+ec_project_name: ADD
+activator_terraform_code_store: WILL BE NEEDED NOT NOW
+shared_vpc_host_project: WILL BE NEEDED NOT NOW
+shared_network_name: WILL BE NEEDED NOT NOW
+shared_networking_id: WILL BE NEEDED NOT NOW
+tb_discriminator: ADD
+jenkins_url: ADD
+

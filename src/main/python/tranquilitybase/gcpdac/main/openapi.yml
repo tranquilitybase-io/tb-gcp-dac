@@ -1,0 +1,619 @@
+openapi: 3.0.0
+info:
+  description: TranquilityBase GCP DAC REST API Service
+  version: "1.2"
+  title: TB GCP DAC
+
+paths:
+  /health:
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.health.check
+      tags:
+        - health
+      summary: health check
+      description: health check
+      responses:
+        '200':
+          description: Successful
+
+  /metadata:
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.metadata.read_all
+      tags:
+        - metadata
+      summary: read all metadata
+      description: read all metadata
+      responses:
+        '200':
+          description: Successful
+
+  /cloud_identity_groups:
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.cloud_identity_groups.read_all
+      tags:
+        - authentication
+      summary: read all GCP cloud identity groups
+      description: read all GCP cloud identity groups
+      responses:
+        '200':
+          description: Successful
+
+  /solution_async/:
+    post:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.solution.create_async
+      tags:
+        - solution
+      summary: Create a solution
+      description: Create solution
+      responses:
+        '201':
+          description: Successfully started a solution creation task
+      requestBody:
+        $ref: "#/components/requestBodies/solution.solutionDetails"
+
+  "/solution_async/{oid}":
+    delete:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.solution.delete_async
+      tags:
+        - solution
+      summary: delete a solution
+      description: delete a solution and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a solution deletion task
+
+  "/solution_async/result/create/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.solution.create_solution_result
+      tags:
+        - solution
+      summary: get create solution result
+      description: get create solution result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a solution
+
+  "/solution_async/result/delete/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.solution.delete_solution_result
+      tags:
+        - solution
+      summary: get delete solution result
+      description: get delete solution result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a solution
+
+
+  /sandbox_async/:
+    post:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.sandbox.create_async
+      tags:
+        - sandbox
+      summary: Create a sandbox
+      description: Create sandbox
+      responses:
+        '201':
+          description: Successfully started a sandbox creation task
+      requestBody:
+        $ref: "#/components/requestBodies/sandbox.sandboxDetails"
+
+  "/sandbox_async/{oid}":
+    delete:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.sandbox.delete_async
+      tags:
+        - sandbox
+      summary: delete a sandbox
+      description: delete a sandbox and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a sandbox deletion task
+
+  "/sandbox_async/result/create/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.sandbox.create_sandbox_result
+      tags:
+        - sandbox
+      summary: get create sandbox result
+      description: get create sandbox result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a sandbox
+
+  "/sandbox_async/result/delete/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.sandbox.delete_sandbox_result
+      tags:
+        - sandbox
+      summary: get delete sandbox result
+      description: get delete sandbox result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a sandbox
+
+
+
+
+
+
+
+
+  /application_async/:
+    post:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.application.create_async
+      tags:
+        - application
+      summary: Create an application (application deployment)
+      description: Create application in more detail - TODO
+      responses:
+        '201':
+          description: Successfully started a application creation task
+      requestBody:
+        $ref: "#/components/requestBodies/application.applicationDetails"
+
+  "/application_async/{oid}":
+    delete:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.application.delete_async
+      tags:
+        - application
+      summary: delete a application
+      description: delete a application and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        "200":
+          description: Successfully started a application deletion task
+
+  "/application_async/result/create/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.application.create_application_result
+      tags:
+        - application
+      summary: get create application result
+      description: get create application result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a application
+
+  "/application_async/result/delete/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.application.delete_application_result
+      tags:
+        - application
+      summary: get delete application result
+      description: get delete application result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a application
+
+  /folder_async/:
+    post:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.folder.create_async
+      tags:
+        - folder
+      summary: Create a folder
+      description: Create a folder
+      responses:
+        '201':
+          description: Successfully started a folder creation task
+      requestBody:
+        $ref: "#/components/requestBodies/folder.folderDetails"
+
+  "/folder_async/{oid}":
+    delete:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.folder.delete_async
+      tags:
+        - folder
+      summary: delete a folder
+      description: delete a folder and its resources
+      parameters:
+        - name: oid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Successfully started a folder deletion task
+
+  "/folder_async/result/create/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.folder.create_folder_result
+      tags:
+        - folder
+      summary: get create folder result
+      description: get create folder result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully created a folder
+
+  "/folder_async/result/delete/{taskid}":
+    get:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.folder.delete_folder_result
+      tags:
+        - folder
+      summary: get delete folder result
+      description: get delete folder result
+      parameters:
+        - name: taskid
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "201":
+          description: Successfully deleted a folder
+
+  #Clone external repo internally using the received git tag version
+  /get_repo_uri/:
+    post:
+      operationId: src.main.python.tranquilitybase.gcpdac.main.core.onboarding.get_repo_uri
+      tags:
+        - repo
+      summary: Clone external repo locally
+      description: Clone external repo locally
+      responses:
+        '201':
+          description: Successfully cloned external repository
+        '202':
+          description: Cloning external repository accepted
+      requestBody:
+        $ref: "#/components/requestBodies/repo.gitDetails"
+
+
+
+servers:
+  - url: /dac
+components:
+  requestBodies:
+    solution.solutionDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: solutionDetails
+            $ref: "#/components/schemas/Solution"
+    sandbox.sandboxDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: sandboxDetails
+            $ref: "#/components/schemas/Sandbox"
+    application.applicationDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: applicationDetails
+            $ref: "#/components/schemas/Application"
+    folder.folderDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: folderDetails
+            $ref: "#/components/schemas/Folder"
+    repo.gitDetails:
+      content:
+        application/json:
+          schema:
+            x-body-name: gitDetails
+            $ref: "#/components/schemas/Repo"
+
+  schemas:
+    Solution:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: the solution id
+        name:
+          type: string
+          description: name
+        description:
+          type: string
+          description: description
+        businessUnit:
+          type: string
+          description: businessUnit
+        costCentre:
+          type: string
+          description: costCentre
+        ci:
+          type: string
+          description: ci
+        cd:
+          type: string
+          description: cd
+        createdBy:
+          type: string
+          description: user created by
+        deploymentFolderId:
+          type: string
+          description: deployment folder id
+        sourceControl:
+          type: string
+          description: sourceControl
+        environments:
+          type: array
+          description: environments
+          items:
+            properties:
+              environment:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    description: the environment id
+                  name:
+                    type: string
+                    description: the environment name
+                  sharedVPCProjectId:
+                    type: string
+                    description: the environment shared vpc project
+        active:
+          type: boolean
+          description: active
+        favourite:
+          type: boolean
+          description: favourite
+        teams:
+          type: integer
+          description: teams
+        lastUpdated:
+          type: string
+          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+        team:
+          type: object
+          description: team
+          properties:
+            lastUpdated:
+              type: string
+              description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+              #            businessUnitId:
+              #              type: integer
+              #              description: business unit id - not used by DAC
+            isActive:
+              type: boolean
+              description: is active
+            id:
+              type: integer
+              description: team id
+            description:
+              type: string
+              description: team description
+            name:
+              type: string
+              description: team name
+            teamMembers:
+              type: array
+              description: team members
+              items:
+                properties:
+                  id:
+                    type: integer
+                    description: team member id
+                  role:
+                    type: object
+                    properties:
+                      name:
+                        type: string
+                        description: role name
+                      cloudIdentityGroup:
+                        type: string
+                        description: cloud identity group
+                      id:
+                        type: integer
+                        description: role id
+                      description:
+                        type: string
+                        description: role description
+                  user:
+                    type: object
+                    properties:
+                      firstName:
+                        type: string
+                        description: first name
+                      lastName:
+                        type: string
+                        description: last name
+                      email:
+                        type: string
+                        description: user email
+                      id:
+                        type: integer
+                        description: user id
+                      showWelcome:
+                        type: boolean
+                        description: show welcome - not used by DAC
+                      isAdmin:
+                        type: boolean
+                        description: is eagle admin - not used by DAC
+    Sandbox:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: sandbox id
+        name:
+          type: string
+          description: sandbox name
+        description:
+          type: string
+          description: sandbox description
+        businessUnit:
+          type: string
+          description: business unit
+        costCode:
+          type: string
+          description: cost code
+        teamId:
+          type: integer
+          description: team id
+        teamName:
+          type: string
+          description: team name
+        teamCloudIdentityGroup:
+          type: string
+          description: team GCP Cloud Identity Group
+        createdBy:
+          type: string
+          description: user that created the sandbox
+        deploymentFolderId:
+          type: string
+          description: deployment GCP folder id
+    Application:
+      type: object
+      properties:
+        id:
+          type: integer
+          description: the application id
+        name:
+          type: string
+          description: name
+        description:
+          type: string
+          description: description
+        solutionId:
+          type: integer
+          description: the solution id
+        lastUpdated:
+          type: string
+          description: "UTC/CUT last updated datetime stamp see: https://github.com/tranquilitybase-io/tb-houston-service/wiki/UTC-Timestamp"
+        workspaceProjectId:
+          type: string
+          description: the solution id
+        createdBy:
+          type: string
+          description: user created by
+        activatorGitUrl:
+          type: string
+          description: git url for the activator repo
+        deploymentEnvironment:
+          type: object
+          properties:
+            id:
+              type: integer
+              description: the environment id
+            name:
+              type: string
+              description: the environment name
+            sharedVPCProjectId:
+              type: string
+              description: the environment shared vpc project
+        deploymentProjectId:
+          type: string
+          description: GCP Project ID for environment
+        mandatoryVariables:
+          type: array
+          description: mandatory variables
+          items:
+            properties:
+              key:
+                type: string
+                description: variable key
+              value:
+                type: string
+                description: variable value
+        optionalVariables:
+          type: array
+          description: optional variables
+          items:
+            properties:
+              key:
+                type: string
+                description: variable key
+              value:
+                type: string
+                description: variable value
+    Folder:
+      type: object
+      properties:
+        folder:
+          type: object
+          properties:
+            folderName:
+              type: string
+              description: folder name
+            parentFolderId:
+              type: string
+              description: parent folder id
+      example:
+        {
+          folder: {
+            folderName: 'ABC',
+            parentFolderId: '236823'
+          }
+        }
+    Repo:
+      type: object
+      properties:
+        repo:
+          type: object
+          properties:
+            name:
+              type: string
+            url:
+              type: string
+        cred:
+          type: object
+          properties:
+            user:
+              type: string
+            token:
+              type: string

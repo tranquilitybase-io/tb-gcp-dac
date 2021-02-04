@@ -1,0 +1,68 @@
+version: '3.8'
+# This docker compose file just runs DAC alongside redis and a DAC worker. It doesn't include houston or eagle
+# It enables testing against a GCP environment if the file credentials.json and ec-config.yaml have been created and exist in the project root directory
+# See documentation [here](https://github.com/tranquilitybase-io/tb-gcp-dac/wiki/RunServicesWithDocker)
+# Make a copy called docker-compose-local.yml for testing locally
+
+services:
+  gcp-dac:
+    container_name: gcp-dac
+    # replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    build:
+      context: ../../../
+      dockerfile: build_src/gcpdac/main/Dockerfile
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:main
+    depends_on:
+      - redis
+      - worker
+    ports:
+      - 3100:3100
+    environment:
+      DEBUG: "True"
+      APP_PORT: "3100"
+      HOUSTON_SERVICE_URL: http://localhost:3000
+      JENKINS_BASE_URL: http://localhost:3200
+      DAC_JENKINS_USER: localuser
+      DAC_JENKINS_PASSWORD: localpass
+      EC_CONFIG: /resources/ec-config.yaml
+      GOOGLE_APPLICATION_CREDENTIALS: /app/credentials/credentials.json
+      CELERY_BROKER_URL: redis://redis:6379
+      CELERY_RESULT_BACKEND: redis://redis:6379
+
+    volumes:
+      - ../../../credentials/credentials.json:/app/credentials/credentials.json:ro
+      - ../../../resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
+    command: ["sh", "-c", "sh src/main/bash/tranquilitybase/gcpdac/main/app_docker.sh"]
+
+  redis:
+    container_name: redis
+    image: redis:alpine
+    hostname: redis
+    volumes:
+      - ../../../resources/main/config/redis.conf:/redis.conf:ro
+    command: [ "redis-server", "/redis.conf" ]
+
+  worker:
+#     to run with more workers 'docker-compose up --scale worker=<num of workers>
+#     replace the 'local' tag if required with the tag the tb-gcp-dac container has been built with
+    image: gcr.io/tranquility-base-images/tb-gcp-dac:main
+    depends_on:
+      - redis
+    build:
+      context: ../../../
+      dockerfile: build_src/celery_worker/main/Dockerfile
+    hostname: worker
+    environment:
+      DEBUG: "True"
+      APP_PORT: "3200"
+      CELERY_BROKER_URL: redis://redis:6379
+      CELERY_RESULT_BACKEND: redis://redis:6379
+      GOOGLE_APPLICATION_CREDENTIALS: /app/credentials/credentials.json
+      EC_CONFIG: /resources/ec-config.yaml
+      JENKINS_BASE_URL: http://localhost:3200
+      DAC_JENKINS_USER: localuser
+      DAC_JENKINS_PASSWORD: localpass
+    volumes:
+      - ../../../credentials/credentials.json:/app/credentials/credentials.json:ro
+      - ../../../resources/main/config/ec-config.yaml:/app/resources/ec-config.yaml:ro
+    command: ["sh", "-c", "sh celery_worker.sh"]

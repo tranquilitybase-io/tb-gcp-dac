@@ -5,18 +5,34 @@
 name: GCP DAC - CICD Workflow
 
 on:
+  workflow_dispatch:
+    inputs:
+      logLevel:
+        description: 'Log level'
+        required: true
+        default: 'warning'
+      tags:
+        description: 'Test scenario tags'
+
+  push:
+    branches:
+      - issue-189
+
   pull_request:
     branches: [ master ]
 
 jobs:
   build:
-    ### Continuous Integration
+    if: "!contains(github.event.head_commit.message, '[CICD ignore]')"
+
     runs-on: ubuntu-latest
+
     steps:
     - name: Extract current branch name
       shell: bash
       run: echo "##[set-output name=branch;]$(echo ${GITHUB_REF#refs/heads/})"
       id: extract_branch
+
     - name: Echo Branch Name
       shell: bash
       run: |
@@ -27,14 +43,35 @@ jobs:
         path: tb-gcp-dac
         fetch-depth: 0
 
-    - name: Build GCP DAC Image
+    - name: Build and run all tests
       shell: bash
       run: |
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        docker build -f Dockerfile .
+        cd ${GITHUB_WORKSPACE}/tb-gcp-dac/build_src/gcpdac/test/
+        ls
+        echo "start build_and_run_tests"
+        sh build_and_run_tests.sh
 
-    - name: Build Mock GCP DAC Image
-      shell: bash
-      run: |
-        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
-        docker build -f Dockerfile_mock .
+
+#    - name: Build Mock GCP DAC Image
+#      shell: bash
+#      run: |
+#        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+#        docker build -f Dockerfile_mock . -t'mock:local'
+#
+#    - name: System test Mock GCP DAC Image
+#      shell: bash
+#      run: |
+#        cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+#        docker run mock:local
+
+#    - name: Build Real GCP DAC Image
+#        shell: bash
+#        run: |
+#          cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+#          docker build -f Dockerfile . -t'real:local'
+#
+#    - name: Smoke test Real GCP DAC Image
+#        shell: bash
+#        run: |
+#          cd ${GITHUB_WORKSPACE}/tb-gcp-dac
+#          docker build -f Dockerfile . -t'real:local'
