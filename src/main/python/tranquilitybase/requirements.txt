@@ -34,7 +34,7 @@ pyrsistent==0.16.0
 python-jenkins==1.7.0
 python-terraform==0.10.1
 PyRSMQ==0.4.2
-PyYAML==5.3.1
+PyYAML==5.4
 redis==3.5.3
 regex==2020.11.13
 requests==2.24.0
